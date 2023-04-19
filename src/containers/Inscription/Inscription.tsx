@@ -1,20 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import NFTDisplayBox from '@/components/NFTDisplayBox';
-import { ARTIFACT_CONTRACT } from '@/configs';
-import { ROUTE_PATH } from '@/constants/route-path';
 import { IInscription } from '@/interfaces/api/inscription';
 import { getNFTDetail } from '@/services/nft-explorer';
+import React, { useEffect, useState } from 'react';
+import queryString from 'query-string';
+import { Container, Information } from './Inscription.styled';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { ARTIFACT_CONTRACT } from '@/configs';
 import { formatTimeStamp } from '@/utils/time';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { Container, Information } from './Inscription.styled';
+import { ROUTE_PATH } from '@/constants/route-path';
+import NFTDisplayBox from '@/components/NFTDisplayBox';
 
 const Inscription = () => {
   const router = useRouter();
-  // const { contract, id } = queryString.parse(location.search) as { contract: string; id: string };
-  const { contract, id } = router.query as { contract: string; id: string };
-
+  const { contract, id } = queryString.parse(location.search) as { contract: string; id: string };
   const [inscription, setInscription] = useState<IInscription | undefined>();
 
   useEffect(() => {
@@ -91,8 +90,7 @@ const Inscription = () => {
         <div className="right-container">
           <div className="header">
             <p className="title">
-              {contract?.toLocaleLowerCase() ===
-              ARTIFACT_CONTRACT.toLocaleLowerCase()
+              {contract.toLocaleLowerCase() === ARTIFACT_CONTRACT.toLocaleLowerCase()
                 ? `Artifact #${inscription?.tokenId}`
                 : inscription?.name}
             </p>
@@ -115,11 +113,7 @@ const Inscription = () => {
               {renderListItem('Owner', inscription?.owner)}
               {renderListItem('Contract', inscription?.collectionAddress)}
               {renderListItem('Content type', inscription?.contentType)}
-              {inscription?.mintedAt &&
-                renderListItem(
-                  'Timestamp',
-                  formatTimeStamp(inscription?.mintedAt * 1000),
-                )}
+              {inscription?.mintedAt && renderListItem('Timestamp', formatTimeStamp(inscription?.mintedAt * 1000))}
               {inscription &&
                 inscription.attributes &&
                 inscription.attributes.length > 0 &&
