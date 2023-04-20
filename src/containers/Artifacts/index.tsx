@@ -1,9 +1,8 @@
-import Button from '@/components/Button';
 import Text from '@/components/Text';
 import React, { useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import BFSList from './BFSList';
-import { UploadFileContainer, ArtifactWrapper } from './Artifacts.styled';
+import { UploadFileContainer, ArtifactWrapper, PreserveButton } from './Artifacts.styled';
 import ModalUpload from './ModalUpload';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import toast from 'react-hot-toast';
@@ -40,15 +39,13 @@ const Artifacts: React.FC = () => {
           </div>
         </div>
         <div className="upload_right">
-          <Button
-            bg={'white'}
-            background={'linear-gradient(90deg, #ff8008 0%, #ffc837 100%)'}
+          <PreserveButton
             onClick={handlePreverseArtifact}
           >
             <Text size="medium" color="bg1" className="button-text" fontWeight="medium">
               Preserve Artifact
             </Text>
-          </Button>
+          </PreserveButton>
           <FileUploader
             handleChange={onChangeFile}
             name={'fileUploader'}

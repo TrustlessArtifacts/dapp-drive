@@ -106,21 +106,21 @@ const Wrapper = styled.div`
   }
 `;
 
-const StyledLink = styled(Link)<{ active: boolean; activeColor?: string }>`
+const StyledLink = styled(Link) <{ active: boolean; activeColor?: string }>`
   cursor: pointer;
   font-weight: 400;
   font-size: ${px2rem(16)};
   line-height: ${px2rem(28)};
   text-decoration: none !important;
   color: ${({
-    theme,
-    active,
-    activeColor,
-  }: {
-    theme: DefaultTheme;
-    active: boolean;
-    activeColor?: string;
-  }) => (active ? activeColor || theme.white : theme.text2)};
+  theme,
+  active,
+  activeColor,
+}: {
+  theme: DefaultTheme;
+  active: boolean;
+  activeColor?: string;
+}) => (active ? activeColor || theme.white : theme.text2)};
   font-family: 'IBMPlexMono';
   letter-spacing: -0.02em;
 
@@ -172,7 +172,7 @@ const WalletBalance = styled.div`
       width: 1px;
       height: 16px;
       background-color: ${({ theme }: { theme: DefaultTheme }) =>
-        theme.primary['5b']};
+    theme.primary['5b']};
     }
   }
 
@@ -200,11 +200,11 @@ const WalletAdress = styled(Tooltip)`
 
 const ConnectWalletButton = styled(Button)`
   padding: ${px2rem(4)} ${px2rem(12)};
-  color: #1c1c1c;
   font-size: ${px2rem(14)};
   line-height: ${px2rem(24)};
   font-weight: 400;
-  background: linear-gradient(90deg, #ff8008 0%, #ffc837 100%);
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
+  background: #39B174;
 
   :disabled {
     opacity: 0.8;

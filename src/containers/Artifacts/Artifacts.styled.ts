@@ -1,5 +1,6 @@
 import px2rem from "@/utils/px2rem";
 import styled, { DefaultTheme } from "styled-components";
+import Button from '@/components/Button';
 
 export const ArtifactWrapper = styled.div`
   margin-top: ${px2rem(60)};
@@ -65,5 +66,13 @@ export const UploadFileContainer = styled.div`
     .upload_description {
       margin-bottom: ${px2rem(16)};
     }
+  }
+`;
+
+export const PreserveButton = styled(Button)`
+  background: #39B174;
+  
+  p {
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
   }
 `;
