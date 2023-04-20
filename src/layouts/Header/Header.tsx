@@ -1,5 +1,3 @@
-// import IcOpenMenu from '@/assets/icons/ic_hambuger.svg';
-// import IcLogo from '@/assets/icons/logo.svg';
 import { MENU_HEADER } from '@/constants/header';
 import { AssetsContext } from '@/contexts/assets-context';
 import { formatBTCPrice, formatEthPrice } from '@/utils/format';
