@@ -9,11 +9,11 @@ import {
 } from './Artifacts.styled';
 import ModalUpload from './ModalUpload';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
-import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
+import { showError } from '@/utils/toast';
 
 const Artifacts: React.FC = () => {
   const router = useRouter();
@@ -27,9 +27,9 @@ const Artifacts: React.FC = () => {
   };
 
   const onSizeError = (): void => {
-    toast.error(
-      `File size error, maximum file size is ${BLOCK_CHAIN_FILE_LIMIT * 1000}kb.`,
-    );
+    showError({
+      message: `File size error, maximum file size is ${BLOCK_CHAIN_FILE_LIMIT * 1000}kb.`,
+    });
   };
 
   const handlePreverseArtifact = () => {

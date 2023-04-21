@@ -14,9 +14,10 @@ import { readFileAsBuffer } from '@/utils';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
 import { Transaction } from 'ethers';
 import toast from 'react-hot-toast';
-import { CDN_URL } from '@/configs';
+import { CDN_URL, TC_URL } from '@/configs';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
+import { showError } from '@/utils/toast';
 
 type Props = {
   show: boolean;
@@ -43,7 +44,9 @@ const ModalUpload = (props: Props) => {
     }
 
     if (!file) {
-      toast.error('File is required');
+      showError({
+        message: 'File is required'
+      })
       return;
     }
 
@@ -58,7 +61,17 @@ const ModalUpload = (props: Props) => {
       toast.success('Transaction has been created. Please wait for few minutes.');
       handleClose();
     } catch (err: unknown) {
-      toast.error((err as Error).message);
+      if ((err as Error).message === 'pending') {
+        showError({
+          message: 'You have some pending transactions. Please complete all of them before moving on.',
+          url: TC_URL,
+          linkText: 'Go to Wallet'
+        })
+      } else {
+        showError({
+          message: (err as Error).message || 'Something went wrong. Please try again later.'
+        })
+      }
       console.log(err);
     } finally {
       setIsProcessing(false);
