@@ -6,6 +6,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import cs from 'classnames';
 import s from './styles.module.scss';
 import { IMAGE_TYPE } from './constant';
+import ClientOnly from '../Utils/ClientOnly';
+import { Document, Page } from 'react-pdf';
+import Skeleton from '../Skeleton';
 interface IProps {
   className?: string;
   contentClass?: string;
@@ -32,30 +35,35 @@ const NFTDisplayBox = ({
   controls = false,
 }: IProps) => {
   const [_, setIsError] = React.useState(false);
-  const [_isLoaded, serIsLoaded] = React.useState(false);
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
   const [isErrorLinkHttp, setIsErrorLinkHttp] = React.useState(false);
 
   const onError = () => {
     setIsError(true);
-    serIsLoaded(true);
+    setIsLoaded(true);
   };
 
   const onLoaded = () => {
-    serIsLoaded(true);
+    setIsLoaded(true);
   };
 
   const onErrorLinkHttp = () => {
     setIsErrorLinkHttp(true);
-    serIsLoaded(true);
+    setIsLoaded(true);
   };
 
   const [HTMLContentRender, setHTMLContentRender] = useState<JSX.Element>();
+
   const imgRef = useRef<HTMLImageElement>(null);
 
   const defaultImage = CDN_URL + '/images/default_thumbnail.png';
 
   const contentClassName = cs(s.wrapper_content, contentClass);
+
+  const renderLoading = () => (
+    <Skeleton className={s.absolute} fill isLoaded={isLoaded} />
+  );
 
   const renderIframe = (content: string) => {
     return (
@@ -105,7 +113,7 @@ const NFTDisplayBox = ({
     if (naturalWidth < 100 && imgRef.current) {
       imgRef.current.style.imageRendering = 'pixelated';
     }
-    serIsLoaded(true);
+    setIsLoaded(true);
   };
 
   const renderImage = (content: string) => {
@@ -138,7 +146,26 @@ const NFTDisplayBox = ({
     );
   };
 
-  const renderEmpty = () => <img alt="empty" className={contentClassName} loading={'lazy'} src={defaultImage} />;
+  const renderEmpty = () => (
+    <img
+      alt="empty"
+      className={contentClassName}
+      loading={'lazy'}
+      src={defaultImage}
+    />
+  );
+
+  const renderPDF = (content: string) => {
+    return (
+      <ClientOnly>
+        <div className={s.pdfPreview}>
+          <Document file={content} loading={renderLoading} error={renderEmpty}>
+            <Page pageIndex={0} />
+          </Document>
+        </div>
+      </ClientOnly>
+    );
+  };
 
   const isImage = (url: string) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
@@ -153,7 +180,10 @@ const NFTDisplayBox = ({
       const content = getImageURLContent(src);
       setHTMLContentRender(renderIframe(content));
     } else if (collectionID) {
-      const content = collectionID && tokenID ? getURLContent(collectionID, tokenID) : defaultImage;
+      const content =
+        collectionID && tokenID
+          ? getURLContent(collectionID, tokenID)
+          : defaultImage;
 
       if (isErrorLinkHttp) {
         setHTMLContentRender(renderIframe(content));
@@ -186,9 +216,11 @@ const NFTDisplayBox = ({
         case 'application/pgp-signature':
         case 'application/yaml':
         case 'audio/flac':
-        case 'application/pdf':
         case 'text/plain;charset=utf-8':
           setHTMLContentRender(renderIframe(content));
+          return;
+        case 'application/pdf':
+          setHTMLContentRender(renderPDF(content));
           return;
         default:
           setHTMLContentRender(renderIframe(content));
@@ -199,7 +231,11 @@ const NFTDisplayBox = ({
     }
   }, [collectionID, tokenID, src, isErrorLinkHttp]);
 
-  return <div className={cs(s.wrapper, className)}>{HTMLContentRender && HTMLContentRender}</div>;
+  return (
+    <div className={cs(s.wrapper, className)}>
+      {HTMLContentRender && HTMLContentRender}
+    </div>
+  );
 };
 
 export default React.memo(NFTDisplayBox);
