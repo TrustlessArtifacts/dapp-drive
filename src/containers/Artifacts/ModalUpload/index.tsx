@@ -8,7 +8,9 @@ import { FileUploader } from 'react-drag-drop-files';
 import { StyledModalUpload } from './ModalUpload.styled';
 import Button from '@/components/Button';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
-import usePreserveChunks, { IPreserveChunkParams } from '@/hooks/contract-operations/artifacts/usePreserveChunks';
+import usePreserveChunks, {
+  IPreserveChunkParams,
+} from '@/hooks/contract-operations/artifacts/usePreserveChunks';
 import { useWeb3React } from '@web3-react/core';
 import { readFileAsBuffer } from '@/utils';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
@@ -18,6 +20,7 @@ import { CDN_URL, TC_URL } from '@/configs';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { showError } from '@/utils/toast';
+import { DappsTabs } from '@/enums/tabs';
 
 type Props = {
   show: boolean;
@@ -45,8 +48,8 @@ const ModalUpload = (props: Props) => {
 
     if (!file) {
       showError({
-        message: 'File is required'
-      })
+        message: 'File is required',
+      });
       return;
     }
 
@@ -63,14 +66,17 @@ const ModalUpload = (props: Props) => {
     } catch (err: unknown) {
       if ((err as Error).message === 'pending') {
         showError({
-          message: 'You have some pending transactions. Please complete all of them before moving on.',
-          url: TC_URL,
-          linkText: 'Go to Wallet'
-        })
+          message:
+            'You have some pending transactions. Please complete all of them before moving on.',
+          url: `${TC_URL}/?tab=${DappsTabs.TRANSACTION}`,
+          linkText: 'Go to Wallet',
+        });
       } else {
         showError({
-          message: (err as Error).message || 'Something went wrong. Please try again later.'
-        })
+          message:
+            (err as Error).message ||
+            'Something went wrong. Please try again later.',
+        });
       }
       console.log(err);
     } finally {
@@ -84,7 +90,9 @@ const ModalUpload = (props: Props) => {
   };
 
   const onSizeError = (): void => {
-    setError(`File size error, maximum file size is ${MINT_TOOL_MAX_FILE_SIZE * 1000}KB.`);
+    setError(
+      `File size error, maximum file size is ${MINT_TOOL_MAX_FILE_SIZE * 1000}KB.`,
+    );
     setPreview(null);
   };
 
@@ -102,7 +110,12 @@ const ModalUpload = (props: Props) => {
   return (
     <StyledModalUpload show={show} onHide={handleClose} centered>
       <Modal.Header>
-        <IconSVG className="cursor-pointer" onClick={handleClose} src={`${CDN_URL}/icons/ic-close.svg`} maxWidth={'22px'} />
+        <IconSVG
+          className="cursor-pointer"
+          onClick={handleClose}
+          src={`${CDN_URL}/icons/ic-close.svg`}
+          maxWidth={'22px'}
+        />
       </Modal.Header>
       <Modal.Body>
         <h5 className="font-medium">Upload file</h5>
@@ -118,14 +131,28 @@ const ModalUpload = (props: Props) => {
               <div className="preview-wrapper">
                 {preview ? (
                   <div className="thumbnail-wrapper">
-                    <MediaPreview previewExt={file?.name?.split('.')?.pop() || ''} previewUrl={preview} />
+                    <MediaPreview
+                      previewExt={file?.name?.split('.')?.pop() || ''}
+                      previewUrl={preview}
+                    />
                   </div>
                 ) : (
-                  <img src={`${CDN_URL}/images/default-upload-img.png`} alt="default upload image"></img>
+                  <img
+                    src={`${CDN_URL}/images/default-upload-img.png`}
+                    alt="default upload image"
+                  ></img>
                 )}
                 <div className="file-upload-name">
-                  <Text className='file-name' size={'regular'} color="bg1">{`${file.name} (${prettyPrintBytes(file.size)})`}</Text>
-                  {!error && <IconSVG src={`${CDN_URL}/icons/ic-check.svg`} maxWidth={'20'} color="#00AA6C" />}
+                  <Text className="file-name" size={'regular'} color="bg1">{`${
+                    file.name
+                  } (${prettyPrintBytes(file.size)})`}</Text>
+                  {!error && (
+                    <IconSVG
+                      src={`${CDN_URL}/icons/ic-check.svg`}
+                      maxWidth={'20'}
+                      color="#00AA6C"
+                    />
+                  )}
                 </div>
               </div>
             )}
@@ -134,7 +161,11 @@ const ModalUpload = (props: Props) => {
           </>
         </FileUploader>
         {file && !error && (
-          <Button disabled={isProcessing} className="confirm-btn" onClick={handleUploadFile}>
+          <Button
+            disabled={isProcessing}
+            className="confirm-btn"
+            onClick={handleUploadFile}
+          >
             <Text size="medium" fontWeight="medium" className="confirm-text">
               {isProcessing ? 'Processing...' : 'Confirm'}
             </Text>
