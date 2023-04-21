@@ -1,9 +1,13 @@
 import React, { PropsWithChildren, useEffect, useMemo } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useAppDispatch } from '@/state/hooks';
-import { resetUser, updateEVMWallet, updateSelectedWallet, updateTaprootWallet } from '@/state/user/reducer';
+import {
+  resetUser,
+  updateEVMWallet,
+  updateSelectedWallet,
+  updateTaprootWallet,
+} from '@/state/user/reducer';
 import { getConnection } from '@/connection';
-import { generateBitcoinTaprootKey } from '@/utils/derive-key';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@/state/user/selector';
 import bitcoinStorage from '@/utils/bitcoin-storage';
@@ -18,23 +22,26 @@ import { getCurrentProfile } from '@/services/profile';
 import useAsyncEffect from 'use-async-effect';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
+import * as TC_SDK from 'trustless-computer-sdk';
 
 export interface IWalletContext {
   onDisconnect: () => Promise<void>;
   onConnect: () => Promise<string | null>;
-  generateBitcoinKey: (walletAddress: string) => Promise<string | null>;
+  requestBtcAddress: () => Promise<void>;
 }
 
 const initialValue: IWalletContext = {
-  onDisconnect: () => new Promise<void>(r => r()),
-  onConnect: () => new Promise<null>(r => r(null)),
-  generateBitcoinKey: (_: string) => new Promise<null>(r => r(null)),
+  onDisconnect: () => new Promise<void>((r) => r()),
+  onConnect: () => new Promise<null>((r) => r(null)),
+  requestBtcAddress: () => new Promise<void>((r) => r()),
 };
 
 export const WalletContext = React.createContext<IWalletContext>(initialValue);
 
-export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
-  const { connector, provider, account, chainId } = useWeb3React();
+export const WalletProvider: React.FC<PropsWithChildren> = ({
+  children,
+}: PropsWithChildren): React.ReactElement => {
+  const { connector, provider, chainId } = useWeb3React();
   const dispatch = useAppDispatch();
   const user = useSelector(getUserSelector);
   const router = useRouter();
@@ -72,7 +79,11 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
       });
       if (data) {
         const web3Provider = new Web3(window.ethereum as provider);
-        const signature = await web3Provider.eth.personal.sign(Web3.utils.fromUtf8(data), evmWalletAddress, '');
+        const signature = await web3Provider.eth.personal.sign(
+          Web3.utils.fromUtf8(data),
+          evmWalletAddress,
+          '',
+        );
         const { token: accessToken, refreshToken } = await verifyNonceMessage({
           address: evmWalletAddress,
           signature: signature,
@@ -87,28 +98,19 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     return null;
   }, [dispatch, connector, provider]);
 
-  const generateBitcoinKey = React.useCallback(
-    async (evmWalletAddress: string) => {
-      if (evmWalletAddress) {
-        const existedWallet = bitcoinStorage.getUserTaprootAddress(evmWalletAddress);
-        if (existedWallet) {
-          dispatch(updateTaprootWallet(existedWallet));
-          return existedWallet;
-        }
-        const { address: taprootAddress } = await generateBitcoinTaprootKey(evmWalletAddress);
-        if (taprootAddress) {
-          dispatch(updateTaprootWallet(taprootAddress));
-          return taprootAddress;
-        }
-      }
-      return null;
-    },
-    [dispatch, account],
-  );
+  const requestBtcAddress = async (): Promise<void> => {
+    await TC_SDK.actionRequest({
+      method: TC_SDK.RequestMethod.account,
+      redirectURL: window.location.origin + window.location.pathname,
+      target: '_self',
+    });
+  };
 
   useEffect(() => {
     if (user?.walletAddress && !user.walletAddressBtcTaproot) {
-      const taprootAddress = bitcoinStorage.getUserTaprootAddress(user?.walletAddress);
+      const taprootAddress = bitcoinStorage.getUserTaprootAddress(
+        user?.walletAddress,
+      );
       if (!taprootAddress) return;
       dispatch(updateTaprootWallet(taprootAddress));
     }
@@ -116,20 +118,25 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
 
   useAsyncEffect(async () => {
     const accessToken = getAccessToken();
-    if (accessToken) {
+    if (accessToken && connector) {
       try {
         const connection = getConnection(connector);
         if (!connection) {
           throw new Error('Get connection error.');
         }
-        await connection.connector.activate();
+
+        try {
+          await connection.connector.activate();
+        } catch (err) {
+          console.log(err);
+        }
+
         if (chainId !== SupportedChainId.TRUSTLESS_COMPUTER) {
           await switchChain(SupportedChainId.TRUSTLESS_COMPUTER);
         }
         const { walletAddress } = await getCurrentProfile();
         dispatch(updateEVMWallet(walletAddress));
         dispatch(updateSelectedWallet({ wallet: 'METAMASK' }));
-        await generateBitcoinKey(walletAddress);
       } catch (err: unknown) {
         clearAuthStorage();
         console.log(err);
@@ -149,13 +156,27 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     }
   }, [disconnect]);
 
+  useEffect(() => {
+    const { tcAddress, tpAddress } = router.query as {
+      tcAddress: string;
+      tpAddress: string;
+    };
+    if (tpAddress) {
+      dispatch(updateTaprootWallet(tpAddress));
+      bitcoinStorage.setUserTaprootAddress(tcAddress, tpAddress);
+      router.push(ROUTE_PATH.HOME);
+    }
+  }, [router]);
+
   const contextValues = useMemo((): IWalletContext => {
     return {
       onDisconnect: disconnect,
       onConnect: connect,
-      generateBitcoinKey,
+      requestBtcAddress,
     };
-  }, [disconnect, connect, generateBitcoinKey]);
+  }, [disconnect, connect, requestBtcAddress]);
 
-  return <WalletContext.Provider value={contextValues}>{children}</WalletContext.Provider>;
+  return (
+    <WalletContext.Provider value={contextValues}>{children}</WalletContext.Provider>
+  );
 };

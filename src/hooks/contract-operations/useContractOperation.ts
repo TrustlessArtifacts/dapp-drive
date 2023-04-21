@@ -115,12 +115,12 @@ const useContractOperation = <P, R>(
       // }
       // await createTransactionHistory(transactionHistory);
 
-      await TC_SDK.signTransaction({
+      TC_SDK.signTransaction({
         method: `${transactionType} ${dAppType}`,
         hash: Object(tx).hash,
         dappURL: window.location.origin,
         isRedirect: false,
-        target: 'parent',
+        target: '_self',
       });
 
       return tx;
