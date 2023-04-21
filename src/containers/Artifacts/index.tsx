@@ -20,7 +20,6 @@ const Artifacts: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
-  console.log('🚀 ~ isAuthenticated:', isAuthenticated);
 
   const onChangeFile = (file: File): void => {
     setFile(file);
