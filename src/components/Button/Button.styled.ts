@@ -1,7 +1,8 @@
 import styled, { DefaultTheme } from 'styled-components';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const StyledButton = styled.button<{ bg: string; background?: string }>`
-  --bg-color: ${({ bg, theme }: { bg: string; theme: DefaultTheme }) => (theme as any)[bg] || theme.white};
+  --bg-color: ${({ bg, theme }: { bg: string; theme: DefaultTheme }) =>
+    (theme as any)[bg] || theme.white};
 
   border-radius: 2px !important;
   background-color: var(--bg-color);
@@ -17,7 +18,6 @@ export const StyledButton = styled.button<{ bg: string; background?: string }>`
     cursor: auto;
   }
   &:hover {
-    background-color: var(--bg-color);
     opacity: 0.8;
   }
 
