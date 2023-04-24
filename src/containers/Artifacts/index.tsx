@@ -27,7 +27,9 @@ const Artifacts: React.FC = () => {
 
   const onSizeError = (): void => {
     showError({
-      message: `File size error, maximum file size is ${BLOCK_CHAIN_FILE_LIMIT * 1000}kb.`,
+      message: `File size error, maximum file size is ${
+        BLOCK_CHAIN_FILE_LIMIT * 1000
+      }kb.`,
     });
   };
 
@@ -51,19 +53,24 @@ const Artifacts: React.FC = () => {
           <div className="upload_content">
             <h3 className="upload_title">Artifacts</h3>
             <Text size="medium">
-              Cheap. Immutable. Fully on-chain. Large files are supported too.
+              Cheap. Immutable. Fully on-chain. Large files are supported too. <br />
+              We recommend you preserve a small artifact to save gas fees—ideally, a
+              file under 20 kB.
             </Text>
           </div>
         </div>
         <div className="upload_right">
-          <PreserveButton onClick={handlePreverseArtifact}>
+          <PreserveButton className="button" onClick={handlePreverseArtifact}>
             <Text
+              className="button-text"
               size="medium"
               color="bg1"
-              className="button-text"
               fontWeight="medium"
             >
               Preserve Artifact
+            </Text>
+            <Text size="regular" fontWeight="regular" className="button-sub-text">
+              Max 360kb each
             </Text>
           </PreserveButton>
           <FileUploader

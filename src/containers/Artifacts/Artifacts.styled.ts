@@ -1,5 +1,5 @@
-import px2rem from "@/utils/px2rem";
-import styled, { DefaultTheme } from "styled-components";
+import px2rem from '@/utils/px2rem';
+import styled, { DefaultTheme } from 'styled-components';
 import Button from '@/components/Button';
 
 export const ArtifactWrapper = styled.div`
@@ -43,9 +43,20 @@ export const UploadFileContainer = styled.div`
     margin-bottom: ${px2rem(8)};
   }
 
+  .upload_desc {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .button {
+    padding: ${px2rem(11)} ${px2rem(36)};
+  }
+
   .button-text {
     font-family: 'IBMPlexMono' !important;
-    padding: ${px2rem(11)} ${px2rem(36)};
+  }
+
+  .button-sub-text {
+    color: rgba(255, 255, 255, 0.7);
   }
 
   .file-uploader {
@@ -70,8 +81,8 @@ export const UploadFileContainer = styled.div`
 `;
 
 export const PreserveButton = styled(Button)`
-  background: #39B174;
-  
+  background: #39b174;
+
   p {
     color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
   }
