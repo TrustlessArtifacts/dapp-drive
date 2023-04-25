@@ -41,7 +41,7 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
   return (
     <Container>
       <Wrapper>
-        <div className="header">
+        {/* <div className="header">
           <div className="socialContainer">
             <a href="https://generative.xyz/discord" target="_blank">
               <img
@@ -58,13 +58,13 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
               />
             </a>
           </div>
-        </div>
+        </div> */}
         <div className="mainContent">
           <img
             width={292}
             height={118}
             className="logo"
-            src={`${CDN_URL}/images/trustless-logo-1.svg`}
+            src={`${CDN_URL}/icons/artifact_wallet_logo.svg`}
             alt="trustless computer logo"
           />
           <h1 className="title">

@@ -14,6 +14,8 @@ export const StyledButton = styled.button<{ bg: string; background?: string }>`
 
   &:disabled {
     background-color: var(--bg-color);
+    background: ${({ background }: { background?: string }) => background};
+
     opacity: 0.8;
     cursor: auto;
   }

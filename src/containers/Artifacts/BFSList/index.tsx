@@ -26,21 +26,22 @@ const BFSList = () => {
       });
 
       if (isFetchMore) {
-        setInscriptions(prev => [...prev, ...data]);
+        setInscriptions((prev) => [...prev, ...data]);
       } else {
         setInscriptions(data);
       }
-
     } catch (error) {
     } finally {
       setIsFetching(false);
     }
   };
 
-  const { data: collection } = useSWR(`${API_URL}/nft-explorer/collections/${ARTIFACT_CONTRACT}`, () =>
-    getCollectionDetail({
-      contractAddress: ARTIFACT_CONTRACT,
-    }),
+  const { data: collection } = useSWR(
+    `${API_URL}/nft-explorer/collections/${ARTIFACT_CONTRACT}`,
+    () =>
+      getCollectionDetail({
+        contractAddress: ARTIFACT_CONTRACT,
+      }),
   );
 
   const onLoadMoreNfts = () => {
@@ -89,9 +90,9 @@ const BFSList = () => {
                     contract={collection?.contract}
                     tokenId={item.tokenId}
                     contentType={item.contentType}
-                    title1={formatItemName(item.name, item.contentType)}
+                    title3={formatItemName(item.name, item.contentType)}
                     title2={shortenAddress(item.owner, 4)}
-                    title3={`Artifact #${item.tokenId}`}
+                    title1={`Artifact #${item.tokenId}`}
                   />
                 );
               })}

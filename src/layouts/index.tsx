@@ -8,13 +8,11 @@ const HEADER_HEIGHT = 80;
 const FO0TER_HEIGHT = 80;
 
 export const Container = styled.div`
-  min-height: 100vh;
-  max-width: 1920px;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   flex-direction: column;
-  padding: 0 ${px2rem(32)};
+  /* padding: 0 ${px2rem(32)}; */
   /* padding-left: 6%;
   padding-right: 6%; */
   background-color: ${({ theme }) => theme.bg1};
@@ -22,12 +20,14 @@ export const Container = styled.div`
 
 const ContentWrapper = styled.div`
   min-height: calc(100vh - 140px);
+  max-width: 1920px;
+  padding: 0 ${px2rem(32)};
+
   display: flex;
   align-self: center;
   flex-direction: column;
   justify-content: center;
   width: 100%;
-
   > div {
     width: 100%;
   }

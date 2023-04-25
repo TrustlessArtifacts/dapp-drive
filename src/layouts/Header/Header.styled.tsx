@@ -5,26 +5,21 @@ import styled, { DefaultTheme } from 'styled-components';
 import Link from 'next/link';
 
 const Wrapper = styled.div`
+  background: #202e44;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  position: relative;
+  justify-content: center;
 
-  .indicator {
-    position: absolute;
-    height: ${px2rem(1)};
-    margin-left: -${px2rem(32)};
-    margin-right: -${px2rem(32)};
-    /* top: ${px2rem(80)}; */
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: ${({ theme }: { theme: DefaultTheme }) => theme.primary[333]};
-
-    @media screen and (min-width: 1920px) {
-      max-width: 1920px;
-    }
+  .content {
+    max-width: 1920px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 ${px2rem(32)};
   }
 
   .logo {
@@ -106,21 +101,21 @@ const Wrapper = styled.div`
   }
 `;
 
-const StyledLink = styled(Link) <{ active: boolean; activeColor?: string }>`
+const StyledLink = styled(Link)<{ active: boolean; activeColor?: string }>`
   cursor: pointer;
   font-weight: 400;
   font-size: ${px2rem(16)};
   line-height: ${px2rem(28)};
   text-decoration: none !important;
   color: ${({
-  theme,
-  active,
-  activeColor,
-}: {
-  theme: DefaultTheme;
-  active: boolean;
-  activeColor?: string;
-}) => (active ? activeColor || theme.white : theme.text2)};
+    theme,
+    active,
+    activeColor,
+  }: {
+    theme: DefaultTheme;
+    active: boolean;
+    activeColor?: string;
+  }) => (active ? activeColor || theme.white : theme.text2)};
   font-family: 'IBMPlexMono';
   letter-spacing: -0.02em;
 
@@ -153,11 +148,11 @@ const WalletBalance = styled.div`
   gap: ${px2rem(12)};
   padding: ${px2rem(4)};
   padding-left: ${px2rem(12)};
-  border: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.primary['5b']};
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: transparent;
   border-radius: 40px;
   cursor: pointer;
   transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   &:hover {
     border-color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
@@ -168,11 +163,15 @@ const WalletBalance = styled.div`
     align-items: center;
     gap: ${px2rem(12)};
 
+    .text {
+      color: white;
+    }
+
     .divider {
       width: 1px;
       height: 16px;
       background-color: ${({ theme }: { theme: DefaultTheme }) =>
-    theme.primary['5b']};
+        theme.primary['5b']};
     }
   }
 
@@ -204,7 +203,7 @@ const ConnectWalletButton = styled(Button)`
   line-height: ${px2rem(24)};
   font-weight: 400;
   color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
-  background: #39B174;
+  background: #39b174;
 
   :disabled {
     opacity: 0.8;

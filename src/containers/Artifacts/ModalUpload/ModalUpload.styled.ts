@@ -21,6 +21,7 @@ export const StyledModalUpload = styled(Modal)`
   }
 
   .modal-body {
+    padding: ${px2rem(32)};
     padding-top: ${px2rem(7)};
   }
 
@@ -34,6 +35,10 @@ export const StyledModalUpload = styled(Modal)`
     margin-top: ${px2rem(24)};
 
     width: 100%;
+  }
+
+  .font-medium {
+    color: #1c1c1c;
   }
 
   .preview-wrapper {
@@ -86,6 +91,7 @@ export const StyledModalUpload = styled(Modal)`
     max-width: calc(100% - 32px);
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #1c1c1c;
   }
 
   .confirm-btn {

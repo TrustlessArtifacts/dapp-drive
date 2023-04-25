@@ -2,6 +2,8 @@ import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
 
 export const Wrapper = styled.div`
+  background: #202e44;
+  height: 100vh;
   .header {
     display: flex;
     justify-content: flex-end;
@@ -41,7 +43,7 @@ export const Wrapper = styled.div`
 `;
 
 export const ConnectWalletButton = styled.button`
-  background: #39B174;
+  background: #39b174;
   padding: ${px2rem(15)} ${px2rem(24)};
   color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
   font-size: ${px2rem(16)};

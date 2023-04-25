@@ -143,7 +143,7 @@ const ModalUpload = (props: Props) => {
                   ></img>
                 )}
                 <div className="file-upload-name">
-                  <Text className="file-name" size={'regular'} color="bg1">{`${
+                  <Text className="file-name" size={'regular'}>{`${
                     file.name
                   } (${prettyPrintBytes(file.size)})`}</Text>
                   {!error && (
@@ -165,6 +165,7 @@ const ModalUpload = (props: Props) => {
             disabled={isProcessing}
             className="confirm-btn"
             onClick={handleUploadFile}
+            background="#39B174"
           >
             <Text size="medium" fontWeight="medium" className="confirm-text">
               {isProcessing ? 'Processing...' : 'Confirm'}

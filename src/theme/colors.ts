@@ -85,7 +85,7 @@ export const lightTheme = {
   ...commonTheme,
 
   // Background
-  bg1: '#EFEFEF',
+  bg1: commonTheme.white,
   bg2: commonTheme.white,
   bg3: '#F8F8F8',
   bg4: '#cecece',
@@ -93,8 +93,8 @@ export const lightTheme = {
 
   // Text
   text1: commonTheme.black,
-  text2: '#BFBFBF',
-  text3: '#9C9C9C',
+  text2: '#1C1C1C',
+  text3: '#333333',
   text4: commonTheme.purple.b,
   text5: '#4f43e2',
   text6: '#ff4747',

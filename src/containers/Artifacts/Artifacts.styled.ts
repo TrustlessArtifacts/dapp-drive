@@ -41,14 +41,19 @@ export const UploadFileContainer = styled.div`
 
   .upload_title {
     margin-bottom: ${px2rem(8)};
+    font-weight: 500;
+    font-size: ${px2rem(34)};
+    line-height: ${px2rem(44)};
+    /* identical to box height, or 129% */
+
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
   }
 
   .upload_desc {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .button {
-    padding: ${px2rem(11)} ${px2rem(36)};
+    font-weight: 400;
+    font-size: ${px2rem(20)};
+    line-height: ${px2rem(30)};
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.text3};
   }
 
   .button-text {
@@ -63,6 +68,7 @@ export const UploadFileContainer = styled.div`
     opacity: 0;
     position: absolute;
     width: ${px2rem(150)};
+    height: ${px2rem(80)};
     top: 0;
   }
 
@@ -82,6 +88,7 @@ export const UploadFileContainer = styled.div`
 
 export const PreserveButton = styled(Button)`
   background: #39b174;
+  padding: ${px2rem(11)} ${px2rem(36)};
 
   p {
     color: ${({ theme }: { theme: DefaultTheme }) => theme.white};

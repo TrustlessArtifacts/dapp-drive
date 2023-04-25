@@ -1,5 +1,5 @@
 import px2rem from '@/utils/px2rem';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 const Container = styled.div`
   display: flex;
@@ -35,10 +35,10 @@ const Container = styled.div`
 
       .title {
         font-style: normal;
-        font-weight: 600;
+        font-weight: 500;
         font-size: ${px2rem(34)};
         line-height: ${px2rem(44)};
-        color: #ffffff;
+        color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
         font-family: 'IBMPlexMono' !important;
       }
 
@@ -121,84 +121,82 @@ const Container = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-      padding: 0px 0px;
+    padding: 0px 0px;
 
-      .content {
-        flex-direction: column;
-        gap: 40px;
-      }
+    .content {
+      flex-direction: column;
+      gap: 40px;
+    }
 
-      .left-container {
+    .left-container {
+      width: 100%;
+
+      .thumbnail {
         width: 100%;
+      }
+    }
 
-        .thumbnail {
-          width: 100%;
+    .right-container {
+      width: 100%;
+
+      .header {
+        .title {
+          font-size: 28px;
+          line-height: 28px;
+        }
+
+        .subTitle {
+          font-size: 20px;
         }
       }
 
-      .right-container {
-        width: 100%;
-
-        .header {
-
-          .title {
-            font-size: 28px;
-            line-height: 28px;
-          }
-
-          .subTitle {
-            font-size: 20px;
-          }
+      .tag {
+        .tag-title {
         }
 
-        .tag {          
-          .tag-title {
-          }
-
-          .subTitle {
-            font-size: 20px;
-            line-height: 24px;
-          }
+        .subTitle {
+          font-size: 20px;
+          line-height: 24px;
         }
       }
+    }
   }
 
   @media screen and (max-width: 768px) {
-      .content {
-        gap: 28px;
-      }
+    .content {
+      gap: 28px;
+    }
 
-      .left-container {
-        .thumbnail {
-          width: 100%;
+    .left-container {
+      .thumbnail {
+        width: 100%;
+      }
+    }
+
+    .right-container {
+      .header {
+        .title {
+          line-height: 24px;
+          font-size: 24px;
+        }
+
+        .subTitle {
+          font-size: 16px;
         }
       }
-
-      .right-container {
-        .header {
-          .title {
-            line-height: 24px;
-            font-size: 24px;
-          }
-    
-          .subTitle {
-            font-size: 16px;
-          }
-        }
-  
-      }
+    }
   }
 `;
 
 const Information = styled.div`
-  margin-top: 40px;
+  margin-top: ${px2rem(40)};
 
   .title {
     font-style: normal;
-    font-weight: 600;
-    font-size: 34px;
-    line-height: 44px;
-    color: #b6b6b6;
+    font-weight: 500;
+    font-size: ${px2rem(20)};
+    line-height: ${px2rem(34)};
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
     padding-bottom: 8px;
     width: fit-content;
     border-bottom: 2px solid white;
@@ -208,31 +206,33 @@ const Information = styled.div`
   .list {
     display: flex;
     flex-direction: column;
-    margin-top: 16px;
 
     .item {
       padding-top: 16px;
       padding-bottom: 8px;
-      border-bottom: 1px solid #2e2e2e;
+      border-bottom: 1px solid #ececed;
       max-width: 700px;
 
       .name {
         font-style: normal;
         font-weight: 400;
-        font-size: 18px;
         line-height: 28px;
         letter-spacing: -0.01em;
-        color: #898989;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 28px;
+        color: #5b5b5b;
       }
 
       .desc {
         font-style: normal;
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 28px;
-        letter-spacing: -0.01em;
-        color: #ffffff;
         word-break: break-all;
+
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 28px;
+
+        color: #1c1c1c;
       }
 
       .link {
@@ -249,8 +249,8 @@ const Information = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-      margin-top: 28px;
-  };
+    margin-top: 28px;
+  }
 `;
 
 export { Container, Information };

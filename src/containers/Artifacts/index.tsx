@@ -51,8 +51,8 @@ const Artifacts: React.FC = () => {
       <UploadFileContainer>
         <div className="upload_left">
           <div className="upload_content">
-            <h3 className="upload_title">Artifacts</h3>
-            <Text size="medium">
+            <p className="upload_title">Artifacts</p>
+            <Text size="medium" className="upload_desc">
               Cheap. Immutable. Fully on-chain. Large files are supported too. <br />
               We recommend you preserve a small artifact to save gas fees—ideally, a
               file under 20 kB.
@@ -60,7 +60,7 @@ const Artifacts: React.FC = () => {
           </div>
         </div>
         <div className="upload_right">
-          <PreserveButton className="button" onClick={handlePreverseArtifact}>
+          <PreserveButton onClick={handlePreverseArtifact}>
             <Text
               className="button-text"
               size="medium"
@@ -70,7 +70,7 @@ const Artifacts: React.FC = () => {
               Preserve Artifact
             </Text>
             <Text size="regular" fontWeight="regular" className="button-sub-text">
-              Max 360kb each
+              Max 350kb each
             </Text>
           </PreserveButton>
           <FileUploader

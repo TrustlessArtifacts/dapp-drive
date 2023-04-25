@@ -29,21 +29,22 @@ const Header = ({ height }: { height: number }) => {
 
   return (
     <Wrapper style={{ height }}>
-      <div className="indicator" />
-      <Link className="logo" href={ROUTE_PATH.HOME}>
-        {mobileScreen && (
-          <img alt="logo" src={`${CDN_URL}/images/drive-logo.svg`} />
-        )}
-        {!mobileScreen && (
-          <img alt="logo" src={`${CDN_URL}/images/logo-drive-2.svg`} />
-        )}
-      </Link>
-      <MenuMobile ref={refMenu} onCloseMenu={() => setIsOpenMenu(false)} />
-      <div className="rightContainer">
-        <WalletHeader />
-        <button className="btnMenuMobile" onClick={() => setIsOpenMenu(true)}>
-          <img src={`${CDN_URL}/icons/ic_hambuger.svg`} />
-        </button>
+      <div className="content">
+        <Link className="logo" href={ROUTE_PATH.HOME}>
+          {mobileScreen && (
+            <img alt="logo" src={`${CDN_URL}/images/drive-logo.svg`} />
+          )}
+          {!mobileScreen && (
+            <img alt="logo" src={`${CDN_URL}/images/logo-drive-2.svg`} />
+          )}
+        </Link>
+        <MenuMobile ref={refMenu} onCloseMenu={() => setIsOpenMenu(false)} />
+        <div className="rightContainer">
+          <WalletHeader />
+          <button className="btnMenuMobile" onClick={() => setIsOpenMenu(true)}>
+            <img src={`${CDN_URL}/icons/ic_hambuger.svg`} />
+          </button>
+        </div>
       </div>
     </Wrapper>
   );

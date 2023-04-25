@@ -8,18 +8,24 @@ export const Styled = styled(Link)`
   text-decoration: none !important;
   --bs-card-bg: none;
 
-  background: ${({ theme }: { theme: DefaultTheme }) => theme.primary['2e']};
-  border: 1px solid transparent;
+  background: ${({ theme }: { theme: DefaultTheme }) => theme.white};
+
+  border: 1px solid #ececed;
+  border-radius: 12px;
 
   :hover {
-    border: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.primary['d9']};
+    border: 1px solid
+      ${({ theme }: { theme: DefaultTheme }) => theme.primary['brand']};
   }
 
   .card-content {
   }
 
   .card-image {
-    background: ${({ theme }: { theme: DefaultTheme }) => theme.primary['5b']};
+    background: #f4f6f8;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
     min-height: ${px2rem(180)};
     padding: ${px2rem(32)};
     position: relative;
@@ -46,10 +52,10 @@ export const Styled = styled(Link)`
 
     .card-title1 {
       font-style: normal;
-      font-weight: 500;
-      font-size: ${px2rem(22)};
-      line-height: ${px2rem(32)};
-      color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
+      font-weight: 400;
+      font-size: ${px2rem(24)};
+      line-height: ${px2rem(34)};
+      color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
@@ -68,11 +74,11 @@ export const Styled = styled(Link)`
 
     .card-title3 {
       font-style: normal;
-      font-weight: 500;
-      font-size: ${px2rem(16)};
+      font-weight: 400;
+      font-size: ${px2rem(14)};
       line-height: ${px2rem(26)};
-      margin-top: ${px2rem(12)};
-      color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
+      margin-top: ${px2rem(8)};
+      color: #5b5b5b;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;

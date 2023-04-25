@@ -59,11 +59,11 @@ const WalletHeader = () => {
       <div className="wallet-tc">
         <div className="wallet-item">
           <IconSVG
-            src={`${CDN_URL}/icons/ic-penguin.svg`}
+            src={`${CDN_URL}/icons/ic-penguin-artifact.svg`}
             maxWidth="24"
             maxHeight="24"
           />
-          <Text size={'regular'} className="address" fontWeight="regular">
+          <Text size={'regular'} className="wallet-address" fontWeight="regular">
             {formatLongAddress(user?.walletAddress || '')}
           </Text>
         </div>
@@ -72,7 +72,7 @@ const WalletHeader = () => {
           onClick={() => onClickCopy(user?.walletAddress || '')}
         >
           <IconSVG
-            src={`${CDN_URL}/icons/ic-copy.svg`}
+            src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
             maxWidth="16"
             // type="stroke"
@@ -87,7 +87,7 @@ const WalletHeader = () => {
             maxWidth="24"
             maxHeight="24"
           />
-          <Text size={'regular'} className="address" fontWeight="regular">
+          <Text size={'regular'} className="wallet-address" fontWeight="regular">
             {formatLongAddress(user?.walletAddressBtcTaproot || '')}
           </Text>
         </div>
@@ -96,7 +96,7 @@ const WalletHeader = () => {
           onClick={() => onClickCopy(user?.walletAddressBtcTaproot || '')}
         >
           <IconSVG
-            src={`${CDN_URL}/icons/ic-copy.svg`}
+            src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
             maxWidth="16"
           ></IconSVG>
@@ -108,11 +108,11 @@ const WalletHeader = () => {
           className="wallet-link"
           onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
         >
-          <IconSVG src={`${CDN_URL}/icons/ic-wallet.svg`} maxWidth="20" />
+          <IconSVG src={`${CDN_URL}/icons/ic-wallet-artifact.svg`} maxWidth="20" />
           <Text size="medium">Wallet</Text>
         </div>
         <div className="wallet-disconnect" onClick={onDisconnect}>
-          <IconSVG src={`${CDN_URL}/icons/ic-logout.svg`} maxWidth="20" />
+          <IconSVG src={`${CDN_URL}/icons/ic-logout-artifact.svg`} maxWidth="20" />
           <Text size="medium">Disconnect</Text>
         </div>
       </div>
@@ -139,9 +139,9 @@ const WalletHeader = () => {
             >
               <WalletBalance>
                 <div className="balance">
-                  <p>{formatBTCPrice(btcBalance)} BTC</p>
+                  <p className="text">{formatBTCPrice(btcBalance)} BTC</p>
                   <span className="divider"></span>
-                  <p>{formatEthPrice(juiceBalance)} TC</p>
+                  <p className="text">{formatEthPrice(juiceBalance)} TC</p>
                 </div>
                 <div className="avatar">
                   <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
