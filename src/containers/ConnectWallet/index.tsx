@@ -3,7 +3,7 @@ import { Wrapper, ConnectWalletButton } from './ConnectWallet.styled';
 import { WalletContext } from '@/contexts/wallet-context';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
-import { CDN_URL } from '@/configs';
+// import { CDN_URL } from '@/configs';
 import { Container } from '@/layouts';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { useRouter } from 'next/router';
@@ -60,16 +60,10 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
           </div>
         </div> */}
         <div className="mainContent">
-          <img
-            width={80}
-            height={80}
-            className="logo"
-            src={`${CDN_URL}/icons/wallet_logo.svg`}
-            alt="trustless computer logo"
-          />
-          <h1 className="title">
-            {`A crypto wallet & gateway to decentralized applications on Bitcoin.`}
-          </h1>
+          <h1 className="title">{`Connect Wallet`}</h1>
+          <p className="desc">
+            {`Connect your wallet to access Artifacts on Trustless Computer.`}
+          </p>
           <ConnectWalletButton disabled={isConnecting} onClick={handleConnectWallet}>
             {isConnecting ? 'Connecting...' : 'Connect wallet'}
           </ConnectWalletButton>

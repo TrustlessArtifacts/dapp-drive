@@ -1,5 +1,5 @@
 import Text from '@/components/Text';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import BFSList from './BFSList';
 import {
@@ -11,15 +11,27 @@ import ModalUpload from './ModalUpload';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
-import { useRouter } from 'next/router';
-import { ROUTE_PATH } from '@/constants/route-path';
+// import { useRouter } from 'next/router';
+// import { ROUTE_PATH } from '@/constants/route-path';
 import { showError } from '@/utils/toast';
+import { WalletContext } from '@/contexts/wallet-context';
 
 const Artifacts: React.FC = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
+  const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
+
+  const handleConnectWallet = async () => {
+    try {
+      await onConnect();
+      await requestBtcAddress();
+    } catch (err) {
+      console.log(err);
+      onDisconnect();
+    }
+  };
 
   const onChangeFile = (file: File): void => {
     setFile(file);
@@ -34,7 +46,7 @@ const Artifacts: React.FC = () => {
   };
 
   const handlePreverseArtifact = () => {
-    if (!isAuthenticated) router.push(ROUTE_PATH.CONNECT_WALLET);
+    if (!isAuthenticated) handleConnectWallet();
     else {
       setShowUploadModal(true);
     }
@@ -53,9 +65,7 @@ const Artifacts: React.FC = () => {
           <div className="upload_content">
             <p className="upload_title">Artifacts</p>
             <Text size="medium" className="upload_desc">
-              Cheap. Immutable. Fully on-chain. Large files are supported too. <br />
-              We recommend you preserve a small artifact to save gas fees—ideally, a
-              file under 20 kB.
+              Cheap. Immutable. Fully on-chain. Large files are supported too.
             </Text>
           </div>
         </div>
@@ -69,9 +79,9 @@ const Artifacts: React.FC = () => {
             >
               Preserve Artifact
             </Text>
-            <Text size="regular" fontWeight="regular" className="button-sub-text">
+            {/* <Text size="regular" fontWeight="regular" className="button-sub-text">
               Max 350kb each
-            </Text>
+            </Text> */}
           </PreserveButton>
           <FileUploader
             handleChange={onChangeFile}
