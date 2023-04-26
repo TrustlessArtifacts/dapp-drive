@@ -21,6 +21,8 @@ import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { showError } from '@/utils/toast';
 import { DappsTabs } from '@/enums/tabs';
+import ToastConfirm from '@/components/ToastConfirm';
+import { walletLinkSignTemplate } from '@/utils/configs';
 
 type Props = {
   show: boolean;
@@ -39,6 +41,7 @@ const ModalUpload = (props: Props) => {
     operation: usePreserveChunks,
   });
   const [isProcessing, setIsProcessing] = useState(false);
+  const { dAppType, transactionType } = usePreserveChunks();
 
   const handleUploadFile = async () => {
     if (!account) {
@@ -57,11 +60,33 @@ const ModalUpload = (props: Props) => {
       setIsProcessing(true);
       const fileBuffer = await readFileAsBuffer(file);
 
-      await run({
+      const tx = await run({
         address: account,
         chunks: fileBuffer,
       });
-      toast.success('Transaction has been created. Please wait for few minutes.');
+      toast.success(
+        () => (
+          <ToastConfirm
+            id="create-success"
+            url={walletLinkSignTemplate({
+              transactionType,
+              dAppType,
+              hash: Object(tx).hash,
+              isRedirect: true,
+            })}
+            message="Please go to your wallet to authorize the request for the Bitcoin transaction."
+            linkText="Go to wallet"
+          />
+        ),
+        {
+          duration: 50000,
+          position: 'top-right',
+          style: {
+            maxWidth: '900px',
+            borderLeft: '4px solid #00AA6C',
+          },
+        },
+      );
       handleClose();
     } catch (err: unknown) {
       if ((err as Error).message === 'pending') {
