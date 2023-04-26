@@ -14,9 +14,13 @@ import { TransactionEventType } from '@/enums/transaction';
 export interface IPreserveChunkParams {
   address: string;
   chunks: Buffer;
+  selectFee: number;
 }
 
-const usePreserveChunks: ContractOperationHook<IPreserveChunkParams, Transaction | null> = () => {
+const usePreserveChunks: ContractOperationHook<
+  IPreserveChunkParams,
+  Transaction | null
+> = () => {
   const { account, provider } = useWeb3React();
   const contract = useContract(ARTIFACT_CONTRACT, ArtifactABIJson.abi, true);
   const { btcBalance, feeRate } = useContext(AssetsContext);
@@ -24,14 +28,14 @@ const usePreserveChunks: ContractOperationHook<IPreserveChunkParams, Transaction
   const call = useCallback(
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
-        const { address, chunks } = params;
+        const { address, chunks, selectFee } = params;
         console.log({
           tcTxSizeByte: Buffer.byteLength(chunks),
-          feeRatePerByte: feeRate.fastestFee,
+          feeRatePerByte: selectFee,
         });
         const estimatedFee = TC_SDK.estimateInscribeFee({
           tcTxSizeByte: Buffer.byteLength(chunks),
-          feeRatePerByte: feeRate.fastestFee,
+          feeRatePerByte: selectFee,
         });
         const balanceInBN = new BigNumber(btcBalance);
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
@@ -41,7 +45,9 @@ const usePreserveChunks: ContractOperationHook<IPreserveChunkParams, Transaction
             )} BTC to pay network fee.`,
           );
         }
-        const transaction = await contract.connect(provider.getSigner()).preserveChunks(address, [chunks]);
+        const transaction = await contract
+          .connect(provider.getSigner())
+          .preserveChunks(address, [chunks]);
 
         return transaction;
       }

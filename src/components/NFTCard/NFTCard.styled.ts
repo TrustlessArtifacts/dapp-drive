@@ -53,7 +53,7 @@ export const Styled = styled(Link)`
     .card-title1 {
       font-style: normal;
       font-weight: 400;
-      font-size: ${px2rem(24)};
+      font-size: ${px2rem(22)};
       line-height: ${px2rem(34)};
       color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
       text-overflow: ellipsis;
@@ -64,7 +64,7 @@ export const Styled = styled(Link)`
     .card-title2 {
       font-style: normal;
       font-weight: 500;
-      font-size: ${px2rem(18)};
+      font-size: ${px2rem(16)};
       line-height: ${px2rem(28)};
       color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
       text-overflow: ellipsis;

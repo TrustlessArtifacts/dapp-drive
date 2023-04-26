@@ -39,7 +39,6 @@ const Container = styled.div`
         font-size: ${px2rem(34)};
         line-height: ${px2rem(44)};
         color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
-        font-family: 'IBMPlexMono' !important;
       }
 
       .subTitle {

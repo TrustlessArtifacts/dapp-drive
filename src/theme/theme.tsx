@@ -5,6 +5,9 @@ import {
   ThemeProvider as StyledComponentsThemeProvider,
 } from 'styled-components';
 import { getTheme } from '@/theme/index';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({ weight: '400', subsets: ['latin'] });
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = false;
@@ -23,6 +26,10 @@ export const ThemedGlobalStyle = createGlobalStyle`
     color: ${({ theme }: { theme: DefaultTheme }) => theme.bg1};
     background-color: ${({ theme }) => theme.bg1};
 
+    body{
+      --bs-body-font-family: ${poppins.style.fontFamily};
+    }
+
     @media screen and (min-width: 1920px) {
       font-size: 18px;
     }
@@ -34,17 +41,14 @@ export const ThemedGlobalStyle = createGlobalStyle`
 
 
     h3 {
-      font-family: 'IBMPlexMono' !important;
       font-size: ${({ theme }: { theme: DefaultTheme }) => theme.fontSizes.h3};
       line-height: ${({ theme }: { theme: DefaultTheme }) => theme.lineHeight.h3};
     }
     h5 {
-      font-family: 'IBMPlexMono' !important;
       font-size: ${({ theme }: { theme: DefaultTheme }) => theme.fontSizes.h5};
       line-height: ${({ theme }: { theme: DefaultTheme }) => theme.lineHeight.h5};
     }
     h6 {
-      font-family: 'IBMPlexMono' !important;
       font-size: ${({ theme }: { theme: DefaultTheme }) => theme.fontSizes.h6};
       line-height: ${({ theme }: { theme: DefaultTheme }) => theme.lineHeight.h6};
     }
@@ -62,9 +66,6 @@ export const ThemedGlobalStyle = createGlobalStyle`
       }
     }
 
-    button {
-      font-family: 'IBMPlexMono';
-    }
 }
 
   summary::-webkit-details-marker {

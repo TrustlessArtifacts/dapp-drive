@@ -56,10 +56,6 @@ export const UploadFileContainer = styled.div`
     color: ${({ theme }: { theme: DefaultTheme }) => theme.text3};
   }
 
-  .button-text {
-    font-family: 'IBMPlexMono' !important;
-  }
-
   .button-sub-text {
     color: rgba(255, 255, 255, 0.7);
   }

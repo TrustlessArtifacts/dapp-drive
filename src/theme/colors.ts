@@ -63,6 +63,7 @@ export const darkTheme = {
   text5: '#4f43e2',
   text6: commonTheme.red,
   text7: commonTheme.primary.brand,
+  text8: commonTheme.primary.brand,
 
   // Border
   border1: '#2c2c2c',
@@ -99,6 +100,7 @@ export const lightTheme = {
   text5: '#4f43e2',
   text6: '#ff4747',
   text7: commonTheme.primary.brand,
+  text8: commonTheme.primary['5b'],
 
   // Border
   border1: '#e3e2e2',

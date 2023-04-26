@@ -1,28 +1,31 @@
+import Button from '@/components/Button';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
+import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
+import ToastConfirm from '@/components/ToastConfirm';
+import { CDN_URL, TC_URL } from '@/configs';
 import { MINT_TOOL_MAX_FILE_SIZE } from '@/constants/config';
-import { prettyPrintBytes } from '@/utils/units';
-import { useEffect, useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { FileUploader } from 'react-drag-drop-files';
-import { StyledModalUpload } from './ModalUpload.styled';
-import Button from '@/components/Button';
-import useContractOperation from '@/hooks/contract-operations/useContractOperation';
+import { ROUTE_PATH } from '@/constants/route-path';
+import { AssetsContext } from '@/contexts/assets-context';
+import { DappsTabs } from '@/enums/tabs';
 import usePreserveChunks, {
   IPreserveChunkParams,
 } from '@/hooks/contract-operations/artifacts/usePreserveChunks';
-import { useWeb3React } from '@web3-react/core';
+import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import { readFileAsBuffer } from '@/utils';
-import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
-import { Transaction } from 'ethers';
-import toast from 'react-hot-toast';
-import { CDN_URL, TC_URL } from '@/configs';
-import { useRouter } from 'next/router';
-import { ROUTE_PATH } from '@/constants/route-path';
-import { showError } from '@/utils/toast';
-import { DappsTabs } from '@/enums/tabs';
-import ToastConfirm from '@/components/ToastConfirm';
 import { walletLinkSignTemplate } from '@/utils/configs';
+import { showError } from '@/utils/toast';
+import { prettyPrintBytes } from '@/utils/units';
+import { formatBTCPrice } from '@trustless-computer/dapp-core';
+import { useWeb3React } from '@web3-react/core';
+import { Transaction } from 'ethers';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { FileUploader } from 'react-drag-drop-files';
+import toast from 'react-hot-toast';
+import * as TC_SDK from 'trustless-computer-sdk';
+import { StyledModalUpload } from './ModalUpload.styled';
 
 type Props = {
   show: boolean;
@@ -37,6 +40,14 @@ const ModalUpload = (props: Props) => {
   const { show = false, handleClose, file, setFile } = props;
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [selectFee, setSelectFee] = useState<number>(0);
+  const [estBTCFee, setEstBTCFee] = useState({
+    economy: '0',
+    faster: '0',
+    fastest: '0',
+  });
+  const { feeRate } = useContext(AssetsContext);
+
   const { run } = useContractOperation<IPreserveChunkParams, Transaction | null>({
     operation: usePreserveChunks,
   });
@@ -63,6 +74,7 @@ const ModalUpload = (props: Props) => {
       const tx = await run({
         address: account,
         chunks: fileBuffer,
+        selectFee,
       });
       toast.success(
         () => (
@@ -121,6 +133,68 @@ const ModalUpload = (props: Props) => {
     setPreview(null);
   };
 
+  const handleEstFee = async (): Promise<void> => {
+    if (!file) return;
+
+    const fileBuffer = await readFileAsBuffer(file);
+
+    const estimatedFastestFee = TC_SDK.estimateInscribeFee({
+      tcTxSizeByte: Buffer.byteLength(fileBuffer),
+      feeRatePerByte: feeRate.fastestFee,
+    });
+    const estimatedFasterFee = TC_SDK.estimateInscribeFee({
+      tcTxSizeByte: Buffer.byteLength(fileBuffer),
+      feeRatePerByte: feeRate.halfHourFee,
+    });
+    const estimatedEconomyFee = TC_SDK.estimateInscribeFee({
+      tcTxSizeByte: Buffer.byteLength(fileBuffer),
+      feeRatePerByte: feeRate.hourFee,
+    });
+
+    setEstBTCFee({
+      fastest: estimatedFastestFee.totalFee.toString(),
+      faster: estimatedFasterFee.totalFee.toString(),
+      economy: estimatedEconomyFee.totalFee.toString(),
+    });
+
+    // const tcTxSizeBytes =
+    //   listOfChunks
+    //     ?.map((chunk) =>
+    //       chunk.reduce((prev, cur) => prev + Buffer.byteLength(cur), 0),
+    //     )
+    //     .reduce((prev, cur) => prev + cur, 0) || 0;
+
+    // setEstBTCFee(estimatedFee.totalFee.toString());
+  };
+
+  const renderEstFee = ({
+    title,
+    estFee,
+    feeRate,
+  }: {
+    title: string;
+    estFee: string;
+    feeRate: number;
+  }) => {
+    return (
+      <div className={`${selectFee === feeRate ? 'active' : ''}`}>
+        <Text fontWeight="medium" color="text2" size="regular">
+          {title}
+        </Text>
+        <Text color="text8" className="mb-10">
+          {feeRate} sats/vByte
+        </Text>
+        <p className="ext-price">
+          {formatBTCPrice(estFee)} <span>BTC</span>
+        </p>
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    handleEstFee();
+  }, [file]);
+
   useEffect(() => {
     if (file) {
       const fileSizeInKb = file.size / 1024;
@@ -131,6 +205,10 @@ const ModalUpload = (props: Props) => {
       }
     }
   }, [file]);
+
+  useEffect(() => {
+    setSelectFee(feeRate.fastestFee);
+  }, [feeRate.fastestFee]);
 
   return (
     <StyledModalUpload show={show} onHide={handleClose} centered>
@@ -185,6 +263,43 @@ const ModalUpload = (props: Props) => {
             {error && <p className={'error-text'}>{error}</p>}
           </>
         </FileUploader>
+        <div className="est-fee">
+          <Text size="regular" fontWeight="medium" color="text2" className="mb-8">
+            Select the network fee
+          </Text>
+          <div className="est-fee-options">
+            <div
+              className="est-fee-item"
+              onClick={() => setSelectFee(feeRate.hourFee)}
+            >
+              {renderEstFee({
+                title: 'Economy',
+                estFee: estBTCFee.economy,
+                feeRate: feeRate.hourFee,
+              })}
+            </div>
+            <div
+              className="est-fee-item"
+              onClick={() => setSelectFee(feeRate.halfHourFee)}
+            >
+              {renderEstFee({
+                title: 'Faster',
+                estFee: estBTCFee.faster,
+                feeRate: feeRate.halfHourFee,
+              })}
+            </div>
+            <div
+              className="est-fee-item"
+              onClick={() => setSelectFee(feeRate.fastestFee)}
+            >
+              {renderEstFee({
+                title: 'Fastest',
+                estFee: estBTCFee.fastest,
+                feeRate: feeRate.fastestFee,
+              })}
+            </div>
+          </div>
+        </div>
         {file && !error && (
           <Button
             disabled={isProcessing}
