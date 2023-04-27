@@ -26,6 +26,7 @@ import { FileUploader } from 'react-drag-drop-files';
 import toast from 'react-hot-toast';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { StyledModalUpload } from './ModalUpload.styled';
+import { ERROR_CODE } from '@/constants/error';
 
 type Props = {
   show: boolean;
@@ -108,11 +109,26 @@ const ModalUpload = (props: Props) => {
       );
       handleClose();
     } catch (err: unknown) {
-      if ((err as Error).message === 'pending') {
+      if ((err as Error).message === ERROR_CODE.PENDING) {
         showError({
           message:
             'You have some pending transactions. Please complete all of them before moving on.',
           url: `${TC_URL}/?tab=${DappsTabs.TRANSACTION}`,
+          linkText: 'Go to Wallet',
+        });
+      } else if ((err as Error).message === ERROR_CODE.INSUFFICIENT_BALANCE) {
+        const fileBuffer = await readFileAsBuffer(file);
+
+        const estimatedFee = TC_SDK.estimateInscribeFee({
+          tcTxSizeByte: Buffer.byteLength(fileBuffer),
+          feeRatePerByte: selectFee,
+        });
+
+        showError({
+          message: `Your balance is insufficient. Please top up at least ${formatBTCPrice(
+            estimatedFee.totalFee.toString(),
+          )} BTC to pay network fee.`,
+          url: `${TC_URL}`,
           linkText: 'Go to Wallet',
         });
       } else {
