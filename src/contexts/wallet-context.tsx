@@ -103,6 +103,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
       method: TC_SDK.RequestMethod.account,
       redirectURL: window.location.origin + window.location.pathname,
       target: '_self',
+      isMainnet: true,
     });
   };
 

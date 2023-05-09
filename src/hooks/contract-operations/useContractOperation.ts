@@ -120,6 +120,7 @@ const useContractOperation = <P, R>(
         dappURL: window.location.origin,
         isRedirect: false,
         target: '_blank',
+        isMainnet: true,
       });
 
       return tx;
