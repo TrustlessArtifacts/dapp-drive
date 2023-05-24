@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { Container, Information } from './Inscription.styled';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { ARTIFACT_CONTRACT } from '@/configs';
+import { ARTIFACT_CONTRACT, BIG_FILE_PROJECT_ID } from '@/configs';
 import { formatTimeStamp } from '@/utils/time';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
@@ -117,6 +117,7 @@ const Inscription = () => {
                     return 0;
                   }),
                 )}
+              {inscription?.tokenId === BIG_FILE_PROJECT_ID && renderListItem('File size', '6.9MB')}
             </div>
           </Information>
         </div>
