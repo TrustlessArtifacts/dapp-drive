@@ -14,5 +14,6 @@ export const BFS_ADDRESS: string = process.env.NEXT_PUBLIC_BFS_CONTRACT!;
 
 export const TC_URL: string = process.env.NEXT_PUBLIC_TC_WEB_URL!;
 export const TRANSFER_TX_SIZE = 1000!;
+export const BIG_FILE_PROJECT_ID = '420';
 
 /* eslint-enable @typescript-eslint/no-non-null-assertion */
