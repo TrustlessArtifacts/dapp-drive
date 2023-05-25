@@ -1,5 +1,5 @@
 import IconSVG from '@/components/IconSVG';
-import { CDN_URL, TC_URL } from '@/configs';
+import { CDN_URL, TC_WEB_WALLET_URL } from '@/configs';
 // import { ROUTE_PATH } from '@/constants/route-path';
 import { AssetsContext } from '@/contexts/assets-context';
 import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
@@ -24,7 +24,7 @@ const WalletHeader = () => {
   // const router = useRouter();
   const { account } = useWeb3React();
   const user = useSelector(getUserSelector);
-  const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
+  const { disconnect, connect } = useContext(WalletContext);
 
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const { btcBalance, juiceBalance } = useContext(AssetsContext);
@@ -34,11 +34,10 @@ const WalletHeader = () => {
   const handleConnectWallet = async () => {
     try {
       setIsConnecting(true);
-      await onConnect();
-      await requestBtcAddress();
+      await connect();
     } catch (err) {
       console.log(err);
-      onDisconnect();
+      disconnect();
     } finally {
       setIsConnecting(false);
     }
@@ -79,18 +78,18 @@ const WalletHeader = () => {
             maxHeight="24"
           />
           <Text size={'regular'} className="wallet-address" fontWeight="regular">
-            {formatLongAddress(user?.walletAddress || '')}
+            {formatLongAddress(user?.tcAddress || '')}
           </Text>
         </div>
         <div
           className="icCopy"
-          onClick={() => onClickCopy(user?.walletAddress || '')}
+          onClick={() => onClickCopy(user?.tcAddress || '')}
         >
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
             maxWidth="16"
-            // type="stroke"
+          // type="stroke"
           ></IconSVG>
         </div>
       </div>
@@ -103,12 +102,12 @@ const WalletHeader = () => {
             maxHeight="24"
           />
           <Text size={'regular'} className="wallet-address" fontWeight="regular">
-            {formatLongAddress(user?.walletAddressBtcTaproot || '')}
+            {formatLongAddress(user?.btcAddress || '')}
           </Text>
         </div>
         <div
           className="icCopy"
-          onClick={() => onClickCopy(user?.walletAddressBtcTaproot || '')}
+          onClick={() => onClickCopy(user?.btcAddress || '')}
         >
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
@@ -121,12 +120,12 @@ const WalletHeader = () => {
       <div className="cta">
         <div
           className="wallet-link"
-          onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
+          onClick={() => window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)}
         >
           <IconSVG src={`${CDN_URL}/icons/ic-wallet-artifact.svg`} maxWidth="20" />
           <Text size="medium">Wallet</Text>
         </div>
-        <div className="wallet-disconnect" onClick={onDisconnect}>
+        <div className="wallet-disconnect" onClick={disconnect}>
           <IconSVG src={`${CDN_URL}/icons/ic-logout-artifact.svg`} maxWidth="20" />
           <Text size="medium">Disconnect</Text>
         </div>
@@ -147,7 +146,7 @@ const WalletHeader = () => {
           >
             <div
               className="wallet"
-              onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
+              onClick={() => window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)}
               ref={ref}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}

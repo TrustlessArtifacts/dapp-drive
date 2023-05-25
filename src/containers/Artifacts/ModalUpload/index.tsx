@@ -3,7 +3,7 @@ import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
 import ToastConfirm from '@/components/ToastConfirm';
-import { CDN_URL, TC_URL } from '@/configs';
+import { CDN_URL, TC_WEB_WALLET_URL } from '@/configs';
 import { MINT_TOOL_MAX_FILE_SIZE } from '@/constants/config';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { AssetsContext } from '@/contexts/assets-context';
@@ -113,7 +113,7 @@ const ModalUpload = (props: Props) => {
         showError({
           message:
             'You have some pending transactions. Please complete all of them before moving on.',
-          url: `${TC_URL}/?tab=${DappsTabs.TRANSACTION}`,
+          url: `${TC_WEB_WALLET_URL}/?tab=${DappsTabs.TRANSACTION}`,
           linkText: 'Go to Wallet',
         });
       } else if ((err as Error).message === ERROR_CODE.INSUFFICIENT_BALANCE) {
@@ -128,7 +128,7 @@ const ModalUpload = (props: Props) => {
           message: `Your balance is insufficient. Please top up at least ${formatBTCPrice(
             estimatedFee.totalFee.toString(),
           )} BTC to pay network fee.`,
-          url: `${TC_URL}`,
+          url: `${TC_WEB_WALLET_URL}`,
           linkText: 'Go to Wallet',
         });
       } else {
@@ -277,9 +277,8 @@ const ModalUpload = (props: Props) => {
                   ></img>
                 )}
                 <div className="file-upload-name">
-                  <Text className="file-name" size={'regular'}>{`${
-                    file.name
-                  } (${prettyPrintBytes(file.size)})`}</Text>
+                  <Text className="file-name" size={'regular'}>{`${file.name
+                    } (${prettyPrintBytes(file.size)})`}</Text>
                   {!error && (
                     <IconSVG
                       src={`${CDN_URL}/icons/ic-check.svg`}

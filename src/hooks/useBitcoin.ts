@@ -56,7 +56,7 @@ const useBitcoin = () => {
     const connection = getConnection(connector);
     if (connection?.type === ConnectionType.METAMASK) {
       const error = 'Can not sign with metamask';
-      const tpAddress = user?.walletAddressBtcTaproot;
+      const tpAddress = user?.btcAddress;
       if (!evmAddress || !tpAddress) throw new Error(error);
       const { taprootChild } = await generateBitcoinTaprootKey(evmAddress);
       const privateKey = taprootChild.privateKey;

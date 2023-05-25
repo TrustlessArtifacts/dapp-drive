@@ -52,7 +52,7 @@ const useContractOperation = <P, R>(
       // This function does not handle error
       // It delegates error to caller
 
-      if (!isAuthenticated || !user?.walletAddress) {
+      if (!isAuthenticated || !user?.tcAddress) {
         router.push(`${ROUTE_PATH.CONNECT_WALLET}?next=${window.location.href}`);
         throw Error('Please connect wallet to continue.');
       }
@@ -75,7 +75,7 @@ const useContractOperation = <P, R>(
       // Check unInscribed transactions
       console.time('____unInscribedTxIDsLoadTime');
       const unInscribedTxIDs = await getUnInscribedTransactionByAddress(
-        user.walletAddress,
+        user.tcAddress,
       );
       console.timeEnd('____unInscribedTxIDsLoadTime');
 

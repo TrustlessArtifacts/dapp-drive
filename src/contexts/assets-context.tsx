@@ -51,8 +51,8 @@ export const AssetsContext = React.createContext<IAssetsContext>(initialValue);
 export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
   const user = useAppSelector(getUserSelector);
   const currentAddress = React.useMemo(() => {
-    return user?.walletAddressBtcTaproot || '';
-  }, [user?.walletAddressBtcTaproot]);
+    return user?.btcAddress || '';
+  }, [user?.btcAddress]);
   const { provider, account: tcAddress } = useWeb3React();
 
   // UTXOs
@@ -140,8 +140,8 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
   }, [currentAddress, currentAssets]);
 
   const fetchJuiceBalance = async () => {
-    if (user?.walletAddress && provider) {
-      const balance = await provider.getBalance(user.walletAddress);
+    if (user?.tcAddress && provider) {
+      const balance = await provider.getBalance(user.tcAddress);
       setJuiceBalance(balance.toString());
     }
   };

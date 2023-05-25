@@ -16,16 +16,16 @@ const useCompleteUninscribedTransaction = (args: IParams) => {
   const { chainId = SupportedChainId.TRUSTLESS_COMPUTER } = args;
   const { feeRate, getAvailableAssetsCreateTx } = useContext(AssetsContext);
   const { chainId: walletChainId } = useWeb3React();
-  const { onConnect: onConnectMetamask } = useContext(WalletContext);
+  const { connect: onConnectMetamask } = useContext(WalletContext);
   const user = useSelector(getUserSelector);
   const { createInscribeTx, getUnInscribedTransactionByAddress } = useBitcoin();
 
   const connectWallet = async () => {
     try {
-      if (!user?.walletAddress) {
+      if (!user?.tcAddress) {
         return await onConnectMetamask();
       }
-      return user.walletAddress;
+      return user;
     } catch (err: unknown) {
       console.log(err);
       throw Error('Failed to connect wallet');
@@ -44,8 +44,8 @@ const useCompleteUninscribedTransaction = (args: IParams) => {
       // It delegates error to caller
 
       // Connect Metamask & Xverse
-      const address = await connectWallet();
-      if (!address) {
+      const user = await connectWallet();
+      if (!user?.tcAddress) {
         throw Error('Wallet address not found');
       }
 
@@ -56,7 +56,7 @@ const useCompleteUninscribedTransaction = (args: IParams) => {
       console.log(assets);
 
       // Check unInscribed transactions
-      const unInscribedTxIDs = await getUnInscribedTransactionByAddress(address);
+      const unInscribedTxIDs = await getUnInscribedTransactionByAddress(user.tcAddress);
 
       if (unInscribedTxIDs.length === 0) {
         throw Error('No pending transaction found.');
