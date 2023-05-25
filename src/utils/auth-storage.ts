@@ -25,7 +25,10 @@ export const clearAuthStorage = (): void => {
   // walletBTCStorage.removeWallet();
 };
 
-export const setAccessToken = (accessToken: string, refreshToken: string): void => {
+export const setAccessToken = (
+  accessToken: string,
+  refreshToken: string
+): void => {
   localStorage.set(ACCESS_TOKEN, accessToken);
   localStorage.set(REFRESH_TOKEN, refreshToken);
 };

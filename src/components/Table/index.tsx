@@ -39,7 +39,10 @@ const Table = ({
         <tr>
           {tableHead?.length > 0 &&
             tableHead.map((label, index) => (
-              <th key={`thead-${index}`} className={cs('tableHead_item', _camelCase(label?.toString()))}>
+              <th
+                key={`thead-${index}`}
+                className={cs('tableHead_item', _camelCase(label?.toString()))}
+              >
                 {label}
               </th>
             ))}
@@ -65,7 +68,11 @@ const Table = ({
     <StyledTable>
       <div className={cs('wrapper', classWrapper)}>
         {!isLoading && (
-          <BSTable bordered className={cs('table', className)} {...delegatedProps}>
+          <BSTable
+            bordered
+            className={cs('table', className)}
+            {...delegatedProps}
+          >
             {TableHeads}
 
             {!data || data.length === 0 ? (
@@ -74,7 +81,11 @@ const Table = ({
               </tbody>
             ) : (
               <tbody>
-                {data && data?.length > 0 && data.map(row => <TableData rowData={row} key={`trowData-${row.id}`} />)}
+                {data &&
+                  data?.length > 0 &&
+                  data.map(row => (
+                    <TableData rowData={row} key={`trowData-${row.id}`} />
+                  ))}
               </tbody>
             )}
           </BSTable>

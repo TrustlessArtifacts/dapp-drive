@@ -4,7 +4,10 @@ import { ERROR_CODE } from '@/constants/error';
 import { AssetsContext } from '@/contexts/assets-context';
 import { TransactionEventType } from '@/enums/transaction';
 import { useContract } from '@/hooks/useContract';
-import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
+import {
+  ContractOperationHook,
+  DAppType,
+} from '@/interfaces/contract-operation';
 import { useWeb3React } from '@web3-react/core';
 import BigNumber from 'bignumber.js';
 import { Transaction } from 'ethers';
@@ -50,7 +53,7 @@ const usePreserveChunks: ContractOperationHook<
 
       return null;
     },
-    [account, provider, contract, btcBalance, feeRate],
+    [account, provider, contract, btcBalance, feeRate]
   );
 
   return {

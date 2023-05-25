@@ -2,7 +2,10 @@ import IconSVG from '@/components/IconSVG';
 import { CDN_URL, TC_URL } from '@/configs';
 // import { ROUTE_PATH } from '@/constants/route-path';
 import { AssetsContext } from '@/contexts/assets-context';
-import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
+import {
+  getIsAuthenticatedSelector,
+  getUserSelector,
+} from '@/state/user/selector';
 import { formatBTCPrice, formatEthPrice } from '@/utils/format';
 // import { formatBTCPrice, formatLongAddress } from '@trustless-computer/dapp-core';
 import { useWeb3React } from '@web3-react/core';
@@ -24,7 +27,8 @@ const WalletHeader = () => {
   // const router = useRouter();
   const { account } = useWeb3React();
   const user = useSelector(getUserSelector);
-  const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
+  const { onDisconnect, onConnect, requestBtcAddress } =
+    useContext(WalletContext);
 
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const { btcBalance, juiceBalance } = useContext(AssetsContext);
@@ -78,7 +82,11 @@ const WalletHeader = () => {
             maxWidth="24"
             maxHeight="24"
           />
-          <Text size={'regular'} className="wallet-address" fontWeight="regular">
+          <Text
+            size={'regular'}
+            className="wallet-address"
+            fontWeight="regular"
+          >
             {formatLongAddress(user?.walletAddress || '')}
           </Text>
         </div>
@@ -102,7 +110,11 @@ const WalletHeader = () => {
             maxWidth="24"
             maxHeight="24"
           />
-          <Text size={'regular'} className="wallet-address" fontWeight="regular">
+          <Text
+            size={'regular'}
+            className="wallet-address"
+            fontWeight="regular"
+          >
             {formatLongAddress(user?.walletAddressBtcTaproot || '')}
           </Text>
         </div>
@@ -123,11 +135,17 @@ const WalletHeader = () => {
           className="wallet-link"
           onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
         >
-          <IconSVG src={`${CDN_URL}/icons/ic-wallet-artifact.svg`} maxWidth="20" />
+          <IconSVG
+            src={`${CDN_URL}/icons/ic-wallet-artifact.svg`}
+            maxWidth="20"
+          />
           <Text size="medium">Wallet</Text>
         </div>
         <div className="wallet-disconnect" onClick={onDisconnect}>
-          <IconSVG src={`${CDN_URL}/icons/ic-logout-artifact.svg`} maxWidth="20" />
+          <IconSVG
+            src={`${CDN_URL}/icons/ic-logout-artifact.svg`}
+            maxWidth="20"
+          />
           <Text size="medium">Disconnect</Text>
         </div>
       </div>
@@ -166,7 +184,10 @@ const WalletHeader = () => {
           </OverlayTrigger>
         </>
       ) : (
-        <ConnectWalletButton className="hideMobile" onClick={handleConnectWallet}>
+        <ConnectWalletButton
+          className="hideMobile"
+          onClick={handleConnectWallet}
+        >
           {isConnecting ? 'Connecting...' : 'Connect wallet'}
         </ConnectWalletButton>
       )}

@@ -20,7 +20,7 @@ const PDFPreview: React.FC<IProps> = (props: IProps): React.ReactElement => {
         <p className={'errorMessage'}>An error occurred!</p>
       </div>
     ),
-    [],
+    []
   );
 
   return (

@@ -5,12 +5,14 @@ import { useAppDispatch, useAppSelector } from '@/state/hooks';
 
 export function useConnectedWallets(): [Wallet[], (wallet: Wallet) => void] {
   const dispatch = useAppDispatch();
-  const connectedWallets = useAppSelector(state => state.wallets.connectedWallets);
+  const connectedWallets = useAppSelector(
+    state => state.wallets.connectedWallets
+  );
   const addWallet = useCallback(
     (wallet: Wallet) => {
       dispatch(addConnectedWallet(wallet));
     },
-    [dispatch],
+    [dispatch]
   );
   return [connectedWallets, addWallet];
 }

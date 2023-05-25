@@ -22,7 +22,14 @@ const Button = ({
   ...props
 }: PropsWithChildren<ButtonProps>) => {
   return (
-    <StyledButton type={type} bg={bg} background={background} className={className} onClick={onClick} {...props}>
+    <StyledButton
+      type={type}
+      bg={bg}
+      background={background}
+      className={className}
+      onClick={onClick}
+      {...props}
+    >
       {children}
     </StyledButton>
   );

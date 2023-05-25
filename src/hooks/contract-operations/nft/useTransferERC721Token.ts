@@ -1,4 +1,7 @@
-import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
+import {
+  ContractOperationHook,
+  DAppType,
+} from '@/interfaces/contract-operation';
 import ERC721ABIJson from '@/abis/erc721.json';
 import { useWeb3React } from '@web3-react/core';
 import { useCallback, useContext } from 'react';
@@ -17,7 +20,10 @@ export interface ITransferERC721TokenParams {
   contractAddress: string;
 }
 
-const useTransferERC721Token: ContractOperationHook<ITransferERC721TokenParams, Transaction | null> = () => {
+const useTransferERC721Token: ContractOperationHook<
+  ITransferERC721TokenParams,
+  Transaction | null
+> = () => {
   const { account, provider } = useWeb3React();
   const { btcBalance, feeRate } = useContext(AssetsContext);
 
@@ -25,7 +31,12 @@ const useTransferERC721Token: ContractOperationHook<ITransferERC721TokenParams, 
     async (params: ITransferERC721TokenParams): Promise<Transaction | null> => {
       const { to, tokenId, contractAddress } = params;
       if (account && provider && contractAddress) {
-        const contract = getContract(contractAddress, ERC721ABIJson.abi, provider, account);
+        const contract = getContract(
+          contractAddress,
+          ERC721ABIJson.abi,
+          provider,
+          account
+        );
         console.log({
           tcTxSizeByte: TRANSFER_TX_SIZE,
           feeRatePerByte: feeRate.fastestFee,
@@ -39,19 +50,21 @@ const useTransferERC721Token: ContractOperationHook<ITransferERC721TokenParams, 
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
           throw Error(
             `Your balance is insufficient. Please top up at least ${formatBTCPrice(
-              estimatedFee.totalFee.toString(),
-            )} BTC to pay network fee.`,
+              estimatedFee.totalFee.toString()
+            )} BTC to pay network fee.`
           );
         }
 
-        const transaction = await contract.connect(provider.getSigner()).transferFrom(account, to, tokenId);
+        const transaction = await contract
+          .connect(provider.getSigner())
+          .transferFrom(account, to, tokenId);
 
         return transaction;
       }
 
       return null;
     },
-    [account, provider, btcBalance, feeRate],
+    [account, provider, btcBalance, feeRate]
   );
 
   return {

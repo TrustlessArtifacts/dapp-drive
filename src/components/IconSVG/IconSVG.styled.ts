@@ -17,8 +17,8 @@ export const StyledIconSVG = styled.div<any>`
         svg path,
         svg rect {
           fill: ${({ color, theme }: { color: string; theme: DefaultTheme }) =>
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (theme as any)[color] || 'currentColor'};
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (theme as any)[color] || 'currentColor'};
         }
       `
     );
@@ -29,8 +29,8 @@ export const StyledIconSVG = styled.div<any>`
       svg path,
       svg rect {
         stroke: ${({ color, theme }: { color: string; theme: DefaultTheme }) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (theme as any)[color] || 'currentColor'};
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (theme as any)[color] || 'currentColor'};
       }
     `};
 `;

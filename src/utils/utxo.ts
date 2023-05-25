@@ -23,7 +23,9 @@ const currentAssetsBuilder = ({
 
   const utxos = current.txrefs
     .filter(({ tx_hash, tx_output_n }) => {
-      const isExist = pending.some(item => item.vin.some(vin => vin.txid === tx_hash && vin.vout === tx_output_n));
+      const isExist = pending.some(item =>
+        item.vin.some(vin => vin.txid === tx_hash && vin.vout === tx_output_n)
+      );
       return !isExist;
     })
     .map(utxo => {
@@ -39,7 +41,10 @@ const currentAssetsBuilder = ({
   };
 };
 
-const comingAmountBuilder = (address: string, pendingUTXOs: IPendingUTXO[]): number => {
+const comingAmountBuilder = (
+  address: string,
+  pendingUTXOs: IPendingUTXO[]
+): number => {
   if (!pendingUTXOs || !pendingUTXOs.length || !address) {
     return 0;
   }

@@ -41,7 +41,9 @@ export function useConnections() {
 export function useGetConnection() {
   return useCallback((c: Connector | ConnectionType) => {
     if (c instanceof Connector) {
-      const connection = getConnections().find(connection => connection.connector === c);
+      const connection = getConnections().find(
+        connection => connection.connector === c
+      );
       if (!connection) {
         throw Error('unsupported connector');
       }

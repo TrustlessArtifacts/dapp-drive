@@ -46,7 +46,10 @@ const NFTCard = ({
   };
 
   const isOwner = useMemo(() => {
-    return user?.walletAddress && user?.walletAddress?.toLowerCase() === owner?.toLowerCase();
+    return (
+      user?.walletAddress &&
+      user?.walletAddress?.toLowerCase() === owner?.toLowerCase()
+    );
   }, [owner, user]);
 
   return (
@@ -71,7 +74,10 @@ const NFTCard = ({
           </div>
           {isOwner && (
             <div className="owner-actions">
-              <button onClick={hanldeOpenTransferModal} className="transfer-button">
+              <button
+                onClick={hanldeOpenTransferModal}
+                className="transfer-button"
+              >
                 Transfer
               </button>
             </div>

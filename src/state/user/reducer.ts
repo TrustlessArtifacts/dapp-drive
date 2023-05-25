@@ -34,5 +34,10 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateSelectedWallet, resetUser, updateTaprootWallet, updateEVMWallet } = userSlice.actions;
+export const {
+  updateSelectedWallet,
+  resetUser,
+  updateTaprootWallet,
+  updateEVMWallet,
+} = userSlice.actions;
 export default userSlice.reducer;

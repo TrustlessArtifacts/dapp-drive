@@ -9,13 +9,23 @@ interface IProps {
   className?: string;
 }
 
-const Skeleton: React.FC<IProps> = ({ width, height, isLoaded, fill = false, className }) => {
+const Skeleton: React.FC<IProps> = ({
+  width,
+  height,
+  isLoaded,
+  fill = false,
+  className,
+}) => {
   if (isLoaded) return null;
 
   return (
     <div
       className={`${s.skeleton} ${className}`}
-      style={fill ? { width: '100%', height: '100%' } : { width: `${width}px`, height: `${height}px` }}
+      style={
+        fill
+          ? { width: '100%', height: '100%' }
+          : { width: `${width}px`, height: `${height}px` }
+      }
     />
   );
 };

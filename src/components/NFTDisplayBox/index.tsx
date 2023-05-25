@@ -107,7 +107,9 @@ const NFTDisplayBox = ({
     );
   };
 
-  const handleOnImgLoaded = (evt: React.SyntheticEvent<HTMLImageElement>): void => {
+  const handleOnImgLoaded = (
+    evt: React.SyntheticEvent<HTMLImageElement>
+  ): void => {
     const img = evt.target as HTMLImageElement;
     const naturalWidth = img.naturalWidth;
     if (naturalWidth < 100 && imgRef.current) {

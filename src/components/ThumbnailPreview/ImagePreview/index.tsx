@@ -10,7 +10,9 @@ const ImagePreview: React.FC<IProps> = (props: IProps): React.ReactElement => {
   const { url } = props;
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const handleOnImgLoaded = (evt: React.SyntheticEvent<HTMLImageElement>): void => {
+  const handleOnImgLoaded = (
+    evt: React.SyntheticEvent<HTMLImageElement>
+  ): void => {
     const img = evt.target as HTMLImageElement;
     const naturalWidth = img.naturalWidth;
     if (naturalWidth < 100 && imgRef.current) {
@@ -20,7 +22,13 @@ const ImagePreview: React.FC<IProps> = (props: IProps): React.ReactElement => {
 
   return (
     <StyledImagePreview className={'imagePreview'}>
-      <img ref={imgRef} onLoad={handleOnImgLoaded} src={convertIpfsToHttp(url)} alt="thumbnail" className={'image'} />
+      <img
+        ref={imgRef}
+        onLoad={handleOnImgLoaded}
+        src={convertIpfsToHttp(url)}
+        alt="thumbnail"
+        className={'image'}
+      />
     </StyledImagePreview>
   );
 };

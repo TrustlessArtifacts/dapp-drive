@@ -9,7 +9,9 @@ class CustomWeb3Provider {
   }
 
   async getTransaction(txHash: string): Promise<ICustomTransaction> {
-    const tx = (await this.web3.eth.getTransaction(txHash)) as ICustomTransaction;
+    const tx = (await this.web3.eth.getTransaction(
+      txHash
+    )) as ICustomTransaction;
     return tx;
   }
 }

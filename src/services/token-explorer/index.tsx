@@ -18,7 +18,7 @@ export const getTokens = async (params: IPagingParams): Promise<unknown> => {
 export const getTokensByWallet = async (
   params: {
     key: string;
-  } & IPagingParams,
+  } & IPagingParams
 ): Promise<unknown> => {
   const qs = '?' + queryString.stringify(params);
   return swrFetcher(`${API_URL}${API_PATH}/tokens${qs}`, {

@@ -17,6 +17,9 @@ export const getBnsByWallet = ({
 }: {
   walletAddress: string;
 } & IPagingParams): Promise<IBNS[]> =>
-  swrFetcher(`${API_URL}${API_PATH}/owned/${walletAddress}?limit=${limit}&page=${page}`, {
-    method: 'GET',
-  });
+  swrFetcher(
+    `${API_URL}${API_PATH}/owned/${walletAddress}?limit=${limit}&page=${page}`,
+    {
+      method: 'GET',
+    }
+  );

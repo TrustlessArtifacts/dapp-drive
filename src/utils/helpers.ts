@@ -30,7 +30,7 @@ export const camelCaseKeys = (obj: any): any => {
         ...result,
         [camelCase(key)]: camelCaseKeys(obj[key]),
       }),
-      {},
+      {}
     );
   }
   return obj;

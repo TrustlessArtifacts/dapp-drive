@@ -2,7 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Wrapper, ConnectWalletButton } from './ConnectWallet.styled';
 import { WalletContext } from '@/contexts/wallet-context';
 import { useSelector } from 'react-redux';
-import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
+import {
+  getIsAuthenticatedSelector,
+  getUserSelector,
+} from '@/state/user/selector';
 // import { CDN_URL } from '@/configs';
 import { Container } from '@/layouts';
 import { ROUTE_PATH } from '@/constants/route-path';
@@ -10,7 +13,8 @@ import { useRouter } from 'next/router';
 import { showError } from '@/utils/toast';
 
 const ConnectWallet: React.FC = (): React.ReactElement => {
-  const { onConnect, requestBtcAddress, onDisconnect } = useContext(WalletContext);
+  const { onConnect, requestBtcAddress, onDisconnect } =
+    useContext(WalletContext);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const user = useSelector(getUserSelector);
   const router = useRouter();
@@ -64,7 +68,10 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
           <p className="desc">
             {`Connect your wallet to access Artifacts on Trustless Computer.`}
           </p>
-          <ConnectWalletButton disabled={isConnecting} onClick={handleConnectWallet}>
+          <ConnectWalletButton
+            disabled={isConnecting}
+            onClick={handleConnectWallet}
+          >
             {isConnecting ? 'Connecting...' : 'Connect wallet'}
           </ConnectWalletButton>
         </div>

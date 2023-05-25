@@ -42,7 +42,7 @@ const TransferModal = (props: Props) => {
   const handleSubmit = async (values: IFormValue): Promise<void> => {
     if (!tokenId || !contractAddress) {
       showError({
-        message: 'Token information not found'
+        message: 'Token information not found',
       });
       setIsProcessing(false);
       return;
@@ -56,7 +56,9 @@ const TransferModal = (props: Props) => {
         to: toAddress,
         contractAddress: contractAddress,
       });
-      toast.success('Transaction has been created. Please wait for few minutes.');
+      toast.success(
+        'Transaction has been created. Please wait for few minutes.'
+      );
       handleClose();
     } catch (err) {
       toast.error((err as Error).message);
@@ -69,7 +71,12 @@ const TransferModal = (props: Props) => {
   return (
     <StyledModalUpload show={show} onHide={handleClose} centered>
       <Modal.Header>
-        <IconSVG className="cursor-pointer" onClick={handleClose} src={`${CDN_URL}/icons/ic-close.svg`} maxWidth={'22px'} />
+        <IconSVG
+          className="cursor-pointer"
+          onClick={handleClose}
+          src={`${CDN_URL}/icons/ic-close.svg`}
+          maxWidth={'22px'}
+        />
       </Modal.Header>
       <Modal.Body>
         <Title>Transfer NFT</Title>
@@ -82,7 +89,14 @@ const TransferModal = (props: Props) => {
           validate={validateForm}
           onSubmit={handleSubmit}
         >
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
             <form onSubmit={handleSubmit}>
               <WrapInput>
                 <label htmlFor="toAddress" className="title-input">
@@ -98,11 +112,21 @@ const TransferModal = (props: Props) => {
                   className="input"
                   placeholder={`Paste TC wallet address here`}
                 />
-                {errors.toAddress && touched.toAddress && <p className="error">{errors.toAddress}</p>}
+                {errors.toAddress && touched.toAddress && (
+                  <p className="error">{errors.toAddress}</p>
+                )}
               </WrapInput>
 
-              <Button disabled={isProcessing} type="submit" className="confirm-btn">
-                <Text size="medium" fontWeight="medium" className="confirm-text">
+              <Button
+                disabled={isProcessing}
+                type="submit"
+                className="confirm-btn"
+              >
+                <Text
+                  size="medium"
+                  fontWeight="medium"
+                  className="confirm-text"
+                >
                   {isProcessing ? 'Processing...' : 'Transfer'}
                 </Text>
               </Button>

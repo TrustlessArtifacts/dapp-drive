@@ -1,4 +1,8 @@
-import { validate, getAddressInfo, AddressType } from 'bitcoin-address-validation';
+import {
+  validate,
+  getAddressInfo,
+  AddressType,
+} from 'bitcoin-address-validation';
 import { ethers } from 'ethers';
 
 export const validateWalletAddress = (address: string): boolean => {

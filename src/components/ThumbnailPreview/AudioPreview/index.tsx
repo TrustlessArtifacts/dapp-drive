@@ -1,6 +1,9 @@
 import ClientOnly from '@/components/Utils/ClientOnly';
 import React from 'react';
-import { SpectrumVisualizer, SpectrumVisualizerTheme } from 'react-audio-visualizers';
+import {
+  SpectrumVisualizer,
+  SpectrumVisualizerTheme,
+} from 'react-audio-visualizers';
 import { StyledAudioPreview } from './AudioPreview.styled';
 
 interface IProps {

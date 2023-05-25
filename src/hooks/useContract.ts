@@ -7,17 +7,29 @@ export function useContract<T extends Contract = Contract>(
   contractAddress: string | undefined,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ABI: any,
-  withSignerIfPossible = true,
+  withSignerIfPossible = true
 ): T | null {
   const { provider, account, chainId } = useWeb3React();
 
   return useMemo(() => {
     if (!contractAddress || !ABI || !provider || !chainId) return null;
     try {
-      return getContract(contractAddress, ABI, provider, withSignerIfPossible && account ? account : undefined);
+      return getContract(
+        contractAddress,
+        ABI,
+        provider,
+        withSignerIfPossible && account ? account : undefined
+      );
     } catch (error) {
       console.error('Failed to get contract', error);
       return null;
     }
-  }, [contractAddress, ABI, provider, chainId, withSignerIfPossible, account]) as T;
+  }, [
+    contractAddress,
+    ABI,
+    provider,
+    chainId,
+    withSignerIfPossible,
+    account,
+  ]) as T;
 }

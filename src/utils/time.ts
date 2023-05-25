@@ -7,13 +7,18 @@ interface IFormatDate {
   dateTime: number;
   formatPattern?: string;
 }
-const formatUnixDateTime = ({ dateTime, formatPattern = FORMAT_PATTERN }: IFormatDate) =>
-  moment.unix(dateTime).format(formatPattern);
+const formatUnixDateTime = ({
+  dateTime,
+  formatPattern = FORMAT_PATTERN,
+}: IFormatDate) => moment.unix(dateTime).format(formatPattern);
 
-const formatDateTime = ({ dateTime, formatPattern = FORMAT_PATTERN }: IFormatDate) =>
-  moment(dateTime).format(formatPattern);
+const formatDateTime = ({
+  dateTime,
+  formatPattern = FORMAT_PATTERN,
+}: IFormatDate) => moment(dateTime).format(formatPattern);
 
-const formatTimeStamp = (timestamp: number) => new Date(timestamp).toISOString().replace('T', ' ').replace('.000Z', '');
+const formatTimeStamp = (timestamp: number) =>
+  new Date(timestamp).toISOString().replace('T', ' ').replace('.000Z', '');
 
 interface IUnixExpired {
   unixTime: number | string | undefined;

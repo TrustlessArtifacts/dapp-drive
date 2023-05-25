@@ -24,7 +24,7 @@ const createAxiosInstance = ({ baseURL = '' }: { baseURL: string }) => {
     },
     error => {
       Promise.reject(error);
-    },
+    }
   );
 
   instance.interceptors.response.use(
@@ -42,10 +42,11 @@ const createAxiosInstance = ({ baseURL = '' }: { baseURL: string }) => {
         return Promise.reject(error);
       } else {
         const response = error?.response?.data || error;
-        const errorMessage = response?.error || error?.Message || JSON.stringify(error);
+        const errorMessage =
+          response?.error || error?.Message || JSON.stringify(error);
         return Promise.reject(errorMessage);
       }
-    },
+    }
   );
 
   return instance;

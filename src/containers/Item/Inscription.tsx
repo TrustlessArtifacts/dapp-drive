@@ -13,7 +13,10 @@ import NFTDisplayBox from '@/components/NFTDisplayBox';
 
 const Inscription = () => {
   const router = useRouter();
-  const { contract, id } = queryString.parse(location.search) as { contract: string; id: string };
+  const { contract, id } = queryString.parse(location.search) as {
+    contract: string;
+    id: string;
+  };
   const [inscription, setInscription] = useState<IInscription | undefined>();
 
   useEffect(() => {
@@ -22,7 +25,10 @@ const Inscription = () => {
 
   const fetchInscriptionDetail = async () => {
     try {
-      const data = await getNFTDetail({ contractAddress: contract, tokenId: id });
+      const data = await getNFTDetail({
+        contractAddress: contract,
+        tokenId: id,
+      });
       setInscription(data);
     } catch (error) {
       router.push(ROUTE_PATH.NOT_FOUND);
@@ -90,7 +96,8 @@ const Inscription = () => {
         <div className="right-container">
           <div className="header">
             <p className="title">
-              {contract.toLocaleLowerCase() === ARTIFACT_CONTRACT.toLocaleLowerCase()
+              {contract.toLocaleLowerCase() ===
+              ARTIFACT_CONTRACT.toLocaleLowerCase()
                 ? `Artifact #${inscription?.tokenId}`
                 : inscription?.name}
             </p>
@@ -102,7 +109,11 @@ const Inscription = () => {
               {renderListItem('Owner', inscription?.owner)}
               {renderListItem('Contract', inscription?.collectionAddress)}
               {renderListItem('Content type', inscription?.contentType)}
-              {inscription?.mintedAt && renderListItem('Timestamp', formatTimeStamp(inscription?.mintedAt * 1000))}
+              {inscription?.mintedAt &&
+                renderListItem(
+                  'Timestamp',
+                  formatTimeStamp(inscription?.mintedAt * 1000)
+                )}
               {inscription &&
                 inscription.attributes &&
                 inscription.attributes.length > 0 &&
@@ -115,9 +126,10 @@ const Inscription = () => {
                       return 1;
                     }
                     return 0;
-                  }),
+                  })
                 )}
-              {inscription?.tokenId === BIG_FILE_PROJECT_ID && renderListItem('File size', '6.9MB')}
+              {inscription?.tokenId === BIG_FILE_PROJECT_ID &&
+                renderListItem('File size', '6.9MB')}
             </div>
           </Information>
         </div>

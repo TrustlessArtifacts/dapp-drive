@@ -1,10 +1,15 @@
-import { IUploadFilePayload, IUploadFileResponse } from '@/interfaces/api/files';
+import {
+  IUploadFilePayload,
+  IUploadFileResponse,
+} from '@/interfaces/api/files';
 import { camelCaseKeys } from '@/utils';
 import { apiClient } from '.';
 
 const API_PATH = '/upload';
 
-export const uploadFile = async (payload: IUploadFilePayload): Promise<IUploadFileResponse> => {
+export const uploadFile = async (
+  payload: IUploadFilePayload
+): Promise<IUploadFileResponse> => {
   try {
     const formData = new FormData();
     for (const [key, value] of Object.entries(payload)) {

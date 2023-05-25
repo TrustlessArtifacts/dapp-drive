@@ -17,10 +17,11 @@ interface IParams {
 const useBatchCompleteUninscribedTransaction = (args: IParams) => {
   const { chainId = SupportedChainId.TRUSTLESS_COMPUTER } = args;
   const { feeRate, getAvailableAssetsCreateTx } = useContext(AssetsContext);
-  const { chainId: walletChainId, } = useWeb3React();
+  const { chainId: walletChainId } = useWeb3React();
   const { onConnect: onConnectMetamask } = useContext(WalletContext);
   const user = useSelector(getUserSelector);
-  const { createBatchInscribeTxs, getUnInscribedTransactionDetailByAddress } = useBitcoin();
+  const { createBatchInscribeTxs, getUnInscribedTransactionDetailByAddress } =
+    useBitcoin();
   const [transactionConfirmed, setTransactionConfirmed] = useState(false);
 
   const connectWallet = async () => {
@@ -59,7 +60,8 @@ const useBatchCompleteUninscribedTransaction = (args: IParams) => {
       console.log(assets);
 
       // Check unInscribed transactions
-      const unInscribedTxDetails = await getUnInscribedTransactionDetailByAddress(address);
+      const unInscribedTxDetails =
+        await getUnInscribedTransactionDetailByAddress(address);
 
       if (unInscribedTxDetails.length === 0) {
         throw Error('No pending transaction found.');

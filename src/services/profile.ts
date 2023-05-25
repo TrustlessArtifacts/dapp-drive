@@ -2,7 +2,11 @@ import { IProfileResponse } from '@/interfaces/api/profile';
 import { apiClient } from '.';
 import { camelCaseKeys } from '@/utils/helpers';
 import { IPagingParams } from '@/interfaces/api/query';
-import { ICreateTransactionPayload, ITransaction, IUpdateStatusTxPayload } from '@/interfaces/transaction';
+import {
+  ICreateTransactionPayload,
+  ITransaction,
+  IUpdateStatusTxPayload,
+} from '@/interfaces/transaction';
 
 const API_PATH = '/profile';
 
@@ -16,7 +20,9 @@ export const getCurrentProfile = async (): Promise<IProfileResponse> => {
   }
 };
 
-export const updateStatusTransaction = async (payload: IUpdateStatusTxPayload[]): Promise<unknown> => {
+export const updateStatusTransaction = async (
+  payload: IUpdateStatusTxPayload[]
+): Promise<unknown> => {
   try {
     const res = await apiClient.put(`${API_PATH}/histories`, { data: payload });
     return Object(camelCaseKeys(res));
@@ -26,7 +32,9 @@ export const updateStatusTransaction = async (payload: IUpdateStatusTxPayload[])
   }
 };
 
-export const createTransactionHistory = async (payload: ICreateTransactionPayload): Promise<unknown> => {
+export const createTransactionHistory = async (
+  payload: ICreateTransactionPayload
+): Promise<unknown> => {
   try {
     const res = await apiClient.post(`${API_PATH}/histories`, payload);
     return Object(camelCaseKeys(res));
@@ -42,7 +50,9 @@ export const getTransactionsByWallet = async ({
   page = 1,
 }: { walletAddress: string } & IPagingParams): Promise<ITransaction[]> => {
   try {
-    const res = await apiClient.get(`${API_PATH}/wallet/${walletAddress}/histories?limit=${limit}&page=${page}`);
+    const res = await apiClient.get(
+      `${API_PATH}/wallet/${walletAddress}/histories?limit=${limit}&page=${page}`
+    );
     return Object(camelCaseKeys(res));
   } catch (err: unknown) {
     console.log(err);
@@ -54,7 +64,9 @@ export const getCollectionsByItemsOwned = async ({
   walletAddress,
 }: { walletAddress: string } & IPagingParams): Promise<unknown> => {
   try {
-    const res = await apiClient.get(`${API_PATH}/wallet/${walletAddress}/collections`);
+    const res = await apiClient.get(
+      `${API_PATH}/wallet/${walletAddress}/collections`
+    );
     return Object(camelCaseKeys(res));
   } catch (err: unknown) {
     console.log(err);
@@ -70,7 +82,9 @@ export const getTokensWallet = async ({
   walletAddress: string;
 } & IPagingParams) => {
   try {
-    const res = await apiClient.get(`${API_PATH}/wallet/${walletAddress}/tokens/bought?limit=${limit}&page=${page}`);
+    const res = await apiClient.get(
+      `${API_PATH}/wallet/${walletAddress}/tokens/bought?limit=${limit}&page=${page}`
+    );
     return Object(camelCaseKeys(res));
   } catch (err: unknown) {
     console.log(err);

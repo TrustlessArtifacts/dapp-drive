@@ -1,7 +1,11 @@
 import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BaseText = styled.p<{ color: string | undefined; align: string; maxWidth: string | number }>`
+const BaseText = styled.p<{
+  color: string | undefined;
+  align: string;
+  maxWidth: string | number;
+}>`
   color: ${({ color, theme }) => (color ? (theme as any)[color] : theme.white)};
   text-align: ${({ align }) => align};
   max-width: ${({ maxWidth }) => maxWidth};

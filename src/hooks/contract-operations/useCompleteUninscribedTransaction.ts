@@ -56,7 +56,9 @@ const useCompleteUninscribedTransaction = (args: IParams) => {
       console.log(assets);
 
       // Check unInscribed transactions
-      const unInscribedTxIDs = await getUnInscribedTransactionByAddress(address);
+      const unInscribedTxIDs = await getUnInscribedTransactionByAddress(
+        address
+      );
 
       if (unInscribedTxIDs.length === 0) {
         throw Error('No pending transaction found.');

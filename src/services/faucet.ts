@@ -4,13 +4,19 @@ import { swrFetcher } from '@/utils/swr';
 
 const API_PATH = API_FAUCET + '/faucet';
 
-export const requestFaucet = (linkTweet: string, tokenCapcha: string, address: string): Promise<string> =>
+export const requestFaucet = (
+  linkTweet: string,
+  tokenCapcha: string,
+  address: string
+): Promise<string> =>
   swrFetcher(`${API_PATH}/request`, {
     method: 'POST',
     data: { url: linkTweet, 'g-recaptcha-response': tokenCapcha, address },
   });
 
-export const requestGetFaucetStatus = (address: string): Promise<IFaucetStatusResp[]> => {
+export const requestGetFaucetStatus = (
+  address: string
+): Promise<IFaucetStatusResp[]> => {
   return swrFetcher(`${API_PATH}/list?address=${address}`, {
     method: 'GET',
   });

@@ -21,7 +21,8 @@ const Wrapper = styled.div`
     padding: 0 ${px2rem(32)};
   }
 
-  @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) => theme.breakpoint.md}) {
+  @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) =>
+      theme.breakpoint.md}) {
     margin-top: ${px2rem(40)};
   }
 

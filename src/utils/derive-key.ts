@@ -13,7 +13,8 @@ import { stringToBuffer } from './string';
 bitcoin.initEccLib(ecc);
 const bip32 = BIP32Factory(ecc);
 
-const toXOnly = (pubKey: Buffer) => (pubKey.length === 32 ? pubKey : pubKey.slice(1, 33));
+const toXOnly = (pubKey: Buffer) =>
+  pubKey.length === 32 ? pubKey : pubKey.slice(1, 33);
 
 const DEFAULT_PATH = "m/86'/0'/0'/0/0";
 const SIGN_MESSAGE =
@@ -41,9 +42,16 @@ const getError = (err: unknown): IError => {
       message: err,
       code: randomCode,
     };
-  } else if (!!err && typeof err === 'object' && 'message' in err && typeof Object(err).message === 'string') {
+  } else if (
+    !!err &&
+    typeof err === 'object' &&
+    'message' in err &&
+    typeof Object(err).message === 'string'
+  ) {
     const errCode =
-      'code' in err && (typeof Object(err).code === 'number' || typeof Object(err).code === 'string')
+      'code' in err &&
+      (typeof Object(err).code === 'number' ||
+        typeof Object(err).code === 'string')
         ? Object(err).code
         : randomCode;
     _err = {
@@ -60,7 +68,9 @@ const getError = (err: unknown): IError => {
 };
 
 const isAuthMetamaskError = async (error: unknown, profileAddress: string) => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum as ethers.providers.ExternalProvider);
+  const provider = new ethers.providers.Web3Provider(
+    window.ethereum as ethers.providers.ExternalProvider
+  );
   let currentAccount;
   const accounts = await provider.send('eth_requestAccounts', []);
   if (!!accounts && !!accounts.length) {
@@ -76,10 +86,17 @@ const isAuthMetamaskError = async (error: unknown, profileAddress: string) => {
 
 export const generateBitcoinTaprootKey = async (address: string) => {
   try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum as ethers.providers.ExternalProvider);
+    const provider = new ethers.providers.Web3Provider(
+      window.ethereum as ethers.providers.ExternalProvider
+    );
     const toSign = '0x' + stringToBuffer(SIGN_MESSAGE).toString('hex');
-    const signature = await provider.send('personal_sign', [toSign, address.toString()]);
-    const seed = ethers.utils.arrayify(ethers.utils.keccak256(ethers.utils.arrayify(signature)));
+    const signature = await provider.send('personal_sign', [
+      toSign,
+      address.toString(),
+    ]);
+    const seed = ethers.utils.arrayify(
+      ethers.utils.keccak256(ethers.utils.arrayify(signature))
+    );
     const root = bip32.fromSeed(Buffer.from(seed));
 
     // Taproot

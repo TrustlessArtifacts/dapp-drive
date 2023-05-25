@@ -10,7 +10,9 @@ export const exponentialToDecimal = (exponential: number): string => {
       let i = 0;
       i <
       +exponentialSplitted[1] -
-        (exponentialSplitted[0].includes('.') ? exponentialSplitted[0].split('.')[1].length : 0);
+        (exponentialSplitted[0].includes('.')
+          ? exponentialSplitted[0].split('.')[1].length
+          : 0);
       i++
     ) {
       postfix += '0';
@@ -19,7 +21,10 @@ export const exponentialToDecimal = (exponential: number): string => {
       let j = 3;
       let textLength = text.length;
       while (j < textLength) {
-        text = `${text.slice(0, textLength - j)}, ${text.slice(textLength - j, textLength)}`;
+        text = `${text.slice(0, textLength - j)}, ${text.slice(
+          textLength - j,
+          textLength
+        )}`;
         textLength++;
         j += 3 + 1;
       }
@@ -53,29 +58,48 @@ export const formatCurrency = (value: number): string => {
   }
 
   const decimalLength = getDecimalPart(value);
-  return value.toFixed(decimalLength > 2 ? decimalLength : 2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  return value
+    .toFixed(decimalLength > 2 ? decimalLength : 2)
+    .replace(/\d(?=(\d{3})+\.)/g, '$&,');
 };
 
-export const formatBTCPrice = (price: number | string, emptyStr?: string, precision = 5): string => {
+export const formatBTCPrice = (
+  price: number | string,
+  emptyStr?: string,
+  precision = 5
+): string => {
   if (!price) return emptyStr || '-';
   const priceNumb = new BigNumber(price).dividedBy(1e8).toNumber();
   return ceilPrecised(priceNumb, precision).toString().replace(',', '.');
 };
 
-export const formatPrice = (price: number | string, emptyStr?: string): string => {
+export const formatPrice = (
+  price: number | string,
+  emptyStr?: string
+): string => {
   if (!price) return emptyStr || '-';
   const priceNumb = new BigNumber(price).toNumber();
   return ceilPrecised(priceNumb, 4).toString().replace(',', '.');
 };
 
-export const formatEthPrice = (price: string | number | null, emptyStr?: string, precision = 4): string => {
+export const formatEthPrice = (
+  price: string | number | null,
+  emptyStr?: string,
+  precision = 4
+): string => {
   if (!price) return emptyStr || '-';
-  return ceilPrecised(parseFloat(Web3.utils.fromWei(`${price}`, 'ether')), precision)
+  return ceilPrecised(
+    parseFloat(Web3.utils.fromWei(`${price}`, 'ether')),
+    precision
+  )
     .toString()
     .replace(',', '.');
 };
 
-export const formatEthPriceInput = (price: string | null, emptyStr?: string): string => {
+export const formatEthPriceInput = (
+  price: string | null,
+  emptyStr?: string
+): string => {
   if (!price) return emptyStr || '-';
   const priceNumb = new BigNumber(price).dividedBy(1e18).toNumber();
   return ceilPrecised(priceNumb, 4).toString().replace(',', '.');
@@ -86,7 +110,10 @@ export const ceilPrecised = (number: number, precision = 6) => {
   return Math.ceil(Number(number) * power) / power;
 };
 
-export const formatTCPrice = (price: string | null, emptyStr?: string): string => {
+export const formatTCPrice = (
+  price: string | null,
+  emptyStr?: string
+): string => {
   if (!price) return emptyStr || '-';
   const priceNumb = new BigNumber(price).dividedBy(1e18).toNumber();
   return ceilPrecised(priceNumb, 4).toString().replace(',', '.');
