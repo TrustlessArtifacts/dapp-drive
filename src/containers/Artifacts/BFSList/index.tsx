@@ -1,6 +1,9 @@
 import NFTCard from '@/components/NFTCard';
 import { API_URL, ARTIFACT_CONTRACT } from '@/configs';
-import { getCollectionDetail, getCollectionNfts } from '@/services/nft-explorer';
+import {
+  getCollectionDetail,
+  getCollectionNfts,
+} from '@/services/nft-explorer';
 import { shortenAddress } from '@/utils';
 import { debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -26,11 +29,12 @@ const BFSList = () => {
       });
 
       if (isFetchMore) {
-        setInscriptions((prev) => [...prev, ...data]);
+        setInscriptions(prev => [...prev, ...data]);
       } else {
         setInscriptions(data);
       }
     } catch (error) {
+      console.log(error);
     } finally {
       setIsFetching(false);
     }
@@ -41,7 +45,7 @@ const BFSList = () => {
     () =>
       getCollectionDetail({
         contractAddress: ARTIFACT_CONTRACT,
-      }),
+      })
   );
 
   const onLoadMoreNfts = () => {

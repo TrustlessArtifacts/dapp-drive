@@ -56,7 +56,10 @@ const ModalUpload = (props: Props) => {
   });
   const { feeRate } = useContext(AssetsContext);
 
-  const { run } = useContractOperation<IPreserveChunkParams, Transaction | null>({
+  const { run } = useContractOperation<
+    IPreserveChunkParams,
+    Transaction | null
+  >({
     operation: usePreserveChunks,
   });
   const [isProcessing, setIsProcessing] = useState(false);
@@ -105,7 +108,7 @@ const ModalUpload = (props: Props) => {
             maxWidth: '900px',
             borderLeft: '4px solid #00AA6C',
           },
-        },
+        }
       );
       handleClose();
     } catch (err: unknown) {
@@ -126,7 +129,7 @@ const ModalUpload = (props: Props) => {
 
         showError({
           message: `Your balance is insufficient. Please top up at least ${formatBTCPrice(
-            estimatedFee.totalFee.toString(),
+            estimatedFee.totalFee.toString()
           )} BTC to pay network fee.`,
           url: `${TC_URL}`,
           linkText: 'Go to Wallet',
@@ -151,7 +154,9 @@ const ModalUpload = (props: Props) => {
 
   const onSizeError = (): void => {
     setError(
-      `File size error, maximum file size is ${MINT_TOOL_MAX_FILE_SIZE * 1000}KB.`,
+      `File size error, maximum file size is ${
+        MINT_TOOL_MAX_FILE_SIZE * 1000
+      }KB.`
     );
     setPreview(null);
   };
@@ -295,7 +300,12 @@ const ModalUpload = (props: Props) => {
           </>
         </FileUploader>
         <div className="est-fee">
-          <Text size="regular" fontWeight="medium" color="text2" className="mb-8">
+          <Text
+            size="regular"
+            fontWeight="medium"
+            color="text2"
+            className="mb-8"
+          >
             Select the network fee
           </Text>
           <div className="est-fee-options">
