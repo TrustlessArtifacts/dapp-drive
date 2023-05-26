@@ -5,7 +5,7 @@ import {
 } from '@/interfaces/api/collection';
 import { IInscription } from '@/interfaces/api/inscription';
 import { IPagingParams } from '@/interfaces/api/query';
-import { swrFetcher } from '@/utils/swr';
+import { apiFetcher } from '@/utils/api';
 import { apiClient } from '..';
 import { camelCaseKeys } from '@/utils/helpers';
 
@@ -17,7 +17,7 @@ export const getCollections = (
   isShowAll: boolean,
   owner = ''
 ): Promise<ICollection[]> =>
-  swrFetcher(
+  apiFetcher(
     `${API_PATH}/collections?limit=${limit}&page=${page}&allow_empty=${isShowAll}&owner=${owner}`,
     {
       method: 'GET',
@@ -30,7 +30,7 @@ export const getCollectionByWallet = (
   isShowAll: boolean,
   walletAddress: string
 ): Promise<ICollection[]> =>
-  swrFetcher(
+  apiFetcher(
     `${API_PATH}/collections/${walletAddress}?limit=${limit}&page=${page}&allow_empty=${isShowAll}`,
     {
       method: 'GET',
@@ -43,7 +43,7 @@ export const getCollectionDetail = ({
 }: {
   contractAddress: string;
 }): Promise<ICollection> =>
-  swrFetcher(`${API_PATH}/collections/${contractAddress}`, {
+  apiFetcher(`${API_PATH}/collections/${contractAddress}`, {
     method: 'GET',
   });
 
@@ -59,7 +59,7 @@ export const getCollectionNfts = ({
   page?: number;
   owner?: string;
 }): Promise<IInscription[]> =>
-  swrFetcher(
+  apiFetcher(
     `${API_PATH}/collections/${contractAddress}/nfts?limit=${limit}&page=${page}&owner=${owner}`,
     {
       method: 'GET',
@@ -73,7 +73,7 @@ export const getNFTDetail = ({
   contractAddress: string;
   tokenId: string;
 }): Promise<IInscription> =>
-  swrFetcher(`${API_PATH}/collections/${contractAddress}/nfts/${tokenId}`, {
+  apiFetcher(`${API_PATH}/collections/${contractAddress}/nfts/${tokenId}`, {
     method: 'GET',
   });
 
@@ -84,7 +84,7 @@ export const getNFTsByWalletAddress = ({
 }: {
   walletAddress: string;
 } & IPagingParams): Promise<unknown> =>
-  swrFetcher(
+  apiFetcher(
     `${API_PATH}/owner-address/${walletAddress}/nfts?limit=${limit}&page=${page}`,
     {
       method: 'GET',

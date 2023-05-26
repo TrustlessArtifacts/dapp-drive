@@ -1,12 +1,14 @@
 import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isOpenMenu: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   z-index: 99;
-  transform: translateX(100%);
+  transform: ${({ isOpenMenu }) =>
+    isOpenMenu ? 'translateX(0)' : 'translateX(100%)'};
+  transition: transform 0.3s ease-in-out;
 
   .inner {
     background-color: ${({ theme }: { theme: DefaultTheme }) => theme.bg1};
@@ -21,7 +23,7 @@ const Wrapper = styled.div`
 
   .btnMenuMobile {
     margin-bottom: ${px2rem(20)};
-
+    display: none;
     img {
       width: 24px;
       height: 24px;

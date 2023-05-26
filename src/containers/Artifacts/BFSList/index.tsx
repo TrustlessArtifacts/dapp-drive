@@ -1,17 +1,13 @@
 import NFTCard from '@/components/NFTCard';
-import { API_URL, ARTIFACT_CONTRACT } from '@/configs';
-import {
-  getCollectionDetail,
-  getCollectionNfts,
-} from '@/services/nft-explorer';
+import { ARTIFACT_CONTRACT } from '@/configs';
+import { IInscription } from '@/interfaces/api/inscription';
+import { getCollectionNfts } from '@/services/nft-explorer';
 import { shortenAddress } from '@/utils';
 import { debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import useSWR from 'swr';
 import { Container, Grid } from './BFSList.styled';
-import { IInscription } from '@/interfaces/api/inscription';
 
 const LIMIT_PAGE = 32;
 
@@ -39,14 +35,6 @@ const BFSList = () => {
       setIsFetching(false);
     }
   };
-
-  const { data: collection } = useSWR(
-    `${API_URL}/nft-explorer/collections/${ARTIFACT_CONTRACT}`,
-    () =>
-      getCollectionDetail({
-        contractAddress: ARTIFACT_CONTRACT,
-      })
-  );
 
   const onLoadMoreNfts = () => {
     if (isFetching || inscriptions.length % LIMIT_PAGE !== 0) return;
@@ -89,9 +77,9 @@ const BFSList = () => {
                 return (
                   <NFTCard
                     key={index.toString()}
-                    href={`/inscription?contract=${collection?.contract}&id=${item.tokenId}`}
+                    href={`/inscription?contract=${ARTIFACT_CONTRACT}&id=${item.tokenId}`}
                     image={item.image}
-                    contract={collection?.contract}
+                    contract={ARTIFACT_CONTRACT}
                     tokenId={item.tokenId}
                     contentType={item.contentType}
                     title3={formatItemName(item.name, item.contentType)}
