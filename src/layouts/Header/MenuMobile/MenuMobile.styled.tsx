@@ -23,7 +23,6 @@ const Wrapper = styled.div<{ isOpenMenu: boolean }>`
 
   .btnMenuMobile {
     margin-bottom: ${px2rem(20)};
-    display: none;
     img {
       width: 24px;
       height: 24px;

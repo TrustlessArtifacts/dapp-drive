@@ -82,9 +82,9 @@ const BFSList = () => {
                     contract={ARTIFACT_CONTRACT}
                     tokenId={item.tokenId}
                     contentType={item.contentType}
-                    title3={formatItemName(item.name, item.contentType)}
-                    title2={shortenAddress(item.owner, 4)}
-                    title1={`Artifact #${item.tokenId}`}
+                    type={formatItemName(item.name, item.contentType)}
+                    owner={shortenAddress(item.owner, 4)}
+                    artifactID={`Artifact #${item.tokenId}`}
                   />
                 );
               })}

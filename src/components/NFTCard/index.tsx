@@ -13,10 +13,9 @@ export interface INFTCard {
   contract?: string;
   tokenId?: string;
   contentType?: IMAGE_TYPE;
-  title1?: string;
-  title2?: string;
-  title3?: string;
+  artifactID?: string;
   owner?: string;
+  type?: string;
 }
 
 const NFTCard = ({
@@ -26,22 +25,21 @@ const NFTCard = ({
   contract,
   tokenId,
   contentType,
-  title1,
-  title2,
-  title3,
+  artifactID,
   owner,
+  type,
 }: INFTCard) => {
   const user = useSelector(getUserSelector);
   const [showTransferModal, setShowTransferModal] = useState(false);
 
-  const hanldeOpenTransferModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOpenTransferModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
 
     setShowTransferModal(true);
   };
 
-  const hanldeCloseTransferModal = () => {
+  const handleCloseTransferModal = () => {
     setShowTransferModal(false);
   };
 
@@ -68,14 +66,14 @@ const NFTCard = ({
             <a className="overlay" href={href} />
           </div>
           <div className="card-info">
-            {title1 && <p className="card-title1">{title1}</p>}
-            {title2 && <p className="card-title2">{title2}</p>}
-            {title3 && <p className="card-title3">{title3}</p>}
+            {artifactID && <p className="card-title1">{artifactID}</p>}
+            {owner && <p className="card-title2">{owner}</p>}
+            {type && <p className="card-title3">{type}</p>}
           </div>
           {isOwner && (
             <div className="owner-actions">
               <button
-                onClick={hanldeOpenTransferModal}
+                onClick={handleOpenTransferModal}
                 className="transfer-button"
               >
                 Transfer
@@ -86,7 +84,7 @@ const NFTCard = ({
       </Styled>
       <TransferModal
         show={showTransferModal}
-        handleClose={hanldeCloseTransferModal}
+        handleClose={handleCloseTransferModal}
         contractAddress={contract}
         tokenId={tokenId}
       />

@@ -5,17 +5,22 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "cSpell.words": [
+    "apng",
     "bignumber",
     "bitcoinerlab",
     "bitcoinjs",
     "checkstyle",
     "commitlint",
+    "flac",
     "formik",
+    "INFT",
     "inlinesvg",
     "jazzicon",
     "reduxjs",
     "sats",
     "secp",
-    "unzipit"
+    "unzipit",
+    "webm",
+    "webp"
   ]
 }
