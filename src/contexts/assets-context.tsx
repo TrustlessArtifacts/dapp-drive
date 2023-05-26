@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useMemo } from 'react';
+import React, { PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
 import { getCollectedUTXO } from '@/services/bitcoin';
 import { ICollectedUTXOResp } from '@/interfaces/api/bitcoin';
 import { useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
   const [tcBalance, setTCBalance] = React.useState<string>('0');
   const [assets, setAssets] = React.useState<ICollectedUTXOResp | undefined>();
 
-  const fetchTCBalance = async () => {
+  const fetchTCBalance = useCallback(async () => {
     if (!userInfo.tcAddress) {
       setTCBalance('0');
       return;
@@ -34,13 +34,14 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     } catch (e) {
       setTCBalance('0');
     }
-  };
+  }, [userInfo]);
 
-  const fetchBtcBalance = async (): Promise<ICollectedUTXOResp | undefined> => {
+  const fetchBtcBalance = useCallback(async (): Promise<ICollectedUTXOResp | undefined> => {
     if (!userInfo?.tcAddress || !userInfo.btcAddress) {
       setAssets(undefined);
       return undefined;
     }
+
     try {
       const _assets = await getCollectedUTXO(userInfo.btcAddress, userInfo.tcAddress);
       setAssets(_assets);
@@ -49,16 +50,15 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
       setAssets(undefined);
       return undefined;
     }
-  };
+  }, [userInfo]);
 
 
-  const fetchUserAssets = async () => {
+  const fetchUserAssets = useCallback(async () => {
     fetchTCBalance();
     fetchBtcBalance();
-  }
+  }, [fetchTCBalance, fetchBtcBalance])
 
   const btcBalance = React.useMemo(() => {
-    console.log(assets)
     return assets ? assets?.availableBalance.toString() : '0';
   }, [assets]);
 
@@ -72,7 +72,7 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [userInfo?.tcAddress, userInfo?.btcAddress]);
+  }, [userInfo?.tcAddress, userInfo?.btcAddress, fetchUserAssets]);
 
   const contextValues = useMemo((): IAssetsContext => {
     return {
@@ -84,5 +84,9 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     btcBalance
   ]);
 
-  return <AssetsContext.Provider value={contextValues}>{children}</AssetsContext.Provider>;
+  return (
+    <AssetsContext.Provider value={contextValues}>
+      {children}
+    </AssetsContext.Provider>
+  );
 };

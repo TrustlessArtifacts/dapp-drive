@@ -12,6 +12,7 @@ export const StyledTextPreview = styled.div`
       height: 100%;
       width: 100%;
       overflow: auto;
+      color: #1c1c1c;
     }
   }
 `;

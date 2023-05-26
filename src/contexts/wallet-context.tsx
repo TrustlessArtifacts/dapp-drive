@@ -35,7 +35,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     clearAuthStorage();
     dispatch(resetUser());
     router.push(ROUTE_PATH.CONNECT_WALLET);
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   const connect = React.useCallback(async (): Promise<User | null> => {
     try {

@@ -1,7 +1,7 @@
 import NFTCard from '@/components/NFTCard';
 import { API_URL, ARTIFACT_CONTRACT } from '@/configs';
 import { getCollectionDetail, getCollectionNfts } from '@/services/nft-explorer';
-import { shortenAddress } from '@/utils';
+import { shortenAddress } from '@/utils/address';
 import { debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';

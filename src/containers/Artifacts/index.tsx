@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
 // import { useRouter } from 'next/router';
 // import { ROUTE_PATH } from '@/constants/route-path';
-import { showError } from '@/utils/toast';
+import { showToastError } from '@/utils/toast';
 import { WalletContext } from '@/contexts/wallet-context';
 
 const Artifacts: React.FC = () => {
@@ -37,7 +37,7 @@ const Artifacts: React.FC = () => {
   };
 
   const onSizeError = (): void => {
-    showError({
+    showToastError({
       message: `File size error, maximum file size is ${BLOCK_CHAIN_FILE_LIMIT * 1000
         }kb.`,
     });

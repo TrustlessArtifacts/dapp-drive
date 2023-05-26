@@ -17,7 +17,7 @@ interface IProp {
 }
 
 const MenuMobile = React.forwardRef(({ onCloseMenu }: IProp, ref: ForwardedRef<HTMLDivElement>) => {
-  const { btcBalance, juiceBalance } = useContext(AssetsContext);
+  const { btcBalance, tcBalance } = useContext(AssetsContext);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const router = useRouter();
   const activePath = router.pathname.split('/')[1];
@@ -30,7 +30,7 @@ const MenuMobile = React.forwardRef(({ onCloseMenu }: IProp, ref: ForwardedRef<H
     <Wrapper ref={ref}>
       <div className="inner">
         <button className="btnMenuMobile" onClick={onCloseMenu}>
-          <img src={`${CDN_URL}/icons/ic_close_menu.svg`} />
+          <img src={`${CDN_URL}/icons/ic_close_menu.svg`} alt='ic_close_menu' />
         </button>
         {MENU_HEADER.map(item => {
           return (
@@ -51,7 +51,7 @@ const MenuMobile = React.forwardRef(({ onCloseMenu }: IProp, ref: ForwardedRef<H
               <div className="balance">
                 <p>{formatBTCPrice(btcBalance)} BTC</p>
                 <span className="divider"></span>
-                <p>{formatEthPrice(juiceBalance)} TC</p>
+                <p>{formatEthPrice(tcBalance)} TC</p>
               </div>
               <div className="avatar">
                 <img src={`${CDN_URL}/icons/ic-avatar.svg`} alt="default avatar" />

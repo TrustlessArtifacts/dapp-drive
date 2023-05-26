@@ -20,12 +20,6 @@ export enum FeeRateName {
   hourFee = 'hourFee',
 }
 
-export interface IFeeRate {
-  [FeeRateName.fastestFee]: number;
-  [FeeRateName.halfHourFee]: number;
-  [FeeRateName.hourFee]: number;
-}
-
 interface Vin {
   txid: string;
   vout: number;

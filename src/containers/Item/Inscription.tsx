@@ -16,10 +16,6 @@ const Inscription = () => {
   const { contract, id } = queryString.parse(location.search) as { contract: string; id: string };
   const [inscription, setInscription] = useState<IInscription | undefined>();
 
-  useEffect(() => {
-    fetchInscriptionDetail();
-  }, []);
-
   const fetchInscriptionDetail = async () => {
     try {
       const data = await getNFTDetail({ contractAddress: contract, tokenId: id });
@@ -72,6 +68,11 @@ const Inscription = () => {
       </ResponsiveMasonry>
     </div>
   );
+
+  useEffect(() => {
+    fetchInscriptionDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>

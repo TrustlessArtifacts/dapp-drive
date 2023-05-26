@@ -19,11 +19,11 @@ import { DappsTabs } from '@/enums/tabs';
 const WalletHeader = () => {
   const user = useSelector(getUserSelector);
   const { disconnect, connect } = useContext(WalletContext);
-
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const { btcBalance, tcBalance } = useContext(AssetsContext);
-
   const [isConnecting, setIsConnecting] = useState(false);
+  const [show, setShow] = useState(false);
+  const ref = useRef(null);
 
   const handleConnectWallet = async () => {
     try {
@@ -37,16 +37,13 @@ const WalletHeader = () => {
     }
   };
 
-  const [show, setShow] = useState(false);
   const handleOnMouseEnter = () => {
     setShow(true);
   };
-  const handleOnMouseLeave = () => {
-    console.log('trigger');
 
+  const handleOnMouseLeave = () => {
     setShow(false);
   };
-  const ref = useRef(null);
 
   const onClickCopy = (address: string) => {
     copy(address);

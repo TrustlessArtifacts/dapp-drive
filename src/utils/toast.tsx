@@ -1,7 +1,8 @@
 import ToastError from "@/components/ToastError";
 import toast from "react-hot-toast";
 
-export const showError = ({ url, linkText, message }: { url?: string; linkText?: string; message: string; }) => {
+export const showToastError = ({ url, linkText, message }: { url?: string; linkText?: string; message: string; }) => {
+  toast.remove();
   toast.error(
     (t) => (
       <ToastError
@@ -20,4 +21,9 @@ export const showError = ({ url, linkText, message }: { url?: string; linkText?:
       },
     },
   );
+}
+
+export const showToastSuccess = ({ message }: { message: string; }) => {
+  toast.remove();
+  toast.success(message);
 }
