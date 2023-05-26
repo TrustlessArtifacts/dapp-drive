@@ -12,10 +12,16 @@ import { Toaster } from 'react-hot-toast';
 import '@/styles/index.scss';
 import ClientOnly from '@/components/Utils/ClientOnly';
 import { CDN_URL } from '@/configs';
+import { useEffect } from 'react';
+import { setupSDK } from '@/lib/sdk';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { seoInfo = {} } = pageProps;
   const { title, description, image } = seoInfo;
+
+  useEffect(() => {
+    setupSDK();
+  }, [])
 
   return (
     <>

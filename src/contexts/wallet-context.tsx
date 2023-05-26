@@ -37,7 +37,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     router.push(ROUTE_PATH.CONNECT_WALLET);
   }, [dispatch]);
 
-  const connect = React.useCallback(async () => {
+  const connect = React.useCallback(async (): Promise<User | null> => {
     try {
       const { tcAddress, btcAddress, accounts } = await walletConnector.requestAccount({
         target: "_blank",
@@ -66,6 +66,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
   useEffect(() => {
     const cacheUser = getAuthStorage();
     if (!cacheUser) return;
+
     const { tcAddress, btcAddress, accounts } = cacheUser;
     dispatch(updateTcAddress(tcAddress))
     dispatch(updateBtcAddress(btcAddress));

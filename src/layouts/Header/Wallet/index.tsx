@@ -1,13 +1,9 @@
 import IconSVG from '@/components/IconSVG';
 import { CDN_URL, TC_WEB_WALLET_URL } from '@/configs';
-// import { ROUTE_PATH } from '@/constants/route-path';
 import { AssetsContext } from '@/contexts/assets-context';
 import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
 import { formatBTCPrice, formatEthPrice } from '@/utils/format';
-// import { formatBTCPrice, formatLongAddress } from '@trustless-computer/dapp-core';
-import { useWeb3React } from '@web3-react/core';
 import copy from 'copy-to-clipboard';
-// import { useRouter } from 'next/router';
 import { useContext, useRef, useState } from 'react';
 import { OverlayTrigger } from 'react-bootstrap';
 import { toast } from 'react-hot-toast';
@@ -21,13 +17,11 @@ import { formatLongAddress } from '@trustless-computer/dapp-core';
 import { DappsTabs } from '@/enums/tabs';
 
 const WalletHeader = () => {
-  // const router = useRouter();
-  const { account } = useWeb3React();
   const user = useSelector(getUserSelector);
   const { disconnect, connect } = useContext(WalletContext);
 
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
-  const { btcBalance, juiceBalance } = useContext(AssetsContext);
+  const { btcBalance, tcBalance } = useContext(AssetsContext);
 
   const [isConnecting, setIsConnecting] = useState(false);
 
@@ -53,10 +47,6 @@ const WalletHeader = () => {
     setShow(false);
   };
   const ref = useRef(null);
-
-  // const goToConnectWalletPage = async () => {
-  //   router.push(`${ROUTE_PATH.CONNECT_WALLET}?next=${window.location.href}`);
-  // };
 
   const onClickCopy = (address: string) => {
     copy(address);
@@ -89,7 +79,6 @@ const WalletHeader = () => {
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
             maxWidth="16"
-          // type="stroke"
           ></IconSVG>
         </div>
       </div>
@@ -135,7 +124,7 @@ const WalletHeader = () => {
 
   return (
     <>
-      {account && isAuthenticated ? (
+      {user.tcAddress && isAuthenticated ? (
         <>
           <OverlayTrigger
             trigger={['hover', 'focus']}
@@ -155,10 +144,10 @@ const WalletHeader = () => {
                 <div className="balance">
                   <p className="text">{formatBTCPrice(btcBalance)} BTC</p>
                   <span className="divider"></span>
-                  <p className="text">{formatEthPrice(juiceBalance)} TC</p>
+                  <p className="text">{formatEthPrice(tcBalance)} TC</p>
                 </div>
                 <div className="avatar">
-                  <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
+                  <Jazzicon diameter={32} seed={jsNumberForAddress(user.tcAddress)} />
                 </div>
               </WalletBalance>
             </div>

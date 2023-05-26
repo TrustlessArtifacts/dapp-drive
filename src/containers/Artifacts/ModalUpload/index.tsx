@@ -6,7 +6,6 @@ import ToastConfirm from '@/components/ToastConfirm';
 import { CDN_URL, TC_WEB_WALLET_URL } from '@/configs';
 import { MINT_TOOL_MAX_FILE_SIZE } from '@/constants/config';
 import { ROUTE_PATH } from '@/constants/route-path';
-import { AssetsContext } from '@/contexts/assets-context';
 import { DappsTabs } from '@/enums/tabs';
 import usePreserveChunks, {
   IPreserveChunkParams,
@@ -20,7 +19,7 @@ import { formatBTCPrice } from '@trustless-computer/dapp-core';
 import { useWeb3React } from '@web3-react/core';
 import { Transaction } from 'ethers';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FileUploader } from 'react-drag-drop-files';
 import toast from 'react-hot-toast';
@@ -54,7 +53,11 @@ const ModalUpload = (props: Props) => {
     faster: '0',
     fastest: '0',
   });
-  const { feeRate } = useContext(AssetsContext);
+  const feeRate = {
+    fastestFee: 10,
+    halfHourFee: 10,
+    hourFee: 10,
+  }
 
   const { run } = useContractOperation<IPreserveChunkParams, Transaction | null>({
     operation: usePreserveChunks,
