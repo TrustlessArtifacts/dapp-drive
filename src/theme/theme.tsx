@@ -71,7 +71,4 @@ export const ThemedGlobalStyle = createGlobalStyle`
   summary::-webkit-details-marker {
     display:none;
   }
-
-
-
 `;
