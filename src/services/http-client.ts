@@ -23,7 +23,8 @@ const createAxiosInstance = ({ baseURL = '' }: { baseURL: string }) => {
   );
 
   instance.interceptors.response.use(
-    res => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (res: any) => {
       const result = res?.data?.data || res?.data?.result;
       const error = res?.data?.error;
       if (error) {

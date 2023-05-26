@@ -11,13 +11,10 @@ import ModalUpload from './ModalUpload';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
-// import { useRouter } from 'next/router';
-// import { ROUTE_PATH } from '@/constants/route-path';
 import { showToastError } from '@/utils/toast';
 import { WalletContext } from '@/contexts/wallet-context';
 
 const Artifacts: React.FC = () => {
-  // const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);

@@ -1,6 +1,6 @@
 import { IBTCNetwork } from 'tc-connect';
 
-export enum ApplicationEnvironment {
+export enum AppEnv {
   PRODUCTION = 'production',
   DEVELOP = 'develop',
 }

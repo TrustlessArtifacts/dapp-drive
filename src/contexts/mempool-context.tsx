@@ -21,7 +21,6 @@ export const MempoolContext = React.createContext<IMempoolContext>(initialValue)
 
 export const MempoolProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
   const [feeRate, setFeeRate] = React.useState<IMempoolFeeRate>(initialValue.feeRate);
-  console.log(feeRate);
 
   const fetchFeeRate = async () => {
     try {

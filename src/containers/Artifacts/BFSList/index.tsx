@@ -82,6 +82,7 @@ const BFSList = () => {
             {inscriptions &&
               inscriptions.length > 0 &&
               inscriptions.map((item, index) => {
+                console.log(item)
                 return (
                   <NFTCard
                     key={index.toString()}

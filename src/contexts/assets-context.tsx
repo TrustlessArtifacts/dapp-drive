@@ -43,9 +43,9 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     }
 
     try {
-      const _assets = await getCollectedUTXO(userInfo.btcAddress, userInfo.tcAddress);
-      setAssets(_assets);
-      return _assets;
+      const res = await getCollectedUTXO(userInfo.btcAddress, userInfo.tcAddress);
+      setAssets(res);
+      return res;
     } catch (e) {
       setAssets(undefined);
       return undefined;

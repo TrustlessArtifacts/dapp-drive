@@ -3,6 +3,7 @@ import {
   ICollectedUTXOResp,
 } from '@/interfaces/api/bitcoin';
 import { IMempoolFeeRate } from '@/interfaces/mempool';
+import { camelCaseKeys } from '@/utils/helpers';
 import * as TC_SDK from 'trustless-computer-sdk';
 
 // Collected UTXO
@@ -34,7 +35,7 @@ export const getFeeRate = async (): Promise<IMempoolFeeRate> => {
         minimumFee: 5,
       };
     }
-    return fee;
+    return camelCaseKeys(fee);
   } catch (err: unknown) {
     console.log(err);
     return {
