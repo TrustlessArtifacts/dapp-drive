@@ -3,7 +3,7 @@ import { ICollection, IUpdateCollectionPayload } from '@/interfaces/api/collecti
 import { IInscription } from '@/interfaces/api/inscription';
 import { IPagingParams } from '@/interfaces/api/query';
 import { swrFetcher } from '@/utils/swr';
-import { apiClient } from '..';
+import { apiClient } from './index';
 import { camelCaseKeys } from '@/utils/helpers';
 
 const API_PATH = API_URL + '/nft-explorer';
@@ -81,4 +81,12 @@ export const updateCollection = async ({
   } catch (err: unknown) {
     throw Error('Failed to update collection');
   }
+};
+
+export const getURLContent = (contractAddress: string, tokenId: string) => {
+  return API_URL + `/nft-explorer/collections/${contractAddress}/nfts/${tokenId}/content`;
+};
+
+export const getImageURLContent = (src: string) => {
+  return API_URL.replace('/dapp/api', '') + src;
 };

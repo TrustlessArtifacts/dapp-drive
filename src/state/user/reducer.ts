@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ConnectionType } from '@/connection';
 
 export interface UserState {
-  selectedWallet?: ConnectionType;
   btcAddress?: string;
   tcAddress?: string;
   walletAccounts?: Array<{
@@ -13,7 +11,6 @@ export interface UserState {
 }
 
 export const initialState: UserState = {
-  selectedWallet: undefined,
   btcAddress: undefined,
   tcAddress: undefined,
   walletAccounts: [],
@@ -27,9 +24,6 @@ const userSlice = createSlice({
     updateSecretKey(state, { payload }) {
       state.secretKey = payload;
     },
-    updateSelectedWallet(state, { payload: { wallet } }) {
-      state.selectedWallet = wallet;
-    },
     updateTcAddress(state, { payload }) {
       state.tcAddress = payload;
     },
@@ -40,7 +34,6 @@ const userSlice = createSlice({
       state.walletAccounts = payload;
     },
     resetUser(state) {
-      state.selectedWallet = undefined;
       state.tcAddress = undefined;
       state.btcAddress = undefined;
       state.secretKey = undefined;
@@ -50,7 +43,6 @@ const userSlice = createSlice({
 });
 
 export const {
-  updateSelectedWallet,
   resetUser,
   updateTcAddress,
   updateBtcAddress,
