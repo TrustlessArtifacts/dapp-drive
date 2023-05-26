@@ -5,6 +5,7 @@ import {
 import { IMempoolFeeRate } from '@/interfaces/mempool';
 import { camelCaseKeys } from '@/utils/helpers';
 import * as TC_SDK from 'trustless-computer-sdk';
+import logger from './logger';
 
 // Collected UTXO
 export const getCollectedUTXO = async (
@@ -18,7 +19,7 @@ export const getCollectedUTXO = async (
     });
     return collected;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 };
 
@@ -37,7 +38,7 @@ export const getFeeRate = async (): Promise<IMempoolFeeRate> => {
     }
     return camelCaseKeys(fee);
   } catch (err: unknown) {
-    console.log(err);
+    logger.error(err);
     return {
       fastestFee: 25,
       halfHourFee: 20,

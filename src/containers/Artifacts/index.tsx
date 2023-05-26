@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
 import { showToastError } from '@/utils/toast';
 import { WalletContext } from '@/contexts/wallet-context';
+import logger from '@/services/logger';
 
 const Artifacts: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -24,7 +25,7 @@ const Artifacts: React.FC = () => {
     try {
       await connect();
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       disconnect();
     }
   };

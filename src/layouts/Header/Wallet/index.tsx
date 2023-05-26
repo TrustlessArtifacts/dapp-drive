@@ -6,7 +6,6 @@ import { formatBTCPrice, formatEthPrice } from '@/utils/format';
 import copy from 'copy-to-clipboard';
 import { useContext, useRef, useState } from 'react';
 import { OverlayTrigger } from 'react-bootstrap';
-import { toast } from 'react-hot-toast';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { useSelector } from 'react-redux';
 import { ConnectWalletButton, WalletBalance } from '../Header.styled';
@@ -15,6 +14,8 @@ import Text from '@/components/Text';
 import { WalletContext } from '@/contexts/wallet-context';
 import { formatLongAddress } from '@trustless-computer/dapp-core';
 import { DappsTabs } from '@/enums/tabs';
+import { showToastSuccess } from '@/utils/toast';
+import logger from '@/services/logger';
 
 const WalletHeader = () => {
   const user = useSelector(getUserSelector);
@@ -30,7 +31,7 @@ const WalletHeader = () => {
       setIsConnecting(true);
       await connect();
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       disconnect();
     } finally {
       setIsConnecting(false);
@@ -47,7 +48,9 @@ const WalletHeader = () => {
 
   const onClickCopy = (address: string) => {
     copy(address);
-    toast.success('Copied');
+    showToastSuccess({
+      message: 'Copied'
+    });
   };
 
   const walletPopover = (

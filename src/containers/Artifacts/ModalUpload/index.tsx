@@ -2,7 +2,6 @@ import Button from '@/components/Button';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
-import ToastConfirm from '@/components/ToastConfirm';
 import { CDN_URL } from '@/configs';
 import { MINT_TOOL_MAX_FILE_SIZE } from '@/constants/config';
 import { ROUTE_PATH } from '@/constants/route-path';
@@ -11,14 +10,12 @@ import usePreserveChunks, {
 } from '@/hooks/contract-operations/artifacts/usePreserveChunks';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import { readFileAsBuffer } from '@/utils/file';
-import { walletLinkSignTemplate } from '@/utils/configs';
-import { showToastError } from '@/utils/toast';
+import { showToastError, showToastSuccess } from '@/utils/toast';
 import { prettyPrintBytes } from '@/utils/units';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FileUploader } from 'react-drag-drop-files';
-import toast from 'react-hot-toast';
 import { StyledModalUpload } from './ModalUpload.styled';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@/state/user/selector';
@@ -43,7 +40,6 @@ const ModalUpload = (props: Props) => {
     operation: usePreserveChunks,
   });
   const [isProcessing, setIsProcessing] = useState(false);
-  const { dAppType, transactionType } = usePreserveChunks();
 
   const handleUploadFile = async () => {
     if (!user.tcAddress) {
@@ -62,40 +58,20 @@ const ModalUpload = (props: Props) => {
       setIsProcessing(true);
       const fileBuffer = await readFileAsBuffer(file);
 
-      const tx = await run({
+      await run({
         address: user.tcAddress,
         chunks: fileBuffer,
       });
-      toast.success(
-        () => (
-          <ToastConfirm
-            id="create-success"
-            url={walletLinkSignTemplate({
-              transactionType,
-              dAppType,
-              hash: Object(tx).hash,
-              isRedirect: true,
-            })}
-            message="Please go to your wallet to authorize the request for the Bitcoin transaction."
-            linkText="Go to wallet"
-          />
-        ),
-        {
-          duration: 50000,
-          position: 'top-right',
-          style: {
-            maxWidth: '900px',
-            borderLeft: '4px solid #00AA6C',
-          },
-        },
-      );
+
+      showToastSuccess({
+        message: 'Preserved successfully.'
+      })
+
       handleClose();
     } catch (err: unknown) {
       logger.error(err);
       showToastError({
-        message:
-          (err as Error).message ||
-          'Something went wrong. Please try again later.',
+        message: (err as Error).message
       });
     } finally {
       setIsProcessing(false);

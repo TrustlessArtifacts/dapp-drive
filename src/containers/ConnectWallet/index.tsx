@@ -7,6 +7,7 @@ import { Container } from '@/layouts';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { useRouter } from 'next/router';
 import { showToastError } from '@/utils/toast';
+import logger from '@/services/logger';
 
 const ConnectWallet: React.FC = (): React.ReactElement => {
   const { connect, disconnect } = useContext(WalletContext);
@@ -22,7 +23,7 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
       showToastError({
         message: (err as Error).message,
       });
-      console.log(err);
+      logger.error(err);
       disconnect();
     } finally {
       setIsConnecting(false);

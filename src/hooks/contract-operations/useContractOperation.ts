@@ -1,5 +1,6 @@
 import { ROUTE_PATH } from '@/constants/route-path';
 import { ContractOperationHook } from '@/interfaces/contract-operation';
+import logger from '@/services/logger';
 import { getUserSelector } from '@/state/user/selector';
 import { capitalizeFirstLetter } from '@/utils/string';
 import { useRouter } from 'next/router';
@@ -33,13 +34,11 @@ const useContractOperation = <P, R>(
         throw Error('Please connect wallet to continue.');
       }
 
-      console.time('____metamaskCreateTxTime');
       const tx: R = await call({
         ...params,
       });
-      console.timeEnd('____metamaskCreateTxTime');
 
-      console.log('tcTX', tx);
+      logger.debug(tx);
 
       return tx;
     } catch (err) {
