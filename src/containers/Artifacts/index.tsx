@@ -21,16 +21,14 @@ const Artifacts: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
-  const { onDisconnect, onConnect, requestBtcAddress } =
-    useContext(WalletContext);
+  const { disconnect, connect } = useContext(WalletContext);
 
   const handleConnectWallet = async () => {
     try {
-      await onConnect();
-      await requestBtcAddress();
+      await connect();
     } catch (err) {
       console.log(err);
-      onDisconnect();
+      disconnect();
     }
   };
 

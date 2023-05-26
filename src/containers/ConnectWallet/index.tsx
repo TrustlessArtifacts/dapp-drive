@@ -13,8 +13,7 @@ import { useRouter } from 'next/router';
 import { showError } from '@/utils/toast';
 
 const ConnectWallet: React.FC = (): React.ReactElement => {
-  const { onConnect, requestBtcAddress, onDisconnect } =
-    useContext(WalletContext);
+  const { connect, disconnect } = useContext(WalletContext);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const user = useSelector(getUserSelector);
   const router = useRouter();
@@ -23,14 +22,13 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
   const handleConnectWallet = async () => {
     try {
       setIsConnecting(true);
-      await onConnect();
-      await requestBtcAddress();
+      await connect();
     } catch (err) {
       showError({
         message: (err as Error).message,
       });
       console.log(err);
-      onDisconnect();
+      disconnect();
     } finally {
       setIsConnecting(false);
     }

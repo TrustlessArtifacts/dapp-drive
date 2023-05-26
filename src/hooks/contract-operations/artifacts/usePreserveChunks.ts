@@ -26,7 +26,7 @@ const usePreserveChunks: ContractOperationHook<
 > = () => {
   const { account, provider } = useWeb3React();
   const contract = useContract(ARTIFACT_CONTRACT, ArtifactABIJson.abi, true);
-  const { btcBalance, feeRate } = useContext(AssetsContext);
+  const { btcBalance } = useContext(AssetsContext);
 
   const call = useCallback(
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
@@ -53,7 +53,7 @@ const usePreserveChunks: ContractOperationHook<
 
       return null;
     },
-    [account, provider, contract, btcBalance, feeRate]
+    [account, provider, contract, btcBalance]
   );
 
   return {

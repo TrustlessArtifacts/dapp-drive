@@ -3,10 +3,9 @@ import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
 import ToastConfirm from '@/components/ToastConfirm';
-import { CDN_URL, TC_URL } from '@/configs';
+import { CDN_URL, TC_WEB_WALLET_URL } from '@/configs';
 import { MINT_TOOL_MAX_FILE_SIZE } from '@/constants/config';
 import { ROUTE_PATH } from '@/constants/route-path';
-import { AssetsContext } from '@/contexts/assets-context';
 import { DappsTabs } from '@/enums/tabs';
 import usePreserveChunks, {
   IPreserveChunkParams,
@@ -20,7 +19,7 @@ import { formatBTCPrice } from '@trustless-computer/dapp-core';
 import { useWeb3React } from '@web3-react/core';
 import { Transaction } from 'ethers';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FileUploader } from 'react-drag-drop-files';
 import toast from 'react-hot-toast';
@@ -54,7 +53,11 @@ const ModalUpload = (props: Props) => {
     faster: '0',
     fastest: '0',
   });
-  const { feeRate } = useContext(AssetsContext);
+  const feeRate = {
+    fastestFee: 10,
+    halfHourFee: 10,
+    hourFee: 10,
+  };
 
   const { run } = useContractOperation<
     IPreserveChunkParams,
@@ -116,7 +119,7 @@ const ModalUpload = (props: Props) => {
         showError({
           message:
             'You have some pending transactions. Please complete all of them before moving on.',
-          url: `${TC_URL}/?tab=${DappsTabs.TRANSACTION}`,
+          url: `${TC_WEB_WALLET_URL}/?tab=${DappsTabs.TRANSACTION}`,
           linkText: 'Go to Wallet',
         });
       } else if ((err as Error).message === ERROR_CODE.INSUFFICIENT_BALANCE) {
@@ -131,7 +134,7 @@ const ModalUpload = (props: Props) => {
           message: `Your balance is insufficient. Please top up at least ${formatBTCPrice(
             estimatedFee.totalFee.toString()
           )} BTC to pay network fee.`,
-          url: `${TC_URL}`,
+          url: `${TC_WEB_WALLET_URL}`,
           linkText: 'Go to Wallet',
         });
       } else {

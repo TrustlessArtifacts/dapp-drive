@@ -3,33 +3,48 @@ import { ConnectionType } from '@/connection';
 
 export interface UserState {
   selectedWallet?: ConnectionType;
-  walletAddressBtcTaproot?: string;
-  walletAddress?: string;
+  btcAddress?: string;
+  tcAddress?: string;
+  walletAccounts?: Array<{
+    btcAddress: string;
+    tcAddress: string;
+  }>;
+  secretKey?: string;
 }
 
 export const initialState: UserState = {
   selectedWallet: undefined,
-  walletAddressBtcTaproot: undefined,
-  walletAddress: undefined,
+  btcAddress: undefined,
+  tcAddress: undefined,
+  walletAccounts: [],
+  secretKey: undefined,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    updateSecretKey(state, { payload }) {
+      state.secretKey = payload;
+    },
     updateSelectedWallet(state, { payload: { wallet } }) {
       state.selectedWallet = wallet;
     },
-    updateEVMWallet(state, { payload }) {
-      state.walletAddress = payload;
+    updateTcAddress(state, { payload }) {
+      state.tcAddress = payload;
     },
-    updateTaprootWallet(state, { payload }) {
-      state.walletAddressBtcTaproot = payload;
+    updateBtcAddress(state, { payload }) {
+      state.btcAddress = payload;
+    },
+    updateWalletAccounts(state, { payload }) {
+      state.walletAccounts = payload;
     },
     resetUser(state) {
       state.selectedWallet = undefined;
-      state.walletAddress = undefined;
-      state.walletAddressBtcTaproot = undefined;
+      state.tcAddress = undefined;
+      state.btcAddress = undefined;
+      state.secretKey = undefined;
+      state.walletAccounts = [];
     },
   },
 });
@@ -37,7 +52,10 @@ const userSlice = createSlice({
 export const {
   updateSelectedWallet,
   resetUser,
-  updateTaprootWallet,
-  updateEVMWallet,
+  updateTcAddress,
+  updateBtcAddress,
+  updateWalletAccounts,
+  updateSecretKey,
 } = userSlice.actions;
+
 export default userSlice.reducer;

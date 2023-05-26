@@ -1,4 +1,3 @@
-import { apiClient } from '@/services';
 import {
   BINANCE_PAIR,
   FeeRateName,
@@ -9,10 +8,8 @@ import {
 } from '@/interfaces/api/bitcoin';
 import BigNumber from 'bignumber.js';
 import * as TC_SDK from 'trustless-computer-sdk';
-import { TC_NETWORK_RPC } from '@/configs';
 
 const BINANCE_API_URL = 'https://api.binance.com/api/v3';
-const WALLETS_API_PATH = '/wallets';
 
 // Collected UTXO
 export const getCollectedUTXO = async (
@@ -20,28 +17,11 @@ export const getCollectedUTXO = async (
   tcAddress: string
 ): Promise<ICollectedUTXOResp | undefined> => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const collected: any = await apiClient.get<ICollectedUTXOResp>(
-      `${WALLETS_API_PATH}/${btcAddress}`
-    );
-    const tempUTXOs = [...(collected?.txrefs || [])];
-    let utxos;
-    try {
-      const tcClient = new TC_SDK.TcClient(TC_SDK.Mainnet, TC_NETWORK_RPC);
-      utxos = await TC_SDK.aggregateUTXOs({
-        tcAddress: tcAddress,
-        btcAddress: btcAddress,
-        utxos: [...tempUTXOs],
-        tcClient,
-      });
-    } catch (e) {
-      utxos = [...tempUTXOs];
-    }
-    return {
-      ...collected,
-      txrefs: utxos || [],
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any;
+    const collected = await TC_SDK.getUTXOs({
+      btcAddress,
+      tcAddress,
+    });
+    return collected;
   } catch (err) {
     console.log(err);
   }
