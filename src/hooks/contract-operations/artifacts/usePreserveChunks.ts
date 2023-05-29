@@ -10,7 +10,7 @@ import logger from '@/services/logger';
 
 export interface IPreserveChunkParams {
   address: string;
-  chunks: Buffer;
+  chunks: Array<Buffer>;
 }
 
 const usePreserveChunks: ContractOperationHook<
@@ -24,7 +24,7 @@ const usePreserveChunks: ContractOperationHook<
       const ContractInterface = new ethers.Interface(ArtifactABIJson.abi);
       const encodeAbi = ContractInterface.encodeFunctionData("preserveChunks", [
         address,
-        [chunks]
+        chunks
       ]);
 
       const response = await connector.requestSign({

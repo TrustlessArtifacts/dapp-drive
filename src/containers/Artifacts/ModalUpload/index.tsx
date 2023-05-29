@@ -24,6 +24,7 @@ import EstimateFee from '../FileEstimateFee';
 import { IRequestSignResp } from 'tc-connect';
 import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
 import { v4 as uuidv4 } from 'uuid';
+import { updateFileTransactionInfo } from '@/services/file';
 
 type Props = {
   show: boolean;
@@ -61,13 +62,38 @@ const ModalUpload = (props: Props) => {
       setIsProcessing(true);
       const fileBuffer = await readFileAsBuffer(file);
 
-      // await run({
-      //   address: user.tcAddress,
-      //   chunks: fileBuffer,
-      // });
+      if (file.size < MINT_TOOL_MAX_FILE_SIZE * 1024) {
+        const tx = await run({
+          address: user.tcAddress,
+          chunks: [fileBuffer],
+        });
+      } else {
+        // Upload file to server
+        const { fileId } = await upload(file, uuidv4());
+        logger.debug(`_____fileId: ${fileId}`);
 
-      const res = await upload(file, uuidv4());
-      console.log(res);
+        // Create transaction
+        const tx = await run({
+          address: user.tcAddress,
+          chunks: [],
+        });
+
+        logger.debug('______transaction info');
+        logger.debug(tx);
+
+        if (!tx) {
+          showToastError({
+            message: 'Rejected request.'
+          });
+          return;
+        }
+
+        // Update tx_hash
+        await updateFileTransactionInfo({
+          fileId,
+          txHash: tx.hash,
+        })
+      }
 
       showToastSuccess({
         message: 'Preserved successfully.'

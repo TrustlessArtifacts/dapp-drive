@@ -3,7 +3,7 @@ import { completeMultipartUpload, initiateMultipartUpload } from '@/services/fil
 import logger from '@/services/logger';
 import { useMemo, useState } from 'react';
 
-const API_PATH = `${API_URL}/files/multipart`;
+const API_PATH = `${API_URL}/upload/multipart`;
 
 // Upload chunked file
 // 1 - Initiates a API multipart upload with a POST request.
@@ -102,19 +102,22 @@ const useChunkedFileUploader = () => {
     }
   };
 
-  const completeUploadProgress = async (uploadId: string): Promise<string> => {
+  const completeUploadProgress = async (uploadId: string): Promise<{ fileId: string; fileUrl: string; }> => {
     const res = await completeMultipartUpload({
       uploadId: uploadId,
     });
 
-    return res.fileUrl;
+    return res;
   }
 
-  const upload = async (file: File, fileName: string): Promise<string> => {
+  const upload = async (file: File, fileName: string): Promise<{ fileId: string; fileUrl: string; }> => {
     const uploadId = await initUploadProgress(file, fileName);
     await uploadChunks(uploadId, file, MULTIPART_CHUNK_SIZE);
-    const fileUrl = await completeUploadProgress(uploadId);
-    return fileUrl;
+    const { fileUrl, fileId } = await completeUploadProgress(uploadId);
+    return {
+      fileUrl,
+      fileId,
+    };
   }
 
   return { upload, uploadProgress };

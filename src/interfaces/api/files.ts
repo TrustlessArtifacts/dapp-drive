@@ -1,10 +1,12 @@
-import { ChunkProcessStatus } from "@/enums/file";
+import { ChunkProcessStatus, FileProcessStatus } from "@/enums/file";
+import { IPagingParams } from "./query";
 
-export interface IGetUploadedFileListParams {
+export interface IGetUploadedFileListParams extends IPagingParams {
   contract_address?: string;
   token_id?: string;
   wallet_address?: string;
   tx_hash?: string;
+  status?: string;
 }
 
 export interface IUploadFileResponseItem {
@@ -59,6 +61,7 @@ export interface ICompleteMultipartUploadPayload {
 
 export interface ICompleteMultipartUploadResponse {
   fileUrl: string;
+  fileId: string;
 }
 
 export interface IUpdateFileTransactionInfoPayload {

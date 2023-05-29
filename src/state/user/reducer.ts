@@ -7,23 +7,18 @@ export interface UserState {
     btcAddress: string;
     tcAddress: string;
   }>
-  secretKey?: string;
 }
 
 export const initialState: UserState = {
   btcAddress: undefined,
   tcAddress: undefined,
   walletAccounts: [],
-  secretKey: undefined,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateSecretKey(state, { payload }) {
-      state.secretKey = payload;
-    },
     updateTcAddress(state, { payload }) {
       state.tcAddress = payload;
     },
@@ -36,7 +31,6 @@ const userSlice = createSlice({
     resetUser(state) {
       state.tcAddress = undefined;
       state.btcAddress = undefined;
-      state.secretKey = undefined;
       state.walletAccounts = [];
     },
   },
@@ -47,7 +41,6 @@ export const {
   updateTcAddress,
   updateBtcAddress,
   updateWalletAccounts,
-  updateSecretKey,
 } = userSlice.actions;
 
 export default userSlice.reducer;

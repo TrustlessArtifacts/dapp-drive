@@ -13,3 +13,9 @@ export enum ChunkProcessStatus {
   Processing = 1,
   Done = 2,
 }
+
+export enum FileProcessStatus {
+  New = 0,
+  Processing = 1,
+  Done = 2,
+}
