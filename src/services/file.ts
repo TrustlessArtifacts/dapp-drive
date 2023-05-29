@@ -1,6 +1,6 @@
 import { IUploadFilePayload, IUploadFileResponse } from '@/interfaces/api/files';
-import { camelCaseKeys } from '@/utils';
 import { apiClient } from '.';
+import { camelCaseKeys } from '@/utils/helpers';
 
 const API_PATH = '/upload';
 

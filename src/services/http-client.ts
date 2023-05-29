@@ -1,4 +1,3 @@
-import { getAccessToken } from '@/utils/auth-storage';
 import axios from 'axios';
 
 const TIMEOUT = 5 * 60000;
@@ -16,10 +15,6 @@ const createAxiosInstance = ({ baseURL = '' }: { baseURL: string }) => {
 
   instance.interceptors.request.use(
     config => {
-      const token = getAccessToken();
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
       return config;
     },
     error => {
@@ -28,7 +23,8 @@ const createAxiosInstance = ({ baseURL = '' }: { baseURL: string }) => {
   );
 
   instance.interceptors.response.use(
-    res => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (res: any) => {
       const result = res?.data?.data || res?.data?.result;
       const error = res?.data?.error;
       if (error) {

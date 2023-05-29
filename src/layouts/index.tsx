@@ -18,7 +18,7 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.bg1};
 `;
 
-const ContentWrapper = styled.div`
+export const ContentWrapper = styled.div`
   min-height: calc(100vh - 140px);
   max-width: 1920px;
   padding: 0 ${px2rem(32)};

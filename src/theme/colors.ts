@@ -5,7 +5,7 @@ export const colors = {
 
 export type ColorsTheme = typeof darkTheme;
 
-const commonTheme = {
+export const commonTheme = {
   white: colors.white,
   black: colors.black,
 
@@ -34,6 +34,8 @@ const commonTheme = {
   },
 
   green: {
+    primary: '#78F381',
+    bg: '#00A718',
     a: '#A1E3CB',
     b: '#BAEDBD',
     c: '#24c087',
