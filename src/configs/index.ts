@@ -18,5 +18,6 @@ export const TC_WALLET_CONNECT_URL = process.env.NEXT_PUBLIC_WALLET_CONNECT_URL!
 export const TRANSFER_TX_SIZE = 1000!;
 export const BIG_FILE_PROJECT_ID = '420';
 export const CURRENT_TC_NETWORK = NETWORKS.find((network) => network.BTCNetwork === 'mainnet')!;
+export const MULTIPART_CHUNK_SIZE = 32 * 1024 * 1024; // 32Mb
 
 /* eslint-enable @typescript-eslint/no-non-null-assertion */

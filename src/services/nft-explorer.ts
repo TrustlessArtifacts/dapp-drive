@@ -5,7 +5,7 @@ import { IPagingParams } from '@/interfaces/api/query';
 import { apiClient } from './index';
 import { camelCaseKeys } from '@/utils/helpers';
 
-const API_PATH = API_URL + '/nft-explorer';
+const API_PATH = '/nft-explorer';
 
 export const getCollections = async (page: number, limit: number, isShowAll: boolean, owner = ''): Promise<ICollection[]> => {
   const res = await apiClient.get(`${API_PATH}/collections?limit=${limit}&page=${page}&allow_empty=${isShowAll}&owner=${owner}`);

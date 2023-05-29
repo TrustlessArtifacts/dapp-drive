@@ -91,14 +91,8 @@ const ModalUpload = (props: Props) => {
   };
 
   useEffect(() => {
-    if (file) {
-      const fileSizeInKb = file.size / 1024;
-      if (fileSizeInKb > MINT_TOOL_MAX_FILE_SIZE * 1000) {
-        onSizeError();
-      } else {
-        setPreview(URL.createObjectURL(file));
-      }
-    }
+    if (!file) return;
+    setPreview(URL.createObjectURL(file));
   }, [file]);
 
   return (
