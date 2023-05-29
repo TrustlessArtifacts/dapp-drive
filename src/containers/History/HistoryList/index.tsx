@@ -5,6 +5,7 @@ import { getUserSelector } from "@/state/user/selector";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Wrapper } from "./HistoryList.styled";
+import ProcessingItem from "../ProcessingItem";
 
 const HistoryList: React.FC = (): React.ReactElement => {
   const user = useSelector(getUserSelector);
@@ -45,9 +46,16 @@ const HistoryList: React.FC = (): React.ReactElement => {
   return (
     <Wrapper>
       <div className="sectionWrapper">
-        <h2>
+        <h2 className="sectionTitle">
           Processing
         </h2>
+        <div className="dataList">
+          {processingFiles.map((item) => {
+            return (
+              <ProcessingItem file={item} />
+            )
+          })}
+        </div>
       </div>
     </Wrapper>
   );
