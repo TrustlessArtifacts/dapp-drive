@@ -8,8 +8,10 @@ export type ButtonProps = {
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
-  props?: HTMLButtonElement;
   type?: 'submit' | 'reset' | 'button' | undefined;
+  primary?: boolean;
+  backgroundSize?: CSSProperties['backgroundSize'];
+  props?: HTMLButtonElement;
 };
 
 const Button = ({
@@ -19,10 +21,21 @@ const Button = ({
   className,
   onClick,
   children,
+  backgroundSize = 'auto',
+  primary = false,
   ...props
 }: PropsWithChildren<ButtonProps>) => {
   return (
-    <StyledButton type={type} bg={bg} background={background} className={className} onClick={onClick} {...props}>
+    <StyledButton
+      type={type}
+      bg={bg}
+      background={background}
+      className={className}
+      onClick={onClick}
+      primary={primary}
+      backgroundSize={backgroundSize}
+      {...props}
+    >
       {children}
     </StyledButton>
   );

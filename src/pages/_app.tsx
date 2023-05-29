@@ -14,6 +14,11 @@ import { CDN_URL } from '@/configs';
 import { useEffect } from 'react';
 import { setupSDK } from '@/lib/sdk';
 import { MempoolProvider } from '@/contexts/mempool-context';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import NextNprogress from 'nextjs-progressbar';
+
+// Rowdies
 
 export default function App({ Component, pageProps }: AppProps) {
   const { seoInfo = {} } = pageProps;
@@ -21,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     setupSDK();
-  }, [])
+  }, []);
 
   return (
     <>
@@ -69,6 +74,7 @@ export default function App({ Component, pageProps }: AppProps) {
           </ThemeProvider>
         </Provider>
       </ClientOnly>
+      <NextNprogress />
     </>
   );
 }
