@@ -22,6 +22,8 @@ import { getUserSelector } from '@/state/user/selector';
 import logger from '@/services/logger';
 import EstimateFee from '../FileEstimateFee';
 import { IRequestSignResp } from 'tc-connect';
+import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
+import { v4 as uuidv4 } from 'uuid';
 
 type Props = {
   show: boolean;
@@ -39,6 +41,7 @@ const ModalUpload = (props: Props) => {
   const { run } = useContractOperation<IPreserveChunkParams, IRequestSignResp | null>({
     operation: usePreserveChunks,
   });
+  const { upload } = useChunkedFileUploader();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleUploadFile = async () => {
@@ -58,10 +61,13 @@ const ModalUpload = (props: Props) => {
       setIsProcessing(true);
       const fileBuffer = await readFileAsBuffer(file);
 
-      await run({
-        address: user.tcAddress,
-        chunks: fileBuffer,
-      });
+      // await run({
+      //   address: user.tcAddress,
+      //   chunks: fileBuffer,
+      // });
+
+      const res = await upload(file, uuidv4());
+      console.log(res);
 
       showToastSuccess({
         message: 'Preserved successfully.'
