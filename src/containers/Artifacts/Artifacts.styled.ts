@@ -40,6 +40,8 @@ export const UploadFileContainer = styled.div`
   .upload_right {
     position: relative;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
   }
 
   .upload_title {
@@ -55,7 +57,9 @@ export const UploadFileContainer = styled.div`
     font-size: ${px2rem(20)};
     line-height: ${px2rem(30)};
     color: white;
-    width: 75ch;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: ${px2rem(28)};
   }
 
@@ -74,8 +78,12 @@ export const UploadFileContainer = styled.div`
   @media screen and (max-width: 768px) {
     display: block;
     padding: ${px2rem(24)};
-
+    align-items: center;
     .create-btn {
+      width: 100%;
+    }
+
+    .upload_desc {
       width: 100%;
     }
 

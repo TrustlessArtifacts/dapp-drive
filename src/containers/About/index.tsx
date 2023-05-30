@@ -14,9 +14,11 @@ const About = () => {
   const firstSectionRef = useRef<HTMLDivElement>(null);
   const secondSectionRef = useRef<HTMLDivElement>(null);
   const thirdSectionRef = useRef<HTMLDivElement>(null);
+  const fourthSectionRef = useRef<HTMLDivElement>(null);
   const isInViewport1 = useIsInViewport(firstSectionRef);
   const isInViewport2 = useIsInViewport(secondSectionRef);
   const isInViewport3 = useIsInViewport(thirdSectionRef);
+  const isInViewport4 = useIsInViewport(fourthSectionRef);
 
   return (
     <>
@@ -71,10 +73,17 @@ const About = () => {
             <h4 className="subTitle">Trustless Artifacts</h4>
             <h3 className="title">Be the first to preserve anything on Bitcoin. </h3>
             <div className="desc">
-              Immutable and on-chain with dynamic file size acceptance.
+              Define BRC-721 standard on Bitcoin powered by smart contract via
+              Trustless Computer protocol. Immutable and fully on-chain with support
+              for large file sizes.
             </div>
 
-            <ArtifactButton variant="primary" width={257} height={62}>
+            <ArtifactButton
+              variant="primary"
+              width={257}
+              height={75}
+              objectFit={mobileScreen ? 'contain' : 'cover'}
+            >
               <Link href="/" className="btn-content">
                 Preserve Artifact
               </Link>
@@ -98,7 +107,12 @@ const About = () => {
               Your images are permanently stored on the most secure
               blockchain—Bitcoin.
             </div>
-            <ArtifactButton variant="primary" width={257} height={62}>
+            <ArtifactButton
+              variant="primary"
+              width={257}
+              height={75}
+              objectFit={mobileScreen ? 'contain' : 'cover'}
+            >
               <Link href="/" className="btn-content">
                 Preserve Artifact
               </Link>
@@ -109,7 +123,7 @@ const About = () => {
           <div className="background">
             <Image
               src={`${CDN_URL}/artifact/Landing_page/${
-                mobileScreen ? 'mobile-artifact-3' : 'artifact-3b'
+                mobileScreen ? 'mobile-artifact-3a' : 'artifact-3c'
               }.png`}
               alt={'background artifact 03'}
               fill
@@ -122,7 +136,41 @@ const About = () => {
               The Trustless Computer Protocol allows you to store an unlimited size
               file on Bitcoin, maintaining its authenticity and original state. 
             </div>
-            <ArtifactButton variant="primary" width={257} height={62}>
+            <ArtifactButton
+              variant="primary"
+              width={257}
+              height={75}
+              objectFit={mobileScreen ? 'contain' : 'cover'}
+            >
+              <Link href="/" className="btn-content">
+                Preserve Artifact
+              </Link>
+            </ArtifactButton>
+          </div>
+        </div>
+        <div className="section-04" id="section-4" ref={fourthSectionRef}>
+          <div className="background">
+            <Image
+              src={`${CDN_URL}/artifact/Landing_page/${
+                mobileScreen ? 'mobile-artifact-4' : 'artifact-4'
+              }.png`}
+              alt={'background artifact 04'}
+              fill
+            />
+          </div>
+          <div className="content right">
+            <h4 className="subTitle">smart contract</h4>
+            <h3 className="title">BRC-721 standard powered by smart contract.</h3>
+            <div className="desc">
+              BRC-721 is the standard for Non-Fungible Tokens (NFT) on Bitcoin. It is
+              compatible with smart contracts via the Trustless Computer protocol.
+            </div>
+            <ArtifactButton
+              variant="primary"
+              width={257}
+              height={75}
+              objectFit={mobileScreen ? 'contain' : 'cover'}
+            >
               <Link href="/" className="btn-content">
                 Preserve Artifact
               </Link>
@@ -141,6 +189,11 @@ const About = () => {
             </div>
           </div>
           <div className={`dots ${isInViewport3 ? 'active' : ''}`}>
+            <div className="circle">
+              <IconSVG src={`${CDN_URL}/artifact/icons/ic-slide-dot.svg`} />
+            </div>
+          </div>
+          <div className={`dots ${isInViewport4 ? 'active' : ''}`}>
             <div className="circle">
               <IconSVG src={`${CDN_URL}/artifact/icons/ic-slide-dot.svg`} />
             </div>

@@ -4,6 +4,7 @@ import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import Footer from './Footer';
 import Header from './Header';
+import Image from 'next/image';
 
 const HEADER_HEIGHT = 80;
 const FO0TER_HEIGHT = 80;
@@ -13,11 +14,11 @@ export const Container = styled.div`
   margin-right: auto;
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.bg1};
-  background-image: url(${CDN_URL}/pages/artifacts/history-bg.png);
+  background-color: black;
+  /* background-image: url(${CDN_URL}/pages/artifacts/history-bg.png);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
 `;
 
 export const ContentWrapper = styled.div`
@@ -34,11 +35,11 @@ export const ContentWrapper = styled.div`
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <Container>
-      {/* <Image
+      <Image
         src={`${CDN_URL}/pages/artifacts/background.jpg`}
         alt={'background'}
         fill
-      /> */}
+      />
       <Header height={HEADER_HEIGHT} />
       <ContentWrapper>{children}</ContentWrapper>
       <Footer height={FO0TER_HEIGHT} />

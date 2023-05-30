@@ -18,7 +18,8 @@ export const StyledAbout = styled.div`
 
   .section-01,
   .section-02,
-  .section-03 {
+  .section-03,
+  .section-04 {
     position: relative;
     height: 100vh;
     /* width: 100vw; */
@@ -116,7 +117,8 @@ export const StyledAbout = styled.div`
   @media screen and (max-width: 768.98px) {
     .section-01,
     .section-02,
-    .section-03 {
+    .section-03,
+    .section-04 {
       align-items: flex-start;
     }
 
@@ -201,7 +203,7 @@ export const SectionControllers = styled.div`
     }
   }
 
-  @media screen and (max-width: 767.98px) {
+  @media screen and (max-width: 768.98px) {
     display: none;
   }
 `;
@@ -234,6 +236,11 @@ export const AboutHeader = styled.div`
     font-size: ${px2rem(22)};
     line-height: ${px2rem(27)};
     letter-spacing: -1px;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   .external-link {

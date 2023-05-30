@@ -15,12 +15,14 @@ import { showToastError } from '@/utils/toast';
 import { WalletContext } from '@/contexts/wallet-context';
 import logger from '@/services/logger';
 import ArtifactButton from '@/components/ArtifactButton';
+import useWindowSize from '@/hooks/useWindowSize';
 
 const Artifacts: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const { disconnect, connect } = useContext(WalletContext);
+  const { mobileScreen } = useWindowSize();
 
   const handleConnectWallet = async () => {
     try {
@@ -76,7 +78,7 @@ const Artifacts: React.FC = () => {
             variant="primary"
             width={257}
             height={62}
-            objectFit="cover"
+            objectFit={mobileScreen ? 'contain' : 'cover'}
           >
             <PreserveButton onClick={handlePreserverArtifact}>
               <Text

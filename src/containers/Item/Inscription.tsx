@@ -13,7 +13,10 @@ import NFTDisplayBox from '@/components/NFTDisplayBox';
 
 const Inscription = () => {
   const router = useRouter();
-  const { contract, id } = queryString.parse(location.search) as { contract: string; id: string };
+  const { contract, id } = queryString.parse(location.search) as {
+    contract: string;
+    id: string;
+  };
   const [inscription, setInscription] = useState<IInscription | undefined>();
 
   const fetchInscriptionDetail = async () => {
@@ -78,6 +81,7 @@ const Inscription = () => {
     <Container>
       <div className="content">
         <div className="left-container">
+          <div className="blur-circle"></div>
           {inscription && (
             <NFTDisplayBox
               collectionID={inscription?.collectionAddress}
@@ -98,12 +102,15 @@ const Inscription = () => {
           </div>
 
           <Information>
-            <p className="title">Information</p>
             <div className="list">
               {renderListItem('Owner', inscription?.owner)}
               {renderListItem('Contract', inscription?.collectionAddress)}
               {renderListItem('Content type', inscription?.contentType)}
-              {inscription?.mintedAt && renderListItem('Timestamp', formatTimeStamp(inscription?.mintedAt * 1000))}
+              {inscription?.mintedAt &&
+                renderListItem(
+                  'Timestamp',
+                  formatTimeStamp(inscription?.mintedAt * 1000),
+                )}
               {inscription &&
                 inscription.attributes &&
                 inscription.attributes.length > 0 &&
@@ -118,7 +125,8 @@ const Inscription = () => {
                     return 0;
                   }),
                 )}
-              {inscription?.tokenId === BIG_FILE_PROJECT_ID && renderListItem('File size', '6.9MB')}
+              {inscription?.tokenId === BIG_FILE_PROJECT_ID &&
+                renderListItem('File size', '6.9MB')}
             </div>
           </Information>
         </div>

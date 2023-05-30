@@ -14,21 +14,17 @@ const Header = ({ height }: { height: number }) => {
   return (
     <Wrapper style={{ height }}>
       <div className="content">
-        <Link className="logo" href={ROUTE_PATH.HOME}>
-          <img alt="logo" src={`${CDN_URL}/images/drive-logo.svg`} />
-          <h1 className="logo-title">Artifacts</h1>
-        </Link>
+        <div className="leftContainer">
+          <Link className="logo" href={ROUTE_PATH.HOME}>
+            <img alt="logo" src={`${CDN_URL}/images/drive-logo.svg`} />
+            <h1 className="logo-title">Artifacts</h1>
+          </Link>
+          <Link href={'/about'}>About</Link>
+        </div>
 
         <MenuMobile ref={refMenu} onCloseMenu={() => setIsOpenMenu(false)} />
         <div className="rightContainer">
           <div className="external-link">
-            <Link href={'/about'}>
-              About
-              <IconSVG
-                maxWidth="28"
-                src={`${CDN_URL}/artifact/icons/ic-link.svg`}
-              ></IconSVG>
-            </Link>
             <Link href={'https://trustless.computer/'} target="_blank">
               Trustless
               <IconSVG

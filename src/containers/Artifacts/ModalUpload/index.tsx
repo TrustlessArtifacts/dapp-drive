@@ -23,6 +23,7 @@ import EstimateFee from '../FileEstimateFee';
 import { IRequestSignResp } from 'tc-connect';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import ArtifactButton from '@/components/ArtifactButton';
+import useWindowSize from '@/hooks/useWindowSize';
 // import { v4 as uuidv4 } from 'uuid';
 // import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
 // import { updateFileTransactionInfo } from '@/services/file';
@@ -35,6 +36,7 @@ type Props = {
 };
 
 const ModalUpload = (props: Props) => {
+  const { mobileScreen } = useWindowSize();
   const router = useRouter();
   const user = useSelector(getUserSelector);
   const { show = false, handleClose, file, setFile } = props;
@@ -191,7 +193,7 @@ const ModalUpload = (props: Props) => {
               variant="primary"
               width={221}
               height={52}
-              objectFit="cover"
+              objectFit={mobileScreen ? 'contain' : 'cover'}
               className="confirm-btn-wrapper"
             >
               <Button

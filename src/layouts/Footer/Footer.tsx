@@ -1,5 +1,5 @@
-import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     font-size: ${px2rem(16)};
     line-height: ${px2rem(26)};
     margin-right: ${px2rem(16)};
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
+    color: white;
     text-align: center;
   }
 `;

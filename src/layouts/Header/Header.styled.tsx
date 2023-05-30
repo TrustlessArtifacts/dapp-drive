@@ -23,12 +23,19 @@ const Wrapper = styled.div`
     padding: 0 ${px2rem(32)};
   }
 
+  .leftContainer {
+    display: flex;
+    align-items: center;
+    gap: ${px2rem(40)};
+  }
+
   .logo {
     display: flex;
     align-items: center;
     gap: ${px2rem(12)};
     width: fit-content;
     transform: scale(0.9);
+    text-decoration: none;
   }
 
   .logo-title {
@@ -37,6 +44,9 @@ const Wrapper = styled.div`
     font-size: ${px2rem(22)};
     line-height: ${px2rem(27)};
     letter-spacing: -1px;
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   a {
@@ -97,7 +107,7 @@ const Wrapper = styled.div`
     }
 
     .btnMenuMobile {
-      display: none;
+      /* display: none; */
       img {
         width: 24px;
         height: 24px;
