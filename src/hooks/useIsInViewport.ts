@@ -15,7 +15,7 @@ export function useIsInViewport(ref: any) {
         ([entry]) => setIsIntersecting(entry.isIntersecting),
         options,
       ),
-    [],
+    [options],
   );
 
   useEffect(() => {

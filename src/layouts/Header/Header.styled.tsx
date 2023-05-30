@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   color: white;
+  background-color: transparent;
 
   .content {
     max-width: 1920px;

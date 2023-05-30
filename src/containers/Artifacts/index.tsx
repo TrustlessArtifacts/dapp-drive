@@ -48,11 +48,14 @@ const Artifacts: React.FC = () => {
     else {
       setShowUploadModal(true);
     }
+    setShowUploadModal(true);
   };
 
   useEffect(() => {
     if (file) {
       setShowUploadModal(true);
+    } else {
+      setShowUploadModal(false);
     }
   }, [file]);
 

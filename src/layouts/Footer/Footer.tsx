@@ -6,7 +6,6 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: ${px2rem(80)};
   flex-wrap: wrap;
   width: 100%;
 
@@ -19,10 +18,6 @@ const Wrapper = styled.div`
     justify-content: space-between;
     position: relative;
     padding: 0 ${px2rem(32)};
-  }
-
-  @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) => theme.breakpoint.md}) {
-    margin-top: ${px2rem(40)};
   }
 
   .text {
