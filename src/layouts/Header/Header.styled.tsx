@@ -27,6 +27,12 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     gap: ${px2rem(40)};
+
+    .navLink {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
   }
 
   .logo {
@@ -76,6 +82,10 @@ const Wrapper = styled.div`
       gap: ${px2rem(24)};
       justify-content: flex-end;
 
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+
       a {
         display: flex;
         gap: ${px2rem(6)};
@@ -90,13 +100,6 @@ const Wrapper = styled.div`
       }
     }
 
-    /* .external-link {
-      display: flex;
-      align-items: center;
-      gap: ${px2rem(16)};
-      margin-right: ${px2rem(24)};
-    } */
-
     @media screen and (min-width: 1024px) {
       :hover {
         .dropdown {
@@ -107,10 +110,16 @@ const Wrapper = styled.div`
     }
 
     .btnMenuMobile {
-      /* display: none; */
+      display: none;
+
       img {
         width: 24px;
         height: 24px;
+      }
+
+      
+      @media screen and (max-width: 768px) {
+        display: block;
       }
     }
   }
@@ -151,21 +160,21 @@ const Wrapper = styled.div`
   }
 `;
 
-const StyledLink = styled(Link)<{ active: boolean; activeColor?: string }>`
+const StyledLink = styled(Link) <{ active: boolean; activeColor?: string }>`
   cursor: pointer;
   font-weight: 400;
   font-size: ${px2rem(16)};
   line-height: ${px2rem(28)};
   text-decoration: none !important;
   color: ${({
-    theme,
-    active,
-    activeColor,
-  }: {
-    theme: DefaultTheme;
-    active: boolean;
-    activeColor?: string;
-  }) => (active ? activeColor || theme.white : theme.text2)};
+  theme,
+  active,
+  activeColor,
+}: {
+  theme: DefaultTheme;
+  active: boolean;
+  activeColor?: string;
+}) => (active ? activeColor || theme.white : theme.text2)};
   letter-spacing: -0.02em;
 
   :hover {
@@ -219,7 +228,7 @@ const WalletBalance = styled.div`
       width: 1px;
       height: 16px;
       background-color: ${({ theme }: { theme: DefaultTheme }) =>
-        theme.primary['5b']};
+    theme.primary['5b']};
     }
   }
 
@@ -240,6 +249,7 @@ const WalletAdress = styled(Tooltip)`
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
   }
+  
   .tooltip-arrow::before {
     border-bottom-color: #424242;
   }

@@ -15,10 +15,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: black;
-  /* background-image: url(${CDN_URL}/pages/artifacts/history-bg.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; */
 `;
 
 export const ContentWrapper = styled.div`

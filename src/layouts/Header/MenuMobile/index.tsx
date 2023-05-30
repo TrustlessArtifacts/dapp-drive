@@ -1,50 +1,48 @@
-// import IcAvatarDefault from '@/assets/icons/ic-avatar.svg';
-// import IcMenuClose from '@/assets/icons/ic_close_menu.svg';
-import { MENU_HEADER } from '@/constants/header';
 import { AssetsContext } from '@/contexts/assets-context';
 import { formatBTCPrice, formatEthPrice } from '@/utils/format';
-import React, { ForwardedRef, useContext } from 'react';
-import { ConnectWalletButton, StyledLink, WalletBalance } from '../Header.styled';
+import React, { useContext } from 'react';
+import { ConnectWalletButton, WalletBalance } from '../Header.styled';
 import { Wrapper } from './MenuMobile.styled';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { CDN_URL } from '@/configs';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface IProp {
+  isOpen: boolean;
   onCloseMenu: () => void;
 }
 
-const MenuMobile = React.forwardRef(({ onCloseMenu }: IProp, ref: ForwardedRef<HTMLDivElement>) => {
+const MenuMobile = ({ onCloseMenu, isOpen }: IProp) => {
   const { btcBalance, tcBalance } = useContext(AssetsContext);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const router = useRouter();
-  const activePath = router.pathname.split('/')[1];
 
   const handleConnectWallet = async () => {
     router.push(`${ROUTE_PATH.CONNECT_WALLET}?next=${window.location.href}`);
   };
 
   return (
-    <Wrapper ref={ref}>
+    <Wrapper className={isOpen ? 'show' : ''}>
+      <Image
+        className='bg'
+        src={`${CDN_URL}/pages/artifacts/background.jpg`}
+        alt={'background'}
+        fill
+      />
       <div className="inner">
         <button className="btnMenuMobile" onClick={onCloseMenu}>
           <img src={`${CDN_URL}/icons/ic_close_menu.svg`} alt='ic_close_menu' />
         </button>
-        {MENU_HEADER.map(item => {
-          return (
-            <StyledLink
-              active={activePath === item.activePath}
-              href={item.route}
-              key={item.id}
-              onClick={onCloseMenu}
-              activeColor="#F9D03F"
-            >
-              {item.name}
-            </StyledLink>
-          );
-        })}
+        <Link href={'https://trustless.computer/'} target="_blank">
+          Trustless
+        </Link>
+        <Link href={'https://tcgasstation.com/'} target="_blank">
+          Get TC
+        </Link>
         {isAuthenticated ? (
           <div className="wallet mobile">
             <WalletBalance>
@@ -64,7 +62,7 @@ const MenuMobile = React.forwardRef(({ onCloseMenu }: IProp, ref: ForwardedRef<H
       </div>
     </Wrapper>
   );
-});
+};
 
 MenuMobile.displayName = 'MenuMobile';
 export default MenuMobile;
