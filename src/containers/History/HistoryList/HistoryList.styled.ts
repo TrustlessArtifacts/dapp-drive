@@ -11,4 +11,10 @@ export const Wrapper = styled.div`
     margin-bottom: ${px2rem(24)};
     letter-spacing: 0.1em;
   }
+
+  .dataList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: ${px2rem(20)};
+  }
 `;

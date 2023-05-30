@@ -1,6 +1,7 @@
 import { IUploadFileResponseItem } from '@/interfaces/api/files';
 import React from 'react';
-import s from './styles.module.scss'
+import { Wrapper, ThumbnailWrapper } from './ProcessingItem.styled'
+import { CDN_URL } from '@/configs';
 
 interface IProps {
   file: IUploadFileResponseItem;
@@ -8,9 +9,14 @@ interface IProps {
 
 const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
   return (
-    <div className={s.processingItem}>
-      aaaa
-    </div>
+    <Wrapper>
+      <ThumbnailWrapper className='animationBorder'>
+        <img className="thumbnail" src={file.fullPath} alt={file.name} />
+        <div className="thumnailOverlay">
+          <img src={`${CDN_URL}/icons/bi_clock-history.svg`} alt="bi_clock" />
+        </div>
+      </ThumbnailWrapper>
+    </Wrapper>
   )
 }
 

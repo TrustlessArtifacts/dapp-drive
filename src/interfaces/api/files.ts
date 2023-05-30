@@ -1,4 +1,4 @@
-import { ChunkProcessStatus, FileProcessStatus } from "@/enums/file";
+import { ChunkProcessStatus } from "@/enums/file";
 import { IPagingParams } from "./query";
 
 export interface IGetUploadedFileListParams extends IPagingParams {

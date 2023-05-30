@@ -3,7 +3,6 @@ import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
 import { CDN_URL } from '@/configs';
-import { MINT_TOOL_MAX_FILE_SIZE } from '@/constants/config';
 import { ROUTE_PATH } from '@/constants/route-path';
 import usePreserveChunks, {
   IPreserveChunkParams,
@@ -22,9 +21,10 @@ import { getUserSelector } from '@/state/user/selector';
 import logger from '@/services/logger';
 import EstimateFee from '../FileEstimateFee';
 import { IRequestSignResp } from 'tc-connect';
-import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
-import { v4 as uuidv4 } from 'uuid';
-import { updateFileTransactionInfo } from '@/services/file';
+import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
+// import { v4 as uuidv4 } from 'uuid';
+// import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
+// import { updateFileTransactionInfo } from '@/services/file';
 
 type Props = {
   show: boolean;
@@ -42,7 +42,7 @@ const ModalUpload = (props: Props) => {
   const { run } = useContractOperation<IPreserveChunkParams, IRequestSignResp | null>({
     operation: usePreserveChunks,
   });
-  const { upload } = useChunkedFileUploader();
+  // const { upload } = useChunkedFileUploader();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleUploadFile = async () => {
@@ -61,39 +61,44 @@ const ModalUpload = (props: Props) => {
     try {
       setIsProcessing(true);
       const fileBuffer = await readFileAsBuffer(file);
+      const tx = await run({
+        address: user.tcAddress,
+        chunks: [fileBuffer],
+      });
+      logger.debug(tx);
 
-      if (file.size < MINT_TOOL_MAX_FILE_SIZE * 1024) {
-        const tx = await run({
-          address: user.tcAddress,
-          chunks: [fileBuffer],
-        });
-      } else {
-        // Upload file to server
-        const { fileId } = await upload(file, uuidv4());
-        logger.debug(`_____fileId: ${fileId}`);
+      // if (file.size < BLOCK_CHAIN_FILE_LIMIT * 1024) {
+      //   const tx = await run({
+      //     address: user.tcAddress,
+      //     chunks: [fileBuffer],
+      //   });
+      // } else {
+      //   // Upload file to server
+      //   const { fileId } = await upload(file, uuidv4());
+      //   logger.debug(`_____fileId: ${fileId}`);
 
-        // Create transaction
-        const tx = await run({
-          address: user.tcAddress,
-          chunks: [],
-        });
+      //   // Create transaction
+      //   const tx = await run({
+      //     address: user.tcAddress,
+      //     chunks: [],
+      //   });
 
-        logger.debug('______transaction info');
-        logger.debug(tx);
+      //   logger.debug('______transaction info');
+      //   logger.debug(tx);
 
-        if (!tx) {
-          showToastError({
-            message: 'Rejected request.'
-          });
-          return;
-        }
+      //   if (!tx) {
+      //     showToastError({
+      //       message: 'Rejected request.'
+      //     });
+      //     return;
+      //   }
 
-        // Update tx_hash
-        await updateFileTransactionInfo({
-          fileId,
-          txHash: tx.hash,
-        })
-      }
+      //   // Update tx_hash
+      //   await updateFileTransactionInfo({
+      //     fileId,
+      //     txHash: tx.hash,
+      //   })
+      // }
 
       showToastSuccess({
         message: 'Preserved successfully.'
@@ -117,7 +122,7 @@ const ModalUpload = (props: Props) => {
 
   const onSizeError = (): void => {
     setError(
-      `File size error, maximum file size is ${MINT_TOOL_MAX_FILE_SIZE * 1000}KB.`,
+      `File size error, maximum file size is ${BLOCK_CHAIN_FILE_LIMIT * 1000}KB.`,
     );
     setPreview(null);
   };
@@ -142,7 +147,7 @@ const ModalUpload = (props: Props) => {
         <FileUploader
           handleChange={onChangeFile}
           name={'fileUploader'}
-          maxSize={0.35}
+          maxSize={BLOCK_CHAIN_FILE_LIMIT}
           onSizeError={onSizeError}
           classes={'dropZone'}
         >

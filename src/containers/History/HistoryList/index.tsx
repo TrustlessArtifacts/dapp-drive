@@ -9,7 +9,7 @@ import ProcessingItem from "../ProcessingItem";
 
 const HistoryList: React.FC = (): React.ReactElement => {
   const user = useSelector(getUserSelector);
-  const [processedFiles, setProcessedFiles] = useState<Array<IUploadFileResponseItem>>([]);
+  const [_processedFiles, setProcessedFiles] = useState<Array<IUploadFileResponseItem>>([]);
   const [processingFiles, setProcessingFiles] = useState<Array<IUploadFileResponseItem>>([]);
   const [page, setPage] = useState(1);
 
@@ -18,13 +18,13 @@ const HistoryList: React.FC = (): React.ReactElement => {
       getUploadedFileList({
         page: page,
         limit: 32,
-        // wallet_address: user.tcAddress,
+        wallet_address: user.tcAddress,
         status: '2',
       }),
       await getUploadedFileList({
         page: page,
         limit: 32,
-        // wallet_address: user.tcAddress,
+        wallet_address: user.tcAddress?.toLowerCase(),
         status: '0,1',
       })
     ]);
@@ -35,13 +35,14 @@ const HistoryList: React.FC = (): React.ReactElement => {
 
     setProcessedFiles(processedFilesRes);
     setProcessingFiles(processingFilesRes);
+    setPage(prev => prev + 1);
   }, [page, user, setProcessedFiles, setProcessingFiles, setPage,]);
 
   useEffect(() => {
     if (user.tcAddress) {
       fetchFileList();
     }
-  }, [user]);
+  }, [user, fetchFileList]);
 
   return (
     <Wrapper>
@@ -52,7 +53,7 @@ const HistoryList: React.FC = (): React.ReactElement => {
         <div className="dataList">
           {processingFiles.map((item) => {
             return (
-              <ProcessingItem file={item} />
+              <ProcessingItem key={item.id} file={item} />
             )
           })}
         </div>
