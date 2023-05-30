@@ -9,9 +9,7 @@ interface IProps {
   file: File | null;
 }
 
-const EstimateFee: React.FC<IProps> = ({
-  file
-}: IProps) => {
+const EstimateFee: React.FC<IProps> = ({ file }: IProps) => {
   const { feeRate } = useContext(MempoolContext);
 
   const calculateFee = (feeRatePerByte: number): string | null => {
@@ -33,20 +31,18 @@ const EstimateFee: React.FC<IProps> = ({
     feeRatePerByte: number;
   }) => {
     return (
-      <div
-        className='est-fee-item'
-      >
-        <div>
-          <Text fontWeight="medium" color="text2" size="regular">
+      <div className="est-fee-item">
+        <div className="est-fee-item-name">
+          <Text fontWeight="medium" color="white" size="regular">
             {title}
           </Text>
-          <Text color="text8" className="mb-10">
+          <Text color="white" className="mb-10 sats-fee">
             {feeRatePerByte} sats/vByte
           </Text>
-          <p className="ext-price">
-            {formatBTCPrice(calculateFee(feeRatePerByte))} <span>BTC</span>
-          </p>
         </div>
+        <p className="ext-price">
+          {formatBTCPrice(calculateFee(feeRatePerByte))} <span>BTC</span>
+        </p>
       </div>
     );
   };
@@ -54,8 +50,8 @@ const EstimateFee: React.FC<IProps> = ({
   return (
     <FileEstimateFee>
       <div className="est-fee">
-        <Text size="regular" fontWeight="medium" color="text2" className="title-text">
-          Estimated network fee
+        <Text size="medium" fontWeight="medium" color="white" className="title-text">
+          network fee estimate
         </Text>
         <div className="est-fee-options">
           {renderEstFee({
@@ -73,7 +69,7 @@ const EstimateFee: React.FC<IProps> = ({
         </div>
       </div>
     </FileEstimateFee>
-  )
-}
+  );
+};
 
 export default memo(EstimateFee);

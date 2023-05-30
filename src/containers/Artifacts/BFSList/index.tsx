@@ -1,13 +1,12 @@
 import NFTCard from '@/components/NFTCard';
 import { ARTIFACT_CONTRACT } from '@/configs';
+import { IInscription } from '@/interfaces/api/inscription';
 import { getCollectionNfts } from '@/services/nft-explorer';
-import { shortenAddress } from '@/utils/address';
 import { debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Container, Grid } from './BFSList.styled';
-import { IInscription } from '@/interfaces/api/inscription';
 
 const LIMIT_PAGE = 32;
 
@@ -43,11 +42,11 @@ const BFSList = () => {
 
   const debounceLoadMore = debounce(onLoadMoreNfts, 300);
 
-  const formatItemName = (name: string, type: string) => {
-    const fileTypeList = type.split('/');
-    const fileType = fileTypeList[fileTypeList.length - 1];
-    return name ? `${name}.${fileType}` : type;
-  };
+  // const formatItemName = (name: string, type: string) => {
+  //   const fileTypeList = type.split('/');
+  //   const fileType = fileTypeList[fileTypeList.length - 1];
+  //   return name ? `${name}.${fileType}` : type;
+  // };
 
   useEffect(() => {
     fetchInscriptions();
@@ -81,8 +80,8 @@ const BFSList = () => {
                     contract={ARTIFACT_CONTRACT}
                     tokenId={item.tokenId}
                     contentType={item.contentType}
-                    title3={formatItemName(item.name, item.contentType)}
-                    title2={shortenAddress(item.owner, 4)}
+                    // title3={formatItemName(item.name, item.contentType)}
+                    // title2={shortenAddress(item.owner, 4)}
                     title1={`Artifact #${item.tokenId}`}
                   />
                 );

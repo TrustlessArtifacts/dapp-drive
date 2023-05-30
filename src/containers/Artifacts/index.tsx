@@ -48,7 +48,6 @@ const Artifacts: React.FC = () => {
     else {
       setShowUploadModal(true);
     }
-    setShowUploadModal(true);
   };
 
   useEffect(() => {
