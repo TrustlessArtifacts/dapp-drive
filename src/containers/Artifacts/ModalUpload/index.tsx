@@ -22,6 +22,8 @@ import logger from '@/services/logger';
 import EstimateFee from '../FileEstimateFee';
 import { IRequestSignResp } from 'tc-connect';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
+import ArtifactButton from '@/components/ArtifactButton';
+import useWindowSize from '@/hooks/useWindowSize';
 // import { v4 as uuidv4 } from 'uuid';
 // import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
 // import { updateFileTransactionInfo } from '@/services/file';
@@ -34,12 +36,16 @@ type Props = {
 };
 
 const ModalUpload = (props: Props) => {
+  const { mobileScreen } = useWindowSize();
   const router = useRouter();
   const user = useSelector(getUserSelector);
   const { show = false, handleClose, file, setFile } = props;
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { run } = useContractOperation<IPreserveChunkParams, IRequestSignResp | null>({
+  const { run } = useContractOperation<
+    IPreserveChunkParams,
+    IRequestSignResp | null
+  >({
     operation: usePreserveChunks,
   });
   // const { upload } = useChunkedFileUploader();
@@ -101,14 +107,14 @@ const ModalUpload = (props: Props) => {
       // }
 
       showToastSuccess({
-        message: 'Preserved successfully.'
-      })
+        message: 'Preserved successfully.',
+      });
 
       handleClose();
     } catch (err: unknown) {
       logger.error(err);
       showToastError({
-        message: (err as Error).message
+        message: (err as Error).message,
       });
     } finally {
       setIsProcessing(false);
@@ -133,17 +139,16 @@ const ModalUpload = (props: Props) => {
   }, [file]);
 
   return (
-    <StyledModalUpload show={show} onHide={handleClose} centered size="lg">
+    <StyledModalUpload show={show} onHide={handleClose} centered>
       <Modal.Header>
         <IconSVG
-          className="cursor-pointer"
+          className="cursor-pointer hover-opacity"
           onClick={handleClose}
-          src={`${CDN_URL}/icons/ic-close.svg`}
+          src={`${CDN_URL}/artifact/icons/ic-close.svg`}
           maxWidth={'22px'}
         />
       </Modal.Header>
       <Modal.Body>
-        <h5 className="font-medium">Upload file</h5>
         <FileUploader
           handleChange={onChangeFile}
           name={'fileUploader'}
@@ -168,15 +173,11 @@ const ModalUpload = (props: Props) => {
                   ></img>
                 )}
                 <div className="file-upload-name">
-                  <Text className="file-name" size={'regular'}>{`${file.name
-                    } (${prettyPrintBytes(file.size)})`}</Text>
-                  {!error && (
-                    <IconSVG
-                      src={`${CDN_URL}/icons/ic-check.svg`}
-                      maxWidth={'20'}
-                      color="#00AA6C"
-                    />
-                  )}
+                  <Text
+                    className="file-name"
+                    size={'regular'}
+                  >{`${file.name}`}</Text>
+                  <Text>{prettyPrintBytes(file.size)}</Text>
                 </div>
               </div>
             )}
@@ -184,19 +185,29 @@ const ModalUpload = (props: Props) => {
             {error && <p className={'error-text'}>{error}</p>}
           </>
         </FileUploader>
-        <EstimateFee file={file} />
-        {file && !error && (
-          <Button
-            disabled={isProcessing}
-            className="confirm-btn"
-            onClick={handleUploadFile}
-            background="#39B174"
-          >
-            <Text size="medium" fontWeight="medium" className="confirm-text">
-              {isProcessing ? 'Processing...' : 'Confirm'}
-            </Text>
-          </Button>
-        )}
+
+        <div className="right_content">
+          <EstimateFee file={file} />
+          {file && !error && (
+            <ArtifactButton
+              variant="primary"
+              width={221}
+              height={52}
+              objectFit={mobileScreen ? 'contain' : 'cover'}
+              className="confirm-btn-wrapper"
+            >
+              <Button
+                disabled={isProcessing}
+                className="confirm-btn"
+                onClick={handleUploadFile}
+              >
+                <Text size="medium" fontWeight="medium" className="confirm-text">
+                  {isProcessing ? 'Processing...' : 'upload'}
+                </Text>
+              </Button>
+            </ArtifactButton>
+          )}
+        </div>
       </Modal.Body>
     </StyledModalUpload>
   );

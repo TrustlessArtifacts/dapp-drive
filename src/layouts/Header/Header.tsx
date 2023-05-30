@@ -5,34 +5,39 @@ import { useRef, useState } from 'react';
 import { Wrapper } from './Header.styled';
 import MenuMobile from './MenuMobile';
 import WalletHeader from './Wallet';
-import { useWindowSize } from '@trustless-computer/dapp-core';
+import IconSVG from '@/components/IconSVG';
 
 const Header = ({ height }: { height: number }) => {
   const refMenu = useRef<HTMLDivElement | null>(null);
   const [_isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const { mobileScreen } = useWindowSize();
 
   return (
     <Wrapper style={{ height }}>
       <div className="content">
-        <Link className="logo" href={ROUTE_PATH.HOME}>
-          {mobileScreen && (
+        <div className="leftContainer">
+          <Link className="logo" href={ROUTE_PATH.HOME}>
             <img alt="logo" src={`${CDN_URL}/images/drive-logo.svg`} />
-          )}
-          {!mobileScreen && (
-            <img alt="logo" src={`${CDN_URL}/images/logo-drive-2.svg`} />
-          )}
-        </Link>
+            <h1 className="logo-title">Artifacts</h1>
+          </Link>
+          <Link href={'/about'}>About</Link>
+        </div>
 
         <MenuMobile ref={refMenu} onCloseMenu={() => setIsOpenMenu(false)} />
         <div className="rightContainer">
           <div className="external-link">
-            <Link href={'/about'}>About</Link>
             <Link href={'https://trustless.computer/'} target="_blank">
               Trustless
+              <IconSVG
+                maxWidth="28"
+                src={`${CDN_URL}/artifact/icons/ic-link.svg`}
+              ></IconSVG>
             </Link>
             <Link href={'https://tcgasstation.com/'} target="_blank">
               Get TC
+              <IconSVG
+                maxWidth="28"
+                src={`${CDN_URL}/artifact/icons/ic-link.svg`}
+              ></IconSVG>
             </Link>
           </div>
 

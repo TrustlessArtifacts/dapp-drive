@@ -18,7 +18,8 @@ export const StyledAbout = styled.div`
 
   .section-01,
   .section-02,
-  .section-03 {
+  .section-03,
+  .section-04 {
     position: relative;
     height: 100vh;
     /* width: 100vw; */
@@ -49,7 +50,7 @@ export const StyledAbout = styled.div`
     z-index: 1;
     position: relative;
     margin-left: ${px2rem(100)};
-    max-width: 80ch;
+    max-width: 70ch;
 
     .subTitle {
       text-transform: uppercase;
@@ -93,7 +94,6 @@ export const StyledAbout = styled.div`
     }
 
     .btn-content {
-      position: absolute;
       padding: ${px2rem(15)} ${px2rem(30)};
       text-transform: uppercase;
       font-weight: 500;
@@ -101,15 +101,11 @@ export const StyledAbout = styled.div`
       line-height: ${px2rem(26)};
       letter-spacing: ${px2rem(1.5)};
       color: #000;
-      z-index: 2;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       white-space: nowrap;
     }
 
     &.right {
-      margin-left: 50%;
+      margin-left: 55%;
       padding-right: ${px2rem(100)};
     }
   }
@@ -121,7 +117,8 @@ export const StyledAbout = styled.div`
   @media screen and (max-width: 768.98px) {
     .section-01,
     .section-02,
-    .section-03 {
+    .section-03,
+    .section-04 {
       align-items: flex-start;
     }
 
@@ -130,7 +127,7 @@ export const StyledAbout = styled.div`
       padding: 0 ${px2rem(20)};
       width: 100vw;
       text-align: center;
-      margin-top: ${px2rem(32)};
+      margin-top: ${px2rem(100)};
       margin-left: auto;
       margin-right: auto;
 
@@ -206,7 +203,66 @@ export const SectionControllers = styled.div`
     }
   }
 
-  @media screen and (max-width: 767.98px) {
+  @media screen and (max-width: 768.98px) {
     display: none;
+  }
+`;
+
+export const AboutHeader = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: auto;
+  padding: ${px2rem(23)} ${px2rem(80)};
+  width: 100vw;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  flex-direction: row;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: ${px2rem(12)};
+    width: fit-content;
+    transform: scale(0.9);
+  }
+
+  .logo-title {
+    font-family: var(--rowdies-font);
+    font-weight: 400;
+    font-size: ${px2rem(22)};
+    line-height: ${px2rem(27)};
+    letter-spacing: -1px;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .external-link {
+    display: flex;
+    gap: ${px2rem(24)};
+    justify-content: flex-end;
+
+    a {
+      display: flex;
+      gap: ${px2rem(6)};
+      align-items: center;
+
+      &:hover {
+        text-decoration: none;
+        rect {
+          stroke-opacity: 1;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768.98px) {
+    padding: ${px2rem(23)} ${px2rem(20)};
   }
 `;
