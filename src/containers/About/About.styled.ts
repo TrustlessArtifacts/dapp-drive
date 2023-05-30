@@ -1,3 +1,4 @@
+import { ContentWrapper } from '@/layouts';
 import { commonTheme } from '@/theme/colors';
 import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
@@ -49,7 +50,7 @@ export const StyledAbout = styled.div`
     z-index: 1;
     position: relative;
     margin-left: ${px2rem(100)};
-    max-width: 80ch;
+    max-width: 70ch;
 
     .subTitle {
       text-transform: uppercase;
@@ -109,7 +110,7 @@ export const StyledAbout = styled.div`
     }
 
     &.right {
-      margin-left: 50%;
+      margin-left: 55%;
       padding-right: ${px2rem(100)};
     }
   }
@@ -130,7 +131,7 @@ export const StyledAbout = styled.div`
       padding: 0 ${px2rem(20)};
       width: 100vw;
       text-align: center;
-      margin-top: ${px2rem(32)};
+      margin-top: ${px2rem(100)};
       margin-left: auto;
       margin-right: auto;
 
@@ -208,5 +209,54 @@ export const SectionControllers = styled.div`
 
   @media screen and (max-width: 767.98px) {
     display: none;
+  }
+`;
+
+export const AboutHeader = styled(ContentWrapper)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: auto;
+  padding-top: ${px2rem(23)};
+  padding-bottom: ${px2rem(23)};
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  flex-direction: row;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: ${px2rem(12)};
+    width: fit-content;
+    transform: scale(0.9);
+  }
+
+  .logo-title {
+    font-family: var(--rowdies-font);
+    font-weight: 400;
+    font-size: ${px2rem(22)};
+    line-height: ${px2rem(27)};
+    letter-spacing: -1px;
+  }
+
+  .external-link {
+    display: flex;
+    gap: ${px2rem(24)};
+    justify-content: flex-end;
+
+    a {
+      display: flex;
+      gap: ${px2rem(6)};
+
+      &:hover {
+        text-decoration: none;
+        rect {
+          stroke-opacity: 1;
+        }
+      }
+    }
   }
 `;
