@@ -1,4 +1,3 @@
-import { ContentWrapper } from '@/layouts';
 import { commonTheme } from '@/theme/colors';
 import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
@@ -212,13 +211,13 @@ export const SectionControllers = styled.div`
   }
 `;
 
-export const AboutHeader = styled(ContentWrapper)`
+export const AboutHeader = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   min-height: auto;
-  padding-top: ${px2rem(23)};
-  padding-bottom: ${px2rem(23)};
+  padding: ${px2rem(23)} ${px2rem(80)};
+  width: 100vw;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -250,6 +249,7 @@ export const AboutHeader = styled(ContentWrapper)`
     a {
       display: flex;
       gap: ${px2rem(6)};
+      align-items: center;
 
       &:hover {
         text-decoration: none;
@@ -258,5 +258,9 @@ export const AboutHeader = styled(ContentWrapper)`
         }
       }
     }
+  }
+
+  @media screen and (max-width: 768.98px) {
+    padding: ${px2rem(23)} ${px2rem(20)};
   }
 `;
