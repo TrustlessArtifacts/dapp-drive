@@ -16,6 +16,7 @@ import { formatLongAddress } from '@trustless-computer/dapp-core';
 import { DappsTabs } from '@/enums/tabs';
 import { showToastSuccess } from '@/utils/toast';
 import logger from '@/services/logger';
+import ArtifactButton from '@/components/ArtifactButton';
 
 const WalletHeader = () => {
   const user = useSelector(getUserSelector);
@@ -49,7 +50,7 @@ const WalletHeader = () => {
   const onClickCopy = (address: string) => {
     copy(address);
     showToastSuccess({
-      message: 'Copied'
+      message: 'Copied',
     });
   };
 
@@ -71,10 +72,7 @@ const WalletHeader = () => {
             {formatLongAddress(user?.tcAddress || '')}
           </Text>
         </div>
-        <div
-          className="icCopy"
-          onClick={() => onClickCopy(user?.tcAddress || '')}
-        >
+        <div className="icCopy" onClick={() => onClickCopy(user?.tcAddress || '')}>
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
@@ -94,10 +92,7 @@ const WalletHeader = () => {
             {formatLongAddress(user?.btcAddress || '')}
           </Text>
         </div>
-        <div
-          className="icCopy"
-          onClick={() => onClickCopy(user?.btcAddress || '')}
-        >
+        <div className="icCopy" onClick={() => onClickCopy(user?.btcAddress || '')}>
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
@@ -109,7 +104,9 @@ const WalletHeader = () => {
       <div className="cta">
         <div
           className="wallet-link"
-          onClick={() => window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)}
+          onClick={() =>
+            window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)
+          }
         >
           <IconSVG src={`${CDN_URL}/icons/ic-wallet-artifact.svg`} maxWidth="20" />
           <Text size="medium">Wallet</Text>
@@ -135,7 +132,9 @@ const WalletHeader = () => {
           >
             <div
               className="wallet"
-              onClick={() => window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)}
+              onClick={() =>
+                window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)
+              }
               ref={ref}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -147,16 +146,21 @@ const WalletHeader = () => {
                   <p className="text">{formatEthPrice(tcBalance)} TC</p>
                 </div>
                 <div className="avatar">
-                  <Jazzicon diameter={32} seed={jsNumberForAddress(user.tcAddress)} />
+                  <Jazzicon
+                    diameter={32}
+                    seed={jsNumberForAddress(user.tcAddress)}
+                  />
                 </div>
               </WalletBalance>
             </div>
           </OverlayTrigger>
         </>
       ) : (
-        <ConnectWalletButton className="hideMobile" onClick={handleConnectWallet}>
-          {isConnecting ? 'Connecting...' : 'Connect wallet'}
-        </ConnectWalletButton>
+        <ArtifactButton variant="transparent" width={228} height={48}>
+          <ConnectWalletButton className="hideMobile" onClick={handleConnectWallet}>
+            {isConnecting ? 'Connecting...' : 'Connect wallet'}
+          </ConnectWalletButton>
+        </ArtifactButton>
       )}
     </>
   );

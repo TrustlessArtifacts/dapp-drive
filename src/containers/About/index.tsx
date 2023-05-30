@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { AboutHeader, SectionControllers, StyledAbout } from './About.styled';
+import ArtifactButton from '@/components/ArtifactButton';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
@@ -72,17 +73,12 @@ const About = () => {
             <div className="desc">
               Immutable and on-chain with dynamic file size acceptance.
             </div>
-            <div className="cta-btn">
-              <IconSVG
-                src={`${CDN_URL}/artifact/Landing_page/${
-                  mobileScreen ? 'button-bg' : 'button'
-                }.svg`}
-                className="btn-bg"
-              />
+
+            <ArtifactButton variant="primary" width={257} height={62}>
               <Link href="/" className="btn-content">
                 Preserve Artifact
               </Link>
-            </div>
+            </ArtifactButton>
           </div>
         </div>
         <div className="section-02" id="section-2" ref={secondSectionRef}>
@@ -102,17 +98,11 @@ const About = () => {
               Your images are permanently stored on the most secure
               blockchain—Bitcoin.
             </div>
-            <div className="cta-btn">
-              <IconSVG
-                src={`${CDN_URL}/artifact/Landing_page/${
-                  mobileScreen ? 'button-bg' : 'button'
-                }.svg`}
-                className="btn-bg"
-              />
-              <Link href={`/`} className="btn-content">
+            <ArtifactButton variant="primary" width={257} height={62}>
+              <Link href="/" className="btn-content">
                 Preserve Artifact
               </Link>
-            </div>
+            </ArtifactButton>
           </div>
         </div>
         <div className="section-03" id="section-3" ref={thirdSectionRef}>
@@ -132,17 +122,11 @@ const About = () => {
               The Trustless Computer Protocol allows you to store an unlimited size
               file on Bitcoin, maintaining its authenticity and original state. 
             </div>
-            <div className="cta-btn">
-              <IconSVG
-                src={`${CDN_URL}/artifact/Landing_page/${
-                  mobileScreen ? 'button-bg' : 'button'
-                }.svg`}
-                className="btn-bg"
-              />
+            <ArtifactButton variant="primary" width={257} height={62}>
               <Link href="/" className="btn-content">
                 Preserve Artifact
               </Link>
-            </div>
+            </ArtifactButton>
           </div>
         </div>
         <SectionControllers>

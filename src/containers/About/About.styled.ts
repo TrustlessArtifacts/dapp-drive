@@ -93,7 +93,6 @@ export const StyledAbout = styled.div`
     }
 
     .btn-content {
-      position: absolute;
       padding: ${px2rem(15)} ${px2rem(30)};
       text-transform: uppercase;
       font-weight: 500;
@@ -101,10 +100,6 @@ export const StyledAbout = styled.div`
       line-height: ${px2rem(26)};
       letter-spacing: ${px2rem(1.5)};
       color: #000;
-      z-index: 2;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       white-space: nowrap;
     }
 
