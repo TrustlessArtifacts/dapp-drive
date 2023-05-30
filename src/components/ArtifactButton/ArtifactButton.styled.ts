@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 
-export const StyledArtifactButton = styled.div`
+export const StyledArtifactButton = styled.div<{ objectFit: 'contain' | 'cover' }>`
   &.cta-btn {
     width: fit-content;
     height: auto;
     display: grid;
     place-items: center;
     position: relative;
+
+    img {
+      object-fit: ${({ objectFit }) => objectFit};
+    }
 
     &:hover {
       opacity: 0.8;

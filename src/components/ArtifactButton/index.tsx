@@ -8,6 +8,7 @@ type Props = {
   variant: 'primary' | 'white' | 'transparent';
   width?: number;
   height?: number;
+  objectFit?: 'contain' | 'cover';
 };
 
 const ArtifactButton = ({
@@ -15,6 +16,7 @@ const ArtifactButton = ({
   children,
   width,
   height,
+  objectFit = 'contain',
 }: PropsWithChildren<Props>) => {
   const { mobileScreen } = useWindowSize();
   const [button, setButton] = useState('');
@@ -39,7 +41,7 @@ const ArtifactButton = ({
   }, [mobileScreen, variant]);
 
   return (
-    <StyledArtifactButton className="cta-btn">
+    <StyledArtifactButton className="cta-btn" objectFit={objectFit}>
       <Image
         src={`${CDN_URL}/pages/artifacts/${button}`}
         className="btn-bg"

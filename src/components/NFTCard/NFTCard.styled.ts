@@ -8,10 +8,7 @@ export const Styled = styled(Link)`
   text-decoration: none !important;
   --bs-card-bg: none;
 
-  background: ${({ theme }: { theme: DefaultTheme }) => theme.white};
-
-  border: 1px solid #ececed;
-  border-radius: 12px;
+  background: rgba(0, 46, 29, 0.6);
 
   :hover {
     border: 1px solid
@@ -22,12 +19,12 @@ export const Styled = styled(Link)`
   }
 
   .card-image {
-    background: #f4f6f8;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    background: rgba(0, 46, 29, 0.6);
+
+    border-radius: 20px;
 
     min-height: ${px2rem(180)};
-    padding: ${px2rem(32)};
+    padding: ${px2rem(20)};
     position: relative;
 
     .image {
@@ -36,6 +33,8 @@ export const Styled = styled(Link)`
       aspect-ratio: 1 / 1;
       height: auto;
       object-fit: cover;
+      border-radius: 16px;
+      background: rgba(0, 46, 29, 0.6);
     }
 
     .overlay {
