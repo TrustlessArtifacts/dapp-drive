@@ -8,22 +8,24 @@ import connector from '@/connectors/tc-connector';
 import { IRequestSignResp } from 'tc-connect';
 import logger from '@/services/logger';
 
-export interface IPreserveChunkParams {
-  address: string;
-  chunks: Array<Buffer>;
+export interface IStoreChunkParams {
+  tokenId: number;
+  chunkIndex: number;
+  chunks: Buffer;
 }
 
-const usePreserveChunks: ContractOperationHook<
-  IPreserveChunkParams,
+const useStoreChunks: ContractOperationHook<
+  IStoreChunkParams,
   IRequestSignResp | null
 > = () => {
 
   const call = useCallback(
-    async (params: IPreserveChunkParams): Promise<IRequestSignResp | null> => {
-      const { address, chunks } = params;
+    async (params: IStoreChunkParams): Promise<IRequestSignResp | null> => {
+      const { tokenId, chunkIndex, chunks } = params;
       const ContractInterface = new ethers.Interface(ArtifactABIJson.abi);
-      const encodeAbi = ContractInterface.encodeFunctionData("preserveChunks", [
-        address,
+      const encodeAbi = ContractInterface.encodeFunctionData("store", [
+        tokenId,
+        chunkIndex,
         chunks
       ]);
 
@@ -36,8 +38,8 @@ const usePreserveChunks: ContractOperationHook<
         isInscribe: true,
         gasPrice: undefined,
         gasLimit: undefined,
-        functionType: 'Preserve Chunks',
-        functionName: 'preserveChunks(address,bytes[])',
+        functionType: 'Store',
+        functionName: 'store(uint256,uint256,bytes[])',
       });
 
       logger.debug(response);
@@ -53,4 +55,4 @@ const usePreserveChunks: ContractOperationHook<
   };
 };
 
-export default usePreserveChunks;
+export default useStoreChunks;

@@ -1,14 +1,28 @@
-export interface IUploadFilePayload {
-  file: File;
+import { ChunkProcessStatus } from "@/enums/file";
+import { IPagingParams } from "./query";
+
+export interface IGetUploadedFileListParams extends IPagingParams {
+  contract_address?: string;
+  token_id?: string;
+  wallet_address?: string;
+  tx_hash?: string;
+  status?: string;
 }
 
-export interface IUploadFileResponse {
-  fileName: string;
-  fileSize: number;
+export interface IUploadFileResponseItem {
   id: string;
-  mimeType: string;
-  uploadedBy: string;
-  url: string;
+  name: string;
+  path: string;
+  fullPath: string;
+  size: number;
+  fileType: string;
+  createdAt: string;
+  chunks: number;
+  chunk_size: number;
+  txHash: string;
+  tokenId: string;
+  walletAddress: string;
+  contractAddress: string;
 }
 
 export interface IMinifyFilePayload {
@@ -47,12 +61,33 @@ export interface ICompleteMultipartUploadPayload {
 
 export interface ICompleteMultipartUploadResponse {
   fileUrl: string;
+  fileId: string;
 }
 
-export interface IResizeImagePayload {
-  file: string; // fileBase64
+export interface IUpdateFileTransactionInfoPayload {
+  tcAddress?: string;
+  txHash: string;
+  fileId: string;
 }
 
-export interface IResizeImageResponse {
-  file: string; // fileBase64
+export interface IUpdateFileChunkTransactionInfoPayload {
+  tcAddress?: string;
+  txHash: string;
+  fileId: string;
+  chunkId: string;
+}
+
+export interface IGetFileChunkParams {
+  fileId: string;
+  chunkId: string;
+}
+
+export interface IGetFileChunkResponse {
+  id: string;
+  status: ChunkProcessStatus;
+  createdAt: string;
+  fileId: string;
+  chunkIndex: number;
+  chunkData: string;
+  txHash: string;
 }

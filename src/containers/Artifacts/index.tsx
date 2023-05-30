@@ -41,16 +41,19 @@ const Artifacts: React.FC = () => {
     });
   };
 
-  const handlePreverseArtifact = () => {
-    if (!isAuthenticated) handleConnectWallet();
-    else {
-      setShowUploadModal(true);
+  const handlePreverseArtifact = (): void => {
+    if (!isAuthenticated) {
+      handleConnectWallet();
+      return;
     }
+    setShowUploadModal(true);
   };
 
   useEffect(() => {
     if (file) {
       setShowUploadModal(true);
+    } else {
+      setShowUploadModal(false);
     }
   }, [file]);
 
@@ -75,9 +78,6 @@ const Artifacts: React.FC = () => {
             >
               Preserve Artifact
             </Text>
-            {/* <Text size="regular" fontWeight="regular" className="button-sub-text">
-              Max 350kb each
-            </Text> */}
           </PreserveButton>
           <FileUploader
             handleChange={onChangeFile}

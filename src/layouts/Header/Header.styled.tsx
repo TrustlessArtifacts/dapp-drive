@@ -5,11 +5,11 @@ import styled, { DefaultTheme } from 'styled-components';
 import Link from 'next/link';
 
 const Wrapper = styled.div`
-  background: #202e44;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
 
   .content {
     max-width: 1920px;
