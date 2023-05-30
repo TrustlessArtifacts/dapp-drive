@@ -4,12 +4,10 @@ import styled, { DefaultTheme } from 'styled-components';
 
 export const WalletPopover = styled(Popover)`
   width: ${px2rem(200)};
-  color: ${({ theme }) => theme.white};
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
   padding: ${px2rem(12)} ${px2rem(20)};
-
-  background: #ffffff;
-  border: 1px solid #ececed;
-
+  background: #04150F;
+  border: 1px solid rgba(120, 170, 143);
   box-shadow: 0px 0px 24px -6px rgba(0, 0, 0, 0.12);
   border-radius: 8px;
 
@@ -31,7 +29,7 @@ export const WalletPopover = styled(Popover)`
     gap: ${px2rem(8)};
   }
   .wallet-address {
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
   }
 
   .wallet-link,
@@ -40,12 +38,13 @@ export const WalletPopover = styled(Popover)`
     align-items: center;
     gap: ${px2rem(12)};
     cursor: pointer;
+
     :hover {
       opacity: 0.6;
     }
 
     p {
-      color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
+      color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
     }
   }
 
@@ -53,7 +52,7 @@ export const WalletPopover = styled(Popover)`
     margin-top: ${px2rem(20)};
     margin-bottom: ${px2rem(20)};
     p {
-      color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
+      color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
     }
   }
 

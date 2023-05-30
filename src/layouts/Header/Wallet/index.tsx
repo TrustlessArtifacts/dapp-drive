@@ -64,7 +64,7 @@ const WalletHeader = () => {
       <div className="wallet-tc">
         <div className="wallet-item">
           <IconSVG
-            src={`${CDN_URL}/icons/ic-penguin-artifact.svg`}
+            src={`${CDN_URL}/icons/logo-white.svg`}
             maxWidth="24"
             maxHeight="24"
           />
@@ -108,11 +108,11 @@ const WalletHeader = () => {
             window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)
           }
         >
-          <IconSVG src={`${CDN_URL}/icons/ic-wallet-artifact.svg`} maxWidth="20" />
+          <IconSVG src={`${CDN_URL}/icons/ep_wallet-filled.svg`} maxWidth="20" />
           <Text size="medium">Wallet</Text>
         </div>
         <div className="wallet-disconnect" onClick={disconnect}>
-          <IconSVG src={`${CDN_URL}/icons/ic-logout-artifact.svg`} maxWidth="20" />
+          <IconSVG src={`${CDN_URL}/icons/basil_logout-solid.svg`} maxWidth="20" />
           <Text size="medium">Disconnect</Text>
         </div>
       </div>
