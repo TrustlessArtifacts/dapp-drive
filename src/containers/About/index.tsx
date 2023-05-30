@@ -123,18 +123,18 @@ const About = () => {
           <div className="background">
             <Image
               src={`${CDN_URL}/artifact/Landing_page/${
-                mobileScreen ? 'mobile-artifact-3a' : 'artifact-3c'
+                mobileScreen ? 'mobile-artifact-4' : 'artifact-3d'
               }.png`}
               alt={'background artifact 03'}
               fill
             />
           </div>
           <div className="content left">
-            <h4 className="subTitle">file size</h4>
-            <h3 className="title">Large file size acceptance</h3>
+            <h4 className="subTitle">smart contract</h4>
+            <h3 className="title">BRC-721 standard powered by smart contract.</h3>
             <div className="desc">
-              The Trustless Computer Protocol allows you to store an unlimited size
-              file on Bitcoin, maintaining its authenticity and original state. 
+              BRC-721 is the standard for Non-Fungible Tokens (NFT) on Bitcoin. It is
+              compatible with smart contracts via the Trustless Computer protocol. 
             </div>
             <ArtifactButton
               variant="primary"
@@ -152,18 +152,18 @@ const About = () => {
           <div className="background">
             <Image
               src={`${CDN_URL}/artifact/Landing_page/${
-                mobileScreen ? 'mobile-artifact-4' : 'artifact-4'
+                mobileScreen ? 'mobile-artifact-3' : 'artifact-4a'
               }.png`}
               alt={'background artifact 04'}
               fill
             />
           </div>
           <div className="content right">
-            <h4 className="subTitle">smart contract</h4>
-            <h3 className="title">BRC-721 standard powered by smart contract.</h3>
+            <h4 className="subTitle">coming soon</h4>
+            <h3 className="title">Large file size acceptance</h3>
             <div className="desc">
-              BRC-721 is the standard for Non-Fungible Tokens (NFT) on Bitcoin. It is
-              compatible with smart contracts via the Trustless Computer protocol.
+              The Trustless Computer Protocol allows you to store an unlimited size
+              file on Bitcoin, maintaining its authenticity and original state. 
             </div>
             <ArtifactButton
               variant="primary"
