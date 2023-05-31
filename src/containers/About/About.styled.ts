@@ -50,7 +50,7 @@ export const StyledAbout = styled.div`
     z-index: 1;
     position: relative;
     margin-left: ${px2rem(100)};
-    max-width: 70ch;
+    max-width: 75ch;
 
     .subTitle {
       text-transform: uppercase;
