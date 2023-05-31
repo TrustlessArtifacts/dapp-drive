@@ -80,8 +80,8 @@ const About = () => {
 
             <ArtifactButton
               variant="primary"
-              width={257}
-              height={75}
+              width={300}
+              height={79}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
@@ -109,8 +109,8 @@ const About = () => {
             </div>
             <ArtifactButton
               variant="primary"
-              width={257}
-              height={75}
+              width={300}
+              height={79}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
@@ -138,8 +138,8 @@ const About = () => {
             </div>
             <ArtifactButton
               variant="primary"
-              width={257}
-              height={75}
+              width={300}
+              height={79}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
@@ -167,8 +167,8 @@ const About = () => {
             </div>
             <ArtifactButton
               variant="primary"
-              width={257}
-              height={75}
+              width={300}
+              height={79}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">

@@ -22,6 +22,7 @@ export const ContentWrapper = styled.div`
   max-width: 1920px;
   padding: 0 ${px2rem(32)};
   width: 100%;
+  margin: 0 auto;
 
   > div {
     width: 100%;
