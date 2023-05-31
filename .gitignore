@@ -20,6 +20,8 @@ node_modules
 # misc
 .DS_Store
 *.pem
+.vscode
+/.vscode/
 
 # debug
 npm-debug.log*

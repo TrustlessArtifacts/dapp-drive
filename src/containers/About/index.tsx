@@ -74,7 +74,7 @@ const About = () => {
             <h3 className="title">Be the first to preserve anything on Bitcoin. </h3>
             <div className="desc">
               Define BRC-721 standard on Bitcoin powered by smart contract via
-              Trustless Computer protocol. Immutable and fully on-chain with support
+              Trustless Computer protocol. Affordable and fully on-chain with support
               for large file sizes.
             </div>
 
@@ -94,18 +94,18 @@ const About = () => {
           <div className="background">
             <Image
               src={`${CDN_URL}/artifact/Landing_page/${
-                mobileScreen ? 'mobile-artifact-2' : 'artifact-2a'
+                mobileScreen ? 'mobile-artifact-4' : 'artifact-2b'
               }.png`}
               alt={'background artifact 02'}
               fill
             />
           </div>
           <div className="content right">
-            <h4 className="subTitle">Fully on-chain</h4>
-            <h3 className="title">Immutable</h3>
+            <h4 className="subTitle">smart contract</h4>
+            <h3 className="title">Smarter</h3>
             <div className="desc">
-              Your images are permanently stored on the most secure
-              blockchain—Bitcoin.
+              BRC-721 is the standard for Non-Fungible Tokens (NFT) on Bitcoin. It is
+              compatible with smart contracts via the Trustless Computer protocol.
             </div>
             <ArtifactButton
               variant="primary"
@@ -123,19 +123,16 @@ const About = () => {
           <div className="background">
             <Image
               src={`${CDN_URL}/artifact/Landing_page/${
-                mobileScreen ? 'mobile-artifact-4' : 'artifact-3d'
+                mobileScreen ? 'mobile-artifact-2' : 'artifact-3e'
               }.png`}
               alt={'background artifact 03'}
               fill
             />
           </div>
           <div className="content left">
-            <h4 className="subTitle">smart contract</h4>
-            <h3 className="title">BRC-721 standard powered by smart contract.</h3>
-            <div className="desc">
-              BRC-721 is the standard for Non-Fungible Tokens (NFT) on Bitcoin. It is
-              compatible with smart contracts via the Trustless Computer protocol. 
-            </div>
+            <h4 className="subTitle">network Fee</h4>
+            <h3 className="title">Cheaper</h3>
+            <div className="desc">Save up to 50% over the Ordinals protocol.</div>
             <ArtifactButton
               variant="primary"
               width={300}
@@ -152,7 +149,7 @@ const About = () => {
           <div className="background">
             <Image
               src={`${CDN_URL}/artifact/Landing_page/${
-                mobileScreen ? 'mobile-artifact-3' : 'artifact-4a'
+                mobileScreen ? 'mobile-artifact-4a' : 'artifact-4a'
               }.png`}
               alt={'background artifact 04'}
               fill
@@ -160,7 +157,7 @@ const About = () => {
           </div>
           <div className="content right">
             <h4 className="subTitle">coming soon</h4>
-            <h3 className="title">Large file size acceptance</h3>
+            <h3 className="title">Larger</h3>
             <div className="desc">
               The Trustless Computer Protocol allows you to store an unlimited size
               file on Bitcoin, maintaining its authenticity and original state. 

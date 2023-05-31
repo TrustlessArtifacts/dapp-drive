@@ -1,6 +1,5 @@
 import { CDN_URL } from '@/configs';
 import useWindowSize from '@/hooks/useWindowSize';
-import Image from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { StyledArtifactButton } from './ArtifactButton.styled';
 
@@ -44,7 +43,7 @@ const ArtifactButton = ({
 
   return (
     <StyledArtifactButton className={`cta-btn ${className}`} objectFit={objectFit}>
-      <Image
+      <img
         src={`${CDN_URL}/pages/artifacts/${button}`}
         className="btn-bg"
         alt="button bg"

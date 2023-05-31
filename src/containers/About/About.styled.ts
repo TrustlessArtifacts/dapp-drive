@@ -154,7 +154,7 @@ export const StyledAbout = styled.div`
       }
 
       &.right {
-        margin-left: unset;
+        margin-left: auto;
         padding-right: ${px2rem(20)};
       }
     }
