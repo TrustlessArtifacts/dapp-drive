@@ -7,6 +7,8 @@ import { ethers } from "ethers";
 import connector from '@/connectors/tc-connector';
 import { IRequestSignResp } from 'tc-connect';
 import logger from '@/services/logger';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@/state/user/selector';
 
 export interface IPreserveChunkParams {
   address: string;
@@ -17,6 +19,7 @@ const usePreserveChunks: ContractOperationHook<
   IPreserveChunkParams,
   IRequestSignResp | null
 > = () => {
+  const user = useSelector(getUserSelector);
 
   const call = useCallback(
     async (params: IPreserveChunkParams): Promise<IRequestSignResp | null> => {
@@ -28,6 +31,7 @@ const usePreserveChunks: ContractOperationHook<
       ]);
 
       const response = await connector.requestSign({
+        from: user.tcAddress,
         target: "_blank",
         calldata: encodeAbi,
         to: ARTIFACT_CONTRACT,
@@ -43,7 +47,7 @@ const usePreserveChunks: ContractOperationHook<
       logger.debug(response);
       return response;
     },
-    [],
+    [user?.tcAddress],
   );
 
   return {

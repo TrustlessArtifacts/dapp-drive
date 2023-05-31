@@ -7,6 +7,8 @@ import { ethers } from "ethers";
 import connector from '@/connectors/tc-connector';
 import { IRequestSignResp } from 'tc-connect';
 import logger from '@/services/logger';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@/state/user/selector';
 
 export interface IStoreChunkParams {
   tokenId: number;
@@ -18,6 +20,7 @@ const useStoreChunks: ContractOperationHook<
   IStoreChunkParams,
   IRequestSignResp | null
 > = () => {
+  const user = useSelector(getUserSelector);
 
   const call = useCallback(
     async (params: IStoreChunkParams): Promise<IRequestSignResp | null> => {
@@ -30,6 +33,7 @@ const useStoreChunks: ContractOperationHook<
       ]);
 
       const response = await connector.requestSign({
+        from: user.tcAddress,
         target: "_blank",
         calldata: encodeAbi,
         to: ARTIFACT_CONTRACT,
@@ -45,7 +49,7 @@ const useStoreChunks: ContractOperationHook<
       logger.debug(response);
       return response;
     },
-    [],
+    [user?.tcAddress],
   );
 
   return {
