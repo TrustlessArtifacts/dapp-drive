@@ -3,7 +3,7 @@ import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
 
 export const ArtifactWrapper = styled.div`
-  margin-top: ${px2rem(40)};
+  margin-top: ${px2rem(60)};
 
   @media screen and (max-width: 768px) {
     margin-top: ${px2rem(40)};
@@ -54,8 +54,8 @@ export const UploadFileContainer = styled.div`
 
   .upload_desc {
     font-weight: 400;
-    font-size: ${px2rem(20)};
-    line-height: ${px2rem(30)};
+    font-size: ${px2rem(18)};
+    line-height: ${px2rem(28)};
     color: white;
     width: 75%;
     margin-left: auto;

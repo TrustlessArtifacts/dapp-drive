@@ -43,12 +43,12 @@ export const StyledModalUpload = styled(Modal)`
     padding: 0;
     display: flex;
     justify-content: flex-end;
-    padding-top: ${px2rem(18)};
-    padding-right: ${px2rem(18)};
+    padding-top: ${px2rem(12)};
+    padding-right: ${px2rem(12)};
   }
 
   .modal-body {
-    padding: ${px2rem(32)};
+    padding: ${px2rem(36)};
     padding-top: ${px2rem(7)};
 
     display: grid;
@@ -105,8 +105,8 @@ export const StyledModalUpload = styled(Modal)`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    gap: ${px2rem(16)};
-    margin: ${px2rem(20)} ${px2rem(16)} ${px2rem(10)};
+    gap: ${px2rem(8)};
+    margin: ${px2rem(20)} ${px2rem(12)} ${px2rem(10)};
 
     p:not(.file-name) {
       opacity: 0.7;
@@ -154,6 +154,7 @@ export const StyledModalUpload = styled(Modal)`
     border-radius: 16px;
 
     .confirm-btn-wrapper {
+      margin-top: ${px2rem(80)};
       margin-left: auto;
       margin-right: auto;
     }
@@ -173,6 +174,8 @@ export const StyledModalUpload = styled(Modal)`
   .est-fee-item {
     flex: 1;
     padding: ${px2rem(8)} ${px2rem(16)};
+    padding-bottom: ${px2rem(20)};
+    padding-top: 0;
     opacity: 1;
     display: flex;
     justify-content: space-between;

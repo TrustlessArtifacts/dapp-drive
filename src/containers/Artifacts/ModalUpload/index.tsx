@@ -214,9 +214,7 @@ const ModalUpload = (props: Props) => {
           <Text fontWeight="medium" color="white" size="regular">
             {title}
           </Text>
-          <Text color="white" className="mb-10">
-            {feeRate} sats/vByte
-          </Text>
+          <Text color="white">{feeRate} sats/vByte</Text>
         </div>
 
         <p className="ext-price" style={{ color: 'white' }}>
@@ -252,7 +250,7 @@ const ModalUpload = (props: Props) => {
           className="cursor-pointer hover-opacity"
           onClick={handleClose}
           src={`${CDN_URL}/artifact/icons/ic-close.svg`}
-          maxWidth={'22px'}
+          maxWidth={'24'}
         />
       </Modal.Header>
       <Modal.Body>

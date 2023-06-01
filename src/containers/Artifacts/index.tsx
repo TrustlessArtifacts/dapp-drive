@@ -67,7 +67,7 @@ const Artifacts: React.FC = () => {
         <div className="upload_left">
           <div className="upload_content">
             <p className="upload_title">Artifacts</p>
-            <Text size="medium" className="upload_desc">
+            <Text className="upload_desc">
               Cheap. Immutable. Fully on-chain. Large files are supported too. We
               recommend you preserve a small artifact to save gas fees—ideally, a
               file under 20 kB.
