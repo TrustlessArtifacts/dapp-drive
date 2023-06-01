@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { StyledUploadFooter } from './UploadFooter.styled';
 
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
+import { useWindowSize } from '@trustless-computer/dapp-core';
 
 type Props = {
   handlePreserverArtifact: () => void;
@@ -23,6 +24,26 @@ const UploadFooter = ({
   isUploadVisible,
 }: Props) => {
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
+  const { mobileScreen } = useWindowSize();
+
+  const buttonWidth = (): number => {
+    if (mobileScreen) {
+      return 274;
+    } else if (window.innerWidth > 1920) {
+      return 229;
+    } else {
+      return 175;
+    }
+  };
+  const buttonHeight = (): number => {
+    if (mobileScreen) {
+      return 55;
+    } else if (window.innerWidth > 1920) {
+      return 52;
+    } else {
+      return 38;
+    }
+  };
 
   return (
     <StyledUploadFooter isUploadVisible={isUploadVisible}>
@@ -37,7 +58,11 @@ const UploadFooter = ({
         <span>any size are supported.</span>
       </div>
       <div className="button">
-        <ArtifactButton variant="white" width={226} height={52}>
+        <ArtifactButton
+          variant="white"
+          width={buttonWidth()}
+          height={buttonHeight()}
+        >
           <button onClick={handlePreserverArtifact}>
             <Text className="button-text" color="bg1" fontWeight="medium">
               Preserve Artifact
