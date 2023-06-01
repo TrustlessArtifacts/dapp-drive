@@ -1,46 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ConnectionType } from '@/connection';
 
 export interface UserState {
-  btcAddress?: string;
-  tcAddress?: string;
-  walletAccounts?: Array<{
-    btcAddress: string;
-    tcAddress: string;
-  }>
+  selectedWallet?: ConnectionType;
+  walletAddressBtcTaproot?: string;
+  walletAddress?: string;
 }
 
 export const initialState: UserState = {
-  btcAddress: undefined,
-  tcAddress: undefined,
-  walletAccounts: [],
+  selectedWallet: undefined,
+  walletAddressBtcTaproot: undefined,
+  walletAddress: undefined,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateTcAddress(state, { payload }) {
-      state.tcAddress = payload;
+    updateSelectedWallet(state, { payload: { wallet } }) {
+      state.selectedWallet = wallet;
     },
-    updateBtcAddress(state, { payload }) {
-      state.btcAddress = payload;
+    updateEVMWallet(state, { payload }) {
+      state.walletAddress = payload;
     },
-    updateWalletAccounts(state, { payload }) {
-      state.walletAccounts = payload;
+    updateTaprootWallet(state, { payload }) {
+      state.walletAddressBtcTaproot = payload;
     },
     resetUser(state) {
-      state.tcAddress = undefined;
-      state.btcAddress = undefined;
-      state.walletAccounts = [];
+      state.selectedWallet = undefined;
+      state.walletAddress = undefined;
+      state.walletAddressBtcTaproot = undefined;
     },
   },
 });
 
-export const {
-  resetUser,
-  updateTcAddress,
-  updateBtcAddress,
-  updateWalletAccounts,
-} = userSlice.actions;
-
+export const { updateSelectedWallet, resetUser, updateTaprootWallet, updateEVMWallet } = userSlice.actions;
 export default userSlice.reducer;

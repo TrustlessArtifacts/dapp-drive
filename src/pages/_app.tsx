@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import type { AppProps } from 'next/app';
 import { SEO_TITLE, SEO_DESCRIPTION, SEO_IMAGE } from '@/constants/seo';
+import Web3Provider from '@/components/Web3Provider';
 import { Provider } from 'react-redux';
 import { WalletProvider } from '@/contexts/wallet-context';
 import { AssetsProvider } from '@/contexts/assets-context';
@@ -11,22 +12,10 @@ import { Toaster } from 'react-hot-toast';
 import '@/styles/index.scss';
 import ClientOnly from '@/components/Utils/ClientOnly';
 import { CDN_URL } from '@/configs';
-import { useEffect } from 'react';
-import { setupSDK } from '@/lib/sdk';
-import { MempoolProvider } from '@/contexts/mempool-context';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import NextNprogress from 'nextjs-progressbar';
-
-// Rowdies
 
 export default function App({ Component, pageProps }: AppProps) {
   const { seoInfo = {} } = pageProps;
   const { title, description, image } = seoInfo;
-
-  useEffect(() => {
-    setupSDK();
-  }, []);
 
   return (
     <>
@@ -49,12 +38,12 @@ export default function App({ Component, pageProps }: AppProps) {
           rel="icon"
           type="image/svg"
           sizes="16x16 32x32"
-          href={`${CDN_URL}/images/drive-logo.svg`}
+          href={`${CDN_URL}/pages/artifacts/logo-1.svg`}
         />
         <link
           rel="apple-touch-icon"
           sizes="16x16 32x32"
-          href={`${CDN_URL}/images/drive-logo.svg`}
+          href={`${CDN_URL}/pages/artifacts/logo-1.svg`}
         />
         <meta name="msapplication-TileColor" content="#FFFFFF" />
       </Head>
@@ -63,18 +52,17 @@ export default function App({ Component, pageProps }: AppProps) {
         <Provider store={store}>
           <ThemeProvider>
             <ThemedGlobalStyle />
-            <WalletProvider>
-              <AssetsProvider>
-                <MempoolProvider>
+            <Web3Provider>
+              <WalletProvider>
+                <AssetsProvider>
                   <Component {...pageProps} />
-                </MempoolProvider>
-              </AssetsProvider>
-              <Toaster position="top-center" reverseOrder={false} />
-            </WalletProvider>
+                </AssetsProvider>
+                <Toaster position="top-center" reverseOrder={false} />
+              </WalletProvider>
+            </Web3Provider>
           </ThemeProvider>
         </Provider>
       </ClientOnly>
-      <NextNprogress />
     </>
   );
 }

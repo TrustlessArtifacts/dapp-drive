@@ -15,7 +15,6 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "error",
-    "@next/next/no-img-element": "off",
-    "no-console": "error"
+    "@next/next/no-img-element": "off"
   }
 }

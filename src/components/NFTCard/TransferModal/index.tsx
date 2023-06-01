@@ -5,13 +5,11 @@ import { Modal } from 'react-bootstrap';
 import { StyledModalUpload, WrapInput, Title } from './TransferModal.styled';
 import Button from '@/components/Button';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
+import toast from 'react-hot-toast';
 import { Formik } from 'formik';
 import useTransferERC721Token from '@/hooks/contract-operations/nft/useTransferERC721Token';
 import { CDN_URL } from '@/configs';
-import { showToastError, showToastSuccess } from '@/utils/toast';
-import { useSelector } from 'react-redux';
-import { getUserSelector } from '@/state/user/selector';
-import logger from '@/services/logger';
+import { showError } from '@/utils/toast';
 
 type Props = {
   show: boolean;
@@ -29,7 +27,6 @@ const TransferModal = (props: Props) => {
   const { run } = useContractOperation({
     operation: useTransferERC721Token,
   });
-  const user = useSelector(getUserSelector);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const validateForm = (values: IFormValue): Record<string, string> => {
@@ -44,16 +41,8 @@ const TransferModal = (props: Props) => {
 
   const handleSubmit = async (values: IFormValue): Promise<void> => {
     if (!tokenId || !contractAddress) {
-      showToastError({
-        message: 'Token information not found.'
-      });
-      setIsProcessing(false);
-      return;
-    }
-
-    if (!user.tcAddress) {
-      showToastError({
-        message: 'Unauthenticated.'
+      showError({
+        message: 'Token information not found'
       });
       setIsProcessing(false);
       return;
@@ -63,20 +52,15 @@ const TransferModal = (props: Props) => {
     try {
       setIsProcessing(true);
       await run({
-        from: user.tcAddress,
         tokenId: tokenId,
         to: toAddress,
         contractAddress: contractAddress,
       });
-      showToastSuccess({
-        message: 'Transaction has been created successfully.'
-      });
+      toast.success('Transaction has been created. Please wait for few minutes.');
       handleClose();
     } catch (err) {
-      showToastError({
-        message: (err as Error).message
-      });
-      logger.error(err);
+      toast.error((err as Error).message);
+      console.log(err);
     } finally {
       setIsProcessing(false);
     }

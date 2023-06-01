@@ -14,7 +14,7 @@ const Container = styled.div`
     align-items: center;
     align-self: center;
     letter-spacing: -0.02em;
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.primary};
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
   }
 `;
 

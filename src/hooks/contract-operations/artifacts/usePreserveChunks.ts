@@ -1,53 +1,56 @@
 import ArtifactABIJson from '@/abis/artifacts.json';
 import { ARTIFACT_CONTRACT } from '@/configs';
+import { ERROR_CODE } from '@/constants/error';
+import { AssetsContext } from '@/contexts/assets-context';
 import { TransactionEventType } from '@/enums/transaction';
+import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
-import { useCallback } from 'react';
-import { ethers } from "ethers";
-import connector from '@/connectors/tc-connector';
-import { IRequestSignResp } from 'tc-connect';
-import logger from '@/services/logger';
-import { useSelector } from 'react-redux';
-import { getUserSelector } from '@/state/user/selector';
+import { useWeb3React } from '@web3-react/core';
+import BigNumber from 'bignumber.js';
+import { Transaction } from 'ethers';
+import { useCallback, useContext } from 'react';
+import * as TC_SDK from 'trustless-computer-sdk';
 
 export interface IPreserveChunkParams {
   address: string;
-  chunks: Array<Buffer>;
+  chunks: Buffer;
+  selectFee: number;
 }
 
 const usePreserveChunks: ContractOperationHook<
   IPreserveChunkParams,
-  IRequestSignResp | null
+  Transaction | null
 > = () => {
-  const user = useSelector(getUserSelector);
+  const { account, provider } = useWeb3React();
+  const contract = useContract(ARTIFACT_CONTRACT, ArtifactABIJson.abi, true);
+  const { btcBalance, feeRate } = useContext(AssetsContext);
 
   const call = useCallback(
-    async (params: IPreserveChunkParams): Promise<IRequestSignResp | null> => {
-      const { address, chunks } = params;
-      const ContractInterface = new ethers.Interface(ArtifactABIJson.abi);
-      const encodeAbi = ContractInterface.encodeFunctionData("preserveChunks", [
-        address,
-        chunks
-      ]);
+    async (params: IPreserveChunkParams): Promise<Transaction | null> => {
+      if (account && provider && contract) {
+        const { address, chunks, selectFee } = params;
+        console.log({
+          tcTxSizeByte: Buffer.byteLength(chunks),
+          feeRatePerByte: selectFee,
+        });
+        const estimatedFee = TC_SDK.estimateInscribeFee({
+          tcTxSizeByte: Buffer.byteLength(chunks),
+          feeRatePerByte: selectFee,
+        });
+        const balanceInBN = new BigNumber(btcBalance);
+        if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
+          throw Error(ERROR_CODE.INSUFFICIENT_BALANCE);
+        }
+        const transaction = await contract
+          .connect(provider.getSigner())
+          .preserveChunks(address, [chunks]);
 
-      const response = await connector.requestSign({
-        from: user.tcAddress,
-        target: "_blank",
-        calldata: encodeAbi,
-        to: ARTIFACT_CONTRACT,
-        value: "",
-        redirectURL: window.location.href,
-        isInscribe: true,
-        gasPrice: undefined,
-        gasLimit: undefined,
-        functionType: 'Preserve Chunks',
-        functionName: 'preserveChunks(address,bytes[])',
-      });
+        return transaction;
+      }
 
-      logger.debug(response);
-      return response;
+      return null;
     },
-    [user?.tcAddress],
+    [account, provider, contract, btcBalance, feeRate],
   );
 
   return {

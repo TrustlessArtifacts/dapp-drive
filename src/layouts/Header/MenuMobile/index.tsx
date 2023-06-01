@@ -10,6 +10,9 @@ import { CDN_URL } from '@/configs';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
+import Jazzicon from 'react-jazzicon/dist/Jazzicon';
+import { jsNumberForAddress } from 'react-jazzicon';
+import { useWeb3React } from '@web3-react/core';
 
 interface IProp {
   isOpen: boolean;
@@ -17,7 +20,8 @@ interface IProp {
 }
 
 const MenuMobile = ({ onCloseMenu, isOpen }: IProp) => {
-  const { btcBalance, tcBalance } = useContext(AssetsContext);
+  const { btcBalance, juiceBalance } = useContext(AssetsContext);
+  const { account } = useWeb3React();
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const router = useRouter();
 
@@ -26,16 +30,16 @@ const MenuMobile = ({ onCloseMenu, isOpen }: IProp) => {
   };
 
   return (
-    <Wrapper className={isOpen ? 'show' : ''}>
+    <Wrapper isOpen={isOpen}>
       <Image
-        className='bg'
+        className="bg"
         src={`${CDN_URL}/pages/artifacts/background.jpg`}
         alt={'background'}
         fill
       />
       <div className="inner">
         <button className="btnMenuMobile" onClick={onCloseMenu}>
-          <img src={`${CDN_URL}/icons/ic_close_menu.svg`} alt='ic_close_menu' />
+          <img src={`${CDN_URL}/icons/ic_close_menu.svg`} alt="ic_close_menu" />
         </button>
         <Link href={'https://trustless.computer/'} target="_blank">
           Trustless
@@ -49,15 +53,21 @@ const MenuMobile = ({ onCloseMenu, isOpen }: IProp) => {
               <div className="balance">
                 <p>{formatBTCPrice(btcBalance)} BTC</p>
                 <span className="divider"></span>
-                <p>{formatEthPrice(tcBalance)} TC</p>
+                <p>{formatEthPrice(juiceBalance)} TC</p>
               </div>
               <div className="avatar">
-                <img src={`${CDN_URL}/icons/ic-avatar.svg`} alt="default avatar" />
+                {account ? (
+                  <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
+                ) : (
+                  <img src={`${CDN_URL}/icons/ic-avatar.svg`} alt="default avatar" />
+                )}
               </div>
             </WalletBalance>
           </div>
         ) : (
-          <ConnectWalletButton onClick={handleConnectWallet}>Connect Wallet</ConnectWalletButton>
+          <ConnectWalletButton onClick={handleConnectWallet}>
+            Connect Wallet
+          </ConnectWalletButton>
         )}
       </div>
     </Wrapper>

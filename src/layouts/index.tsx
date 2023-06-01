@@ -4,7 +4,6 @@ import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import Footer from './Footer';
 import Header from './Header';
-import Image from 'next/image';
 
 const HEADER_HEIGHT = 80;
 const FO0TER_HEIGHT = 80;
@@ -15,6 +14,13 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: black;
+
+  .background-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
 `;
 
 export const ContentWrapper = styled.div`
@@ -32,10 +38,10 @@ export const ContentWrapper = styled.div`
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <Container>
-      <Image
+      <img
         src={`${CDN_URL}/pages/artifacts/background.jpg`}
         alt={'background'}
-        fill
+        className="background-image"
       />
       <Header height={HEADER_HEIGHT} />
       <ContentWrapper>{children}</ContentWrapper>

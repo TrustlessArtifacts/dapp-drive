@@ -32,6 +32,8 @@
   display: none !important;
 }
 
-.hover-opacity:hover {
-  opacity: 0.75;
+.hover-opacity {
+  &:hover {
+    opacity: 0.8;
+  }
 }

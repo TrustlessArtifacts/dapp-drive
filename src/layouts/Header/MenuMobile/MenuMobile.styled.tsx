@@ -1,19 +1,12 @@
-import styled from 'styled-components';
 import px2rem from '@/utils/px2rem';
+import styled from 'styled-components';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
-  right: calc(-100% - 10px);
+  left: 0;
   z-index: 99;
-  transition: all 0.2s ease;
-  background-color: #000;
-  width: 100vw;
-  height: 100vh;
-
-  &.show {
-    right: 0;
-  }
+  transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(100%)')};
 
   .bg {
     z-index: 1;

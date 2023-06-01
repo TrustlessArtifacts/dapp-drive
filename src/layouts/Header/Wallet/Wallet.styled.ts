@@ -6,7 +6,7 @@ export const WalletPopover = styled(Popover)`
   width: ${px2rem(200)};
   color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
   padding: ${px2rem(12)} ${px2rem(20)};
-  background: #04150F;
+  background: #04150f;
   border: 1px solid rgba(120, 170, 143);
   box-shadow: 0px 0px 24px -6px rgba(0, 0, 0, 0.12);
   border-radius: 8px;

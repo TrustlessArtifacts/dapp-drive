@@ -3,7 +3,7 @@ import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
 
 export const ArtifactWrapper = styled.div`
-  margin-top: ${px2rem(40)};
+  margin-top: ${px2rem(60)};
 
   @media screen and (max-width: 768px) {
     margin-top: ${px2rem(40)};
@@ -54,8 +54,8 @@ export const UploadFileContainer = styled.div`
 
   .upload_desc {
     font-weight: 400;
-    font-size: ${px2rem(20)};
-    line-height: ${px2rem(30)};
+    font-size: ${px2rem(18)};
+    line-height: ${px2rem(28)};
     color: white;
     width: 75%;
     margin-left: auto;
@@ -73,6 +73,7 @@ export const UploadFileContainer = styled.div`
     width: ${px2rem(150)};
     height: ${px2rem(80)};
     top: 0;
+    z-index: 10;
   }
 
   @media screen and (max-width: 768px) {
@@ -95,7 +96,8 @@ export const UploadFileContainer = styled.div`
 
 export const PreserveButton = styled(Button)`
   /* background: #39b174; */
-  /* padding: ${px2rem(11)} ${px2rem(36)}; */
+  padding: ${px2rem(11)} ${px2rem(36)};
+  z-index: 10;
 
   .button-text {
     text-transform: uppercase;

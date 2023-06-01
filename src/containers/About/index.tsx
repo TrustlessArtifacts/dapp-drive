@@ -1,12 +1,11 @@
+import ArtifactButton from '@/components/ArtifactButton';
 import IconSVG from '@/components/IconSVG';
 import { CDN_URL } from '@/configs';
 import { useIsInViewport } from '@/hooks/useIsInViewport';
 import useWindowSize from '@/hooks/useWindowSize';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { AboutHeader, SectionControllers, StyledAbout } from './About.styled';
-import ArtifactButton from '@/components/ArtifactButton';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
@@ -24,7 +23,7 @@ const About = () => {
     <>
       <AboutHeader>
         <div className="logo">
-          <img alt="logo" src={`${CDN_URL}/images/drive-logo.svg`} />
+          <img alt="logo" src={`${CDN_URL}/pages/artifacts/logo-1.svg`} />
           <h1 className="logo-title">Artifacts</h1>
         </div>
         <div className="external-link">
@@ -48,10 +47,10 @@ const About = () => {
         <div className="section-01" id="section-1" ref={firstSectionRef}>
           <div className="background">
             {mobileScreen ? (
-              <Image
+              <img
                 src={`${CDN_URL}/artifact/Landing_page/mobile-artifact-1.png`}
                 alt={'background artifact 01'}
-                fill
+                className="position-absolute"
               />
             ) : (
               <video
@@ -71,11 +70,13 @@ const About = () => {
           </div>
           <div className="content">
             <h4 className="subTitle">Trustless Artifacts</h4>
-            <h3 className="title">Be the first to preserve anything on Bitcoin. </h3>
+            <h3 className="title">
+              Preserve anything as Smart BRC-721, eternally on Bitcoin 
+            </h3>
             <div className="desc">
-              Define BRC-721 standard on Bitcoin powered by smart contract via
-              Trustless Computer protocol. Affordable and fully on-chain with support
-              for large file sizes.
+              Define the BRC-721 standard on Bitcoin powered by smart contracts via
+              Trustless Computer protocol. Affordable and fully on-chain, with
+              support for large file sizes.
             </div>
 
             <ArtifactButton
@@ -92,20 +93,19 @@ const About = () => {
         </div>
         <div className="section-02" id="section-2" ref={secondSectionRef}>
           <div className="background">
-            <Image
+            <img
               src={`${CDN_URL}/artifact/Landing_page/${
                 mobileScreen ? 'mobile-artifact-4' : 'artifact-2b'
               }.png`}
               alt={'background artifact 02'}
-              fill
             />
           </div>
           <div className="content right">
             <h4 className="subTitle">smart contract</h4>
             <h3 className="title">Smarter</h3>
             <div className="desc">
-              BRC-721 is the standard for Non-Fungible Tokens (NFT) on Bitcoin. It is
-              compatible with smart contracts via the Trustless Computer protocol.
+              All files preserved on Trustless Artifacts are BRC-721 NFTs with smart
+              contracts, enabling the addition of utilities to the NFTs
             </div>
             <ArtifactButton
               variant="primary"
@@ -121,18 +121,20 @@ const About = () => {
         </div>
         <div className="section-03" id="section-3" ref={thirdSectionRef}>
           <div className="background">
-            <Image
+            <img
               src={`${CDN_URL}/artifact/Landing_page/${
                 mobileScreen ? 'mobile-artifact-2' : 'artifact-3e'
               }.png`}
               alt={'background artifact 03'}
-              fill
             />
           </div>
           <div className="content left">
             <h4 className="subTitle">network Fee</h4>
             <h3 className="title">Cheaper</h3>
-            <div className="desc">Save up to 50% over the Ordinals protocol.</div>
+            <div className="desc">
+              Significantly reduce preservation costs compared to Ordinals
+              inscription, saving up to 50% with file sizes larger than 100kb.
+            </div>
             <ArtifactButton
               variant="primary"
               width={300}
@@ -147,20 +149,21 @@ const About = () => {
         </div>
         <div className="section-04" id="section-4" ref={fourthSectionRef}>
           <div className="background">
-            <Image
+            <img
               src={`${CDN_URL}/artifact/Landing_page/${
                 mobileScreen ? 'mobile-artifact-4a' : 'artifact-4a'
               }.png`}
               alt={'background artifact 04'}
-              fill
             />
           </div>
           <div className="content right">
             <h4 className="subTitle">coming soon</h4>
             <h3 className="title">Larger</h3>
             <div className="desc">
-              The Trustless Computer Protocol allows you to store an unlimited size
-              file on Bitcoin, maintaining its authenticity and original state. 
+              Unlike Ordinals inscriptions, which are strictly limited to a file size
+              of 4MB, Trustless Artifacts offers unlimited file storage on Bitcoin.
+              This enables the preservation of authenticity and the original state of
+              the artifacts
             </div>
             <ArtifactButton
               variant="primary"

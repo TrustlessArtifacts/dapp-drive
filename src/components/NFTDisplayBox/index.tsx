@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import { CDN_URL } from '@/configs';
-import { getURLContent, getImageURLContent } from '@/services/nft-explorer';
+import { getURLContent, getImageURLContent } from '@/lib';
 import React, { useEffect, useRef, useState } from 'react';
 import cs from 'classnames';
 import s from './styles.module.scss';
@@ -229,7 +229,6 @@ const NFTDisplayBox = ({
     } else {
       setHTMLContentRender(renderEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collectionID, tokenID, src, isErrorLinkHttp]);
 
   return (

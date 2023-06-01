@@ -1,92 +1,254 @@
-import React, { PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
-import { getCollectedUTXO } from '@/services/bitcoin';
-import { ICollectedUTXOResp } from '@/interfaces/api/bitcoin';
-import { useSelector } from 'react-redux';
+import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { ICollectedUTXOResp, ITxHistory, IFeeRate } from '@/interfaces/api/bitcoin';
+import { useAppSelector } from '@/state/hooks';
 import { getUserSelector } from '@/state/user/selector';
-import web3Provider from '@/connection/web3-provider';
+import { getCollectedUTXO, getFeeRate, getPendingUTXOs, getTokenRate } from '@/services/bitcoin';
+import { comingAmountBuilder, currentAssetsBuilder } from '@/utils/utxo';
+import debounce from 'lodash/debounce';
+import { useWeb3React } from '@web3-react/core';
+import * as TC_SDK from 'trustless-computer-sdk';
 
 export interface IAssetsContext {
-  tcBalance: string;
   btcBalance: string;
+  juiceBalance: string;
+  currentAssets: ICollectedUTXOResp | undefined;
+  assets: ICollectedUTXOResp | undefined;
+  isLoadingAssets: boolean;
+  isLoadedAssets: boolean;
+  history: ITxHistory[];
+  feeRate: IFeeRate;
+  comingAmount: number;
+  eth2btcRate: number;
+  fetchAssets: () => void;
+  debounceFetchData: () => void;
+  fetchFeeRate: () => Promise<IFeeRate | undefined>;
+  getAvailableAssetsCreateTx: () => Promise<ICollectedUTXOResp | undefined>;
 }
 
 const initialValue: IAssetsContext = {
-  tcBalance: '0',
   btcBalance: '0',
+  juiceBalance: '0',
+  currentAssets: undefined,
+  assets: undefined,
+  isLoadingAssets: false,
+  isLoadedAssets: false,
+  history: [],
+  feeRate: {
+    fastestFee: 25,
+    halfHourFee: 20,
+    hourFee: 15,
+  },
+  comingAmount: 0,
+  eth2btcRate: 0,
+  fetchAssets: () => new Promise<void>(r => r()),
+  debounceFetchData: () => new Promise<void>(r => r()),
+  fetchFeeRate: () => new Promise<IFeeRate | undefined>(() => null),
+  getAvailableAssetsCreateTx: () => new Promise<ICollectedUTXOResp | undefined>(() => null),
 };
 
 export const AssetsContext = React.createContext<IAssetsContext>(initialValue);
 
 export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
-  const userInfo = useSelector(getUserSelector);
-  const [tcBalance, setTCBalance] = React.useState<string>('0');
-  const [assets, setAssets] = React.useState<ICollectedUTXOResp | undefined>();
+  const user = useAppSelector(getUserSelector);
+  const currentAddress = React.useMemo(() => {
+    return user?.walletAddressBtcTaproot || '';
+  }, [user?.walletAddressBtcTaproot]);
+  const { provider, account: tcAddress } = useWeb3React();
 
-  const fetchTCBalance = useCallback(async () => {
-    if (!userInfo.tcAddress) {
-      setTCBalance('0');
-      return;
-    }
+  // UTXOs
+  const [assets, setAssets] = useState<ICollectedUTXOResp | undefined>();
+  const [currentAssets, setCurrentAssets] = useState<ICollectedUTXOResp | undefined>();
+  const [isLoadingAssets, setIsLoadingAssets] = useState<boolean>(false);
+  const [isLoadedAssets, setIsLoadedAssets] = useState<boolean>(false);
+  // const [btcBalance, setBtcBalance] = useState('0');
+  const [juiceBalance, setJuiceBalance] = useState('0');
 
+  // History
+  const [history, setHistory] = useState<ITxHistory[]>([]);
+
+  // Fee rate
+  const [feeRate, setFeeRate] = useState<IFeeRate>({
+    fastestFee: 25,
+    halfHourFee: 20,
+    hourFee: 15,
+  });
+  const [comingAmount, setcomingAmount] = useState<number>(0);
+  const [eth2btcRate, setEth2BtcRate] = useState<number>(0);
+
+  const fetchAssets = async (): Promise<ICollectedUTXOResp | undefined> => {
+    if (!currentAddress || !tcAddress) return undefined;
+    let _assets = undefined;
     try {
-      const balance = await web3Provider.getBalance(userInfo.tcAddress);
-      setTCBalance(balance);
-    } catch (e) {
-      setTCBalance('0');
+      setIsLoadingAssets(true);
+      _assets = await getCollectedUTXO(currentAddress, tcAddress);
+      setAssets(_assets);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoadingAssets(false);
+      setIsLoadedAssets(true);
     }
-  }, [userInfo]);
+    return _assets;
+  };
 
-  const fetchBtcBalance = useCallback(async (): Promise<ICollectedUTXOResp | undefined> => {
-    if (!userInfo?.tcAddress || !userInfo.btcAddress) {
-      setAssets(undefined);
-      return undefined;
+  const fetchData = async () => {
+    const [assets, pendingUTXOs] = await Promise.all([await fetchAssets(), await getPendingUTXOs(currentAddress)]);
+
+    // Current assets
+    let _currentAssets = undefined;
+    if (assets) {
+      _currentAssets = currentAssetsBuilder({
+        current: assets,
+        pending: pendingUTXOs,
+      });
     }
+    setCurrentAssets(_currentAssets);
 
+    // Coming amount...
+    const _comingAmount = comingAmountBuilder(currentAddress, pendingUTXOs);
+    setcomingAmount(_comingAmount);
+  };
+
+  const debounceFetchData = React.useCallback(debounce(fetchData, 300), [currentAddress, tcAddress]);
+
+  const fetchFeeRate = async () => {
+    let _feeRate = {
+      fastestFee: 25,
+      halfHourFee: 20,
+      hourFee: 15,
+    };
     try {
-      const res = await getCollectedUTXO(userInfo.btcAddress, userInfo.tcAddress);
-      setAssets(res);
-      return res;
-    } catch (e) {
-      setAssets(undefined);
-      return undefined;
+      _feeRate = await getFeeRate();
+      setFeeRate(_feeRate);
+    } catch (error) {
+      setFeeRate(_feeRate);
     }
-  }, [userInfo]);
-
-
-  const fetchUserAssets = useCallback(async () => {
-    fetchTCBalance();
-    fetchBtcBalance();
-  }, [fetchTCBalance, fetchBtcBalance])
+    return _feeRate;
+  };
 
   const btcBalance = React.useMemo(() => {
-    return assets ? assets?.availableBalance.toString() : '0';
-  }, [assets]);
+    if (currentAddress) {
+      // const utxos = await getBtcBalance(currentAddress);
+      const balance = TC_SDK.getBTCBalance({
+        utxos: currentAssets?.txrefs || [],
+        inscriptions: currentAssets?.inscriptions_by_outputs || {},
+      });
+      // setBtcBalance(balance.toString());
+      return balance.toString();
+    }
+    return '0';
+  }, [currentAddress, currentAssets]);
+
+  const fetchJuiceBalance = async () => {
+    if (user?.walletAddress && provider) {
+      const balance = await provider.getBalance(user.walletAddress);
+      setJuiceBalance(balance.toString());
+    }
+  };
+
+  const getAvailableAssetsCreateTx = async () => {
+    const [assets, pendingUTXOs] = await Promise.all([await fetchAssets(), await getPendingUTXOs(currentAddress)]);
+    // Current assets
+    let _currentAssets = undefined;
+    if (assets) {
+      _currentAssets = currentAssetsBuilder({
+        current: assets,
+        pending: pendingUTXOs,
+      });
+    }
+    setCurrentAssets(_currentAssets);
+
+    return _currentAssets;
+  };
+
+  const getETH2BTCRate = async () => {
+    try {
+      const rate = await getTokenRate();
+      setEth2BtcRate(rate);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchAssetsData = () => {
+    try {
+      fetchFeeRate();
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      getETH2BTCRate();
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      fetchJuiceBalance();
+    } catch (err) {
+      console.log(err);
+    }
+
+    // try {
+    //   fetchBTCBalance();
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
 
   useEffect(() => {
-    if (!userInfo?.tcAddress || !userInfo?.btcAddress) return;
+    if (currentAddress) {
+      debounceFetchData();
+    } else {
+      setHistory([]);
+    }
+  }, [user, provider, currentAddress, tcAddress]);
 
-    fetchUserAssets();
+  useEffect(() => {
+    fetchAssetsData();
 
-    const interval = setInterval(() => {
-      fetchUserAssets();
-    }, 30000);
+    const intervalID = setInterval(() => {
+      fetchAssetsData();
+    }, 60000); // 1min
 
-    return () => clearInterval(interval);
-  }, [userInfo?.tcAddress, userInfo?.btcAddress, fetchUserAssets]);
+    return () => {
+      clearInterval(intervalID);
+    };
+  }, [user, provider, currentAddress]);
 
   const contextValues = useMemo((): IAssetsContext => {
     return {
-      tcBalance,
       btcBalance,
+      currentAssets,
+      assets,
+      isLoadingAssets,
+      isLoadedAssets,
+      history,
+      feeRate,
+      comingAmount,
+      debounceFetchData,
+      eth2btcRate,
+      juiceBalance,
+      fetchAssets,
+      fetchFeeRate,
+      getAvailableAssetsCreateTx,
     };
   }, [
-    tcBalance,
-    btcBalance
+    juiceBalance,
+    btcBalance,
+    currentAssets,
+    assets,
+    isLoadingAssets,
+    isLoadedAssets,
+    history,
+    feeRate,
+    comingAmount,
+    debounceFetchData,
+    eth2btcRate,
+    fetchAssets,
+    fetchFeeRate,
+    getAvailableAssetsCreateTx,
   ]);
 
-  return (
-    <AssetsContext.Provider value={contextValues}>
-      {children}
-    </AssetsContext.Provider>
-  );
+  return <AssetsContext.Provider value={contextValues}>{children}</AssetsContext.Provider>;
 };

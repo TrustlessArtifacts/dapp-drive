@@ -1,11 +1,16 @@
 import IconSVG from '@/components/IconSVG';
-import { CDN_URL, TC_WEB_WALLET_URL } from '@/configs';
+import { CDN_URL, TC_URL } from '@/configs';
+// import { ROUTE_PATH } from '@/constants/route-path';
 import { AssetsContext } from '@/contexts/assets-context';
 import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
 import { formatBTCPrice, formatEthPrice } from '@/utils/format';
+// import { formatBTCPrice, formatLongAddress } from '@trustless-computer/dapp-core';
+import { useWeb3React } from '@web3-react/core';
 import copy from 'copy-to-clipboard';
+// import { useRouter } from 'next/router';
 import { useContext, useRef, useState } from 'react';
 import { OverlayTrigger } from 'react-bootstrap';
+import { toast } from 'react-hot-toast';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { useSelector } from 'react-redux';
 import { ConnectWalletButton, WalletBalance } from '../Header.styled';
@@ -14,44 +19,50 @@ import Text from '@/components/Text';
 import { WalletContext } from '@/contexts/wallet-context';
 import { formatLongAddress } from '@trustless-computer/dapp-core';
 import { DappsTabs } from '@/enums/tabs';
-import { showToastSuccess } from '@/utils/toast';
-import logger from '@/services/logger';
 import ArtifactButton from '@/components/ArtifactButton';
 
 const WalletHeader = () => {
+  // const router = useRouter();
+  const { account } = useWeb3React();
   const user = useSelector(getUserSelector);
-  const { disconnect, connect } = useContext(WalletContext);
+  const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
+
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
-  const { btcBalance, tcBalance } = useContext(AssetsContext);
+  const { btcBalance, juiceBalance } = useContext(AssetsContext);
+
   const [isConnecting, setIsConnecting] = useState(false);
-  const [show, setShow] = useState(false);
-  const ref = useRef(null);
 
   const handleConnectWallet = async () => {
     try {
       setIsConnecting(true);
-      await connect();
+      await onConnect();
+      await requestBtcAddress();
     } catch (err) {
-      logger.error(err);
-      disconnect();
+      console.log(err);
+      onDisconnect();
     } finally {
       setIsConnecting(false);
     }
   };
 
+  const [show, setShow] = useState(false);
   const handleOnMouseEnter = () => {
     setShow(true);
   };
-
   const handleOnMouseLeave = () => {
+    console.log('trigger');
+
     setShow(false);
   };
+  const ref = useRef(null);
+
+  // const goToConnectWalletPage = async () => {
+  //   router.push(`${ROUTE_PATH.CONNECT_WALLET}?next=${window.location.href}`);
+  // };
 
   const onClickCopy = (address: string) => {
     copy(address);
-    showToastSuccess({
-      message: 'Copied',
-    });
+    toast.success('Copied');
   };
 
   const walletPopover = (
@@ -69,14 +80,18 @@ const WalletHeader = () => {
             maxHeight="24"
           />
           <Text size={'regular'} className="wallet-address" fontWeight="regular">
-            {formatLongAddress(user?.tcAddress || '')}
+            {formatLongAddress(user?.walletAddress || '')}
           </Text>
         </div>
-        <div className="icCopy" onClick={() => onClickCopy(user?.tcAddress || '')}>
+        <div
+          className="icCopy"
+          onClick={() => onClickCopy(user?.walletAddress || '')}
+        >
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
             maxWidth="16"
+            // type="stroke"
           ></IconSVG>
         </div>
       </div>
@@ -89,10 +104,13 @@ const WalletHeader = () => {
             maxHeight="24"
           />
           <Text size={'regular'} className="wallet-address" fontWeight="regular">
-            {formatLongAddress(user?.btcAddress || '')}
+            {formatLongAddress(user?.walletAddressBtcTaproot || '')}
           </Text>
         </div>
-        <div className="icCopy" onClick={() => onClickCopy(user?.btcAddress || '')}>
+        <div
+          className="icCopy"
+          onClick={() => onClickCopy(user?.walletAddressBtcTaproot || '')}
+        >
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
@@ -104,14 +122,12 @@ const WalletHeader = () => {
       <div className="cta">
         <div
           className="wallet-link"
-          onClick={() =>
-            window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)
-          }
+          onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
         >
           <IconSVG src={`${CDN_URL}/icons/ep_wallet-filled.svg`} maxWidth="20" />
           <Text size="medium">Wallet</Text>
         </div>
-        <div className="wallet-disconnect" onClick={disconnect}>
+        <div className="wallet-disconnect" onClick={onDisconnect}>
           <IconSVG src={`${CDN_URL}/icons/basil_logout-solid.svg`} maxWidth="20" />
           <Text size="medium">Disconnect</Text>
         </div>
@@ -121,40 +137,33 @@ const WalletHeader = () => {
 
   return (
     <>
-      {user.tcAddress && isAuthenticated ? (
-        <>
-          <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="bottom"
-            overlay={walletPopover}
-            container={ref}
-            show={show}
+      {account && isAuthenticated ? (
+        <OverlayTrigger
+          trigger={['hover', 'focus']}
+          placement="bottom"
+          overlay={walletPopover}
+          container={ref}
+          show={show}
+        >
+          <div
+            className="wallet"
+            onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
+            ref={ref}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
           >
-            <div
-              className="wallet"
-              onClick={() =>
-                window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)
-              }
-              ref={ref}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            >
-              <WalletBalance>
-                <div className="balance">
-                  <p className="text">{formatBTCPrice(btcBalance)} BTC</p>
-                  <span className="divider"></span>
-                  <p className="text">{formatEthPrice(tcBalance)} TC</p>
-                </div>
-                <div className="avatar">
-                  <Jazzicon
-                    diameter={32}
-                    seed={jsNumberForAddress(user.tcAddress)}
-                  />
-                </div>
-              </WalletBalance>
-            </div>
-          </OverlayTrigger>
-        </>
+            <WalletBalance>
+              <div className="balance">
+                <p className="text">{formatBTCPrice(btcBalance)} BTC</p>
+                <span className="divider"></span>
+                <p className="text">{formatEthPrice(juiceBalance)} TC</p>
+              </div>
+              <div className="avatar">
+                <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
+              </div>
+            </WalletBalance>
+          </div>
+        </OverlayTrigger>
       ) : (
         <ArtifactButton variant="transparent" width={228} height={48}>
           <ConnectWalletButton className="hideMobile" onClick={handleConnectWallet}>

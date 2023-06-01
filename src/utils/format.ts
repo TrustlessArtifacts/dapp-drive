@@ -10,7 +10,7 @@ export const exponentialToDecimal = (exponential: number): string => {
       let i = 0;
       i <
       +exponentialSplitted[1] -
-      (exponentialSplitted[0].includes('.') ? exponentialSplitted[0].split('.')[1].length : 0);
+        (exponentialSplitted[0].includes('.') ? exponentialSplitted[0].split('.')[1].length : 0);
       i++
     ) {
       postfix += '0';
@@ -56,7 +56,7 @@ export const formatCurrency = (value: number): string => {
   return value.toFixed(decimalLength > 2 ? decimalLength : 2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 };
 
-export const formatBTCPrice = (price: number | string | null, emptyStr?: string, precision = 5): string => {
+export const formatBTCPrice = (price: number | string, emptyStr?: string, precision = 5): string => {
   if (!price) return emptyStr || '-';
   const priceNumb = new BigNumber(price).dividedBy(1e8).toNumber();
   return ceilPrecised(priceNumb, precision).toString().replace(',', '.');

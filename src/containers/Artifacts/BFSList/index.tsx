@@ -42,12 +42,6 @@ const BFSList = () => {
 
   const debounceLoadMore = debounce(onLoadMoreNfts, 300);
 
-  // const formatItemName = (name: string, type: string) => {
-  //   const fileTypeList = type.split('/');
-  //   const fileType = fileTypeList[fileTypeList.length - 1];
-  //   return name ? `${name}.${fileType}` : type;
-  // };
-
   useEffect(() => {
     fetchInscriptions();
   }, []);
@@ -80,8 +74,6 @@ const BFSList = () => {
                     contract={ARTIFACT_CONTRACT}
                     tokenId={item.tokenId}
                     contentType={item.contentType}
-                    // title3={formatItemName(item.name, item.contentType)}
-                    // title2={shortenAddress(item.owner, 4)}
                     title1={`Artifact #${item.tokenId}`}
                   />
                 );

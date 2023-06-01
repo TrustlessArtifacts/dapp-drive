@@ -63,6 +63,7 @@ export const Styled = styled(Link)`
       margin: ${px2rem(20)};
       border-radius: 16px;
       transition: all 0.1s;
+      opacity: 0;
 
       .overlay-content {
         width: fit-content;
@@ -71,6 +72,7 @@ export const Styled = styled(Link)`
 
     &:hover {
       .overlay {
+        opacity: 1;
         background-color: rgba(0, 0, 0, 0.6);
         z-index: 10;
         .overlay-content {
