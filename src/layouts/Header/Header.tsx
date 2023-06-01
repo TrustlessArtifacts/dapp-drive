@@ -11,13 +11,12 @@ import useWindowSize from '@/hooks/useWindowSize';
 const Header = ({ height }: { height: number }) => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const { mobileScreen, tabletScreen } = useWindowSize();
-
-  return (
+  https: return (
     <Wrapper style={{ height }}>
       <div className="content">
         <div className="leftContainer">
           <Link className="logo" href={ROUTE_PATH.HOME}>
-            <img alt="logo" src={`${CDN_URL}/images/drive-logo.svg`} />
+            <img alt="logo" src={`${CDN_URL}/pages/artifacts/logo-1.svg`} />
             <h1 className="logo-title">Artifacts</h1>
           </Link>
           <Link className="navLink" href={'/about'}>

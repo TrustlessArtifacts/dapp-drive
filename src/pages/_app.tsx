@@ -38,12 +38,12 @@ export default function App({ Component, pageProps }: AppProps) {
           rel="icon"
           type="image/svg"
           sizes="16x16 32x32"
-          href={`${CDN_URL}/images/drive-logo.svg`}
+          href={`${CDN_URL}/pages/artifacts/logo-1.svg`}
         />
         <link
           rel="apple-touch-icon"
           sizes="16x16 32x32"
-          href={`${CDN_URL}/images/drive-logo.svg`}
+          href={`${CDN_URL}/pages/artifacts/logo-1.svg`}
         />
         <meta name="msapplication-TileColor" content="#FFFFFF" />
       </Head>

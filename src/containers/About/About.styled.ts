@@ -8,6 +8,7 @@ export const StyledAbout = styled.div`
   scroll-snap-type: y mandatory;
   scroll-snap-type: mandatory;
   -webkit-scroll-snap-type: y mandatory;
+  background-color: #000;
 
   overflow: auto;
   -ms-overflow-style: none;
@@ -33,6 +34,12 @@ export const StyledAbout = styled.div`
 
   .background img {
     object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   .video {
@@ -43,11 +50,12 @@ export const StyledAbout = styled.div`
     top: 0;
     left: 0;
     object-fit: cover;
+    z-index: 0;
   }
 
   .content {
     color: #fff;
-    z-index: 1;
+    z-index: 2;
     position: relative;
     margin-left: ${px2rem(100)};
     max-width: 75ch;

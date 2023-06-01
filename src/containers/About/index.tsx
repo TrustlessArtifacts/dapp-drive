@@ -1,12 +1,11 @@
+import ArtifactButton from '@/components/ArtifactButton';
 import IconSVG from '@/components/IconSVG';
 import { CDN_URL } from '@/configs';
 import { useIsInViewport } from '@/hooks/useIsInViewport';
 import useWindowSize from '@/hooks/useWindowSize';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { AboutHeader, SectionControllers, StyledAbout } from './About.styled';
-import ArtifactButton from '@/components/ArtifactButton';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
@@ -24,7 +23,7 @@ const About = () => {
     <>
       <AboutHeader>
         <div className="logo">
-          <img alt="logo" src={`${CDN_URL}/images/drive-logo.svg`} />
+          <img alt="logo" src={`${CDN_URL}/pages/artifacts/logo-1.svg`} />
           <h1 className="logo-title">Artifacts</h1>
         </div>
         <div className="external-link">
@@ -48,10 +47,10 @@ const About = () => {
         <div className="section-01" id="section-1" ref={firstSectionRef}>
           <div className="background">
             {mobileScreen ? (
-              <Image
+              <img
                 src={`${CDN_URL}/artifact/Landing_page/mobile-artifact-1.png`}
                 alt={'background artifact 01'}
-                fill
+                className="position-absolute"
               />
             ) : (
               <video
@@ -94,12 +93,11 @@ const About = () => {
         </div>
         <div className="section-02" id="section-2" ref={secondSectionRef}>
           <div className="background">
-            <Image
+            <img
               src={`${CDN_URL}/artifact/Landing_page/${
                 mobileScreen ? 'mobile-artifact-4' : 'artifact-2b'
               }.png`}
               alt={'background artifact 02'}
-              fill
             />
           </div>
           <div className="content right">
@@ -123,12 +121,11 @@ const About = () => {
         </div>
         <div className="section-03" id="section-3" ref={thirdSectionRef}>
           <div className="background">
-            <Image
+            <img
               src={`${CDN_URL}/artifact/Landing_page/${
                 mobileScreen ? 'mobile-artifact-2' : 'artifact-3e'
               }.png`}
               alt={'background artifact 03'}
-              fill
             />
           </div>
           <div className="content left">
@@ -152,12 +149,11 @@ const About = () => {
         </div>
         <div className="section-04" id="section-4" ref={fourthSectionRef}>
           <div className="background">
-            <Image
+            <img
               src={`${CDN_URL}/artifact/Landing_page/${
                 mobileScreen ? 'mobile-artifact-4a' : 'artifact-4a'
               }.png`}
               alt={'background artifact 04'}
-              fill
             />
           </div>
           <div className="content right">
