@@ -1,15 +1,18 @@
-import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
+import styled from 'styled-components';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   z-index: 99;
-  transform: translateX(100%);
+  transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(100%)')};
+
+  .bg {
+    z-index: 1;
+  }
 
   .inner {
-    background-color: ${({ theme }: { theme: DefaultTheme }) => theme.bg1};
     width: 100vw;
     height: 100vh;
     gap: ${px2rem(8)};
@@ -17,6 +20,8 @@ const Wrapper = styled.div`
     flex-direction: column;
     align-items: flex-end;
     padding: ${px2rem(24)};
+    z-index: 2;
+    position: relative;
   }
 
   .btnMenuMobile {
@@ -44,6 +49,10 @@ const Wrapper = styled.div`
         opacity: 0.8;
       }
     }
+  }
+
+  p {
+    color: #fff;
   }
 `;
 

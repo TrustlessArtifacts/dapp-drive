@@ -1,58 +1,52 @@
 import { CDN_URL } from '@/configs';
 import { ROUTE_PATH } from '@/constants/route-path';
-import { gsap } from 'gsap';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Wrapper } from './Header.styled';
 import MenuMobile from './MenuMobile';
 import WalletHeader from './Wallet';
-import { useWindowSize } from '@trustless-computer/dapp-core';
+import IconSVG from '@/components/IconSVG';
+import useWindowSize from '@/hooks/useWindowSize';
 
 const Header = ({ height }: { height: number }) => {
-  const refMenu = useRef<HTMLDivElement | null>(null);
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const { mobileScreen } = useWindowSize();
-
-  useEffect(() => {
-    if (refMenu.current) {
-      if (isOpenMenu) {
-        gsap.to(refMenu.current, { x: 0, duration: 0.6, ease: 'power3.inOut' });
-      } else {
-        gsap.to(refMenu.current, {
-          x: '100%',
-          duration: 0.6,
-          ease: 'power3.inOut',
-        });
-      }
-    }
-  }, [isOpenMenu]);
+  const { mobileScreen, tabletScreen } = useWindowSize();
 
   return (
     <Wrapper style={{ height }}>
       <div className="content">
-        <Link className="logo" href={ROUTE_PATH.HOME}>
-          {mobileScreen && (
+        <div className="leftContainer">
+          <Link className="logo" href={ROUTE_PATH.HOME}>
             <img alt="logo" src={`${CDN_URL}/images/drive-logo.svg`} />
-          )}
-          {!mobileScreen && (
-            <img alt="logo" src={`${CDN_URL}/images/logo-drive-2.svg`} />
-          )}
-        </Link>
+            <h1 className="logo-title">Artifacts</h1>
+          </Link>
+          <Link className="navLink" href={'/about'}>
+            About
+          </Link>
+        </div>
 
-        <MenuMobile ref={refMenu} onCloseMenu={() => setIsOpenMenu(false)} />
+        <MenuMobile isOpen={isOpenMenu} onCloseMenu={() => setIsOpenMenu(false)} />
         <div className="rightContainer">
           <div className="external-link">
             <Link href={'https://trustless.computer/'} target="_blank">
               Trustless
+              <IconSVG
+                maxWidth="28"
+                src={`${CDN_URL}/artifact/icons/ic-link.svg`}
+              ></IconSVG>
             </Link>
             <Link href={'https://tcgasstation.com/'} target="_blank">
               Get TC
+              <IconSVG
+                maxWidth="28"
+                src={`${CDN_URL}/artifact/icons/ic-link.svg`}
+              ></IconSVG>
             </Link>
           </div>
 
-          <WalletHeader />
+          {!(mobileScreen || tabletScreen) && <WalletHeader />}
           <button className="btnMenuMobile" onClick={() => setIsOpenMenu(true)}>
-            <img src={`${CDN_URL}/icons/ic_hambuger.svg`} />
+            <img src={`${CDN_URL}/icons/ic_hambuger.svg`} alt="ic_hambuger" />
           </button>
         </div>
       </div>

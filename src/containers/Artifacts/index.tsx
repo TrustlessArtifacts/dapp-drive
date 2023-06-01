@@ -15,6 +15,8 @@ import { getIsAuthenticatedSelector } from '@/state/user/selector';
 // import { ROUTE_PATH } from '@/constants/route-path';
 import { showError } from '@/utils/toast';
 import { WalletContext } from '@/contexts/wallet-context';
+import ArtifactButton from '@/components/ArtifactButton';
+import useWindowSize from '@/hooks/useWindowSize';
 
 const Artifacts: React.FC = () => {
   // const router = useRouter();
@@ -22,6 +24,7 @@ const Artifacts: React.FC = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
+  const { mobileScreen } = useWindowSize();
 
   const handleConnectWallet = async () => {
     try {
@@ -45,7 +48,7 @@ const Artifacts: React.FC = () => {
     });
   };
 
-  const handlePreverseArtifact = () => {
+  const handlePreserverArtifact = () => {
     if (!isAuthenticated) handleConnectWallet();
     else {
       setShowUploadModal(true);
@@ -65,24 +68,31 @@ const Artifacts: React.FC = () => {
           <div className="upload_content">
             <p className="upload_title">Artifacts</p>
             <Text size="medium" className="upload_desc">
-              Cheap. Immutable. Fully on-chain. Large files are supported too.
+              Cheap. Immutable. Fully on-chain. Large files are supported too. We
+              recommend you preserve a small artifact to save gas fees—ideally, a
+              file under 20 kB.
             </Text>
           </div>
         </div>
         <div className="upload_right">
-          <PreserveButton onClick={handlePreverseArtifact}>
-            <Text
-              className="button-text"
-              size="medium"
-              color="bg1"
-              fontWeight="medium"
-            >
-              Preserve Artifact
-            </Text>
-            {/* <Text size="regular" fontWeight="regular" className="button-sub-text">
-              Max 350kb each
-            </Text> */}
-          </PreserveButton>
+          <ArtifactButton
+            variant="primary"
+            width={300}
+            height={79}
+            objectFit={mobileScreen ? 'contain' : 'cover'}
+          >
+            <PreserveButton onClick={handlePreserverArtifact}>
+              <Text
+                className="button-text"
+                size="medium"
+                color="bg1"
+                fontWeight="medium"
+              >
+                Preserve Artifact
+              </Text>
+            </PreserveButton>
+          </ArtifactButton>
+
           <FileUploader
             handleChange={onChangeFile}
             name={'fileUploader'}

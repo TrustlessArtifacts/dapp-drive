@@ -1,12 +1,15 @@
-import styled, { DefaultTheme } from 'styled-components';
+import styled, { CSSProperties, DefaultTheme, css } from 'styled-components';
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export const StyledButton = styled.button<{ bg: string; background?: string }>`
+export const StyledButton = styled.button<{
+  bg: string;
+  background?: string;
+  primary: boolean;
+  backgroundSize: CSSProperties['backgroundSize'];
+}>`
   --bg-color: ${({ bg, theme }: { bg: string; theme: DefaultTheme }) =>
     (theme as any)[bg] || theme.white};
 
-  border-radius: 2px !important;
-  background-color: var(--bg-color);
-  border: none;
+  border-radius: 3px !important;
   padding: 0;
   outline: none;
 
@@ -34,4 +37,12 @@ export const StyledButton = styled.button<{ bg: string; background?: string }>`
     --bs-btn-disabled-bg: var(--bg-color);
     --bs-btn-disabled-border-color: var(--bg-color);
   }
+
+  ${(props) =>
+    props.primary &&
+    css`
+      background: url('https://storage.cloud.google.com/tc-cdn-prod/artifact/Landing_page/button.svg')
+        no-repeat center center;
+      background-size: ${props.backgroundSize};
+    `}
 `;

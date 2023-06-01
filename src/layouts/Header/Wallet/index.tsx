@@ -19,6 +19,7 @@ import Text from '@/components/Text';
 import { WalletContext } from '@/contexts/wallet-context';
 import { formatLongAddress } from '@trustless-computer/dapp-core';
 import { DappsTabs } from '@/enums/tabs';
+import ArtifactButton from '@/components/ArtifactButton';
 
 const WalletHeader = () => {
   // const router = useRouter();
@@ -74,7 +75,7 @@ const WalletHeader = () => {
       <div className="wallet-tc">
         <div className="wallet-item">
           <IconSVG
-            src={`${CDN_URL}/icons/ic-penguin-artifact.svg`}
+            src={`${CDN_URL}/icons/logo-white.svg`}
             maxWidth="24"
             maxHeight="24"
           />
@@ -123,11 +124,11 @@ const WalletHeader = () => {
           className="wallet-link"
           onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
         >
-          <IconSVG src={`${CDN_URL}/icons/ic-wallet-artifact.svg`} maxWidth="20" />
+          <IconSVG src={`${CDN_URL}/icons/ep_wallet-filled.svg`} maxWidth="20" />
           <Text size="medium">Wallet</Text>
         </div>
         <div className="wallet-disconnect" onClick={onDisconnect}>
-          <IconSVG src={`${CDN_URL}/icons/ic-logout-artifact.svg`} maxWidth="20" />
+          <IconSVG src={`${CDN_URL}/icons/basil_logout-solid.svg`} maxWidth="20" />
           <Text size="medium">Disconnect</Text>
         </div>
       </div>
@@ -137,38 +138,38 @@ const WalletHeader = () => {
   return (
     <>
       {account && isAuthenticated ? (
-        <>
-          <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="bottom"
-            overlay={walletPopover}
-            container={ref}
-            show={show}
+        <OverlayTrigger
+          trigger={['hover', 'focus']}
+          placement="bottom"
+          overlay={walletPopover}
+          container={ref}
+          show={show}
+        >
+          <div
+            className="wallet"
+            onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
+            ref={ref}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
           >
-            <div
-              className="wallet"
-              onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
-              ref={ref}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            >
-              <WalletBalance>
-                <div className="balance">
-                  <p className="text">{formatBTCPrice(btcBalance)} BTC</p>
-                  <span className="divider"></span>
-                  <p className="text">{formatEthPrice(juiceBalance)} TC</p>
-                </div>
-                <div className="avatar">
-                  <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
-                </div>
-              </WalletBalance>
-            </div>
-          </OverlayTrigger>
-        </>
+            <WalletBalance>
+              <div className="balance">
+                <p className="text">{formatBTCPrice(btcBalance)} BTC</p>
+                <span className="divider"></span>
+                <p className="text">{formatEthPrice(juiceBalance)} TC</p>
+              </div>
+              <div className="avatar">
+                <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
+              </div>
+            </WalletBalance>
+          </div>
+        </OverlayTrigger>
       ) : (
-        <ConnectWalletButton className="hideMobile" onClick={handleConnectWallet}>
-          {isConnecting ? 'Connecting...' : 'Connect wallet'}
-        </ConnectWalletButton>
+        <ArtifactButton variant="transparent" width={228} height={48}>
+          <ConnectWalletButton className="hideMobile" onClick={handleConnectWallet}>
+            {isConnecting ? 'Connecting...' : 'Connect wallet'}
+          </ConnectWalletButton>
+        </ArtifactButton>
       )}
     </>
   );

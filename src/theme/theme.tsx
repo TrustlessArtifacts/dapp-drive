@@ -5,9 +5,10 @@ import {
   ThemeProvider as StyledComponentsThemeProvider,
 } from 'styled-components';
 import { getTheme } from '@/theme/index';
-import { Poppins } from 'next/font/google';
+import { Poppins, Rowdies } from 'next/font/google';
 
 const poppins = Poppins({ weight: '400', subsets: ['latin'] });
+const rowdies = Rowdies({ weight: ['300', '400'], subsets: ['latin'] });
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = false;
@@ -28,6 +29,7 @@ export const ThemedGlobalStyle = createGlobalStyle`
 
     body{
       --bs-body-font-family: ${poppins.style.fontFamily};
+       --rowdies-font: ${rowdies.style.fontFamily};
     }
 
     @media screen and (min-width: 1920px) {

@@ -71,11 +71,13 @@ const About = () => {
           </div>
           <div className="content">
             <h4 className="subTitle">Trustless Artifacts</h4>
-            <h3 className="title">Be the first to preserve anything on Bitcoin. </h3>
+            <h3 className="title">
+              Preserve anything as Smart BRC-721, eternally on Bitcoin 
+            </h3>
             <div className="desc">
-              Define BRC-721 standard on Bitcoin powered by smart contract via
-              Trustless Computer protocol. Affordable and fully on-chain with support
-              for large file sizes.
+              Define the BRC-721 standard on Bitcoin powered by smart contracts via
+              Trustless Computer protocol. Affordable and fully on-chain, with
+              support for large file sizes.
             </div>
 
             <ArtifactButton
@@ -104,8 +106,8 @@ const About = () => {
             <h4 className="subTitle">smart contract</h4>
             <h3 className="title">Smarter</h3>
             <div className="desc">
-              BRC-721 is the standard for Non-Fungible Tokens (NFT) on Bitcoin. It is
-              compatible with smart contracts via the Trustless Computer protocol.
+              All files preserved on Trustless Artifacts are BRC-721 NFTs with smart
+              contracts, enabling the addition of utilities to the NFTs
             </div>
             <ArtifactButton
               variant="primary"
@@ -132,7 +134,10 @@ const About = () => {
           <div className="content left">
             <h4 className="subTitle">network Fee</h4>
             <h3 className="title">Cheaper</h3>
-            <div className="desc">Save up to 50% over the Ordinals protocol.</div>
+            <div className="desc">
+              Significantly reduce preservation costs compared to Ordinals
+              inscription, saving up to 50% with file sizes larger than 100kb.
+            </div>
             <ArtifactButton
               variant="primary"
               width={300}
@@ -159,8 +164,10 @@ const About = () => {
             <h4 className="subTitle">coming soon</h4>
             <h3 className="title">Larger</h3>
             <div className="desc">
-              The Trustless Computer Protocol allows you to store an unlimited size
-              file on Bitcoin, maintaining its authenticity and original state. 
+              Unlike Ordinals inscriptions, which are strictly limited to a file size
+              of 4MB, Trustless Artifacts offers unlimited file storage on Bitcoin.
+              This enables the preservation of authenticity and the original state of
+              the artifacts
             </div>
             <ArtifactButton
               variant="primary"

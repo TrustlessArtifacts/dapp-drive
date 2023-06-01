@@ -1,12 +1,11 @@
-import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: ${px2rem(80)};
   flex-wrap: wrap;
   width: 100%;
 
@@ -21,17 +20,13 @@ const Wrapper = styled.div`
     padding: 0 ${px2rem(32)};
   }
 
-  @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) => theme.breakpoint.md}) {
-    margin-top: ${px2rem(40)};
-  }
-
   .text {
     font-style: normal;
     font-weight: 500;
     font-size: ${px2rem(16)};
     line-height: ${px2rem(26)};
     margin-right: ${px2rem(16)};
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
+    color: white;
     text-align: center;
   }
 `;

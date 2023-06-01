@@ -1,9 +1,9 @@
-import px2rem from '@/utils/px2rem';
-import styled, { DefaultTheme } from 'styled-components';
 import Button from '@/components/Button';
+import px2rem from '@/utils/px2rem';
+import styled from 'styled-components';
 
 export const ArtifactWrapper = styled.div`
-  margin-top: ${px2rem(60)};
+  margin-top: ${px2rem(40)};
 
   @media screen and (max-width: 768px) {
     margin-top: ${px2rem(40)};
@@ -19,13 +19,16 @@ export const ArtifactWrapper = styled.div`
 `;
 
 export const UploadFileContainer = styled.div`
-  padding: ${px2rem(24)} ${px2rem(32)};
-  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.bg2};
+  padding: 0 ${px2rem(32)};
   display: flex;
+  flex-direction: column;
+  text-align: center;
   align-items: center;
   justify-content: space-between;
   margin-bottom: ${px2rem(40)};
-  color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
+  color: white;
+  z-index: 2;
+  position: relative;
 
   .upload_left {
     display: flex;
@@ -37,23 +40,27 @@ export const UploadFileContainer = styled.div`
   .upload_right {
     position: relative;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
   }
 
   .upload_title {
-    margin-bottom: ${px2rem(8)};
+    margin-bottom: ${px2rem(16)};
     font-weight: 500;
-    font-size: ${px2rem(34)};
-    line-height: ${px2rem(44)};
-    /* identical to box height, or 129% */
-
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
+    font-size: ${px2rem(40)};
+    line-height: ${px2rem(48)};
+    color: white;
   }
 
   .upload_desc {
     font-weight: 400;
     font-size: ${px2rem(20)};
     line-height: ${px2rem(30)};
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.text3};
+    color: white;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: ${px2rem(28)};
   }
 
   .button-sub-text {
@@ -71,8 +78,12 @@ export const UploadFileContainer = styled.div`
   @media screen and (max-width: 768px) {
     display: block;
     padding: ${px2rem(24)};
-
+    align-items: center;
     .create-btn {
+      width: 100%;
+    }
+
+    .upload_desc {
       width: 100%;
     }
 
@@ -83,10 +94,13 @@ export const UploadFileContainer = styled.div`
 `;
 
 export const PreserveButton = styled(Button)`
-  background: #39b174;
+  /* background: #39b174; */
   padding: ${px2rem(11)} ${px2rem(36)};
 
-  p {
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
+  .button-text {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: black;
+    white-space: nowrap;
   }
 `;

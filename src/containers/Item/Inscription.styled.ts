@@ -1,5 +1,5 @@
 import px2rem from '@/utils/px2rem';
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
@@ -10,35 +10,85 @@ const Container = styled.div`
   .content {
     display: flex;
     flex-direction: row;
-    gap: ${px2rem(60)};
+    gap: ${px2rem(20)};
     margin-top: ${px2rem(60)};
-    width: 100%;
+    width: 70%;
   }
 
   .left-container {
-    width: 40%;
-
+    /* width: 40%; */
+    flex: 1;
+    padding: ${px2rem(20)};
+    background: rgba(0, 46, 29, 0.6);
+    border-radius: 12px;
+    position: relative;
     .thumbnail {
       width: 100%;
       aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      background: #050f0a;
+    }
+    .blur-circle {
+      position: absolute;
+      width: calc(100% - ${px2rem(80)});
+      height: calc(100% - ${px2rem(80)});
+      background: #076d47;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.1;
+      filter: blur(40px);
+      border-radius: 1000px;
+      z-index: 2;
+
+      & + div {
+        z-index: 1;
+        position: relative;
+      }
+    }
+
+    &::before {
+      content: '';
+      border-radius: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 1px solid transparent;
+      pointer-events: none !important;
+      background: linear-gradient(
+          138.24deg,
+          rgba(120, 170, 143, 0.8) 1.72%,
+          rgba(2, 47, 22, 0.64) 101.88%
+        )
+        border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
     }
   }
 
   .right-container {
-    width: 60%;
+    /* width: 60%; */
+    background: rgba(0, 46, 29, 0.6);
+    padding: ${px2rem(24)};
+    flex: 1;
+    border-radius: 20px;
+    position: relative;
 
     .header {
       display: flex;
       flex-direction: column;
-      margin-bottom: ${px2rem(40)};
+      margin-bottom: ${px2rem(20)};
       text-decoration: none;
 
       .title {
         font-style: normal;
         font-weight: 500;
-        font-size: ${px2rem(34)};
-        line-height: ${px2rem(44)};
-        color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
+        font-size: ${px2rem(28)};
+        line-height: ${px2rem(30)};
+        color: white;
       }
 
       .subTitle {
@@ -117,6 +167,27 @@ const Container = styled.div`
       white-space: nowrap;
       width: 90%;
     }
+
+    &::before {
+      content: '';
+      border-radius: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 1px solid transparent;
+      pointer-events: none !important;
+      background: linear-gradient(
+          138.24deg,
+          rgba(120, 170, 143, 0.8) 1.72%,
+          rgba(2, 47, 22, 0.64) 101.88%
+        )
+        border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -188,14 +259,12 @@ const Container = styled.div`
 `;
 
 const Information = styled.div`
-  margin-top: ${px2rem(40)};
-
   .title {
     font-style: normal;
     font-weight: 500;
     font-size: ${px2rem(20)};
     line-height: ${px2rem(34)};
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.text2};
+    color: white;
     padding-bottom: 8px;
     width: fit-content;
     border-bottom: 2px solid white;
@@ -208,8 +277,9 @@ const Information = styled.div`
 
     .item {
       padding-top: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #ececed;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
       max-width: 700px;
 
       .name {
@@ -220,7 +290,8 @@ const Information = styled.div`
         font-weight: 500;
         font-size: 14px;
         line-height: 28px;
-        color: #5b5b5b;
+        color: white;
+        opacity: 0.7;
       }
 
       .desc {
@@ -231,7 +302,7 @@ const Information = styled.div`
         font-size: 20px;
         line-height: 28px;
 
-        color: #1c1c1c;
+        color: white;
       }
 
       .link {

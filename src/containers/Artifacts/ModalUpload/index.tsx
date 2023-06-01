@@ -27,6 +27,8 @@ import toast from 'react-hot-toast';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { StyledModalUpload } from './ModalUpload.styled';
 import { ERROR_CODE } from '@/constants/error';
+import ArtifactButton from '@/components/ArtifactButton';
+import useWindowSize from '@/hooks/useWindowSize';
 
 type Props = {
   show: boolean;
@@ -43,6 +45,7 @@ enum optionFees {
 
 const ModalUpload = (props: Props) => {
   const router = useRouter();
+  const { mobileScreen } = useWindowSize();
   const { account } = useWeb3React();
   const { show = false, handleClose, file, setFile } = props;
   const [preview, setPreview] = useState<string | null>(null);
@@ -207,17 +210,18 @@ const ModalUpload = (props: Props) => {
           setActiveFee(title);
         }}
       >
-        <div>
-          <Text fontWeight="medium" color="text2" size="regular">
+        <div className="est-fee-item-name">
+          <Text fontWeight="medium" color="white" size="regular">
             {title}
           </Text>
-          <Text color="text8" className="mb-10">
+          <Text color="white" className="mb-10">
             {feeRate} sats/vByte
           </Text>
-          <p className="ext-price">
-            {formatBTCPrice(estFee)} <span>BTC</span>
-          </p>
         </div>
+
+        <p className="ext-price" style={{ color: 'white' }}>
+          {formatBTCPrice(estFee)} <span>BTC</span>
+        </p>
       </div>
     );
   };
@@ -245,14 +249,13 @@ const ModalUpload = (props: Props) => {
     <StyledModalUpload show={show} onHide={handleClose} centered size="lg">
       <Modal.Header>
         <IconSVG
-          className="cursor-pointer"
+          className="cursor-pointer hover-opacity"
           onClick={handleClose}
-          src={`${CDN_URL}/icons/ic-close.svg`}
+          src={`${CDN_URL}/artifact/icons/ic-close.svg`}
           maxWidth={'22px'}
         />
       </Modal.Header>
       <Modal.Body>
-        <h5 className="font-medium">Upload file</h5>
         <FileUploader
           handleChange={onChangeFile}
           name={'fileUploader'}
@@ -277,16 +280,11 @@ const ModalUpload = (props: Props) => {
                   ></img>
                 )}
                 <div className="file-upload-name">
-                  <Text className="file-name" size={'regular'}>{`${
-                    file.name
-                  } (${prettyPrintBytes(file.size)})`}</Text>
-                  {!error && (
-                    <IconSVG
-                      src={`${CDN_URL}/icons/ic-check.svg`}
-                      maxWidth={'20'}
-                      color="#00AA6C"
-                    />
-                  )}
+                  <Text
+                    className="file-name"
+                    size={'regular'}
+                  >{`${file.name}`}</Text>
+                  <Text>{prettyPrintBytes(file.size)}</Text>
                 </div>
               </div>
             )}
@@ -294,40 +292,54 @@ const ModalUpload = (props: Props) => {
             {error && <p className={'error-text'}>{error}</p>}
           </>
         </FileUploader>
-        <div className="est-fee">
-          <Text size="regular" fontWeight="medium" color="text2" className="mb-8">
-            Select the network fee
-          </Text>
-          <div className="est-fee-options">
-            {renderEstFee({
-              title: optionFees.economy,
-              estFee: estBTCFee.economy,
-              feeRate: feeRate.hourFee,
-            })}
-            {renderEstFee({
-              title: optionFees.faster,
-              estFee: estBTCFee.faster,
-              feeRate: feeRate.halfHourFee,
-            })}
-            {renderEstFee({
-              title: optionFees.fastest,
-              estFee: estBTCFee.fastest,
-              feeRate: feeRate.fastestFee,
-            })}
-          </div>
-        </div>
-        {file && !error && (
-          <Button
-            disabled={isProcessing}
-            className="confirm-btn"
-            onClick={handleUploadFile}
-            background="#39B174"
-          >
-            <Text size="medium" fontWeight="medium" className="confirm-text">
-              {isProcessing ? 'Processing...' : 'Confirm'}
+        <div className="right_content">
+          <div className="est-fee">
+            <Text
+              size="medium"
+              fontWeight="medium"
+              color="white"
+              className="title-text"
+            >
+              network fee estimate
             </Text>
-          </Button>
-        )}
+            <div className="est-fee-options">
+              {renderEstFee({
+                title: optionFees.economy,
+                estFee: estBTCFee.economy,
+                feeRate: feeRate.hourFee,
+              })}
+              {renderEstFee({
+                title: optionFees.faster,
+                estFee: estBTCFee.faster,
+                feeRate: feeRate.halfHourFee,
+              })}
+              {renderEstFee({
+                title: optionFees.fastest,
+                estFee: estBTCFee.fastest,
+                feeRate: feeRate.fastestFee,
+              })}
+            </div>
+          </div>
+          {file && !error && (
+            <ArtifactButton
+              variant="primary"
+              width={221}
+              height={52}
+              objectFit={mobileScreen ? 'contain' : 'cover'}
+              className="confirm-btn-wrapper"
+            >
+              <Button
+                disabled={isProcessing}
+                className="confirm-btn"
+                onClick={handleUploadFile}
+              >
+                <Text size="medium" fontWeight="medium" className="confirm-text">
+                  {isProcessing ? 'Processing...' : 'upload'}
+                </Text>
+              </Button>
+            </ArtifactButton>
+          )}
+        </div>
       </Modal.Body>
     </StyledModalUpload>
   );

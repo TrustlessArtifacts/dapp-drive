@@ -31,3 +31,9 @@
 .hidden {
   display: none !important;
 }
+
+.hover-opacity {
+  &:hover {
+    opacity: 0.8;
+  }
+}
