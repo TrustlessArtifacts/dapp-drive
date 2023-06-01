@@ -73,6 +73,7 @@ export const UploadFileContainer = styled.div`
     width: ${px2rem(150)};
     height: ${px2rem(80)};
     top: 0;
+    z-index: 10;
   }
 
   @media screen and (max-width: 768px) {
@@ -96,6 +97,7 @@ export const UploadFileContainer = styled.div`
 export const PreserveButton = styled(Button)`
   /* background: #39b174; */
   padding: ${px2rem(11)} ${px2rem(36)};
+  z-index: 10;
 
   .button-text {
     text-transform: uppercase;
