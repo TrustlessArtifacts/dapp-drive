@@ -20,19 +20,22 @@ export const StyledUploadFooter = styled.div<{ isUploadVisible: boolean }>`
   transform: ${({ isUploadVisible }) =>
     isUploadVisible ? 'translateY(100%)' : 'translateY(100)'};
 
-  --translate-icon: -23%;
+  --translate-icon: 23%;
 
   .icons {
     display: flex;
 
-    div:nth-of-type(2) {
-      transform: translateX(calc(var(--translate-icon) * 1));
+    div:nth-of-type(1) {
+      transform: translateX(calc(var(--translate-icon) * 3));
     }
-    div:nth-of-type(3) {
+    div:nth-of-type(2) {
       transform: translateX(calc(var(--translate-icon) * 2));
     }
+    div:nth-of-type(3) {
+      transform: translateX(calc(var(--translate-icon) * 1));
+    }
     div:nth-of-type(4) {
-      transform: translateX(calc(var(--translate-icon) * 3));
+      z-index: 1;
     }
 
     @media screen and (max-width: 767.98px) {
@@ -68,6 +71,15 @@ export const StyledUploadFooter = styled.div<{ isUploadVisible: boolean }>`
       height: 100%;
       opacity: 0;
       z-index: 10;
+    }
+
+    .cta-btn {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .btn-content {
+      width: fit-content;
     }
   }
 `;
