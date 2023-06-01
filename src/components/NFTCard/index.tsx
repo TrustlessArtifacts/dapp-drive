@@ -4,6 +4,7 @@ import NFTDisplayBox from '../NFTDisplayBox';
 import { IMAGE_TYPE } from '../NFTDisplayBox/constant';
 import { Styled } from './NFTCard.styled';
 
+
 export interface INFTCard {
   href: string;
   image?: string;
@@ -12,7 +13,6 @@ export interface INFTCard {
   tokenId?: string;
   contentType?: IMAGE_TYPE;
   title1?: string;
-  // owner?: string;
 }
 
 const NFTCard = ({
@@ -23,10 +23,18 @@ const NFTCard = ({
   tokenId,
   contentType,
   title1,
-}: // owner,
+
 INFTCard) => {
   // const user = useSelector(getUserSelector);
   // const [showTransferModal, setShowTransferModal] = useState(false);
+
+  // title2,
+  // title3,
+  owner,
+}: INFTCard) => {
+  // const user = useSelector(getUserSelector);
+  // const [showTransferModal, setShowTransferModal] = useState(false);
+
 
   // const hanldeOpenTransferModal = (e: React.MouseEvent<HTMLButtonElement>) => {
   //   e.stopPropagation();
@@ -39,6 +47,7 @@ INFTCard) => {
   //   setShowTransferModal(false);
   // };
 
+
   // const isOwner = useMemo(() => {
   //   return (
   //     user?.walletAddress &&
@@ -46,11 +55,13 @@ INFTCard) => {
   //   );
   // }, [owner, user]);
 
+
   return (
     <>
       <Styled href={href}>
         <div className="card-content">
           <div className="card-image">
+            <div className="blur-circle"></div>
             <NFTDisplayBox
               collectionID={contract}
               contentClass="image"

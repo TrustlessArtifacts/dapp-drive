@@ -79,7 +79,6 @@ const About = () => {
               Trustless Computer protocol. Affordable and fully on-chain, with
               support for large file sizes.
             </div>
-
             <ArtifactButton
               variant="primary"
               width={300}

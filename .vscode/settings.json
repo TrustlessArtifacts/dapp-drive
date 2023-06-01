@@ -4,5 +4,21 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["jazzicon", "Jazzicon"]
+  "cSpell.words": [
+    "aliquam",
+    "amet",
+    "arcu",
+    "Eget",
+    "eleifend",
+    "feugiat",
+    "molestie",
+    "neque",
+    "orci",
+    "Pharetra",
+    "pretium",
+    "pulvinar",
+    "senectus",
+    "jazzicon", "Jazzicon",
+    "sreen"
+  ]
 }

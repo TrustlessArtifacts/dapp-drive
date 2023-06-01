@@ -2,33 +2,25 @@ import Button from '@/components/Button';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
-import ToastConfirm from '@/components/ToastConfirm';
-import { CDN_URL, TC_URL } from '@/configs';
-import { MINT_TOOL_MAX_FILE_SIZE } from '@/constants/config';
+import { CDN_URL } from '@/configs';
 import { ROUTE_PATH } from '@/constants/route-path';
-import { AssetsContext } from '@/contexts/assets-context';
-import { DappsTabs } from '@/enums/tabs';
 import usePreserveChunks, {
   IPreserveChunkParams,
 } from '@/hooks/contract-operations/artifacts/usePreserveChunks';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
-import { readFileAsBuffer } from '@/utils';
-import { walletLinkSignTemplate } from '@/utils/configs';
-import { showError } from '@/utils/toast';
+import { readFileAsBuffer } from '@/utils/file';
+import { showToastError, showToastSuccess } from '@/utils/toast';
 import { prettyPrintBytes } from '@/utils/units';
-import { formatBTCPrice } from '@trustless-computer/dapp-core';
-import { useWeb3React } from '@web3-react/core';
-import { Transaction } from 'ethers';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FileUploader } from 'react-drag-drop-files';
-import toast from 'react-hot-toast';
-import * as TC_SDK from 'trustless-computer-sdk';
 import { StyledModalUpload } from './ModalUpload.styled';
+
 import { ERROR_CODE } from '@/constants/error';
 import ArtifactButton from '@/components/ArtifactButton';
 import useWindowSize from '@/hooks/useWindowSize';
+
 
 type Props = {
   show: boolean;
@@ -37,42 +29,33 @@ type Props = {
   setFile: (file: File | null) => void;
 };
 
-enum optionFees {
-  economy = 'Economy',
-  faster = 'Faster',
-  fastest = 'Fastest',
-}
-
 const ModalUpload = (props: Props) => {
+  const { mobileScreen } = useWindowSize();
   const router = useRouter();
+
   const { mobileScreen } = useWindowSize();
   const { account } = useWeb3React();
+
   const { show = false, handleClose, file, setFile } = props;
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [selectFee, setSelectFee] = useState<number>(0);
-  const [activeFee, setActiveFee] = useState(optionFees.fastest);
-  const [estBTCFee, setEstBTCFee] = useState({
-    economy: '0',
-    faster: '0',
-    fastest: '0',
-  });
-  const { feeRate } = useContext(AssetsContext);
-
-  const { run } = useContractOperation<IPreserveChunkParams, Transaction | null>({
+  const { run } = useContractOperation<
+    IPreserveChunkParams,
+    IRequestSignResp | null
+  >({
     operation: usePreserveChunks,
   });
+  // const { upload } = useChunkedFileUploader();
   const [isProcessing, setIsProcessing] = useState(false);
-  const { dAppType, transactionType } = usePreserveChunks();
 
   const handleUploadFile = async () => {
-    if (!account) {
+    if (!user.tcAddress) {
       router.push(`${ROUTE_PATH.CONNECT_WALLET}?next=${window.location.href}`);
       return;
     }
 
     if (!file) {
-      showError({
+      showToastError({
         message: 'File is required',
       });
       return;
@@ -81,67 +64,55 @@ const ModalUpload = (props: Props) => {
     try {
       setIsProcessing(true);
       const fileBuffer = await readFileAsBuffer(file);
-
       const tx = await run({
-        address: account,
-        chunks: fileBuffer,
-        selectFee,
+        address: user.tcAddress,
+        chunks: [fileBuffer],
       });
-      toast.success(
-        () => (
-          <ToastConfirm
-            id="create-success"
-            url={walletLinkSignTemplate({
-              transactionType,
-              dAppType,
-              hash: Object(tx).hash,
-              isRedirect: true,
-            })}
-            message="Please go to your wallet to authorize the request for the Bitcoin transaction."
-            linkText="Go to wallet"
-          />
-        ),
-        {
-          duration: 50000,
-          position: 'top-right',
-          style: {
-            maxWidth: '900px',
-            borderLeft: '4px solid #00AA6C',
-          },
-        },
-      );
+      logger.debug(tx);
+
+      // if (file.size < BLOCK_CHAIN_FILE_LIMIT * 1024) {
+      //   const tx = await run({
+      //     address: user.tcAddress,
+      //     chunks: [fileBuffer],
+      //   });
+      // } else {
+      //   // Upload file to server
+      //   const { fileId } = await upload(file, uuidv4());
+      //   logger.debug(`_____fileId: ${fileId}`);
+
+      //   // Create transaction
+      //   const tx = await run({
+      //     address: user.tcAddress,
+      //     chunks: [],
+      //   });
+
+      //   logger.debug('______transaction info');
+      //   logger.debug(tx);
+
+      //   if (!tx) {
+      //     showToastError({
+      //       message: 'Rejected request.'
+      //     });
+      //     return;
+      //   }
+
+      //   // Update tx_hash
+      //   await updateFileTransactionInfo({
+      //     fileId,
+      //     txHash: tx.hash,
+      //   })
+      // }
+
+      showToastSuccess({
+        message: 'Preserved successfully.',
+      });
+
       handleClose();
     } catch (err: unknown) {
-      if ((err as Error).message === ERROR_CODE.PENDING) {
-        showError({
-          message:
-            'You have some pending transactions. Please complete all of them before moving on.',
-          url: `${TC_URL}/?tab=${DappsTabs.TRANSACTION}`,
-          linkText: 'Go to Wallet',
-        });
-      } else if ((err as Error).message === ERROR_CODE.INSUFFICIENT_BALANCE) {
-        const fileBuffer = await readFileAsBuffer(file);
-
-        const estimatedFee = TC_SDK.estimateInscribeFee({
-          tcTxSizeByte: Buffer.byteLength(fileBuffer),
-          feeRatePerByte: selectFee,
-        });
-
-        showError({
-          message: `Your balance is insufficient. Please top up at least ${formatBTCPrice(
-            estimatedFee.totalFee.toString(),
-          )} BTC to pay network fee.`,
-          url: `${TC_URL}`,
-          linkText: 'Go to Wallet',
-        });
-      } else {
-        showError({
-          message:
-            (err as Error).message ||
-            'Something went wrong. Please try again later.',
-        });
-      }
-      console.log(err);
+      logger.error(err);
+      showToastError({
+        message: (err as Error).message,
+      });
     } finally {
       setIsProcessing(false);
     }
@@ -154,10 +125,11 @@ const ModalUpload = (props: Props) => {
 
   const onSizeError = (): void => {
     setError(
-      `File size error, maximum file size is ${MINT_TOOL_MAX_FILE_SIZE * 1000}KB.`,
+      `File size error, maximum file size is ${BLOCK_CHAIN_FILE_LIMIT * 1000}KB.`,
     );
     setPreview(null);
   };
+
 
   const handleEstFee = async (): Promise<void> => {
     if (!file) return;
@@ -226,27 +198,14 @@ const ModalUpload = (props: Props) => {
     );
   };
 
-  useEffect(() => {
-    handleEstFee();
-  }, [file]);
 
   useEffect(() => {
-    if (file) {
-      const fileSizeInKb = file.size / 1024;
-      if (fileSizeInKb > MINT_TOOL_MAX_FILE_SIZE * 1000) {
-        onSizeError();
-      } else {
-        setPreview(URL.createObjectURL(file));
-      }
-    }
+    if (!file) return;
+    setPreview(URL.createObjectURL(file));
   }, [file]);
-
-  useEffect(() => {
-    setSelectFee(feeRate.fastestFee);
-  }, [feeRate.fastestFee]);
 
   return (
-    <StyledModalUpload show={show} onHide={handleClose} centered size="lg">
+    <StyledModalUpload show={show} onHide={handleClose} centered>
       <Modal.Header>
         <IconSVG
           className="cursor-pointer hover-opacity"
@@ -259,7 +218,7 @@ const ModalUpload = (props: Props) => {
         <FileUploader
           handleChange={onChangeFile}
           name={'fileUploader'}
-          maxSize={0.35}
+          maxSize={BLOCK_CHAIN_FILE_LIMIT}
           onSizeError={onSizeError}
           classes={'dropZone'}
         >
@@ -292,6 +251,7 @@ const ModalUpload = (props: Props) => {
             {error && <p className={'error-text'}>{error}</p>}
           </>
         </FileUploader>
+
         <div className="right_content">
           <div className="est-fee">
             <Text

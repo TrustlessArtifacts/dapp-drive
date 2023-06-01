@@ -32,6 +32,11 @@ export const ThemedGlobalStyle = createGlobalStyle`
        --rowdies-font: ${rowdies.style.fontFamily};
     }
 
+    @media screen and (max-width: 767.98px) {
+      font-size: 14px;
+    }
+    
+
     @media screen and (min-width: 1920px) {
       font-size: 18px;
     }
@@ -73,7 +78,4 @@ export const ThemedGlobalStyle = createGlobalStyle`
   summary::-webkit-details-marker {
     display:none;
   }
-
-
-
 `;

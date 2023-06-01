@@ -4,9 +4,11 @@ import styled from 'styled-components';
 const Wrapper = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
-  left: 0;
+  right: calc(-100% - 10px);
   z-index: 99;
+
   transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(100%)')};
+
 
   .bg {
     z-index: 1;

@@ -42,6 +42,13 @@ const BFSList = () => {
 
   const debounceLoadMore = debounce(onLoadMoreNfts, 300);
 
+  // const formatItemName = (name: string, type: string) => {
+  //   const fileTypeList = type.split('/');
+  //   const fileType = fileTypeList[fileTypeList.length - 1];
+  //   return name ? `${name}.${fileType}` : type;
+  // };
+
+
   useEffect(() => {
     fetchInscriptions();
   }, []);

@@ -11,28 +11,28 @@ import ModalUpload from './ModalUpload';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
-// import { useRouter } from 'next/router';
-// import { ROUTE_PATH } from '@/constants/route-path';
-import { showError } from '@/utils/toast';
+import { showToastError } from '@/utils/toast';
 import { WalletContext } from '@/contexts/wallet-context';
+
+
 import ArtifactButton from '@/components/ArtifactButton';
 import useWindowSize from '@/hooks/useWindowSize';
 
 const Artifacts: React.FC = () => {
-  // const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
+
   const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
+
   const { mobileScreen } = useWindowSize();
 
   const handleConnectWallet = async () => {
     try {
-      await onConnect();
-      await requestBtcAddress();
+      await connect();
     } catch (err) {
-      console.log(err);
-      onDisconnect();
+      logger.error(err);
+      disconnect();
     }
   };
 
@@ -41,7 +41,7 @@ const Artifacts: React.FC = () => {
   };
 
   const onSizeError = (): void => {
-    showError({
+    showToastError({
       message: `File size error, maximum file size is ${
         BLOCK_CHAIN_FILE_LIMIT * 1000
       }kb.`,
@@ -58,6 +58,8 @@ const Artifacts: React.FC = () => {
   useEffect(() => {
     if (file) {
       setShowUploadModal(true);
+    } else {
+      setShowUploadModal(false);
     }
   }, [file]);
 

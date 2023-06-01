@@ -1,16 +1,11 @@
 import IconSVG from '@/components/IconSVG';
-import { CDN_URL, TC_URL } from '@/configs';
-// import { ROUTE_PATH } from '@/constants/route-path';
+import { CDN_URL, TC_WEB_WALLET_URL } from '@/configs';
 import { AssetsContext } from '@/contexts/assets-context';
 import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
 import { formatBTCPrice, formatEthPrice } from '@/utils/format';
-// import { formatBTCPrice, formatLongAddress } from '@trustless-computer/dapp-core';
-import { useWeb3React } from '@web3-react/core';
 import copy from 'copy-to-clipboard';
-// import { useRouter } from 'next/router';
 import { useContext, useRef, useState } from 'react';
 import { OverlayTrigger } from 'react-bootstrap';
-import { toast } from 'react-hot-toast';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { useSelector } from 'react-redux';
 import { ConnectWalletButton, WalletBalance } from '../Header.styled';
@@ -22,47 +17,39 @@ import { DappsTabs } from '@/enums/tabs';
 import ArtifactButton from '@/components/ArtifactButton';
 
 const WalletHeader = () => {
-  // const router = useRouter();
-  const { account } = useWeb3React();
   const user = useSelector(getUserSelector);
-  const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
-
+  const { disconnect, connect } = useContext(WalletContext);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
-  const { btcBalance, juiceBalance } = useContext(AssetsContext);
-
+  const { btcBalance, tcBalance } = useContext(AssetsContext);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [show, setShow] = useState(false);
+  const ref = useRef(null);
 
   const handleConnectWallet = async () => {
     try {
       setIsConnecting(true);
-      await onConnect();
-      await requestBtcAddress();
+      await connect();
     } catch (err) {
-      console.log(err);
-      onDisconnect();
+      logger.error(err);
+      disconnect();
     } finally {
       setIsConnecting(false);
     }
   };
 
-  const [show, setShow] = useState(false);
   const handleOnMouseEnter = () => {
     setShow(true);
   };
-  const handleOnMouseLeave = () => {
-    console.log('trigger');
 
+  const handleOnMouseLeave = () => {
     setShow(false);
   };
-  const ref = useRef(null);
-
-  // const goToConnectWalletPage = async () => {
-  //   router.push(`${ROUTE_PATH.CONNECT_WALLET}?next=${window.location.href}`);
-  // };
 
   const onClickCopy = (address: string) => {
     copy(address);
-    toast.success('Copied');
+    showToastSuccess({
+      message: 'Copied',
+    });
   };
 
   const walletPopover = (
@@ -80,18 +67,14 @@ const WalletHeader = () => {
             maxHeight="24"
           />
           <Text size={'regular'} className="wallet-address" fontWeight="regular">
-            {formatLongAddress(user?.walletAddress || '')}
+            {formatLongAddress(user?.tcAddress || '')}
           </Text>
         </div>
-        <div
-          className="icCopy"
-          onClick={() => onClickCopy(user?.walletAddress || '')}
-        >
+        <div className="icCopy" onClick={() => onClickCopy(user?.tcAddress || '')}>
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
             maxWidth="16"
-            // type="stroke"
           ></IconSVG>
         </div>
       </div>
@@ -104,13 +87,10 @@ const WalletHeader = () => {
             maxHeight="24"
           />
           <Text size={'regular'} className="wallet-address" fontWeight="regular">
-            {formatLongAddress(user?.walletAddressBtcTaproot || '')}
+            {formatLongAddress(user?.btcAddress || '')}
           </Text>
         </div>
-        <div
-          className="icCopy"
-          onClick={() => onClickCopy(user?.walletAddressBtcTaproot || '')}
-        >
+        <div className="icCopy" onClick={() => onClickCopy(user?.btcAddress || '')}>
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
@@ -122,7 +102,9 @@ const WalletHeader = () => {
       <div className="cta">
         <div
           className="wallet-link"
-          onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
+          onClick={() =>
+            window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.ARTIFACT}`)
+          }
         >
           <IconSVG src={`${CDN_URL}/icons/ep_wallet-filled.svg`} maxWidth="20" />
           <Text size="medium">Wallet</Text>
