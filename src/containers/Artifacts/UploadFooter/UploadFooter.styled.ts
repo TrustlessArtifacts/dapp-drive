@@ -3,11 +3,13 @@ import styled from 'styled-components';
 
 export const StyledUploadFooter = styled.div<{ isUploadVisible: boolean }>`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   background: #090a0b;
   box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.12);
-  min-height: 56px;
+  /* min-height: 56px; */
+  padding: ${px2rem(8)} 0;
   position: fixed;
   left: 0;
   bottom: 0;
@@ -32,6 +34,10 @@ export const StyledUploadFooter = styled.div<{ isUploadVisible: boolean }>`
     div:nth-of-type(4) {
       transform: translateX(calc(var(--translate-icon) * 3));
     }
+
+    @media screen and (max-width: 767.98px) {
+      display: none;
+    }
   }
 
   .text {
@@ -52,6 +58,7 @@ export const StyledUploadFooter = styled.div<{ isUploadVisible: boolean }>`
       text-transform: uppercase;
       font-weight: 500;
       letter-spacing: 0.1em;
+      white-space: nowrap;
     }
 
     .file-uploader {

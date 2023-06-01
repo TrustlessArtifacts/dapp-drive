@@ -30,7 +30,7 @@ const Artifacts: React.FC = () => {
 
   const uploadRef = useRef<HTMLDivElement>(null);
 
-  const isUploadVisible = useIsInViewport(uploadRef);
+  const isUploadVisible = useIsInViewport(uploadRef, { threshold: 0.2 });
 
   const handleConnectWallet = async () => {
     try {
@@ -84,8 +84,8 @@ const Artifacts: React.FC = () => {
           <div className="upload_right" ref={uploadRef}>
             <ArtifactButton
               variant="primary"
-              width={300}
-              height={79}
+              width={mobileScreen ? 274 : 300}
+              height={mobileScreen ? 55 : 79}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <PreserveButton onClick={handlePreserverArtifact}>

@@ -37,7 +37,7 @@ const UploadFooter = ({
         <span>any size are supported.</span>
       </div>
       <div className="button">
-        <ArtifactButton variant="white" width={170} height={40}>
+        <ArtifactButton variant="white" width={226} height={52}>
           <button onClick={handlePreserverArtifact}>
             <Text className="button-text" color="bg1" fontWeight="medium">
               Preserve Artifact
