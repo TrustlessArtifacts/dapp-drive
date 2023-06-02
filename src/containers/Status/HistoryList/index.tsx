@@ -9,7 +9,7 @@ import ProcessingItem from '../ProcessingItem';
 
 const HistoryList: React.FC = (): React.ReactElement => {
   const user = useSelector(getUserSelector);
-  const [_processedFiles, setProcessedFiles] = useState<
+  const [processedFiles, setProcessedFiles] = useState<
     Array<IUploadFileResponseItem>
   >([]);
   const [processingFiles, setProcessingFiles] = useState<
@@ -47,7 +47,7 @@ const HistoryList: React.FC = (): React.ReactElement => {
       logger.debug('failed to get process files');
       throw Error();
     }
-  }, [page, user, setProcessedFiles, setProcessingFiles, setPage]);
+  }, [user, setProcessedFiles, setProcessingFiles, setPage]);
 
   useEffect(() => {
     if (user && user.walletAddress) {
@@ -70,6 +70,11 @@ const HistoryList: React.FC = (): React.ReactElement => {
       </div>
       <div className="sectionWrapper">
         <h2 className="sectionTitle">Preserved</h2>
+        <div className="list">
+          {processedFiles.map((item) => {
+            return <ProcessedItem key={item.id} file={item} />;
+          })}
+        </div>
       </div>
     </StyledHistoryList>
   );
