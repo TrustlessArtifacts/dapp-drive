@@ -4,6 +4,7 @@ import {
   ThumbnailWrapper,
   StyledProcessingItem,
   InfoWrapper,
+  ThumbnailOverlay,
 } from './ProcessingItem.styled';
 import { CDN_URL } from '@/configs';
 import IconSVG from '@/components/IconSVG';
@@ -57,15 +58,22 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
     }
   };
 
+  const MOCK_PROGRESS = 90;
+
   const renderContentStatus = (status: number) => {
     switch (status) {
       case FileProcessStatus.New:
         return (
           <div>
             <p className="fileName">{file?.name || 'woman-yelling.png'}</p>
-            <FileChunk />
-            <ArtifactButton variant={'primary'}>
-              <p>Waiting for token id</p>
+            <FileChunk progress={0} fileSize={2048 * 1000} />
+            <ArtifactButton
+              variant={'primary-transparent'}
+              className="ctaBtn"
+              width={209}
+              height={44}
+            >
+              <p className={'text-pending'}>Waiting for token id</p>
             </ArtifactButton>
           </div>
         );
@@ -73,9 +81,14 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
         return (
           <div>
             <p className="fileName">{file?.name || 'Confused cat #1'}</p>
-            <FileChunk />
-            <ArtifactButton variant={'primary'}>
-              <button onClick={handleInscribeNextChunk}>inscribe</button>
+            <FileChunk progress={MOCK_PROGRESS} fileSize={5000 * 1000} />
+            <ArtifactButton
+              variant={'primary'}
+              className="ctaBtn"
+              width={150}
+              height={44}
+            >
+              <p onClick={handleInscribeNextChunk}>inscribe</p>
             </ArtifactButton>
           </div>
         );
@@ -94,9 +107,15 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
           }
           alt={file?.name || 'thumbnail'}
         />
-        <div className="thumbnailOverlay">
-          <IconSVG src={`${CDN_URL}/icons/bi_clock-history.svg`} maxWidth="40" />
-        </div>
+        <IconSVG
+          src={`${CDN_URL}/icons/bi_clock-history.svg`}
+          maxWidth="40"
+          className="ic-loading"
+        />
+        <ThumbnailOverlay
+          className="thumbnailOverlay"
+          progress={MOCK_PROGRESS}
+        ></ThumbnailOverlay>
       </ThumbnailWrapper>
       <InfoWrapper>{renderContentStatus(index)}</InfoWrapper>
     </StyledProcessingItem>

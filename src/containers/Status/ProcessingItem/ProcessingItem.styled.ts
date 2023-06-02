@@ -12,6 +12,7 @@ export const ThumbnailWrapper = styled.div`
   height: 0;
   padding-bottom: 100%;
   position: relative;
+  margin-bottom: ${px2rem(28)};
 
   .thumbnail {
     position: absolute;
@@ -24,24 +25,55 @@ export const ThumbnailWrapper = styled.div`
     padding: ${px2rem(12)};
   }
 
-  .thumbnailOverlay {
+  .ic-loading {
     position: absolute;
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-    left: 50%;
     top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 16px;
-    object-fit: contain;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.7);
-    display: grid;
-    place-items: center;
   }
 `;
 
+export const ThumbnailOverlay = styled.div<{ progress: number }>`
+  position: absolute;
+  width: calc(100% - 4px);
+  height: calc(${({ progress }) => 100 - progress}% - 4px);
+  left: 2px;
+  /* top: 50%; */
+  bottom: 2px;
+  /* transform: translate(-50%, -50%); */
+  border-radius: 16px;
+  object-fit: contain;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.7);
+
+  div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  /* display: grid;
+  place-items: center; */
+`;
+
 export const InfoWrapper = styled.div`
+  padding: 0 ${px2rem(16)};
+
   .fileName {
     color: white;
+    margin-bottom: ${px2rem(16)};
+  }
+
+  .ctaBtn {
+    margin-top: ${px2rem(28)};
+    font-size: ${px2rem(12)};
+    line-height: ${px2rem(16)};
+    letter-spacing: 0.1em;
+
+    .text-pending {
+      white-space: nowrap;
+      color: #ff9116;
+    }
   }
 `;
