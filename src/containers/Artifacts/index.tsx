@@ -8,12 +8,8 @@ import {
   PreserveButton,
 } from './Artifacts.styled';
 import ModalUpload from './ModalUpload';
-import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
-// import { useRouter } from 'next/router';
-// import { ROUTE_PATH } from '@/constants/route-path';
-import { showError } from '@/utils/toast';
 import { WalletContext } from '@/contexts/wallet-context';
 import ArtifactButton from '@/components/ArtifactButton';
 import useWindowSize from '@/hooks/useWindowSize';
@@ -21,7 +17,6 @@ import UploadFooter from './UploadFooter';
 import { useIsInViewport } from '@/hooks/useIsInViewport';
 
 const Artifacts: React.FC = () => {
-  // const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
@@ -45,14 +40,6 @@ const Artifacts: React.FC = () => {
   const onChangeFile = (file: File): void => {
     setFile(file);
   };
-
-  // const onSizeError = (): void => {
-  //   showError({
-  //     message: `File size error, maximum file size is ${
-  //       BLOCK_CHAIN_FILE_LIMIT * 1000
-  //     }kb.`,
-  //   });
-  // };
 
   const handlePreserverArtifact = () => {
     if (!isAuthenticated) handleConnectWallet();

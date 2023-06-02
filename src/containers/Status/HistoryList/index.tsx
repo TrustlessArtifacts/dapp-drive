@@ -6,13 +6,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { StyledHistoryList } from './HistoryList.styled';
 import ProcessingItem from '../ProcessingItem';
+import ProcessedItem from '../ProcessedItem';
 
 const HistoryList: React.FC = (): React.ReactElement => {
   const user = useSelector(getUserSelector);
   const [processedFiles, setProcessedFiles] = useState<
     Array<IUploadFileResponseItem>
   >([]);
-  const [processingFiles, setProcessingFiles] = useState<
+  const [_processingFiles, setProcessingFiles] = useState<
     Array<IUploadFileResponseItem>
   >([]);
   const [page, setPage] = useState(1);
@@ -64,7 +65,7 @@ const HistoryList: React.FC = (): React.ReactElement => {
             return <ProcessingItem key={item.id} file={item} />;
           })} */}
           {[...Array(2)].map((_, index) => (
-            <ProcessingItem key={index} file={null} index={index} />
+            <ProcessingItem key={index} file={undefined} index={index} />
           ))}
         </div>
       </div>

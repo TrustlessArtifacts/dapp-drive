@@ -88,7 +88,6 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
           address: evmWalletAddress,
           signature: signature,
         });
-        console.log('signature', signature);
         setAccessToken(accessToken, refreshToken);
         dispatch(updateEVMWallet(evmWalletAddress));
         dispatch(updateSelectedWallet({ wallet: connection.type }));

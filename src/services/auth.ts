@@ -13,7 +13,7 @@ export const generateNonceMessage = async (payload: IGenerativeNonceMessagePaylo
   return Object(camelCaseKeys(res));
 }
 
-export const verifyNonceMessage = async (payload: IVerifyNonceMessagePayload): Promise<any> => {
+export const verifyNonceMessage = async (payload: IVerifyNonceMessagePayload): Promise<{ token: string; refreshToken: string; }> => {
   const res = await apiClient.post(`${API_PATH}/nonce/verify`, payload);
   return Object(camelCaseKeys(res));
 };
