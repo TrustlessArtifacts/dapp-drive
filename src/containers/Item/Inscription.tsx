@@ -1,10 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { IInscription } from '@/interfaces/api/inscription';
 import { getNFTDetail } from '@/services/nft-explorer';
 import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { Container, Information } from './Inscription.styled';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { ARTIFACT_CONTRACT, BIG_FILE_PROJECT_ID } from '@/configs';
 import { formatTimeStamp } from '@/utils/time';
 import { useRouter } from 'next/router';
@@ -47,34 +45,9 @@ const Inscription = () => {
     );
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderProperties = (attributes: any[]) => (
-    <div className="list-container">
-      <p className="list-name">Attributes</p>
-      <ResponsiveMasonry
-        columnsCountBreakPoints={{
-          350: 2,
-          750: 2,
-          900: 2,
-          1240: 3,
-          2500: 3,
-          3000: 3,
-        }}
-      >
-        <Masonry gutter="16px">
-          {attributes.length > 0 &&
-            attributes.map((trait, index) => {
-              return (
-                <div key={index.toString()} className="properties-item">
-                  <p className="properties-trait-type">{trait.traitType}</p>
-                  <p className="properties-trait-value">{trait.value}</p>
-                </div>
-              );
-            })}
-        </Masonry>
-      </ResponsiveMasonry>
-    </div>
-  );
+  if (!inscription) {
+    return <></>;
+  }
 
   return (
     <Container>
@@ -109,20 +82,6 @@ const Inscription = () => {
                 renderListItem(
                   'Timestamp',
                   formatTimeStamp(inscription?.mintedAt * 1000),
-                )}
-              {inscription &&
-                inscription.attributes &&
-                inscription.attributes.length > 0 &&
-                renderProperties(
-                  inscription.attributes.sort(function (a, b) {
-                    if (a.traitType < b.traitType) {
-                      return -1;
-                    }
-                    if (a.traitType > b.traitType) {
-                      return 1;
-                    }
-                    return 0;
-                  }),
                 )}
               {inscription?.tokenId === BIG_FILE_PROJECT_ID &&
                 renderListItem('File size', '6.9MB')}
