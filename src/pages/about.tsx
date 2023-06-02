@@ -1,5 +1,4 @@
 import About from '@/containers/About';
-import React from 'react';
 
 const AboutPage = () => {
   return (

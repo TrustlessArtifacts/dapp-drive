@@ -4,7 +4,7 @@ import { Tooltip } from 'react-bootstrap';
 import styled, { DefaultTheme } from 'styled-components';
 import Link from 'next/link';
 
-const Wrapper = styled.div`
+const Wrapper = styled.header`
   display: flex;
   flex-direction: row;
   align-items: center;

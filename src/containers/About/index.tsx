@@ -6,6 +6,8 @@ import useWindowSize from '@/hooks/useWindowSize';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { AboutHeader, SectionControllers, StyledAbout } from './About.styled';
+import Header from '@/layouts/Header/Header';
+import { HEADER_HEIGHT } from '@/layouts';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
@@ -22,26 +24,7 @@ const About = () => {
   return (
     <>
       <AboutHeader>
-        <div className="logo">
-          <img alt="logo" src={`${CDN_URL}/pages/artifacts/logo-1.svg`} />
-          <h1 className="logo-title">Artifacts</h1>
-        </div>
-        <div className="external-link">
-          <Link href={'https://trustless.computer/'} target="_blank">
-            Trustless
-            <IconSVG
-              maxWidth="28"
-              src={`${CDN_URL}/artifact/icons/ic-link.svg`}
-            ></IconSVG>
-          </Link>
-          <Link href={'https://tcgasstation.com/'} target="_blank">
-            Get TC
-            <IconSVG
-              maxWidth="28"
-              src={`${CDN_URL}/artifact/icons/ic-link.svg`}
-            ></IconSVG>
-          </Link>
-        </div>
+        <Header height={HEADER_HEIGHT} />
       </AboutHeader>
       <StyledAbout>
         <div className="section-01" id="section-1" ref={firstSectionRef}>
@@ -86,7 +69,7 @@ const About = () => {
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Preserve Artifact
+                Explore Artifact
               </Link>
             </ArtifactButton>
           </div>
@@ -114,7 +97,7 @@ const About = () => {
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Preserve Artifact
+                Explore Artifact
               </Link>
             </ArtifactButton>
           </div>
@@ -142,7 +125,7 @@ const About = () => {
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Preserve Artifact
+                Explore Artifact
               </Link>
             </ArtifactButton>
           </div>
@@ -172,7 +155,7 @@ const About = () => {
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Preserve Artifact
+                Explore Artifact
               </Link>
             </ArtifactButton>
           </div>

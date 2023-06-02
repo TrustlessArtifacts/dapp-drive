@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import Footer from './Footer';
 import Header from './Header';
 
-const HEADER_HEIGHT = 80;
-const FO0TER_HEIGHT = 80;
+export const HEADER_HEIGHT = 80;
+export const FO0TER_HEIGHT = 80;
 
 export const Container = styled.div`
   margin-left: auto;
