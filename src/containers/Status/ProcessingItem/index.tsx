@@ -15,6 +15,8 @@ import useContractOperation from '@/hooks/contract-operations/useContractOperati
 import useStoreChunks from '@/hooks/contract-operations/artifacts/useStoreChunks';
 import { Transaction } from 'ethers';
 import { IStoreChunkParams } from '@/hooks/contract-operations/artifacts/useStoreChunks';
+import { showToastError } from '@/utils/toast';
+import { updateFileChunkTransactionInfo } from '@/services/file';
 
 interface IProps {
   file?: IUploadFileResponseItem;
@@ -28,15 +30,14 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
     operation: useStoreChunks,
   });
 
-  // if(!file) return null;
-
-  //TODO: Inscribe button
-  const handleInscribeNextChunk = () => {
+  const handleInscribeNextChunk = async () => {
     try {
+      // const fileBuffer = await readFileAsBuffer(file?.fullPath);
+
       const tx = await run({
         tokenId: file?.tokenId,
         chunkIndex: index + 1,
-        chunks: fileBuffer,
+        chunks: [],
       });
       if (!tx) {
         showToastError({
@@ -44,6 +45,12 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
         });
         return;
       }
+
+      await updateFileChunkTransactionInfo({
+        txHash: tx.hash,
+        fileId: file?.id,
+        chunkId: index + 1,
+      });
     } catch (err: unknown) {
       logger.debug('failed to inscribe next file chunk');
       throw Error();
