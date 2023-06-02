@@ -29,6 +29,11 @@ import { StyledModalUpload } from './ModalUpload.styled';
 import { ERROR_CODE } from '@/constants/error';
 import ArtifactButton from '@/components/ArtifactButton';
 import useWindowSize from '@/hooks/useWindowSize';
+import logger from '@/services/logger';
+import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
+import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
+import { v4 as uuidv4 } from 'uuid';
+import { updateFileTransactionInfo } from '@/services/file';
 
 type Props = {
   show: boolean;
@@ -62,6 +67,7 @@ const ModalUpload = (props: Props) => {
   const { run } = useContractOperation<IPreserveChunkParams, Transaction | null>({
     operation: usePreserveChunks,
   });
+  const { upload } = useChunkedFileUploader();
   const [isProcessing, setIsProcessing] = useState(false);
   const { dAppType, transactionType } = usePreserveChunks();
 
@@ -82,11 +88,46 @@ const ModalUpload = (props: Props) => {
       setIsProcessing(true);
       const fileBuffer = await readFileAsBuffer(file);
 
-      const tx = await run({
-        address: account,
-        chunks: fileBuffer,
-        selectFee,
-      });
+      // const tx = await run({
+      //   address: account,
+      //   chunks: fileBuffer,
+      // });
+
+      if (file.size < BLOCK_CHAIN_FILE_LIMIT * 1024) {
+        const tx = await run({
+          address: account,
+          chunks: [fileBuffer],
+        });
+      } else {
+        // Upload file to server
+        const { fileId } = await upload(file, uuidv4());
+        logger.debug(`_____fileId: ${fileId}`);
+
+        // Create transaction
+        const tx = await run({
+          address: account,
+          chunks: [],
+        });
+
+        logger.debug('______transaction info');
+        logger.debug(tx);
+
+        if (!tx) {
+          showToastError({
+            message: 'Rejected request.',
+          });
+          return;
+        }
+
+        // Update tx_hash
+        await updateFileTransactionInfo({
+          fileId,
+          txHash: tx.hash,
+        });
+      }
+
+      logger.debug(tx);
+
       toast.success(
         () => (
           <ToastConfirm
@@ -152,12 +193,12 @@ const ModalUpload = (props: Props) => {
     setError('');
   };
 
-  const onSizeError = (): void => {
-    setError(
-      `File size error, maximum file size is ${MINT_TOOL_MAX_FILE_SIZE * 1000}KB.`,
-    );
-    setPreview(null);
-  };
+  // const onSizeError = (): void => {
+  //   setError(
+  //     `File size error, maximum file size is ${MINT_TOOL_MAX_FILE_SIZE * 1000}KB.`,
+  //   );
+  //   setPreview(null);
+  // };
 
   const handleEstFee = async (): Promise<void> => {
     if (!file) return;
@@ -182,15 +223,6 @@ const ModalUpload = (props: Props) => {
       faster: estimatedFasterFee.totalFee.toString(),
       economy: estimatedEconomyFee.totalFee.toString(),
     });
-
-    // const tcTxSizeBytes =
-    //   listOfChunks
-    //     ?.map((chunk) =>
-    //       chunk.reduce((prev, cur) => prev + Buffer.byteLength(cur), 0),
-    //     )
-    //     .reduce((prev, cur) => prev + cur, 0) || 0;
-
-    // setEstBTCFee(estimatedFee.totalFee.toString());
   };
 
   const renderEstFee = ({
@@ -230,18 +262,14 @@ const ModalUpload = (props: Props) => {
 
   useEffect(() => {
     if (file) {
-      const fileSizeInKb = file.size / 1024;
-      if (fileSizeInKb > MINT_TOOL_MAX_FILE_SIZE * 1000) {
-        onSizeError();
-      } else {
-        setPreview(URL.createObjectURL(file));
-      }
+      // const fileSizeInKb = file.size / 1024;
+      // if (fileSizeInKb > MINT_TOOL_MAX_FILE_SIZE * 1000) {
+      //   onSizeError();
+      // } else {
+      setPreview(URL.createObjectURL(file));
+      // }
     }
   }, [file]);
-
-  useEffect(() => {
-    setSelectFee(feeRate.fastestFee);
-  }, [feeRate.fastestFee]);
 
   return (
     <StyledModalUpload show={show} onHide={handleClose} centered size="lg">
@@ -257,8 +285,8 @@ const ModalUpload = (props: Props) => {
         <FileUploader
           handleChange={onChangeFile}
           name={'fileUploader'}
-          maxSize={0.35}
-          onSizeError={onSizeError}
+          // maxSize={0.35}
+          // onSizeError={onSizeError}
           classes={'dropZone'}
         >
           <>

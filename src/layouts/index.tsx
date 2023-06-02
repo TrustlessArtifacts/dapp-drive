@@ -29,6 +29,8 @@ export const ContentWrapper = styled.div`
   padding: 0 ${px2rem(32)};
   width: 100%;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 
   > div {
     width: 100%;

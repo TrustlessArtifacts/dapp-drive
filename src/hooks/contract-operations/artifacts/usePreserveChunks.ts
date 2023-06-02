@@ -5,6 +5,7 @@ import { AssetsContext } from '@/contexts/assets-context';
 import { TransactionEventType } from '@/enums/transaction';
 import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
+import logger from '@/services/logger';
 import { useWeb3React } from '@web3-react/core';
 import BigNumber from 'bignumber.js';
 import { Transaction } from 'ethers';
@@ -13,8 +14,7 @@ import * as TC_SDK from 'trustless-computer-sdk';
 
 export interface IPreserveChunkParams {
   address: string;
-  chunks: Buffer;
-  selectFee: number;
+  chunks: Array<Buffer>;
 }
 
 const usePreserveChunks: ContractOperationHook<
@@ -28,14 +28,13 @@ const usePreserveChunks: ContractOperationHook<
   const call = useCallback(
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
-        const { address, chunks, selectFee } = params;
-        console.log({
-          tcTxSizeByte: Buffer.byteLength(chunks),
-          feeRatePerByte: selectFee,
-        });
+        const { address, chunks } = params;
+
+        logger.info(`tcTxSizeByte: ${Buffer.byteLength(chunks[0])}`);
+
         const estimatedFee = TC_SDK.estimateInscribeFee({
-          tcTxSizeByte: Buffer.byteLength(chunks),
-          feeRatePerByte: selectFee,
+          tcTxSizeByte: Buffer.byteLength(chunks[0]),
+          feeRatePerByte: feeRate.fastestFee,
         });
         const balanceInBN = new BigNumber(btcBalance);
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {

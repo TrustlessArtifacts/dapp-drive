@@ -46,13 +46,13 @@ const Artifacts: React.FC = () => {
     setFile(file);
   };
 
-  const onSizeError = (): void => {
-    showError({
-      message: `File size error, maximum file size is ${
-        BLOCK_CHAIN_FILE_LIMIT * 1000
-      }kb.`,
-    });
-  };
+  // const onSizeError = (): void => {
+  //   showError({
+  //     message: `File size error, maximum file size is ${
+  //       BLOCK_CHAIN_FILE_LIMIT * 1000
+  //     }kb.`,
+  //   });
+  // };
 
   const handlePreserverArtifact = () => {
     if (!isAuthenticated) handleConnectWallet();
@@ -103,8 +103,8 @@ const Artifacts: React.FC = () => {
             <FileUploader
               handleChange={onChangeFile}
               name={'fileUploader'}
-              maxSize={BLOCK_CHAIN_FILE_LIMIT}
-              onSizeError={onSizeError}
+              // maxSize={BLOCK_CHAIN_FILE_LIMIT}
+              // onSizeError={onSizeError}
               classes={`file-uploader ${!isAuthenticated ? 'hidden' : ''}`}
             />
           </div>
@@ -120,7 +120,7 @@ const Artifacts: React.FC = () => {
       <UploadFooter
         handlePreserverArtifact={handlePreserverArtifact}
         onChangeFile={onChangeFile}
-        onSizeError={onSizeError}
+        // onSizeError={onSizeError}
         isUploadVisible={isUploadVisible}
       />
     </>

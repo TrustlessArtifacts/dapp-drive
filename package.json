@@ -71,7 +71,8 @@
     "trustless-computer-sdk": "https://github.com/TrustlessComputer/tc-sdk#v0.1.33.18_test",
     "typescript": "5.0.4",
     "unzipit": "^1.4.2",
-    "use-async-effect": "^2.2.7"
+    "use-async-effect": "^2.2.7",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
@@ -82,6 +83,7 @@
     "@types/react-redux": "^7.1.25",
     "@types/react-responsive-masonry": "^2.1.0",
     "@types/styled-components": "^5.1.26",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "eslint-config-prettier": "^8.8.0",
     "husky": "^8.0.3",

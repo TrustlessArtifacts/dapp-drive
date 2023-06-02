@@ -13,14 +13,14 @@ import { useWindowSize } from '@trustless-computer/dapp-core';
 type Props = {
   handlePreserverArtifact: () => void;
   onChangeFile: (file: File) => void;
-  onSizeError: () => void;
+  // onSizeError: () => void;
   isUploadVisible: boolean;
 };
 
 const UploadFooter = ({
   handlePreserverArtifact,
   onChangeFile,
-  onSizeError,
+  // onSizeError,
   isUploadVisible,
 }: Props) => {
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
@@ -74,7 +74,7 @@ const UploadFooter = ({
           handleChange={onChangeFile}
           name={'fileUploader'}
           maxSize={BLOCK_CHAIN_FILE_LIMIT}
-          onSizeError={onSizeError}
+          // onSizeError={onSizeError}
           classes={`file-uploader ${!isAuthenticated ? 'hidden' : ''}`}
         />
       </div>
