@@ -30,7 +30,7 @@ const useContractOperation = <P, R>(
     chainId = SupportedChainId.TRUSTLESS_COMPUTER,
     inscribeable = true,
   } = args;
-  const { call, dAppType, transactionType } = operation();
+  const { call, dAppType, operationName } = operation();
   const { feeRate } = useContext(AssetsContext);
   const { chainId: walletChainId } = useWeb3React();
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
@@ -103,7 +103,7 @@ const useContractOperation = <P, R>(
 
       // const currentTimeString = moment().format('YYYY-MM-DDTHH:mm:ssZ');
       // const transactionHistory: ICreateTransactionPayload = {
-      //   dapp_type: `${transactionType} ${dAppType}`,
+      //   dapp_type: `${operationName} ${dAppType}`,
       //   tx_hash: Object(tx).hash,
       //   from_address: Object(tx).from,
       //   to_address: Object(tx).to,
@@ -115,7 +115,7 @@ const useContractOperation = <P, R>(
       // await createTransactionHistory(transactionHistory);
 
       TC_SDK.signTransaction({
-        method: `${transactionType} ${dAppType}`,
+        method: `${operationName} ${dAppType}`,
         hash: Object(tx).hash,
         dappURL: window.location.origin,
         isRedirect: false,

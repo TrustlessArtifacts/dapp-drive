@@ -1,10 +1,12 @@
+import ArtifactButton from '@/components/ArtifactButton';
 import Button from '@/components/Button';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
 import ToastConfirm from '@/components/ToastConfirm';
 import { CDN_URL, TC_URL } from '@/configs';
-import { MINT_TOOL_MAX_FILE_SIZE } from '@/constants/config';
+import { ERROR_CODE } from '@/constants/error';
+import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { AssetsContext } from '@/contexts/assets-context';
 import { DappsTabs } from '@/enums/tabs';
@@ -12,9 +14,13 @@ import usePreserveChunks, {
   IPreserveChunkParams,
 } from '@/hooks/contract-operations/artifacts/usePreserveChunks';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
+import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
+import useWindowSize from '@/hooks/useWindowSize';
+import { updateFileTransactionInfo } from '@/services/file';
+import logger from '@/services/logger';
 import { readFileAsBuffer } from '@/utils';
 import { walletLinkSignTemplate } from '@/utils/configs';
-import { showError } from '@/utils/toast';
+import { showToastError } from '@/utils/toast';
 import { prettyPrintBytes } from '@/utils/units';
 import { formatBTCPrice } from '@trustless-computer/dapp-core';
 import { useWeb3React } from '@web3-react/core';
@@ -25,15 +31,8 @@ import { Modal } from 'react-bootstrap';
 import { FileUploader } from 'react-drag-drop-files';
 import toast from 'react-hot-toast';
 import * as TC_SDK from 'trustless-computer-sdk';
-import { StyledModalUpload } from './ModalUpload.styled';
-import { ERROR_CODE } from '@/constants/error';
-import ArtifactButton from '@/components/ArtifactButton';
-import useWindowSize from '@/hooks/useWindowSize';
-import logger from '@/services/logger';
-import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
-import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
 import { v4 as uuidv4 } from 'uuid';
-import { updateFileTransactionInfo } from '@/services/file';
+import { StyledModalUpload } from './ModalUpload.styled';
 
 type Props = {
   show: boolean;
@@ -69,7 +68,7 @@ const ModalUpload = (props: Props) => {
   });
   const { upload } = useChunkedFileUploader();
   const [isProcessing, setIsProcessing] = useState(false);
-  const { dAppType, transactionType } = usePreserveChunks();
+  const { dAppType, operationName } = usePreserveChunks();
 
   const handleUploadFile = async () => {
     if (!account) {
@@ -78,7 +77,7 @@ const ModalUpload = (props: Props) => {
     }
 
     if (!file) {
-      showError({
+      showToastError({
         message: 'File is required',
       });
       return;
@@ -98,6 +97,7 @@ const ModalUpload = (props: Props) => {
           address: account,
           chunks: [fileBuffer],
         });
+        logger.debug(`tx: ${tx}`);
       } else {
         // Upload file to server
         const { fileId } = await upload(file, uuidv4());
@@ -118,6 +118,7 @@ const ModalUpload = (props: Props) => {
           });
           return;
         }
+        logger.debug(tx);
 
         // Update tx_hash
         await updateFileTransactionInfo({
@@ -126,14 +127,12 @@ const ModalUpload = (props: Props) => {
         });
       }
 
-      logger.debug(tx);
-
       toast.success(
         () => (
           <ToastConfirm
             id="create-success"
             url={walletLinkSignTemplate({
-              transactionType,
+              operationName,
               dAppType,
               hash: Object(tx).hash,
               isRedirect: true,
@@ -154,7 +153,7 @@ const ModalUpload = (props: Props) => {
       handleClose();
     } catch (err: unknown) {
       if ((err as Error).message === ERROR_CODE.PENDING) {
-        showError({
+        showToastError({
           message:
             'You have some pending transactions. Please complete all of them before moving on.',
           url: `${TC_URL}/?tab=${DappsTabs.TRANSACTION}`,
@@ -168,7 +167,7 @@ const ModalUpload = (props: Props) => {
           feeRatePerByte: selectFee,
         });
 
-        showError({
+        showToastError({
           message: `Your balance is insufficient. Please top up at least ${formatBTCPrice(
             estimatedFee.totalFee.toString(),
           )} BTC to pay network fee.`,
@@ -176,7 +175,7 @@ const ModalUpload = (props: Props) => {
           linkText: 'Go to Wallet',
         });
       } else {
-        showError({
+        showToastError({
           message:
             (err as Error).message ||
             'Something went wrong. Please try again later.',

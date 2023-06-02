@@ -7,7 +7,7 @@ const StatusPage = () => {
     <StyledStatusPage>
       <div className="row">
         <div className="col-12 col-lg-8 offset-lg-2">
-          <h1 className="pageTitle">Artifacts history</h1>
+          <h1 className="pageTitle">Artifacts status</h1>
           <p className="pageDescription">
             Lorem ipsum dolor sit amet consectetur. Ultrices tempor lectus ipsum
             nullam commodo nibh nec vitae augue. Vulputate convallis sit lectus vitae

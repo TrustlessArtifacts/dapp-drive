@@ -60,10 +60,16 @@ const HistoryList: React.FC = (): React.ReactElement => {
       <div className="sectionWrapper">
         <h2 className="sectionTitle">Processing</h2>
         <div className="dataList">
-          {processingFiles.map((item) => {
+          {/* {processingFiles.map((item) => {
             return <ProcessingItem key={item.id} file={item} />;
-          })}
+          })} */}
+          {[...Array(2)].map((_, index) => (
+            <ProcessingItem key={index} file={null} index={index} />
+          ))}
         </div>
+      </div>
+      <div className="sectionWrapper">
+        <h2 className="sectionTitle">Preserved</h2>
       </div>
     </StyledHistoryList>
   );

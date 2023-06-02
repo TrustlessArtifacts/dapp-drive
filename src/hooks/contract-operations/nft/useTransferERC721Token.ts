@@ -17,7 +17,10 @@ export interface ITransferERC721TokenParams {
   contractAddress: string;
 }
 
-const useTransferERC721Token: ContractOperationHook<ITransferERC721TokenParams, Transaction | null> = () => {
+const useTransferERC721Token: ContractOperationHook<
+  ITransferERC721TokenParams,
+  Transaction | null
+> = () => {
   const { account, provider } = useWeb3React();
   const { btcBalance, feeRate } = useContext(AssetsContext);
 
@@ -25,7 +28,12 @@ const useTransferERC721Token: ContractOperationHook<ITransferERC721TokenParams, 
     async (params: ITransferERC721TokenParams): Promise<Transaction | null> => {
       const { to, tokenId, contractAddress } = params;
       if (account && provider && contractAddress) {
-        const contract = getContract(contractAddress, ERC721ABIJson.abi, provider, account);
+        const contract = getContract(
+          contractAddress,
+          ERC721ABIJson.abi,
+          provider,
+          account,
+        );
         console.log({
           tcTxSizeByte: TRANSFER_TX_SIZE,
           feeRatePerByte: feeRate.fastestFee,
@@ -44,7 +52,9 @@ const useTransferERC721Token: ContractOperationHook<ITransferERC721TokenParams, 
           );
         }
 
-        const transaction = await contract.connect(provider.getSigner()).transferFrom(account, to, tokenId);
+        const transaction = await contract
+          .connect(provider.getSigner())
+          .transferFrom(account, to, tokenId);
 
         return transaction;
       }
@@ -57,7 +67,7 @@ const useTransferERC721Token: ContractOperationHook<ITransferERC721TokenParams, 
   return {
     call: call,
     dAppType: DAppType.ERC721,
-    transactionType: TransactionEventType.TRANSFER,
+    operationName: TransactionEventType.TRANSFER,
   };
 };
 

@@ -2,6 +2,10 @@ import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
 
 export const StyledHistoryList = styled.div`
+  .sectionWrapper {
+    margin-bottom: ${px2rem(48)};
+  }
+
   .sectionTitle {
     color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
     font-weight: 500;
