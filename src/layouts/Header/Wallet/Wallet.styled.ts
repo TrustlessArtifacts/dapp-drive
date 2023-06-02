@@ -59,6 +59,7 @@ export const WalletPopover = styled(Popover)`
   .divider {
     margin-bottom: ${px2rem(16)};
     border-bottom: 1px solid #ececed;
+    opacity: 0.15;
   }
 
   &.popover {

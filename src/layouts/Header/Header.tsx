@@ -11,7 +11,7 @@ import useWindowSize from '@/hooks/useWindowSize';
 const Header = ({ height }: { height: number }) => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const { mobileScreen, tabletScreen } = useWindowSize();
-  https: return (
+  return (
     <Wrapper style={{ height }}>
       <div className="content">
         <div className="leftContainer">

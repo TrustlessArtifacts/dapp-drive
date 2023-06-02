@@ -17,6 +17,14 @@ export const StyledAbout = styled.div`
     display: none;
   }
 
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+  }
+
   .section-01,
   .section-02,
   .section-03,
@@ -220,7 +228,6 @@ export const AboutHeader = styled.div`
   top: 0;
   left: 0;
   min-height: auto;
-  padding: ${px2rem(23)} ${px2rem(80)};
   width: 100vw;
   z-index: 1000;
   display: flex;
@@ -228,6 +235,10 @@ export const AboutHeader = styled.div`
   justify-content: space-between;
   color: #fff;
   flex-direction: row;
+
+  header {
+    width: 100%;
+  }
 
   .logo {
     display: flex;
