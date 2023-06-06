@@ -95,7 +95,7 @@ const Inscription = () => {
           <div className="header">
             <p className="title">
               {contract.toLocaleLowerCase() === ARTIFACT_CONTRACT.toLocaleLowerCase()
-                ? `Artifact #${inscription?.tokenId}`
+                ? `Inscription #${inscription?.tokenId}`
                 : inscription?.name}
             </p>
           </div>
