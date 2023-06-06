@@ -3,27 +3,33 @@ import { StyledProcessedItem } from './ProcessedItem.styled';
 import BigFileTag from '@/components/BigFileTag';
 import { prettyPrintBytes } from '@/utils';
 import IconSVG from '@/components/IconSVG';
-import { CDN_URL } from '@/configs';
+import { ARTIFACT_CONTRACT, CDN_URL } from '@/configs';
 import { formatDateTime } from '@/utils/time';
 import ArtifactButton from '@/components/ArtifactButton';
+import NFTDisplayBox from '@/components/NFTDisplayBox';
 
 type Props = {
-  index: number;
-  item?: IUploadFileResponseItem;
+  item: IUploadFileResponseItem;
 };
 
-const ProcessedItem = ({ index, item }: Props) => {
-  const isBigFile = true;
+const ProcessedItem = ({ item }: Props) => {
+  const isBigFile = item?.totalChunks > 1;
 
   return (
     <StyledProcessedItem className="border-gradient">
       <div className="info-wrapper">
         <div className="thumbnail-wrapper">
-          <img src={item?.fullPath} alt="" />
+          <NFTDisplayBox
+            collectionID={ARTIFACT_CONTRACT}
+            contentClass="image"
+            src={item?.fullPath}
+            tokenID={item?.tokenId}
+            type={item?.fileType}
+          />
         </div>
         <div className="content-wrapper">
           <div className="file-name">
-            <p>Artifact #521</p>
+            <p>Artifact #{item.tokenId}</p>
             {isBigFile && <BigFileTag />}
           </div>
           <div className="file-info">
@@ -33,6 +39,7 @@ const ProcessedItem = ({ index, item }: Props) => {
             <IconSVG
               src={`${CDN_URL}/pages/artifacts/icons/ic-star.svg`}
               maxWidth="10"
+              maxHeight="10"
             />
             <p className="file-date">
               {item?.createdAt

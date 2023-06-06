@@ -39,10 +39,13 @@ export const Wrapper = styled.div`
     margin-top: ${px2rem(24)};
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
   }
 
   .loadmore-btn {
     color: #fff;
   }
-  
 `;

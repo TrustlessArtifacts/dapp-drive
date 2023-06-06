@@ -27,7 +27,10 @@ interface IProps {
 }
 
 const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
-  const { run: storeChunks } = useContractOperation<IStoreChunkParams, Transaction | null>({
+  const { run: storeChunks } = useContractOperation<
+    IStoreChunkParams,
+    Transaction | null
+  >({
     operation: useStoreChunks,
     inscribeable: true,
   });
@@ -58,8 +61,6 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
       throw Error();
     }
   };
-
-  const MOCK_PROGRESS = 50;
 
   if (!file) return null;
 

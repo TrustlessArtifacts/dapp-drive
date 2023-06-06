@@ -46,7 +46,7 @@ const ArtifactButton = ({
         break;
 
       case 'green-transparent':
-        setButton('button-primary-transparent.svg');
+        setButton('button-green-transparent.svg');
         break;
 
       default:
