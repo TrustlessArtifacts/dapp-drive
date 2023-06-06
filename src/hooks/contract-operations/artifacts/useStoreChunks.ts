@@ -1,7 +1,6 @@
 import ArtifactABIJson from '@/abis/artifacts.json';
 import { ARTIFACT_CONTRACT } from '@/configs';
 import { AssetsContext } from '@/contexts/assets-context';
-import { TransactionEventType } from '@/enums/transaction';
 import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
 import { useWeb3React } from '@web3-react/core';
@@ -53,29 +52,6 @@ const useStoreChunks: ContractOperationHook<
       }
 
       return null;
-
-      //   const ContractInterface = new ethers.Interface(ArtifactABIJson.abi);
-      //   const encodeAbi = ContractInterface.encodeFunctionData("store", [
-      //     tokenId,
-      //     chunkIndex,
-      //     chunks
-      //   ]);
-
-      //   const response = await connector.requestSign({
-      //     target: "_blank",
-      //     calldata: encodeAbi,
-      //     to: ARTIFACT_CONTRACT,
-      //     value: "",
-      //     redirectURL: window.location.href,
-      //     isInscribe: true,
-      //     gasPrice: undefined,
-      //     gasLimit: undefined,
-      //     functionType: 'Store',
-      //     functionName: 'store(uint256,uint256,bytes[])',
-      //   });
-
-      //   logger.debug(response);
-      //   return response;
     },
     [account, provider, contract, btcBalance, feeRate],
   );
@@ -83,7 +59,7 @@ const useStoreChunks: ContractOperationHook<
   return {
     call: call,
     dAppType: DAppType.BFS,
-    operationName: TransactionEventType.CREATE,
+    operationName: 'Store chunks',
   };
 };
 
