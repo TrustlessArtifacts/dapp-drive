@@ -22,14 +22,14 @@ const About = () => {
   const isInViewport4 = useIsInViewport(fourthSectionRef);
 
   const buttonWidth = (): number => {
-    if (window.innerWidth > 1920) {
+    if (window.innerWidth > 1919) {
       return 390;
     } else {
       return 315;
     }
   };
   const buttonHeight = (): number => {
-    if (window.innerWidth > 1920) {
+    if (window.innerWidth > 1919) {
       return 92;
     } else {
       return 79;
