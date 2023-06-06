@@ -4,16 +4,17 @@ import logger from '@/services/logger';
 import { getUserSelector } from '@/state/user/selector';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { StyledHistoryList } from './HistoryList.styled';
-import ProcessingItem from '../ProcessingItem';
 import ProcessedItem from '../ProcessedItem';
+import ProcessingItem from '../ProcessingItem';
+import { StyledHistoryList } from './HistoryList.styled';
 
 const HistoryList: React.FC = (): React.ReactElement => {
   const user = useSelector(getUserSelector);
   const [processedFiles, setProcessedFiles] = useState<
     Array<IUploadFileResponseItem>
   >([]);
-  const [_processingFiles, setProcessingFiles] = useState<
+
+  const [processingFiles, setProcessingFiles] = useState<
     Array<IUploadFileResponseItem>
   >([]);
   const [page, setPage] = useState(1);
@@ -61,12 +62,12 @@ const HistoryList: React.FC = (): React.ReactElement => {
       <div className="sectionWrapper">
         <h2 className="sectionTitle">Processing</h2>
         <div className="dataList">
-          {/* {processingFiles.map((item) => {
+          {processingFiles.map((item) => {
             return <ProcessingItem key={item.id} file={item} />;
-          })} */}
-          {[...Array(2)].map((_, index) => (
+          })}
+          {/* {[...Array(2)].map((_, index) => (
             <ProcessingItem key={index} file={undefined} index={index} />
-          ))}
+          ))} */}
         </div>
       </div>
       <div className="sectionWrapper">

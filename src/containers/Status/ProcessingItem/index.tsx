@@ -21,7 +21,7 @@ import { updateFileChunkTransactionInfo } from '@/services/file';
 
 interface IProps {
   file?: IUploadFileResponseItem;
-  index: number;
+  index?: number;
 }
 
 const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
@@ -58,7 +58,7 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
     }
   };
 
-  const MOCK_PROGRESS = 90;
+  const MOCK_PROGRESS = 50;
 
   const renderContentStatus = (status: number) => {
     switch (status) {
