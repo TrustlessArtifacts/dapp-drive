@@ -1,23 +1,25 @@
+import ArtifactButton from '@/components/ArtifactButton';
+import FileChunk from '@/components/FileChunk';
+import IconSVG from '@/components/IconSVG';
+import NFTDisplayBox from '@/components/NFTDisplayBox';
+import { ARTIFACT_CONTRACT, CDN_URL } from '@/configs';
+import { FileProcessStatus } from '@/enums/file';
+import useStoreChunks, {
+  IStoreChunkParams,
+} from '@/hooks/contract-operations/artifacts/useStoreChunks';
+import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import { IUploadFileResponseItem } from '@/interfaces/api/files';
+import { updateFileChunkTransactionInfo } from '@/services/file';
+import logger from '@/services/logger';
+import { showToastError } from '@/utils/toast';
+import { Transaction } from 'ethers';
 import React from 'react';
 import {
-  ThumbnailWrapper,
-  StyledProcessingItem,
   InfoWrapper,
+  StyledProcessingItem,
   ThumbnailOverlay,
+  ThumbnailWrapper,
 } from './ProcessingItem.styled';
-import { CDN_URL } from '@/configs';
-import IconSVG from '@/components/IconSVG';
-import { FileProcessStatus } from '@/enums/file';
-import FileChunk from '@/components/FileChunk';
-import ArtifactButton from '@/components/ArtifactButton';
-import logger from '@/services/logger';
-import useContractOperation from '@/hooks/contract-operations/useContractOperation';
-import useStoreChunks from '@/hooks/contract-operations/artifacts/useStoreChunks';
-import { Transaction } from 'ethers';
-import { IStoreChunkParams } from '@/hooks/contract-operations/artifacts/useStoreChunks';
-import { showToastError } from '@/utils/toast';
-import { updateFileChunkTransactionInfo } from '@/services/file';
 
 interface IProps {
   file?: IUploadFileResponseItem;
@@ -59,13 +61,17 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
 
   const MOCK_PROGRESS = 50;
 
+  if (!file) return null;
+
+  const progress = (file?.processedChunks / file?.totalChunks) * 100;
+
   const renderContentStatus = (status: number) => {
     switch (status) {
       case FileProcessStatus.New:
         return (
           <div>
             <p className="fileName">{file?.name || 'woman-yelling.png'}</p>
-            <FileChunk progress={0} fileSize={2048 * 1000} />
+            <FileChunk progress={progress} fileSize={file?.size} />
             <ArtifactButton
               variant={'primary-transparent'}
               className="ctaBtn"
@@ -79,8 +85,8 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
       case FileProcessStatus.Processing:
         return (
           <div>
-            <p className="fileName">{file?.name || 'Confused cat #1'}</p>
-            <FileChunk progress={MOCK_PROGRESS} fileSize={5000 * 1000} />
+            <p className="fileName">{`Artifact #${file?.tokenId}` || file?.name}</p>
+            <FileChunk progress={progress} fileSize={file?.size} />
             <ArtifactButton
               variant={'primary'}
               className="ctaBtn"
@@ -91,20 +97,20 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
             </ArtifactButton>
           </div>
         );
+      default:
+        return null;
     }
   };
 
   return (
     <StyledProcessingItem>
       <ThumbnailWrapper className="animationBorder">
-        <img
-          className="thumbnail"
-          src={
-            file?.fullPath || index === 1
-              ? 'https://www.masala.com/cloud/2021/07/28/8DKbhQ8H-SmudgeCat.jpg-1200x675.jpg'
-              : 'https://i.kym-cdn.com/photos/images/newsfeed/001/505/717/49b.jpg'
-          }
-          alt={file?.name || 'thumbnail'}
+        <NFTDisplayBox
+          collectionID={ARTIFACT_CONTRACT}
+          contentClass="image"
+          src={file?.fullPath}
+          tokenID={file?.tokenId}
+          type={file?.fileType}
         />
         <IconSVG
           src={`${CDN_URL}/icons/bi_clock-history.svg`}
@@ -113,10 +119,10 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
         />
         <ThumbnailOverlay
           className="thumbnailOverlay"
-          progress={MOCK_PROGRESS}
+          progress={progress}
         ></ThumbnailOverlay>
       </ThumbnailWrapper>
-      <InfoWrapper>{renderContentStatus(index)}</InfoWrapper>
+      {file?.status && <InfoWrapper>{renderContentStatus(file.status)}</InfoWrapper>}
     </StyledProcessingItem>
   );
 };

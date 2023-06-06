@@ -137,7 +137,7 @@ const ModalUpload = (props: Props) => {
         <IconSVG
           className="cursor-pointer hover-opacity"
           onClick={handleClose}
-          src={`${CDN_URL}/artifact/icons/ic-close.svg`}
+          src={`${CDN_URL}/pages/artifacts/icons/ic-close.svg`}
           maxWidth={'24'}
         />
       </Modal.Header>

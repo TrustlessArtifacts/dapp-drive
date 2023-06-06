@@ -1,4 +1,4 @@
-import React, { } from 'react';
+import React from 'react';
 import { StyledHistoryList } from './HistoryList.styled';
 import ProcessingList from '../ProcessingList';
 import ProcessedList from '../ProcessedList';

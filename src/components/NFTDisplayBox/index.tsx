@@ -217,6 +217,7 @@ const NFTDisplayBox = ({
         case 'application/yaml':
         case 'audio/flac':
         case 'text/plain;charset=utf-8':
+        case 'txt':
           setHTMLContentRender(renderIframe(content));
           return;
         case 'application/pdf':

@@ -163,22 +163,22 @@ const About = () => {
         <SectionControllers>
           <div className={`dots ${isInViewport1 ? 'active' : ''}`}>
             <div className="circle">
-              <IconSVG src={`${CDN_URL}/artifact/icons/ic-slide-dot.svg`} />
+              <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
             </div>
           </div>
           <div className={`dots ${isInViewport2 ? 'active' : ''}`}>
             <div className="circle">
-              <IconSVG src={`${CDN_URL}/artifact/icons/ic-slide-dot.svg`} />
+              <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
             </div>
           </div>
           <div className={`dots ${isInViewport3 ? 'active' : ''}`}>
             <div className="circle">
-              <IconSVG src={`${CDN_URL}/artifact/icons/ic-slide-dot.svg`} />
+              <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
             </div>
           </div>
           <div className={`dots ${isInViewport4 ? 'active' : ''}`}>
             <div className="circle">
-              <IconSVG src={`${CDN_URL}/artifact/icons/ic-slide-dot.svg`} />
+              <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
             </div>
           </div>
         </SectionControllers>

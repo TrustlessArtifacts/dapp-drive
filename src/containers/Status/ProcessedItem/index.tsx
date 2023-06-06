@@ -19,14 +19,7 @@ const ProcessedItem = ({ index, item }: Props) => {
     <StyledProcessedItem className="border-gradient">
       <div className="info-wrapper">
         <div className="thumbnail-wrapper">
-          <img
-            src={
-              index === 1
-                ? 'https://www.masala.com/cloud/2021/07/28/8DKbhQ8H-SmudgeCat.jpg-1200x675.jpg'
-                : 'https://i.kym-cdn.com/photos/images/newsfeed/001/505/717/49b.jpg'
-            }
-            alt=""
-          />
+          <img src={item?.fullPath} alt="" />
         </div>
         <div className="content-wrapper">
           <div className="file-name">
@@ -37,7 +30,10 @@ const ProcessedItem = ({ index, item }: Props) => {
             <p className="file-size">
               {item?.size ? prettyPrintBytes(item?.size) : '2 MB'}
             </p>
-            <IconSVG src={`${CDN_URL}/artifact/icons/ic-star.svg`} maxWidth="10" />
+            <IconSVG
+              src={`${CDN_URL}/pages/artifacts/icons/ic-star.svg`}
+              maxWidth="10"
+            />
             <p className="file-date">
               {item?.createdAt
                 ? formatDateTime(item?.createdAt)

@@ -63,7 +63,7 @@ INFTCard) => {
               <div className="overlay-content">
                 <IconSVG
                   maxWidth="100"
-                  src={`${CDN_URL}/artifact/icons/ic-view.svg`}
+                  src={`${CDN_URL}/pages/artifacts/icons/ic-view.svg`}
                 />
               </div>
             </a>

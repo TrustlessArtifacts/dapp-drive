@@ -48,10 +48,22 @@ const UploadFooter = ({
   return (
     <StyledUploadFooter isUploadVisible={isUploadVisible}>
       <div className="icons">
-        <IconSVG src={`${CDN_URL}/artifact/icons/ic-footer-1.svg`} maxWidth="40" />
-        <IconSVG src={`${CDN_URL}/artifact/icons/ic-footer-2.svg`} maxWidth="40" />
-        <IconSVG src={`${CDN_URL}/artifact/icons/ic-footer-3.svg`} maxWidth="40" />
-        <IconSVG src={`${CDN_URL}/artifact/icons/ic-footer-4.svg`} maxWidth="40" />
+        <IconSVG
+          src={`${CDN_URL}/pages/artifacts/icons/ic-footer-1.svg`}
+          maxWidth="40"
+        />
+        <IconSVG
+          src={`${CDN_URL}/pages/artifacts/icons/ic-footer-2.svg`}
+          maxWidth="40"
+        />
+        <IconSVG
+          src={`${CDN_URL}/pages/artifacts/icons/ic-footer-3.svg`}
+          maxWidth="40"
+        />
+        <IconSVG
+          src={`${CDN_URL}/pages/artifacts/icons/ic-footer-4.svg`}
+          maxWidth="40"
+        />
       </div>
       <div className="text">
         <span>Various file extensions of </span>

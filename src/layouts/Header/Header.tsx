@@ -31,14 +31,14 @@ const Header = ({ height }: { height: number }) => {
               Trustless
               <IconSVG
                 maxWidth="28"
-                src={`${CDN_URL}/artifact/icons/ic-link.svg`}
+                src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}
               ></IconSVG>
             </Link>
             <Link href={'https://tcgasstation.com/'} target="_blank">
               Get TC
               <IconSVG
                 maxWidth="28"
-                src={`${CDN_URL}/artifact/icons/ic-link.svg`}
+                src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}
               ></IconSVG>
             </Link>
           </div>
