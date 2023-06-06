@@ -2,14 +2,15 @@ import { CDN_URL } from '@/configs';
 import useWindowSize from '@/hooks/useWindowSize';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { StyledArtifactButton } from './ArtifactButton.styled';
+import { ButtonProps } from 'react-bootstrap';
 
-type Props = {
+interface IProps extends ButtonProps {
   variant:
-    | 'primary'
-    | 'white'
-    | 'transparent'
-    | 'primary-transparent'
-    | 'green-transparent';
+  | 'primary'
+  | 'white'
+  | 'transparent'
+  | 'primary-transparent'
+  | 'green-transparent';
   width?: number;
   height?: number;
   objectFit?: 'contain' | 'cover';
@@ -23,7 +24,8 @@ const ArtifactButton = ({
   height,
   objectFit = 'contain',
   className,
-}: PropsWithChildren<Props>) => {
+  ...rest
+}: PropsWithChildren<IProps>) => {
   const { mobileScreen } = useWindowSize();
   const [button, setButton] = useState('');
 
@@ -55,13 +57,14 @@ const ArtifactButton = ({
   }, [mobileScreen, variant]);
 
   return (
-    <StyledArtifactButton className={`cta-btn ${className}`} objectFit={objectFit}>
+    <StyledArtifactButton className={`cta-btn ${className}`} objectFit={objectFit} {...rest}>
       <img
         src={`${CDN_URL}/pages/artifacts/${button}`}
         className="btn-bg"
         alt="button bg"
         width={width}
         height={height}
+
       />
       <div className="btn-content">{children}</div>
     </StyledArtifactButton>

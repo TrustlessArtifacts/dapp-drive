@@ -15,7 +15,7 @@ const FETCH_LIMIT = 32;
 const ProcessedList: React.FC = (): React.ReactElement => {
   const user = useSelector(getUserSelector);
   const [loadingProcessing, setLoadingProcessing] = useState(true);
-  const [hashMoreProcessing, setHasMoreProcessing] = useState(true);
+  const [hashMoreProcessing, setHasMoreProcessing] = useState(false);
   const [processingFiles, setProcessingFiles] = useState<
     Array<IUploadFileResponseItem>
   >([]);

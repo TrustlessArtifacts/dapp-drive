@@ -30,7 +30,7 @@ export const ThumbnailWrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1;
+    z-index: 2;
   }
 `;
 
@@ -70,6 +70,7 @@ export const InfoWrapper = styled.div`
     font-size: ${px2rem(12)};
     line-height: ${px2rem(16)};
     letter-spacing: 0.1em;
+    cursor: pointer;
 
     .text-pending {
       white-space: nowrap;

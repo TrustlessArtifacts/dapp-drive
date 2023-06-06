@@ -27,4 +27,21 @@ export const Wrapper = styled.div`
     flex-direction: column;
     gap: ${px2rem(24)};
   }
+
+  .loading-wrapper {
+    min-height: ${px2rem(200)};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loadmore-wrapper {
+    margin-top: ${px2rem(24)};
+    display: flex;
+    justify-content: center;
+  }
+
+  .loadmore-btn {
+    color: #fff;
+  }
 `;

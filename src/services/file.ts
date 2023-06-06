@@ -3,6 +3,7 @@ import {
   ICompleteMultipartUploadResponse,
   IGetFileChunkParams,
   IGetFileChunkResponse,
+  IGetFileChunksParams,
   IGetUploadedFileListParams,
   IInitiateMultipartUploadPayload,
   IInitiateMultipartUploadResponse,
@@ -73,10 +74,12 @@ export const updateFileTransactionInfo = async (
   payload: IUpdateFileTransactionInfoPayload,
 ): Promise<unknown> => {
   try {
-    const { fileId, txHash, ...rest } = payload;
+    const { fileId, txHash, tcAddress } = payload;
     const res = await apiClient.put<unknown, ICompleteMultipartUploadResponse>(
       `${API_PATH}/file/${fileId}/tx_hash/${txHash}`,
-      { rest },
+      {
+        wallet_address: tcAddress
+      },
     );
     return Object(camelCaseKeys(res));
   } catch (err: unknown) {
@@ -88,10 +91,12 @@ export const updateFileChunkTransactionInfo = async (
   payload: IUpdateFileChunkTransactionInfoPayload,
 ): Promise<unknown> => {
   try {
-    const { fileId, chunkId, txHash, ...rest } = payload;
+    const { fileId, chunkId, txHash, tcAddress } = payload;
     const res = await apiClient.put<unknown, ICompleteMultipartUploadResponse>(
       `${API_PATH}/file/${fileId}/chunks/${chunkId}/tx_hash/${txHash}`,
-      { rest },
+      {
+        wallet_address: tcAddress
+      },
     );
     return Object(camelCaseKeys(res));
   } catch (err: unknown) {
@@ -110,6 +115,21 @@ export const getUploadedFileList = async (
     return Object(camelCaseKeys(res));
   } catch (err: unknown) {
     throw Error('Failed to get uploaded file list');
+  }
+};
+
+export const getFileChunks = async (
+  params: IGetFileChunksParams,
+): Promise<Array<IGetFileChunkResponse>> => {
+  try {
+    const { fileId, ...rest } = params;
+    const qs = queryString.stringify(rest);
+    const res = await apiClient.get<Array<IGetFileChunkResponse>>(
+      `${API_PATH}/file/${fileId}/chunks?${qs}`,
+    );
+    return Object(camelCaseKeys(res));
+  } catch (err: unknown) {
+    throw Error('Failed to get file chunks');
   }
 };
 

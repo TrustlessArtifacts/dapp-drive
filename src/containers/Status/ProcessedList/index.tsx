@@ -29,7 +29,7 @@ const ProcessedList: React.FC = (): React.ReactElement => {
         page: page,
         limit: FETCH_LIMIT,
         wallet_address: user.walletAddress,
-        status: '0,1',
+        status: '2',
       });
       if (processedFilesRes.length < FETCH_LIMIT) {
         setHasMoreProcessed(false);
@@ -56,7 +56,7 @@ const ProcessedList: React.FC = (): React.ReactElement => {
         <h2 className="sectionTitle">Preserved</h2>
         <div className="list">
           {processedFiles.map((item) => {
-            return <ProcessedItem key={item.id} item={item} />;
+            return <ProcessedItem key={item.id} file={item} />;
           })}
         </div>
         {loadingProcessed && (

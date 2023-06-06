@@ -2,13 +2,13 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import { CDN_URL } from '@/configs';
 import { getURLContent, getImageURLContent } from '@/lib';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import cs from 'classnames';
 import s from './styles.module.scss';
 import { IMAGE_TYPE } from './constant';
-import ClientOnly from '../Utils/ClientOnly';
 import { Document, Page } from 'react-pdf';
 import Skeleton from '../Skeleton';
+import useAsyncEffect from 'use-async-effect';
 interface IProps {
   className?: string;
   contentClass?: string;
@@ -36,7 +36,6 @@ const NFTDisplayBox = ({
 }: IProps) => {
   const [_, setIsError] = React.useState(false);
   const [isLoaded, setIsLoaded] = React.useState(false);
-
   const [isErrorLinkHttp, setIsErrorLinkHttp] = React.useState(false);
 
   const onError = () => {
@@ -157,13 +156,19 @@ const NFTDisplayBox = ({
 
   const renderPDF = (content: string) => {
     return (
-      <ClientOnly>
-        <div className={s.pdfPreview}>
-          <Document file={content} loading={renderLoading} error={renderEmpty}>
-            <Page pageIndex={0} />
-          </Document>
-        </div>
-      </ClientOnly>
+      <div className={s.pdfPreview}>
+        <Document file={content} loading={renderLoading} error={renderEmpty}>
+          <Page pageIndex={0} />
+        </Document>
+      </div>
+    );
+  };
+
+  const renderTXT = (text: string) => {
+    return (
+      <div className={s.txtPreview}>
+        <p className={s.text}>{text}</p>
+      </div>
     );
   };
 
@@ -171,7 +176,7 @@ const NFTDisplayBox = ({
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   };
 
-  useEffect(() => {
+  useAsyncEffect(async () => {
     if (thumbnail) {
       setHTMLContentRender(renderImage(thumbnail));
     } else if (src && src.startsWith('https://') && isImage(src)) {
@@ -193,6 +198,7 @@ const NFTDisplayBox = ({
       switch (type) {
         case 'audio/mpeg':
         case 'audio/wav':
+        case 'audio/flac':
           setHTMLContentRender(renderAudio(content));
           return;
         case 'video/mp4':
@@ -215,13 +221,20 @@ const NFTDisplayBox = ({
         case 'application/json':
         case 'application/pgp-signature':
         case 'application/yaml':
-        case 'audio/flac':
         case 'text/plain;charset=utf-8':
-        case 'txt':
           setHTMLContentRender(renderIframe(content));
           return;
         case 'application/pdf':
           setHTMLContentRender(renderPDF(content));
+          return;
+        case 'txt':
+          if (src) {
+            const res = await fetch(src);
+            const text = await res.text();
+            setHTMLContentRender(renderTXT(text));
+            return;
+          }
+          setHTMLContentRender(renderIframe(content));
           return;
         default:
           setHTMLContentRender(renderIframe(content));

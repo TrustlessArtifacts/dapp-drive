@@ -92,6 +92,7 @@ const ModalUpload = (props: Props) => {
             // Update tx_hash
             await updateFileTransactionInfo({
               fileId,
+              tcAddress: account,
               txHash: Object(transaction).hash,
             });
           },

@@ -76,6 +76,12 @@ export interface IGetFileChunkResponse {
   chunkData: string;
   txHash: string;
 }
+
+export interface IGetFileChunksParams {
+  fileId: string;
+  status?: ChunkProcessStatus;
+}
+
 export interface IGetUploadedFileListParams extends IPagingParams {
   contract_address?: string;
   token_id?: string;
@@ -106,12 +112,13 @@ export interface IUploadFileResponseItem {
   fileType: IMAGE_TYPE;
   createdAt: string;
   chunks: number;
-  chunk_size: number;
+  chunkSize: number;
   txHash: string;
   tokenId: string;
   walletAddress: string;
   contractAddress: string;
   processedChunks: number;
+  processingChunks: number;
   totalChunks: number;
   status: ChunkProcessStatus;
 }

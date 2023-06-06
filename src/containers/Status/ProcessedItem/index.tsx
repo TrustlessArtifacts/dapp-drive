@@ -3,41 +3,48 @@ import { StyledProcessedItem } from './ProcessedItem.styled';
 import BigFileTag from '@/components/BigFileTag';
 import { prettyPrintBytes } from '@/utils';
 import IconSVG from '@/components/IconSVG';
-import { CDN_URL } from '@/configs';
+import { ARTIFACT_CONTRACT, CDN_URL } from '@/configs';
 import { formatDateTime } from '@/utils/time';
 import ArtifactButton from '@/components/ArtifactButton';
+import NFTDisplayBox from '@/components/NFTDisplayBox';
 
-type Props = {
-  index: number;
-  item?: IUploadFileResponseItem;
+interface IProps {
+  file?: IUploadFileResponseItem;
 };
 
-const ProcessedItem = ({ index, item }: Props) => {
+const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
   const isBigFile = true;
 
   return (
     <StyledProcessedItem className="border-gradient">
       <div className="info-wrapper">
         <div className="thumbnail-wrapper">
-          <img src={item?.fullPath} alt="" />
+          <NFTDisplayBox
+            collectionID={ARTIFACT_CONTRACT}
+            contentClass="image"
+            src={file?.fullPath}
+            tokenID={file?.tokenId}
+            type={file?.fileType}
+          />
         </div>
         <div className="content-wrapper">
           <div className="file-name">
-            <p>Artifact #521</p>
+            <p>Inscription #{file?.tokenId}</p>
             {isBigFile && <BigFileTag />}
           </div>
           <div className="file-info">
             <p className="file-size">
-              {item?.size ? prettyPrintBytes(item?.size) : '2 MB'}
+              {file?.size ? prettyPrintBytes(file?.size) : '2 MB'}
             </p>
             <IconSVG
               src={`${CDN_URL}/pages/artifacts/icons/ic-star.svg`}
               maxWidth="10"
             />
             <p className="file-date">
-              {item?.createdAt
-                ? formatDateTime(item?.createdAt)
-                : '2021-07-28 12:00:00'}
+              {formatDateTime({
+                dateTime: file?.createdAt || '',
+                formatPattern: 'DD MMM YYYY HH:mm'
+              })}
             </p>
           </div>
         </div>
@@ -51,4 +58,4 @@ const ProcessedItem = ({ index, item }: Props) => {
   );
 };
 
-export default ProcessedItem;
+export default Processedfile;

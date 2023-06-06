@@ -9,14 +9,10 @@ export const StyledFileChunk = styled.div`
   .chunks {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: ${px2rem(4)};
 
     .chunk-block {
-      /* height: 9px; */
-      /* width: 9px; */
-      /* width: fit-content;
-      height: auto; */
-      /* border: 0.5px solid rgba(255, 255, 255, 0.15); */
       border-radius: 3px;
       padding: 1.5px;
 
@@ -38,6 +34,7 @@ export const StyledFileChunk = styled.div`
 
   .fileSize {
     color: white;
+    flex-basis: ${px2rem(84)};
 
     span {
       opacity: 0.7;

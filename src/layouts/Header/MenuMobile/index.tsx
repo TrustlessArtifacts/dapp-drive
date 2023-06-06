@@ -47,6 +47,12 @@ const MenuMobile = ({ onCloseMenu, isOpen }: IProp) => {
         <Link href={'https://tcgasstation.com/'} target="_blank">
           Get TC
         </Link>
+        <Link href={ROUTE_PATH.ABOUT}>
+          About
+        </Link>
+        <Link href={ROUTE_PATH.STATUS}>
+          Status
+        </Link>
         {isAuthenticated ? (
           <div className="wallet mobile">
             <WalletBalance>

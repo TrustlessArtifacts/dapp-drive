@@ -1,20 +1,19 @@
 import React from 'react';
 import { StyledFileChunk } from './FileChunk.styled';
 import { prettyPrintBytes } from '@/utils';
-import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
+import { IUploadFileResponseItem } from '@/interfaces/api/files';
 
 type Props = {
-  //   totalChunks: number;
-  progress: number; // percent done
-  fileSize: number;
+  file?: IUploadFileResponseItem;
 };
 
-const FileChunk = ({ progress, fileSize }: Props) => {
-  const totalChunks = Math.ceil(fileSize / 1024 / (BLOCK_CHAIN_FILE_LIMIT * 1000));
+const FileChunk = ({ file }: Props) => {
+  const fileSize = file?.size || 0;
+  const totalChunks = file?.totalChunks ?? 1;
+  const finishedChunk = file?.processingChunks ?? 0;
+  const finishedFileSize = file ? file.processingChunks * file.chunkSize : 0;
 
-  const finishedChunk = Math.ceil((progress / 100) * totalChunks);
-
-  const finishedFileSize = finishedChunk * BLOCK_CHAIN_FILE_LIMIT;
+  if (!file) return <></>
 
   return (
     <StyledFileChunk>

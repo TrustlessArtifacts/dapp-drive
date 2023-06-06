@@ -5,7 +5,7 @@ import React from 'react';
 const Status = () => {
   return (
     <Layout>
-      <StatusPage></StatusPage>
+      <StatusPage />
     </Layout>
   );
 };

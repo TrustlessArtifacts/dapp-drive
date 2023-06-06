@@ -3,30 +3,40 @@ import FileChunk from '@/components/FileChunk';
 import IconSVG from '@/components/IconSVG';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
 import { ARTIFACT_CONTRACT, CDN_URL } from '@/configs';
-import { FileProcessStatus } from '@/enums/file';
+import { ChunkProcessStatus, FileProcessStatus } from '@/enums/file';
 import useStoreChunks, {
   IStoreChunkParams,
 } from '@/hooks/contract-operations/artifacts/useStoreChunks';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import { IUploadFileResponseItem } from '@/interfaces/api/files';
-import { updateFileChunkTransactionInfo } from '@/services/file';
+import { getFileChunks, updateFileChunkTransactionInfo } from '@/services/file';
 import logger from '@/services/logger';
-import { showToastError } from '@/utils/toast';
+import { showToastError, showToastSuccess } from '@/utils/toast';
 import { Transaction } from 'ethers';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   InfoWrapper,
   StyledProcessingItem,
   ThumbnailOverlay,
   ThumbnailWrapper,
 } from './ProcessingItem.styled';
+import MatrixRainAnimation from '@/components/MatrixRainAnimation';
+import { Buffer } from 'buffer';
+import { useWeb3React } from '@web3-react/core';
+import { useRouter } from 'next/router';
+import { ROUTE_PATH } from '@/constants/route-path';
 
 interface IProps {
   file?: IUploadFileResponseItem;
-  index?: number;
 }
 
-const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
+const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
+  const { account } = useWeb3React();
+  const router = useRouter();
+  const matrixContainerRef = useRef<HTMLDivElement | null>(null);
+  const [divWidth, setDivWidth] = useState<number | null>(null);
+  const [divHeight, setDivHeight] = useState<number | null>(null);
+  const [processing, setProcessing] = useState(false);
   const { run: storeChunks } = useContractOperation<IStoreChunkParams, Transaction | null>({
     operation: useStoreChunks,
     inscribeable: true,
@@ -34,13 +44,55 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
 
   const handleInscribeNextChunk = async () => {
     try {
-      // const fileBuffer = await readFileAsBuffer(file?.fullPath);
+      if (!account) {
+        router.push(`${ROUTE_PATH.CONNECT_WALLET}?next=${window.location.href}`);
+        return;
+      }
+
+      if (!file) {
+        showToastError({
+          message: 'File not found',
+        });
+        return;
+      }
+
+      setProcessing(true);
+      const { id: fileId } = file;
+
+      // Fetch uninscribed chunks
+      const unprocessedChunks = await getFileChunks({
+        fileId,
+        status: ChunkProcessStatus.New,
+      });
+
+      if (!unprocessedChunks.length || processing) {
+        return;
+      }
+
+      // Get the first chunk to process
+      const pickedChunk = unprocessedChunks[0];
+      const chunkData = Buffer.from(pickedChunk.chunkData);
+      logger.debug('pickedChunk', pickedChunk);
 
       const tx = await storeChunks({
-        tokenId: file?.tokenId,
-        chunkIndex: index + 1,
-        chunks: [],
-      });
+        tokenId: file.tokenId,
+        chunkIndex: pickedChunk.chunkIndex,
+        chunks: chunkData,
+        txSuccessCallback: async (transaction: Transaction | null) => {
+          logger.debug('transaction', transaction);
+          logger.debug('fileId in closure', fileId);
+          if (!transaction) return;
+
+          // Update tx_hash
+          await updateFileChunkTransactionInfo({
+            tcAddress: account,
+            txHash: Object(transaction).hash,
+            fileId,
+            chunkId: pickedChunk.id,
+          });
+        },
+      })
+
       if (!tx) {
         showToastError({
           message: 'Rejected request.',
@@ -48,22 +100,34 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
         return;
       }
 
-      await updateFileChunkTransactionInfo({
-        txHash: tx.hash,
-        fileId: file?.id,
-        chunkId: index + 1,
+      showToastSuccess({
+        message:
+          'Please go to your wallet to authorize the request for the Bitcoin transaction.',
       });
     } catch (err: unknown) {
+      logger.error(err);
       logger.debug('failed to inscribe next file chunk');
-      throw Error();
+      showToastError({
+        message: (err as Error).message
+      })
+    } finally {
+      setProcessing(false);
     }
   };
 
-  const MOCK_PROGRESS = 50;
+  useEffect(() => {
+    const divElement = matrixContainerRef.current;
+
+    if (divElement) {
+      const { width, height } = divElement.getBoundingClientRect();
+      setDivWidth(width);
+      setDivHeight(height);
+    }
+  }, []);
 
   if (!file) return null;
 
-  const progress = (file?.processedChunks / file?.totalChunks) * 100;
+  const progress = (file?.processingChunks / file?.totalChunks) * 100;
 
   const renderContentStatus = (status: number) => {
     switch (status) {
@@ -71,7 +135,7 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
         return (
           <div>
             <p className="fileName">{file?.name || 'woman-yelling.png'}</p>
-            <FileChunk progress={progress} fileSize={file?.size} />
+            <FileChunk file={file} />
             <ArtifactButton
               variant={'primary-transparent'}
               className="ctaBtn"
@@ -86,14 +150,16 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
         return (
           <div>
             <p className="fileName">{`Artifact #${file?.tokenId}` || file?.name}</p>
-            <FileChunk progress={progress} fileSize={file?.size} />
+            <FileChunk file={file} />
             <ArtifactButton
               variant={'primary'}
               className="ctaBtn"
               width={150}
               height={44}
+              onClick={handleInscribeNextChunk}
+              disabled={processing}
             >
-              <p onClick={handleInscribeNextChunk}>inscribe</p>
+              <p>{processing ? 'Processing...' : 'Inscribe'}</p>
             </ArtifactButton>
           </div>
         );
@@ -104,7 +170,8 @@ const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
 
   return (
     <StyledProcessingItem>
-      <ThumbnailWrapper className="animationBorder">
+      <ThumbnailWrapper className="animationBorder" ref={matrixContainerRef}>
+        <MatrixRainAnimation width={divWidth || 0} height={divHeight || 0} />
         <NFTDisplayBox
           collectionID={ARTIFACT_CONTRACT}
           contentClass="image"
