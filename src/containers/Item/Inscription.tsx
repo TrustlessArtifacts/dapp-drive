@@ -3,11 +3,12 @@ import { getNFTDetail } from '@/services/nft-explorer';
 import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { Container, Information } from './Inscription.styled';
-import { ARTIFACT_CONTRACT, BIG_FILE_PROJECT_ID } from '@/configs';
+import { ARTIFACT_CONTRACT } from '@/configs';
 import { formatTimeStamp } from '@/utils/time';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
+import { prettyPrintBytes } from '@/utils';
 
 const Inscription = () => {
   const router = useRouter();
@@ -83,8 +84,7 @@ const Inscription = () => {
                   'Timestamp',
                   formatTimeStamp(inscription?.mintedAt * 1000),
                 )}
-              {inscription?.tokenId === BIG_FILE_PROJECT_ID &&
-                renderListItem('File size', '6.9MB')}
+              {inscription?.fileSize && renderListItem('File size', prettyPrintBytes(inscription.fileSize))}
             </div>
           </Information>
         </div>

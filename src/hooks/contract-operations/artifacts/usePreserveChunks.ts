@@ -15,6 +15,7 @@ import * as TC_SDK from 'trustless-computer-sdk';
 export interface IPreserveChunkParams {
   address: string;
   chunks: Array<Buffer>;
+  txSuccessCallback?: (_tx: Transaction | null) => Promise<void>;
 }
 
 const usePreserveChunks: ContractOperationHook<
@@ -28,12 +29,13 @@ const usePreserveChunks: ContractOperationHook<
   const call = useCallback(
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
-        const { address, chunks } = params;
+        const { address, chunks, txSuccessCallback } = params;
+        const tcTxSizeByte = chunks.length > 0 ? Buffer.byteLength(chunks[0]) : 0
 
-        logger.info(`tcTxSizeByte: ${Buffer.byteLength(chunks[0])}`);
+        logger.info(`tcTxSizeByte: ${tcTxSizeByte}`);
 
         const estimatedFee = TC_SDK.estimateInscribeFee({
-          tcTxSizeByte: Buffer.byteLength(chunks[0]),
+          tcTxSizeByte: tcTxSizeByte,
           feeRatePerByte: feeRate.fastestFee,
         });
         const balanceInBN = new BigNumber(btcBalance);
@@ -43,6 +45,10 @@ const usePreserveChunks: ContractOperationHook<
         const transaction = await contract
           .connect(provider.getSigner())
           .preserveChunks(address, [chunks]);
+
+        if (txSuccessCallback) {
+          await txSuccessCallback(transaction);
+        }
 
         return transaction;
       }

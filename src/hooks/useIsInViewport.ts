@@ -19,7 +19,7 @@ export function useIsInViewport(ref: any, customOptions?: IntersectionObserverIn
         ([entry]) => setIsIntersecting(entry.isIntersecting),
         options,
       ),
-    [],
+    [options],
   );
 
   useEffect(() => {
