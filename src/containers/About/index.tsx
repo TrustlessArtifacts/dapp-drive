@@ -1,40 +1,38 @@
 import ArtifactButton from '@/components/ArtifactButton';
-import IconSVG from '@/components/IconSVG';
 import { CDN_URL } from '@/configs';
-import { useIsInViewport } from '@/hooks/useIsInViewport';
 import useWindowSize from '@/hooks/useWindowSize';
+import { HEADER_HEIGHT } from '@/layouts';
+import Header from '@/layouts/Header/Header';
 import Link from 'next/link';
 import { useRef } from 'react';
-import { AboutHeader, SectionControllers, StyledAbout } from './About.styled';
-import Header from '@/layouts/Header/Header';
-import { HEADER_HEIGHT } from '@/layouts';
+import { AboutHeader, StyledAbout } from './About.styled';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
 
   const firstSectionRef = useRef<HTMLDivElement>(null);
-  const secondSectionRef = useRef<HTMLDivElement>(null);
-  const thirdSectionRef = useRef<HTMLDivElement>(null);
-  const fourthSectionRef = useRef<HTMLDivElement>(null);
-  const isInViewport1 = useIsInViewport(firstSectionRef);
-  const isInViewport2 = useIsInViewport(secondSectionRef);
-  const isInViewport3 = useIsInViewport(thirdSectionRef);
-  const isInViewport4 = useIsInViewport(fourthSectionRef);
+  // const secondSectionRef = useRef<HTMLDivElement>(null);
+  // const thirdSectionRef = useRef<HTMLDivElement>(null);
+  // const fourthSectionRef = useRef<HTMLDivElement>(null);
+  // const isInViewport1 = useIsInViewport(firstSectionRef);
+  // const isInViewport2 = useIsInViewport(secondSectionRef);
+  // const isInViewport3 = useIsInViewport(thirdSectionRef);
+  // const isInViewport4 = useIsInViewport(fourthSectionRef);
 
-  const buttonWidth = (): number => {
-    if (window.innerWidth > 1919) {
-      return 390;
-    } else {
-      return 315;
-    }
-  };
-  const buttonHeight = (): number => {
-    if (window.innerWidth > 1919) {
-      return 92;
-    } else {
-      return 79;
-    }
-  };
+  // const buttonWidth = (): number => {
+  //   if (window.innerWidth > 1919) {
+  //     return 390;
+  //   } else {
+  //     return 315;
+  //   }
+  // };
+  // const buttonHeight = (): number => {
+  //   if (window.innerWidth > 1919) {
+  //     return 92;
+  //   } else {
+  //     return 79;
+  //   }
+  // };
 
   return (
     <>
@@ -78,9 +76,9 @@ const About = () => {
             </div>
 
             <ArtifactButton
-              variant="primary"
-              width={buttonWidth()}
-              height={buttonHeight()}
+              variant="primary-lg"
+              width={350}
+              height={66}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
@@ -89,7 +87,7 @@ const About = () => {
             </ArtifactButton>
           </div>
         </div>
-        <div className="section-02" id="section-2" ref={secondSectionRef}>
+        {/* <div className="section-02" id="section-2" ref={secondSectionRef}>
           <div className="background">
             <img
               src={`${CDN_URL}/artifact/Landing_page/${
@@ -157,7 +155,6 @@ const About = () => {
             />
           </div>
           <div className="content right">
-            {/* <h4 className="subTitle">coming soon</h4> */}
             <h3 className="title">Larger</h3>
             <div className="desc">
               Unlike Ordinals inscriptions, which are strictly limited to a file size
@@ -176,8 +173,8 @@ const About = () => {
               </Link>
             </ArtifactButton>
           </div>
-        </div>
-        <SectionControllers>
+        </div> */}
+        {/* <SectionControllers>
           <div className={`dots ${isInViewport1 ? 'active' : ''}`}>
             <div className="circle">
               <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
@@ -198,7 +195,9 @@ const About = () => {
               <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
             </div>
           </div>
-        </SectionControllers>
+        </SectionControllers> */}
+
+        <div className="block"></div>
       </StyledAbout>
     </>
   );

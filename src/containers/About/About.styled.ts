@@ -1,3 +1,4 @@
+import { HEADER_HEIGHT } from '@/layouts';
 import { commonTheme } from '@/theme/colors';
 import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
@@ -25,15 +26,15 @@ export const StyledAbout = styled.div`
     width: 100vw;
   }
 
-  .section-01,
-  .section-02,
+  .section-01
+  /* .section-02,
   .section-03,
-  .section-04 {
+  .section-04  */ {
     position: relative;
     height: 100vh;
     /* width: 100vw; */
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     -webkit-scroll-snap-align: start;
@@ -62,6 +63,7 @@ export const StyledAbout = styled.div`
   }
 
   .content {
+    margin-top: calc(${HEADER_HEIGHT}px + ${px2rem(36)});
     color: #fff;
     z-index: 2;
     position: relative;
@@ -129,11 +131,19 @@ export const StyledAbout = styled.div`
     text-decoration: none;
   }
 
+  .block {
+    .block-item {
+      padding: ${px2rem(20)};
+      background: #315b30;
+      opacity: 0.8;
+    }
+  }
+
   @media screen and (max-width: 768.98px) {
-    .section-01,
-    .section-02,
+    .section-01
+    /* .section-02,
     .section-03,
-    .section-04 {
+    .section-04  */ {
       align-items: flex-start;
     }
 
@@ -176,52 +186,52 @@ export const StyledAbout = styled.div`
   }
 `;
 
-export const SectionControllers = styled.div`
-  position: fixed;
-  top: 50%;
-  right: ${px2rem(48)};
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${px2rem(12)};
+// export const SectionControllers = styled.div`
+//   position: fixed;
+//   top: 50%;
+//   right: ${px2rem(48)};
+//   transform: translateY(-50%);
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   gap: ${px2rem(12)};
 
-  .dots {
-    width: ${px2rem(46)};
-    height: ${px2rem(46)};
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    transition: all 0.3s ease-in-out;
+//   .dots {
+//     width: ${px2rem(46)};
+//     height: ${px2rem(46)};
+//     display: grid;
+//     place-items: center;
+//     border-radius: 50%;
+//     transition: all 0.3s ease-in-out;
 
-    .circle {
-      width: ${px2rem(22)};
-      height: ${px2rem(22)};
-      background: rgba(255, 255, 255, 0.08);
-      padding: ${px2rem(5)};
-      border-radius: 50%;
-      transition: all 0.3s ease-in-out;
-    }
+//     .circle {
+//       width: ${px2rem(22)};
+//       height: ${px2rem(22)};
+//       background: rgba(255, 255, 255, 0.08);
+//       padding: ${px2rem(5)};
+//       border-radius: 50%;
+//       transition: all 0.3s ease-in-out;
+//     }
 
-    &.active {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease-in-out;
+//     &.active {
+//       background: rgba(255, 255, 255, 0.05);
+//       border: 1px solid rgba(255, 255, 255, 0.2);
+//       transition: all 0.3s ease-in-out;
 
-      .circle {
-        background: ${commonTheme.green.bg};
+//       .circle {
+//         background: ${commonTheme.green.bg};
 
-        path {
-          fill-opacity: 1;
-        }
-      }
-    }
-  }
+//         path {
+//           fill-opacity: 1;
+//         }
+//       }
+//     }
+//   }
 
-  @media screen and (max-width: 768.98px) {
-    display: none;
-  }
-`;
+//   @media screen and (max-width: 768.98px) {
+//     display: none;
+//   }
+// `;
 
 export const AboutHeader = styled.div`
   position: fixed;
