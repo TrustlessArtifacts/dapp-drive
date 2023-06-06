@@ -43,9 +43,12 @@ const ModalUpload = (props: Props) => {
   const [error, setError] = useState<string | null>(null);
   const { upload } = useChunkedFileUploader();
   const [isProcessing, setIsProcessing] = useState(false);
-  const { run: preserveChunks } = useContractOperation<IPreserveChunkParams, Transaction | null>({
+  const { run: preserveChunks } = useContractOperation<
+    IPreserveChunkParams,
+    Transaction | null
+  >({
     operation: usePreserveChunks,
-    inscribeable: true
+    inscribeable: true,
   });
 
   const handleUploadFile = async () => {
@@ -91,7 +94,7 @@ const ModalUpload = (props: Props) => {
               fileId,
               txHash: Object(transaction).hash,
             });
-          }
+          },
         });
 
         if (!tx) {
@@ -103,14 +106,14 @@ const ModalUpload = (props: Props) => {
       }
 
       showToastSuccess({
-        message: 'Please go to your wallet to authorize the request for the Bitcoin transaction.'
+        message:
+          'Please go to your wallet to authorize the request for the Bitcoin transaction.',
       });
       handleClose();
     } catch (err: unknown) {
       logger.error(err);
       showToastError({
-        message:
-          (err as Error).message
+        message: (err as Error).message,
       });
     } finally {
       setIsProcessing(false);

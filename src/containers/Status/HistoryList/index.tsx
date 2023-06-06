@@ -73,9 +73,12 @@ const HistoryList: React.FC = (): React.ReactElement => {
       <div className="sectionWrapper">
         <h2 className="sectionTitle">Preserved</h2>
         <div className="list">
-          {processedFiles.map((item) => {
-            return <ProcessedItem key={item.id} file={item} />;
-          })}
+          {/* {processedFiles.map((item, index) => {
+            return <ProcessedItem key={item.id} item={item} index={index} />;
+          })} */}
+          {[...Array(2)].map((_, index) => (
+            <ProcessedItem key={index} item={undefined} index={index} />
+          ))}
         </div>
       </div>
     </StyledHistoryList>

@@ -44,7 +44,7 @@ const usePreserveChunks: ContractOperationHook<
         }
         const transaction = await contract
           .connect(provider.getSigner())
-          .preserveChunks(address, [chunks]);
+          .preserveChunks(address, chunks);
 
         if (txSuccessCallback) {
           await txSuccessCallback(transaction);

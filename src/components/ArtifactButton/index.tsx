@@ -4,7 +4,12 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 import { StyledArtifactButton } from './ArtifactButton.styled';
 
 type Props = {
-  variant: 'primary' | 'white' | 'transparent' | 'primary-transparent';
+  variant:
+    | 'primary'
+    | 'white'
+    | 'transparent'
+    | 'primary-transparent'
+    | 'green-transparent';
   width?: number;
   height?: number;
   objectFit?: 'contain' | 'cover';
@@ -37,6 +42,10 @@ const ArtifactButton = ({
         break;
 
       case 'primary-transparent':
+        setButton('button-primary-transparent.svg');
+        break;
+
+      case 'green-transparent':
         setButton('button-primary-transparent.svg');
         break;
 

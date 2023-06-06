@@ -21,4 +21,10 @@ export const StyledHistoryList = styled.div`
     grid-template-columns: 1fr 1fr;
     gap: ${px2rem(20)};
   }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: ${px2rem(24)};
+  }
 `;
