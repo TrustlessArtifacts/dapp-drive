@@ -73,11 +73,10 @@ const Artifacts: React.FC = () => {
         <UploadFileContainer>
           <div className="upload_left">
             <div className="upload_content">
-              <p className="upload_title">Artifacts</p>
+              <p className="upload_title">Smart Inscription</p>
               <Text className="upload_desc">
-                Cheap. Immutable. Fully on-chain. Large files are supported too. We
-                recommend you preserve a small artifact to save gas fees—ideally, a
-                file under 20 kB.
+                Effectively preserve files with Smart BRC-721. Large capacity with
+                low gas fee.
               </Text>
             </div>
           </div>
@@ -95,7 +94,7 @@ const Artifacts: React.FC = () => {
                   color="bg1"
                   fontWeight="medium"
                 >
-                  Preserve Artifact
+                  Preserve now
                 </Text>
               </PreserveButton>
             </ArtifactButton>

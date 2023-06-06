@@ -17,7 +17,7 @@ const Header = ({ height }: { height: number }) => {
         <div className="leftContainer">
           <Link className="logo" href={ROUTE_PATH.HOME}>
             <img alt="logo" src={`${CDN_URL}/pages/artifacts/logo-1.svg`} />
-            <h1 className="logo-title">Artifacts</h1>
+            <h1 className="logo-title">Smart Inscription</h1>
           </Link>
           <Link className="navLink" href={'/about'}>
             About
@@ -31,14 +31,14 @@ const Header = ({ height }: { height: number }) => {
               Trustless
               <IconSVG
                 maxWidth="28"
-                src={`${CDN_URL}/artifact/icons/ic-link.svg`}
+                src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}
               ></IconSVG>
             </Link>
             <Link href={'https://tcgasstation.com/'} target="_blank">
               Get TC
               <IconSVG
                 maxWidth="28"
-                src={`${CDN_URL}/artifact/icons/ic-link.svg`}
+                src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}
               ></IconSVG>
             </Link>
           </div>
