@@ -163,7 +163,7 @@ const About = () => {
               Unlike Ordinals inscriptions, which are strictly limited to a file size
               of 4MB. Smart Inscription offers unlimited file storage on Bitcoin
               independently and enables the preservation of authenticity and the
-              original state of the artifacts
+              original state of the inscriptions.
             </div>
             <ArtifactButton
               variant="primary"
