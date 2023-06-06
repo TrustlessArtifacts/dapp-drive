@@ -4,7 +4,7 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 import { StyledArtifactButton } from './ArtifactButton.styled';
 
 type Props = {
-  variant: 'primary' | 'white' | 'transparent';
+  variant: 'primary' | 'white' | 'transparent' | 'primary-lg';
   width?: number;
   height?: number;
   objectFit?: 'contain' | 'cover';
@@ -26,6 +26,9 @@ const ArtifactButton = ({
     switch (variant) {
       case 'primary':
         setButton(mobileScreen ? 'button-bg.svg' : 'button.svg');
+        break;
+      case 'primary-lg':
+        setButton(mobileScreen ? 'button-bg.svg' : 'button-primary-lg.svg');
         break;
 
       case 'white':

@@ -1,46 +1,42 @@
 import ArtifactButton from '@/components/ArtifactButton';
-import IconSVG from '@/components/IconSVG';
 import { CDN_URL } from '@/configs';
-import { useIsInViewport } from '@/hooks/useIsInViewport';
 import useWindowSize from '@/hooks/useWindowSize';
 import Link from 'next/link';
 import { useRef } from 'react';
-import { AboutHeader, SectionControllers, StyledAbout } from './About.styled';
-import Header from '@/layouts/Header/Header';
-import { HEADER_HEIGHT } from '@/layouts';
+import { StyledAbout } from './About.styled';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
 
   const firstSectionRef = useRef<HTMLDivElement>(null);
-  const secondSectionRef = useRef<HTMLDivElement>(null);
-  const thirdSectionRef = useRef<HTMLDivElement>(null);
-  const fourthSectionRef = useRef<HTMLDivElement>(null);
-  const isInViewport1 = useIsInViewport(firstSectionRef);
-  const isInViewport2 = useIsInViewport(secondSectionRef);
-  const isInViewport3 = useIsInViewport(thirdSectionRef);
-  const isInViewport4 = useIsInViewport(fourthSectionRef);
+  // const secondSectionRef = useRef<HTMLDivElement>(null);
+  // const thirdSectionRef = useRef<HTMLDivElement>(null);
+  // const fourthSectionRef = useRef<HTMLDivElement>(null);
+  // const isInViewport1 = useIsInViewport(firstSectionRef);
+  // const isInViewport2 = useIsInViewport(secondSectionRef);
+  // const isInViewport3 = useIsInViewport(thirdSectionRef);
+  // const isInViewport4 = useIsInViewport(fourthSectionRef);
 
   const buttonWidth = (): number => {
     if (window.innerWidth > 1919) {
-      return 390;
+      return 400;
     } else {
-      return 315;
+      return 270;
     }
   };
   const buttonHeight = (): number => {
     if (window.innerWidth > 1919) {
-      return 92;
+      return 75;
     } else {
-      return 79;
+      return 51;
     }
   };
 
   return (
     <>
-      <AboutHeader>
+      {/* <AboutHeader>
         <Header height={HEADER_HEIGHT} />
-      </AboutHeader>
+      </AboutHeader> */}
       <StyledAbout>
         <div className="section-01" id="section-1" ref={firstSectionRef}>
           <div className="background">
@@ -69,27 +65,33 @@ const About = () => {
           <div className="content">
             <h4 className="subTitle">Smart Inscription</h4>
             <h3 className="title">
-              Preserve file as smart BRC-721, greater beyond an inscription.
+              {mobileScreen ? (
+                <>
+                  {' '}
+                  Be the first to <br /> inscribe smart inscriptions.
+                </>
+              ) : (
+                <>
+                  Be the first
+                  <br />
+                  to inscribe smart inscriptions.
+                </>
+              )}
             </h3>
-            <div className="desc">
-              Smart Inscription brings utility to your preserved inscription with the
-              Smart BRC-721 token standard, fully on-chain, and unlimited file size
-              support at an affordable price.
-            </div>
 
             <ArtifactButton
-              variant="primary"
+              variant="primary-lg"
               width={buttonWidth()}
               height={buttonHeight()}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Explore Smart inscription
+                Explore
               </Link>
             </ArtifactButton>
           </div>
         </div>
-        <div className="section-02" id="section-2" ref={secondSectionRef}>
+        {/* <div className="section-02" id="section-2" ref={secondSectionRef}>
           <div className="background">
             <img
               src={`${CDN_URL}/artifact/Landing_page/${
@@ -157,7 +159,6 @@ const About = () => {
             />
           </div>
           <div className="content right">
-            {/* <h4 className="subTitle">coming soon</h4> */}
             <h3 className="title">Larger</h3>
             <div className="desc">
               Unlike Ordinals inscriptions, which are strictly limited to a file size
@@ -176,8 +177,8 @@ const About = () => {
               </Link>
             </ArtifactButton>
           </div>
-        </div>
-        <SectionControllers>
+        </div> */}
+        {/* <SectionControllers>
           <div className={`dots ${isInViewport1 ? 'active' : ''}`}>
             <div className="circle">
               <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
@@ -198,7 +199,34 @@ const About = () => {
               <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
             </div>
           </div>
-        </SectionControllers>
+        </SectionControllers> */}
+
+        <div className="block">
+          <div className="block-item-wrapper">
+            <div className="block-item">
+              <p className="block-item-title">Smarter</p>
+              <p className="block-item-info">
+                BRC-721 but with smart contracts. Enable the NFTs utilities
+              </p>
+            </div>
+          </div>
+          <div className="block-item-wrapper">
+            <div className="block-item block-middle">
+              <p className="block-item-title">Larger</p>
+              <p className="block-item-info">
+                Unlimited file storage. Independent, no miner needed
+              </p>
+            </div>
+          </div>
+          <div className="block-item-wrapper">
+            <div className="block-item">
+              <p className="block-item-title">Cheaper</p>
+              <p className="block-item-info">
+                Saving up to 50% with file sizes larger than 100kb.
+              </p>
+            </div>
+          </div>
+        </div>
       </StyledAbout>
     </>
   );

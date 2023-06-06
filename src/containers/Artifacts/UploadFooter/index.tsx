@@ -77,7 +77,7 @@ const UploadFooter = ({
         >
           <button onClick={handlePreserverArtifact}>
             <Text className="button-text" color="bg1" fontWeight="medium">
-              Preserve now
+              Inscribe now
             </Text>
           </button>
         </ArtifactButton>
