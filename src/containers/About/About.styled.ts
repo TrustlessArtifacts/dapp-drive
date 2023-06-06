@@ -1,4 +1,3 @@
-import { HEADER_HEIGHT } from '@/layouts';
 import { commonTheme } from '@/theme/colors';
 import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
@@ -35,10 +34,10 @@ export const StyledAbout = styled.div`
     /* width: 100vw; */
     display: flex;
     align-items: flex-start;
-    scroll-snap-align: start;
+    /* scroll-snap-align: start;
     scroll-snap-stop: always;
     -webkit-scroll-snap-align: start;
-    -webkit-scroll-snap-stop: always;
+    -webkit-scroll-snap-stop: always; */
   }
 
   .background img {
@@ -63,7 +62,7 @@ export const StyledAbout = styled.div`
   }
 
   .content {
-    margin-top: calc(${HEADER_HEIGHT}px + ${px2rem(36)});
+    margin-top: 10%;
     color: #fff;
     z-index: 2;
     position: relative;
@@ -132,10 +131,90 @@ export const StyledAbout = styled.div`
   }
 
   .block {
+    position: absolute;
+    left: ${px2rem(100)};
+    bottom: 15%;
+    display: flex;
+    align-items: center;
+    gap: ${px2rem(80)};
+    flex-wrap: wrap;
+
+    p {
+      color: white;
+    }
+
+    .block-item-wrapper {
+      /* filter: drop-shadow(4px 4px 10px rgba(99, 255, 124, 0.75)); */
+      border-radius: 0 20px 0 20px;
+      box-shadow: 4px 4px 10px rgba(99, 255, 124, 0.75);
+      overflow: hidden;
+    }
+
     .block-item {
       padding: ${px2rem(20)};
-      background: #315b30;
-      opacity: 0.8;
+      background: rgba(49, 91, 48, 0.8);
+      position: relative;
+      clip-path: polygon(
+        20% 0%,
+        97% 0,
+        100% 4%,
+        100% 100%,
+        80% 100%,
+        3% 100%,
+        0 97%,
+        0 0
+      );
+
+      .block-item-info {
+        max-width: 30ch;
+      }
+    }
+
+    .block-middle {
+      background: rgba(73, 128, 71, 0.8);
+    }
+
+    .block-item-title {
+      font-size: ${px2rem(24)};
+      line-height: ${px2rem(36)};
+      font-weight: 600;
+      margin-bottom: ${px2rem(12)};
+    }
+
+    .block-item-info {
+      font-size: ${px2rem(14)};
+      line-height: ${px2rem(21)};
+      font-weight: 300;
+    }
+
+    .block-item-wrapper:nth-of-type(3) {
+      align-self: stretch;
+      height: auto;
+
+      .block-item {
+        height: 100%;
+      }
+    }
+
+    .block-item-wrapper:nth-of-type(2) {
+      align-self: stretch;
+      height: auto;
+      .block-item {
+        height: 100%;
+      }
+    }
+
+    .block-item-wrapper:nth-of-type(1),
+    .block-item-wrapper:nth-of-type(3) {
+      margin-top: ${px2rem(10)};
+      margin-bottom: ${px2rem(10)};
+    }
+  }
+
+  @media screen and (max-width: 1279.98px) {
+    .block {
+      gap: ${px2rem(40)};
+      bottom: 5%;
     }
   }
 
@@ -145,6 +224,7 @@ export const StyledAbout = styled.div`
     .section-03,
     .section-04  */ {
       align-items: flex-start;
+      height: auto;
     }
 
     .content {
@@ -152,7 +232,7 @@ export const StyledAbout = styled.div`
       padding: 0 ${px2rem(20)};
       width: 100vw;
       text-align: center;
-      margin-top: ${px2rem(100)};
+      margin-top: ${px2rem(40)};
       margin-left: auto;
       margin-right: auto;
 
@@ -165,7 +245,7 @@ export const StyledAbout = styled.div`
       }
 
       .title {
-        font-size: ${px2rem(36)};
+        font-size: ${px2rem(32)};
         line-height: 35px;
         margin-bottom: ${px2rem(18)};
       }
@@ -181,6 +261,42 @@ export const StyledAbout = styled.div`
       &.right {
         margin-left: auto;
         padding-right: ${px2rem(20)};
+      }
+    }
+
+    .block {
+      margin-top: ${px2rem(48)};
+      flex-direction: column;
+      position: relative;
+      bottom: unset;
+      left: unset;
+      padding: 0 ${px2rem(32)};
+      gap: ${px2rem(24)};
+      padding-bottom: ${px2rem(24)};
+
+      .block-item-wrapper:nth-of-type(2) {
+        order: -1;
+      }
+
+      .block-item-wrapper {
+        width: 100%;
+
+        .block-item {
+          clip-path: polygon(
+            20% 0%,
+            98% 0,
+            100% 8%,
+            100% 100%,
+            80% 100%,
+            2% 100%,
+            0 92%,
+            0 0
+          );
+
+          .block-item-info {
+            max-width: 100%;
+          }
+        }
       }
     }
   }

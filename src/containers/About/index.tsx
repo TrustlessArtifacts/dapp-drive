@@ -1,11 +1,9 @@
 import ArtifactButton from '@/components/ArtifactButton';
 import { CDN_URL } from '@/configs';
 import useWindowSize from '@/hooks/useWindowSize';
-import { HEADER_HEIGHT } from '@/layouts';
-import Header from '@/layouts/Header/Header';
 import Link from 'next/link';
 import { useRef } from 'react';
-import { AboutHeader, StyledAbout } from './About.styled';
+import { StyledAbout } from './About.styled';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
@@ -19,26 +17,26 @@ const About = () => {
   // const isInViewport3 = useIsInViewport(thirdSectionRef);
   // const isInViewport4 = useIsInViewport(fourthSectionRef);
 
-  // const buttonWidth = (): number => {
-  //   if (window.innerWidth > 1919) {
-  //     return 390;
-  //   } else {
-  //     return 315;
-  //   }
-  // };
-  // const buttonHeight = (): number => {
-  //   if (window.innerWidth > 1919) {
-  //     return 92;
-  //   } else {
-  //     return 79;
-  //   }
-  // };
+  const buttonWidth = (): number => {
+    if (window.innerWidth > 1919) {
+      return 400;
+    } else {
+      return 270;
+    }
+  };
+  const buttonHeight = (): number => {
+    if (window.innerWidth > 1919) {
+      return 75;
+    } else {
+      return 51;
+    }
+  };
 
   return (
     <>
-      <AboutHeader>
+      {/* <AboutHeader>
         <Header height={HEADER_HEIGHT} />
-      </AboutHeader>
+      </AboutHeader> */}
       <StyledAbout>
         <div className="section-01" id="section-1" ref={firstSectionRef}>
           <div className="background">
@@ -67,22 +65,28 @@ const About = () => {
           <div className="content">
             <h4 className="subTitle">Smart Inscription</h4>
             <h3 className="title">
-              Preserve file as smart BRC-721, greater beyond an inscription.
+              {mobileScreen ? (
+                <>
+                  {' '}
+                  Be the first to <br /> inscribe smart inscriptions.
+                </>
+              ) : (
+                <>
+                  Be the first
+                  <br />
+                  to inscribe smart inscriptions.
+                </>
+              )}
             </h3>
-            <div className="desc">
-              Smart Inscription brings utility to your preserved inscription with the
-              Smart BRC-721 token standard, fully on-chain, and unlimited file size
-              support at an affordable price.
-            </div>
 
             <ArtifactButton
               variant="primary-lg"
-              width={350}
-              height={66}
+              width={buttonWidth()}
+              height={buttonHeight()}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Explore Smart inscription
+                Explore
               </Link>
             </ArtifactButton>
           </div>
@@ -197,7 +201,32 @@ const About = () => {
           </div>
         </SectionControllers> */}
 
-        <div className="block"></div>
+        <div className="block">
+          <div className="block-item-wrapper">
+            <div className="block-item">
+              <p className="block-item-title">Smarter</p>
+              <p className="block-item-info">
+                BRC-721 but with smart contracts. Enable the NFTs utilities
+              </p>
+            </div>
+          </div>
+          <div className="block-item-wrapper">
+            <div className="block-item block-middle">
+              <p className="block-item-title">Larger</p>
+              <p className="block-item-info">
+                Unlimited file storage. Independent, no miner needed
+              </p>
+            </div>
+          </div>
+          <div className="block-item-wrapper">
+            <div className="block-item">
+              <p className="block-item-title">Cheaper</p>
+              <p className="block-item-info">
+                Saving up to 50% with file sizes larger than 100kb.
+              </p>
+            </div>
+          </div>
+        </div>
       </StyledAbout>
     </>
   );
