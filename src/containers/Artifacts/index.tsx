@@ -94,7 +94,7 @@ const Artifacts: React.FC = () => {
                   color="bg1"
                   fontWeight="medium"
                 >
-                  Preserve now
+                  Inscribe now
                 </Text>
               </PreserveButton>
             </ArtifactButton>
