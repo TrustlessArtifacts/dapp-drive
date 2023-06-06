@@ -13,7 +13,7 @@ interface IProps {
 };
 
 const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
-  const isBigFile = true;
+  const isBigFile = file && file.totalChunks > 1;
 
   return (
     <StyledProcessedItem className="border-gradient">
@@ -39,6 +39,7 @@ const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
             <IconSVG
               src={`${CDN_URL}/pages/artifacts/icons/ic-star.svg`}
               maxWidth="10"
+              maxHeight="10"
             />
             <p className="file-date">
               {formatDateTime({
