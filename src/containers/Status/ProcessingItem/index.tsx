@@ -25,17 +25,16 @@ interface IProps {
 }
 
 const ProcessingItem: React.FC<IProps> = ({ file, index }: IProps) => {
-  //TODO: Call contract API to get chunks data
-  // updateFileChunkTransactionInfo
-  const { run } = useContractOperation<IStoreChunkParams, Transaction | null>({
+  const { run: storeChunks } = useContractOperation<IStoreChunkParams, Transaction | null>({
     operation: useStoreChunks,
+    inscribeable: true,
   });
 
   const handleInscribeNextChunk = async () => {
     try {
       // const fileBuffer = await readFileAsBuffer(file?.fullPath);
 
-      const tx = await run({
+      const tx = await storeChunks({
         tokenId: file?.tokenId,
         chunkIndex: index + 1,
         chunks: [],
