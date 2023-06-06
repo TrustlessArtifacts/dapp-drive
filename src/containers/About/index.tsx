@@ -22,14 +22,14 @@ const About = () => {
   const isInViewport4 = useIsInViewport(fourthSectionRef);
 
   const buttonWidth = (): number => {
-    if (window.innerWidth > 1920) {
+    if (window.innerWidth > 1919) {
       return 390;
     } else {
       return 315;
     }
   };
   const buttonHeight = (): number => {
-    if (window.innerWidth > 1920) {
+    if (window.innerWidth > 1919) {
       return 92;
     } else {
       return 79;
@@ -163,7 +163,7 @@ const About = () => {
               Unlike Ordinals inscriptions, which are strictly limited to a file size
               of 4MB. Smart Inscription offers unlimited file storage on Bitcoin
               independently and enables the preservation of authenticity and the
-              original state of the artifacts
+              original state of the inscriptions.
             </div>
             <ArtifactButton
               variant="primary"
