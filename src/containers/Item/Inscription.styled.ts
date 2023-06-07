@@ -117,7 +117,6 @@ const Container = styled.div`
     .list-container {
       padding-top: 16px;
       padding-bottom: 8px;
-      max-width: 700px;
 
       .list-name {
         font-style: normal;
@@ -281,8 +280,6 @@ const Information = styled.div`
     .item {
       padding: ${px2rem(20)} 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-      max-width: 700px;
 
       &:first-of-type {
         padding-top: 0;

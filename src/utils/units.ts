@@ -3,9 +3,9 @@ export const prettyPrintBytes = (size: number): string => {
   let s = size;
   for (const unit of units) {
     if (s < 1000) {
-      return s.toFixed(1) + unit;
+      return `${s.toFixed(1)} ${unit}`;
     }
     s /= 1000;
   }
-  return s.toFixed(1) + 'GB';
+  return s.toFixed(1) + ' GB';
 };
