@@ -1,27 +1,29 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import NFTDisplayBox from '@/components/NFTDisplayBox';
+import { BIG_FILE_PROJECT_ID } from '@/configs';
+import { ROUTE_PATH } from '@/constants/route-path';
 import { IInscription } from '@/interfaces/api/inscription';
 import { getNFTDetail } from '@/services/nft-explorer';
-import React, { useEffect, useState } from 'react';
-import queryString from 'query-string';
-import { Container, Information } from './Inscription.styled';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { ARTIFACT_CONTRACT, BIG_FILE_PROJECT_ID } from '@/configs';
 import { formatTimeStamp } from '@/utils/time';
 import { useRouter } from 'next/router';
-import { ROUTE_PATH } from '@/constants/route-path';
-import NFTDisplayBox from '@/components/NFTDisplayBox';
+import queryString from 'query-string';
+import React, { useEffect, useState } from 'react';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { Container, Information } from './Inscription.styled';
 
-const Inscription = () => {
+const Inscription = ({ data }: { data?: IInscription }) => {
   const router = useRouter();
   const { contract, id } = queryString.parse(location.search) as {
     contract: string;
     id: string;
   };
-  const [inscription, setInscription] = useState<IInscription | undefined>();
+  const [inscription, setInscription] = useState<IInscription | undefined>(data);
 
   useEffect(() => {
-    fetchInscriptionDetail();
-  }, []);
+    if (!data) {
+      fetchInscriptionDetail();
+    }
+  }, [data]);
 
   const fetchInscriptionDetail = async () => {
     try {
@@ -93,11 +95,7 @@ const Inscription = () => {
         </div>
         <div className="right-container">
           <div className="header">
-            <p className="title">
-              {contract.toLocaleLowerCase() === ARTIFACT_CONTRACT.toLocaleLowerCase()
-                ? `Inscription #${inscription?.tokenId}`
-                : inscription?.name}
-            </p>
+            <p className="title">Inscription #{inscription?.tokenId}</p>
           </div>
 
           <Information>
