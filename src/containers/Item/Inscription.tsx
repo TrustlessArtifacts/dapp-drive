@@ -1,9 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import BigFileTag from '@/components/BigFileTag';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
-import { BIG_FILE_PROJECT_ID } from '@/configs';
+import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { IInscription } from '@/interfaces/api/inscription';
 import { getNFTDetail } from '@/services/nft-explorer';
+import { prettyPrintBytes } from '@/utils';
 import { formatTimeStamp } from '@/utils/time';
 import { useRouter } from 'next/router';
 import queryString from 'query-string';
@@ -85,6 +87,7 @@ const Inscription = ({ data }: { data?: IInscription }) => {
           <div className="blur-circle"></div>
           {inscription && (
             <NFTDisplayBox
+              className="thumbnail-container"
               collectionID={inscription?.collectionAddress}
               contentClass="thumbnail"
               src={inscription.image}
@@ -94,12 +97,19 @@ const Inscription = ({ data }: { data?: IInscription }) => {
           )}
         </div>
         <div className="right-container">
+          {inscription?.fileSize &&
+            inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT * 1024 * 1024 && (
+              <BigFileTag color="green" />
+            )}
+
           <div className="header">
             <p className="title">Inscription #{inscription?.tokenId}</p>
           </div>
 
           <Information>
             <div className="list">
+              {inscription?.fileSize &&
+                renderListItem('File size', prettyPrintBytes(inscription.fileSize))}
               {renderListItem('Owner', inscription?.owner)}
               {renderListItem('Contract', inscription?.collectionAddress)}
               {renderListItem('Content type', inscription?.contentType)}
@@ -122,8 +132,6 @@ const Inscription = ({ data }: { data?: IInscription }) => {
                     return 0;
                   }),
                 )}
-              {inscription?.tokenId === BIG_FILE_PROJECT_ID &&
-                renderListItem('File size', '6.9MB')}
             </div>
           </Information>
         </div>
