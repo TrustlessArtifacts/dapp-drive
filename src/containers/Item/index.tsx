@@ -6,16 +6,16 @@ import { IInscription } from '@/interfaces/api/inscription';
 import { getNFTDetail } from '@/services/nft-explorer';
 import { formatTimeStamp } from '@/utils/time';
 import { useRouter } from 'next/router';
-import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { Container, Information } from './Inscription.styled';
 import { prettyPrintBytes } from '@/utils/units';
+import { ARTIFACT_CONTRACT } from '@/configs';
+import logger from '@/services/logger';
 
 const Inscription = ({ data }: { data?: IInscription }) => {
   const router = useRouter();
-  const { contract, id } = queryString.parse(location.search) as {
-    contract: string;
-    id: string;
+  const { tokenId } = router.query as {
+    tokenId: string;
   };
   const [inscription, setInscription] = useState<IInscription | undefined>(data);
 
@@ -27,9 +27,10 @@ const Inscription = ({ data }: { data?: IInscription }) => {
 
   const fetchInscriptionDetail = async () => {
     try {
-      const data = await getNFTDetail({ contractAddress: contract, tokenId: id });
+      const data = await getNFTDetail({ contractAddress: ARTIFACT_CONTRACT, tokenId: tokenId });
       setInscription(data);
     } catch (error) {
+      logger.error(error);
       router.push(ROUTE_PATH.NOT_FOUND);
     }
   };

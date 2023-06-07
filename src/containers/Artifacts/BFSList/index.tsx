@@ -75,7 +75,7 @@ const BFSList = () => {
                 return (
                   <NFTCard
                     key={index.toString()}
-                    href={`/token?contract=${ARTIFACT_CONTRACT}&id=${item.tokenId}`}
+                    href={`/${item.tokenId}`}
                     image={item.image}
                     contract={ARTIFACT_CONTRACT}
                     tokenId={item.tokenId}
