@@ -9,22 +9,31 @@ const Container = styled.div`
 
   .content {
     display: flex;
-    flex-direction: row;
-    gap: ${px2rem(20)};
+    flex-direction: column;
+    gap: ${px2rem(32)};
     margin-top: ${px2rem(60)};
     width: 70%;
+
+    @media screen and (max-width: 1024.98px) {
+      width: 100%;
+    }
   }
 
   .left-container {
     /* width: 40%; */
-    flex: 1;
-    padding: ${px2rem(20)};
     background: rgba(0, 46, 29, 0.6);
     border-radius: 12px;
     position: relative;
+    height: ${px2rem(400)};
+
+    .thumbnail-container {
+      height: 100%;
+    }
+
     .thumbnail {
       width: 100%;
-      aspect-ratio: 1 / 1;
+      height: 100%;
+      /* aspect-ratio: 1 / 1; */
       border-radius: 10px;
       background: #050f0a;
     }
@@ -47,48 +56,32 @@ const Container = styled.div`
       }
     }
 
-    &::before {
-      content: '';
-      border-radius: 20px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border: 1px solid transparent;
-      pointer-events: none !important;
-      background: linear-gradient(
-          138.24deg,
-          rgba(120, 170, 143, 0.8) 1.72%,
-          rgba(2, 47, 22, 0.64) 101.88%
-        )
-        border-box;
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
+    @media screen and (max-width: 1024.98px) {
+      height: ${px2rem(300)};
     }
   }
 
   .right-container {
-    /* width: 60%; */
     background: rgba(0, 46, 29, 0.6);
     padding: ${px2rem(24)};
-    flex: 1;
     border-radius: 20px;
     position: relative;
 
     .header {
+      margin-top: ${px2rem(16)};
       display: flex;
       flex-direction: column;
-      margin-bottom: ${px2rem(20)};
+      margin-bottom: ${px2rem(28)};
       text-decoration: none;
 
       .title {
         font-style: normal;
         font-weight: 500;
-        font-size: ${px2rem(28)};
-        line-height: ${px2rem(30)};
+        font-size: ${px2rem(20)};
+        line-height: ${px2rem(28)};
         color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
       }
 
       .subTitle {
@@ -276,11 +269,14 @@ const Information = styled.div`
     flex-direction: column;
 
     .item {
-      padding-top: 16px;
-      padding-bottom: 20px;
+      padding: ${px2rem(20)} 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
       max-width: 700px;
+
+      &:first-of-type {
+        padding-top: 0;
+      }
 
       .name {
         font-style: normal;
@@ -288,19 +284,20 @@ const Information = styled.div`
         line-height: 28px;
         letter-spacing: -0.01em;
         font-weight: 500;
-        font-size: 14px;
-        line-height: 28px;
+        font-size: ${px2rem(13)};
+        line-height: ${px2rem(16)};
         color: white;
         opacity: 0.7;
+        margin-bottom: ${px2rem(8)};
       }
 
       .desc {
         font-style: normal;
         word-break: break-all;
 
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 28px;
+        font-weight: 500;
+        font-size: ${px2rem(16)};
+        line-height: ${px2rem(20)};
 
         color: white;
       }
