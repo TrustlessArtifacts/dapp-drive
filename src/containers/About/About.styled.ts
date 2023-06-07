@@ -203,12 +203,6 @@ export const StyledAbout = styled.div`
         height: 100%;
       }
     }
-
-    .block-item-wrapper:nth-of-type(1),
-    .block-item-wrapper:nth-of-type(3) {
-      margin-top: ${px2rem(10)};
-      margin-bottom: ${px2rem(10)};
-    }
   }
 
   @media screen and (max-width: 1279.98px) {

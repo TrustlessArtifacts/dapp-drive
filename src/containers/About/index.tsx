@@ -35,9 +35,6 @@ const About = () => {
 
   return (
     <>
-      {/* <AboutHeader>
-        <Header height={HEADER_HEIGHT} />
-      </AboutHeader> */}
       <StyledAbout>
         <div className="section-01" id="section-1" ref={firstSectionRef}>
           <div className="background">
@@ -64,7 +61,7 @@ const About = () => {
             )}
           </div>
           <div className="content">
-            <h4 className="subTitle">Smart Inscription</h4>
+            <h4 className="subTitle">Smart Inscriptions</h4>
             <h3 className="title">
               {mobileScreen ? (
                 <>
@@ -163,7 +160,7 @@ const About = () => {
             <h3 className="title">Larger</h3>
             <div className="desc">
               Unlike Ordinals inscriptions, which are strictly limited to a file size
-              of 4MB. Smart Inscription offers unlimited file storage on Bitcoin
+              of 4MB. Smart Inscriptions offers unlimited file storage on Bitcoin
               independently and enables the preservation of authenticity and the
               original state of the inscriptions.
             </div>
@@ -212,7 +209,7 @@ const About = () => {
             </div>
           </div>
           <div className="block-item-wrapper">
-            <div className="block-item block-middle">
+            <div className="block-item">
               <p className="block-item-title">Larger</p>
               <p className="block-item-info">
                 Unlimited file storage. Independent, no miner needed

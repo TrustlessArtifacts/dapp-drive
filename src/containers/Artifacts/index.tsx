@@ -65,7 +65,7 @@ const Artifacts: React.FC = () => {
         <UploadFileContainer>
           <div className="upload_left">
             <div className="upload_content">
-              <p className="upload_title">Smart Inscription</p>
+              <p className="upload_title">Smart Inscriptions</p>
               <Text className="upload_desc">
                 Inscribe anything, any size, on BRC-721 with smart contract,
                 eternally on Bitcoin.

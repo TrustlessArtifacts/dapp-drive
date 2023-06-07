@@ -123,7 +123,7 @@ const Inscription = ({ data }: { data?: IInscription }) => {
               </div>
               <p>
                 This file is over 350KB, only support by
-                <span> Smart Inscription.</span>
+                <span> Smart Inscriptions.</span>
               </p>
             </div>
           ) : (
