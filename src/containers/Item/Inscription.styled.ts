@@ -67,6 +67,12 @@ const Container = styled.div`
     border-radius: 20px;
     position: relative;
 
+    .inscription-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .header {
       margin-top: ${px2rem(16)};
       display: flex;
@@ -282,7 +288,7 @@ const Information = styled.div`
       padding: ${px2rem(20)} 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-      max-width: 700px;
+      /* max-width: 700px; */
 
       &:first-of-type {
         padding-top: 0;

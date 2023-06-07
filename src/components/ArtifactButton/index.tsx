@@ -6,18 +6,19 @@ import { ButtonProps } from 'react-bootstrap';
 
 interface IProps extends ButtonProps {
   variant:
-  | 'primary'
-  | 'primary-lg'
-  | 'white'
-  | 'transparent'
-  | 'transparent-wide'
-  | 'primary-transparent'
-  | 'green-transparent';
+    | 'primary'
+    | 'primary-lg'
+    | 'white'
+    | 'transparent'
+    | 'transparent-wide'
+    | 'primary-transparent'
+    | 'green-transparent'
+    | 'primary-md';
   width?: number;
   height?: number;
   objectFit?: 'contain' | 'cover';
   className?: string;
-};
+}
 
 const ArtifactButton = ({
   variant = 'primary',
@@ -38,6 +39,9 @@ const ArtifactButton = ({
         break;
       case 'primary-lg':
         setButton(mobileScreen ? 'button-bg.svg' : 'button-primary-lg.svg');
+        break;
+      case 'primary-md':
+        setButton(mobileScreen ? 'button-bg.svg' : 'button-primary-mid.svg');
         break;
 
       case 'white':
@@ -66,14 +70,17 @@ const ArtifactButton = ({
   }, [mobileScreen, variant]);
 
   return (
-    <StyledArtifactButton className={`cta-btn ${className}`} objectFit={objectFit} {...rest}>
+    <StyledArtifactButton
+      className={`cta-btn ${className}`}
+      objectFit={objectFit}
+      {...rest}
+    >
       <img
         src={`${CDN_URL}/pages/artifacts/${button}`}
         className="btn-bg"
         alt="button bg"
         width={width}
         height={height}
-
       />
       <div className="btn-content">{children}</div>
     </StyledArtifactButton>

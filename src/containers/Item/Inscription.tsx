@@ -1,14 +1,17 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import ArtifactButton from '@/components/ArtifactButton';
 import BigFileTag from '@/components/BigFileTag';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { IInscription } from '@/interfaces/api/inscription';
-import { getNFTDetail } from '@/services/nft-explorer';
+import { getNFTDetail, refreshMetadata } from '@/services/nft-explorer';
 import { formatTimeStamp } from '@/utils/time';
 import { useRouter } from 'next/router';
 import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { Container, Information } from './Inscription.styled';
+import { ARTIFACT_CONTRACT } from '@/configs';
 
 const Inscription = ({ data }: { data?: IInscription }) => {
   const router = useRouter();
@@ -17,6 +20,7 @@ const Inscription = ({ data }: { data?: IInscription }) => {
     id: string;
   };
   const [inscription, setInscription] = useState<IInscription | undefined>(data);
+  const [loadingRefresh, setLoadingRefresh] = useState(false);
 
   useEffect(() => {
     if (!data) {
@@ -69,6 +73,18 @@ const Inscription = ({ data }: { data?: IInscription }) => {
   if (!inscription) {
     return <></>;
   }
+  const handleRefresh = async () => {
+    try {
+      setLoadingRefresh(true);
+      await refreshMetadata(ARTIFACT_CONTRACT, inscription.tokenId);
+    } catch (err: unknown) {
+      throw Error();
+    } finally {
+      setTimeout(() => {
+        setLoadingRefresh(false);
+      }, 2000);
+    }
+  };
 
   return (
     <Container>
@@ -87,15 +103,26 @@ const Inscription = ({ data }: { data?: IInscription }) => {
           )}
         </div>
         <div className="right-container">
-          {inscription &&
-            inscription.fileSize &&
-            inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT * 1024 * 1024 ? (
-            <BigFileTag color="green" />
-          ) : (
-            <></>
-          )}
-          <div className="header">
-            <p className="title">Inscription #{inscription?.tokenId}</p>
+          <div className="inscription-wrapper">
+            <div className="inscription-name">
+              {inscription &&
+              inscription.fileSize &&
+              inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT * 1024 * 1024 ? (
+                <BigFileTag color="green" />
+              ) : (
+                <></>
+              )}
+              <div className="header">
+                <p className="title">Inscription #{inscription?.tokenId}</p>
+              </div>
+            </div>
+            <ArtifactButton
+              variant="primary-md"
+              className="refresh-btn"
+              onClick={handleRefresh}
+            >
+              Refresh metadata
+            </ArtifactButton>
           </div>
 
           <Information>
