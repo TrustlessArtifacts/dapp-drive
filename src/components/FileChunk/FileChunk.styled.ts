@@ -34,7 +34,8 @@ export const StyledFileChunk = styled.div`
 
   .fileSize {
     color: white;
-    flex-basis: ${px2rem(84)};
+    /* flex-basis: ${px2rem(130)}; */
+    white-space: nowrap;
 
     span {
       opacity: 0.7;

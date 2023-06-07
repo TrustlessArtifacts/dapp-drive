@@ -198,17 +198,80 @@ const Anchor = styled.a<{ active: boolean }>`
   }
 `;
 
+const WalletWrapper = styled.div`
+  position: relative;
+  &:before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: calc(100% + 6px);
+    height: calc(100% + 6px);
+    background-color: black;
+    border-radius: 4px 0 4px 0;
+
+    clip-path: polygon(
+      20% 0%,
+      96% 0,
+      100% 22%,
+      100% 100%,
+      80% 100%,
+      4% 100%,
+      0 80%,
+      0 0
+    );
+    z-index: 2;
+  }
+  &:after {
+    z-index: 1;
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 4px 0 4px 0;
+    clip-path: polygon(
+      20% 0%,
+      96% 0,
+      100% 22%,
+      100% 100%,
+      80% 100%,
+      4% 100%,
+      0 80%,
+      0 0
+    );
+  }
+`;
+
 const WalletBalance = styled.div`
   display: flex;
   align-items: center;
   gap: ${px2rem(12)};
-  padding: ${px2rem(4)};
-  padding-left: ${px2rem(12)};
+  padding: ${px2rem(6)} ${px2rem(15)};
+  // padding-left: ${px2rem(12)};
   background-color: transparent;
-  border-radius: 40px;
+  /* border-radius: 40px; */
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: #282a28;
+  /* border: 1px solid white; */
+  border-radius: 2px 0 2px 0;
+
+  z-index: 999;
+
+  clip-path: polygon(
+    20% 0%,
+    96% 0,
+    100% 22%,
+    100% 100%,
+    80% 100%,
+    4% 100%,
+    0 80%,
+    0 0
+  );
+  position: relative;
 
   &:hover {
     border-color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
@@ -275,4 +338,5 @@ export {
   WalletBalance,
   WalletAdress,
   Anchor,
+  WalletWrapper,
 };
