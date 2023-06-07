@@ -7,6 +7,7 @@ import { ButtonProps } from 'react-bootstrap';
 interface IProps extends ButtonProps {
   variant:
   | 'primary'
+  | 'primary-lg'
   | 'white'
   | 'transparent'
   | 'transparent-wide'
@@ -34,6 +35,9 @@ const ArtifactButton = ({
     switch (variant) {
       case 'primary':
         setButton(mobileScreen ? 'button-bg.svg' : 'button.svg');
+        break;
+      case 'primary-lg':
+        setButton(mobileScreen ? 'button-bg.svg' : 'button-primary-lg.svg');
         break;
 
       case 'white':

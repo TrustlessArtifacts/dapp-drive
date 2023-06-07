@@ -13,6 +13,7 @@ const LIMIT_PAGE = 32;
 const BFSList = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [inscriptions, setInscriptions] = useState<IInscription[]>([]);
+  const [showAll, setShowAll] = useState(false);
 
   const fetchInscriptions = async (page = 1, isFetchMore = false) => {
     try {
@@ -21,6 +22,7 @@ const BFSList = () => {
         contractAddress: ARTIFACT_CONTRACT,
         limit: LIMIT_PAGE,
         page: page,
+        isShowAll: showAll,
       });
 
       if (isFetchMore) {
@@ -44,10 +46,14 @@ const BFSList = () => {
 
   useEffect(() => {
     fetchInscriptions();
-  }, []);
+  }, [showAll]);
 
   return (
     <Container>
+      <div className="show-all-btn">
+        <span>Show all</span>
+        <input type="checkbox" onClick={() => setShowAll(!showAll)} />
+      </div>
       <div className="content">
         <InfiniteScroll
           className="list"
@@ -74,7 +80,7 @@ const BFSList = () => {
                     contract={ARTIFACT_CONTRACT}
                     tokenId={item.tokenId}
                     contentType={item.contentType}
-                    title1={`Artifact #${item.tokenId}`}
+                    title1={`Inscription #${item.tokenId}`}
                   />
                 );
               })}

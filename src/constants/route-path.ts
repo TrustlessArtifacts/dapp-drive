@@ -9,5 +9,6 @@ export const ROUTE_PATH = {
   WALLET: '/wallet',
   CONNECT_WALLET: '/connect-wallet',
   ABOUT: '/about',
-  STATUS: '/status'
+  STATUS: '/status',
+  BIG_FILE_PROMO: '/420',
 };

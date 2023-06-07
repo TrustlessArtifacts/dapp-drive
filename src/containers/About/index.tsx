@@ -1,31 +1,42 @@
 import ArtifactButton from '@/components/ArtifactButton';
-import IconSVG from '@/components/IconSVG';
 import { CDN_URL } from '@/configs';
-import { useIsInViewport } from '@/hooks/useIsInViewport';
 import useWindowSize from '@/hooks/useWindowSize';
 import Link from 'next/link';
 import { useRef } from 'react';
-import { AboutHeader, SectionControllers, StyledAbout } from './About.styled';
-import Header from '@/layouts/Header/Header';
-import { HEADER_HEIGHT } from '@/layouts';
+import { StyledAbout } from './About.styled';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
 
   const firstSectionRef = useRef<HTMLDivElement>(null);
-  const secondSectionRef = useRef<HTMLDivElement>(null);
-  const thirdSectionRef = useRef<HTMLDivElement>(null);
-  const fourthSectionRef = useRef<HTMLDivElement>(null);
-  const isInViewport1 = useIsInViewport(firstSectionRef);
-  const isInViewport2 = useIsInViewport(secondSectionRef);
-  const isInViewport3 = useIsInViewport(thirdSectionRef);
-  const isInViewport4 = useIsInViewport(fourthSectionRef);
+  // const secondSectionRef = useRef<HTMLDivElement>(null);
+  // const thirdSectionRef = useRef<HTMLDivElement>(null);
+  // const fourthSectionRef = useRef<HTMLDivElement>(null);
+  // const isInViewport1 = useIsInViewport(firstSectionRef);
+  // const isInViewport2 = useIsInViewport(secondSectionRef);
+  // const isInViewport3 = useIsInViewport(thirdSectionRef);
+  // const isInViewport4 = useIsInViewport(fourthSectionRef);
+
+  const buttonWidth = (): number => {
+    if (window.innerWidth > 1919) {
+      return 400;
+    } else {
+      return 270;
+    }
+  };
+  const buttonHeight = (): number => {
+    if (window.innerWidth > 1919) {
+      return 75;
+    } else {
+      return 51;
+    }
+  };
 
   return (
     <>
-      <AboutHeader>
+      {/* <AboutHeader>
         <Header height={HEADER_HEIGHT} />
-      </AboutHeader>
+      </AboutHeader> */}
       <StyledAbout>
         <div className="section-01" id="section-1" ref={firstSectionRef}>
           <div className="background">
@@ -52,29 +63,35 @@ const About = () => {
             )}
           </div>
           <div className="content">
-            <h4 className="subTitle">Trustless Artifacts</h4>
+            <h4 className="subTitle">Smart Inscription</h4>
             <h3 className="title">
-              Preserve anything as Smart BRC-721, eternally on Bitcoin 
+              {mobileScreen ? (
+                <>
+                  {' '}
+                  Be the first to <br /> inscribe smart inscriptions.
+                </>
+              ) : (
+                <>
+                  Be the first
+                  <br />
+                  to inscribe smart inscriptions.
+                </>
+              )}
             </h3>
-            <div className="desc">
-              Define the BRC-721 standard on Bitcoin powered by smart contracts via
-              Trustless Computer protocol. Affordable and fully on-chain, with
-              support for large file sizes.
-            </div>
 
             <ArtifactButton
-              variant="primary"
-              width={300}
-              height={79}
+              variant="primary-lg"
+              width={buttonWidth()}
+              height={buttonHeight()}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Explore Artifact
+                Explore
               </Link>
             </ArtifactButton>
           </div>
         </div>
-        <div className="section-02" id="section-2" ref={secondSectionRef}>
+        {/* <div className="section-02" id="section-2" ref={secondSectionRef}>
           <div className="background">
             <img
               src={`${CDN_URL}/artifact/Landing_page/${
@@ -84,20 +101,22 @@ const About = () => {
             />
           </div>
           <div className="content right">
-            <h4 className="subTitle">smart contract</h4>
+            <h4 className="subTitle">Smart BRC-721 Token Standard</h4>
             <h3 className="title">Smarter</h3>
             <div className="desc">
-              All files preserved on Trustless Artifacts are BRC-721 NFTs with smart
-              contracts, enabling the addition of utilities to the NFTs
+              All files preserved on Smart Inscriptions are smart BRC-721 NFTs. Smart
+              BRC-721 is the standard for Non-Fungible tokens (NFTs) with smart
+              contracts on Bitcoin, enabling the addition of utilities to Bitcoin’s
+              NFTs.
             </div>
             <ArtifactButton
               variant="primary"
-              width={300}
-              height={79}
+              width={buttonWidth()}
+              height={buttonHeight()}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Explore Artifact
+                Explore Smart inscription
               </Link>
             </ArtifactButton>
           </div>
@@ -106,7 +125,7 @@ const About = () => {
           <div className="background">
             <img
               src={`${CDN_URL}/artifact/Landing_page/${
-                mobileScreen ? 'mobile-artifact-2' : 'artifact-3e'
+                mobileScreen ? 'mobile-artifact-2' : 'artifact-3f'
               }.png`}
               alt={'background artifact 03'}
             />
@@ -120,12 +139,12 @@ const About = () => {
             </div>
             <ArtifactButton
               variant="primary"
-              width={300}
-              height={79}
+              width={buttonWidth()}
+              height={buttonHeight()}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Explore Artifact
+                Explore Smart inscription
               </Link>
             </ArtifactButton>
           </div>
@@ -134,33 +153,32 @@ const About = () => {
           <div className="background">
             <img
               src={`${CDN_URL}/artifact/Landing_page/${
-                mobileScreen ? 'mobile-artifact-4a' : 'artifact-4a'
+                mobileScreen ? 'mobile-artifact-4a' : 'artifact-4b'
               }.png`}
               alt={'background artifact 04'}
             />
           </div>
           <div className="content right">
-            <h4 className="subTitle">coming soon</h4>
             <h3 className="title">Larger</h3>
             <div className="desc">
               Unlike Ordinals inscriptions, which are strictly limited to a file size
-              of 4MB, Trustless Artifacts offers unlimited file storage on Bitcoin.
-              This enables the preservation of authenticity and the original state of
-              the artifacts
+              of 4MB. Smart Inscription offers unlimited file storage on Bitcoin
+              independently and enables the preservation of authenticity and the
+              original state of the inscriptions.
             </div>
             <ArtifactButton
               variant="primary"
-              width={300}
-              height={79}
+              width={buttonWidth()}
+              height={buttonHeight()}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href="/" className="btn-content">
-                Explore Artifact
+                Explore Smart inscription
               </Link>
             </ArtifactButton>
           </div>
-        </div>
-        <SectionControllers>
+        </div> */}
+        {/* <SectionControllers>
           <div className={`dots ${isInViewport1 ? 'active' : ''}`}>
             <div className="circle">
               <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
@@ -181,7 +199,34 @@ const About = () => {
               <IconSVG src={`${CDN_URL}/pages/artifacts/icons/ic-slide-dot.svg`} />
             </div>
           </div>
-        </SectionControllers>
+        </SectionControllers> */}
+
+        <div className="block">
+          <div className="block-item-wrapper">
+            <div className="block-item">
+              <p className="block-item-title">Smarter</p>
+              <p className="block-item-info">
+                BRC-721 but with smart contracts. Enable the NFTs utilities
+              </p>
+            </div>
+          </div>
+          <div className="block-item-wrapper">
+            <div className="block-item block-middle">
+              <p className="block-item-title">Larger</p>
+              <p className="block-item-info">
+                Unlimited file storage. Independent, no miner needed
+              </p>
+            </div>
+          </div>
+          <div className="block-item-wrapper">
+            <div className="block-item">
+              <p className="block-item-title">Cheaper</p>
+              <p className="block-item-info">
+                Saving up to 50% with file sizes larger than 100kb.
+              </p>
+            </div>
+          </div>
+        </div>
       </StyledAbout>
     </>
   );

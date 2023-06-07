@@ -6,6 +6,25 @@ const Container = styled.div`
   flex-direction: column;
   flex: 1;
 
+  .show-all-btn {
+    z-index: 10;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: ${px2rem(8)};
+    justify-content: flex-end;
+    margin-bottom: ${px2rem(24)};
+
+    span {
+      color: white;
+    }
+    input {
+      width: ${px2rem(16)};
+      height: ${px2rem(16)};
+      border: 1px solid white;
+    }
+  }
+
   .title {
     font-style: normal;
     font-weight: 500;

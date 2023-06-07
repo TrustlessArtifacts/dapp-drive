@@ -17,7 +17,7 @@ const Header = ({ height }: { height: number }) => {
         <div className="leftContainer">
           <Link className="logo" href={ROUTE_PATH.HOME}>
             <img alt="logo" src={`${CDN_URL}/pages/artifacts/logo-1.svg`} />
-            <h1 className="logo-title">Artifacts</h1>
+            <h1 className="logo-title">Smart Inscription</h1>
           </Link>
           <Link className="navLink" href={ROUTE_PATH.ABOUT}>
             About

@@ -57,7 +57,6 @@ export const UploadFileContainer = styled.div`
     font-size: ${px2rem(18)};
     line-height: ${px2rem(28)};
     color: white;
-    width: 75%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: ${px2rem(28)};
