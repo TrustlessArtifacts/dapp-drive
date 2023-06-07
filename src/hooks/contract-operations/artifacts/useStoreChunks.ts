@@ -31,6 +31,7 @@ const useStoreChunks: ContractOperationHook<
   const call = useCallback(
     async (params: IStoreChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
+        logger.debug('useStoreChunks', params);
         const { tokenId, chunkIndex, chunks, txSuccessCallback } = params;
         let tcTxSizeByte = TRANSFER_TX_SIZE;
 

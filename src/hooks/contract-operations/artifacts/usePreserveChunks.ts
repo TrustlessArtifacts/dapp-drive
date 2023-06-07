@@ -30,6 +30,7 @@ const usePreserveChunks: ContractOperationHook<
   const call = useCallback(
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
+        logger.debug('usePreserveChunks', params);
         const { address, chunks, txSuccessCallback } = params;
         const firstChunk = chunks.length > 0 ? chunks[0] : null;
         let tcTxSizeByte = TRANSFER_TX_SIZE;
