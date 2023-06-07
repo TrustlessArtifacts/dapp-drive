@@ -1,6 +1,5 @@
 import ArtifactABIJson from '@/abis/artifacts.json';
 import { ARTIFACT_CONTRACT, TRANSFER_TX_SIZE } from '@/configs';
-import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { AssetsContext } from '@/contexts/assets-context';
 import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
@@ -31,11 +30,12 @@ const usePreserveChunks: ContractOperationHook<
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
         logger.debug('usePreserveChunks', params);
+
         const { address, chunks, txSuccessCallback } = params;
         const firstChunk = chunks.length > 0 ? chunks[0] : null;
         let tcTxSizeByte = TRANSFER_TX_SIZE;
 
-        if (firstChunk && Buffer.byteLength(firstChunk) < BLOCK_CHAIN_FILE_LIMIT) {
+        if (firstChunk) {
           const { compressedSize } = await compressFileAndGetSize({
             fileBase64: firstChunk.toString('base64')
           });

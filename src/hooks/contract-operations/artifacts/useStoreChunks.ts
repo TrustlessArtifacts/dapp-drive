@@ -9,7 +9,6 @@ import { useCallback, useContext } from 'react';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { Transaction } from 'ethers';
 import { formatBTCPrice } from '@/utils/format';
-import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { compressFileAndGetSize } from '@/services/file';
 import logger from '@/services/logger';
 
@@ -33,14 +32,11 @@ const useStoreChunks: ContractOperationHook<
       if (account && provider && contract) {
         logger.debug('useStoreChunks', params);
         const { tokenId, chunkIndex, chunks, txSuccessCallback } = params;
-        let tcTxSizeByte = TRANSFER_TX_SIZE;
 
-        if (Buffer.byteLength(chunks) < BLOCK_CHAIN_FILE_LIMIT) {
-          const { compressedSize } = await compressFileAndGetSize({
-            fileBase64: chunks.toString('base64')
-          });
-          tcTxSizeByte = TRANSFER_TX_SIZE + compressedSize;
-        }
+        const { compressedSize } = await compressFileAndGetSize({
+          fileBase64: chunks.toString('base64')
+        });
+        const tcTxSizeByte = TRANSFER_TX_SIZE + compressedSize;
 
         logger.info(`tcTxSizeByte: ${tcTxSizeByte}`);
 
