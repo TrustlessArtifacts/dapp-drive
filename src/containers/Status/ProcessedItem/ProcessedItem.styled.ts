@@ -8,8 +8,9 @@ export const StyledProcessedItem = styled.div`
   justify-content: space-between;
   cursor: pointer;
 
-  &:hover {
-    box-shadow: 4px 4px 10px rgba(99, 255, 124);
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    gap: ${px2rem(16)};
   }
 
   .info-wrapper {
@@ -17,6 +18,11 @@ export const StyledProcessedItem = styled.div`
     align-items: center;
     color: white;
     gap: ${px2rem(30)};
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: ${px2rem(12)};
+    }
 
     .file-name {
       display: flex;

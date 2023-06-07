@@ -53,8 +53,6 @@ export const ThumbnailOverlay = styled.div<{ progress: number }>`
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  /* display: grid;
-  place-items: center; */
 `;
 
 export const InfoWrapper = styled.div`
@@ -63,6 +61,11 @@ export const InfoWrapper = styled.div`
   .fileName {
     color: white;
     margin-bottom: ${px2rem(16)};
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .ctaBtn {

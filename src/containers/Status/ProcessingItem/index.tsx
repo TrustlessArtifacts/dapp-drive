@@ -42,7 +42,14 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
     inscribeable: true,
   });
 
-  const handleInscribeNextChunk = async () => {
+  const navigateToDetail = (): void => {
+    if (!file) return;
+    router.push(`/token?contract=${ARTIFACT_CONTRACT}&id=${file.tokenId}`);
+  }
+
+  const handleInscribeNextChunk = async (evt: React.MouseEvent<HTMLButtonElement>) => {
+    evt.stopPropagation();
+
     try {
       if (!account) {
         router.push(`${ROUTE_PATH.CONNECT_WALLET}?next=${window.location.href}`);
@@ -140,8 +147,6 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
       case FileProcessStatus.New:
         return (
           <div>
-            <p className="fileName">{file?.name || 'woman-yelling.png'}</p>
-            <FileChunk file={file} />
             <ArtifactButton
               variant={'primary-transparent'}
               className="ctaBtn"
@@ -155,7 +160,7 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
       case FileProcessStatus.Processing:
         return (
           <div>
-            <p className="fileName">{`Artifact #${file?.tokenId}` || file?.name}</p>
+            <p onClick={navigateToDetail} className="fileName">{`Artifact #${file?.tokenId}` || file?.name}</p>
             <FileChunk file={file} />
             <ArtifactButton
               variant={'primary'}
@@ -195,7 +200,7 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
           progress={progress}
         ></ThumbnailOverlay>
       </ThumbnailWrapper>
-      {file?.status && <InfoWrapper>{renderContentStatus(file.status)}</InfoWrapper>}
+      {(file?.status !== undefined) && <InfoWrapper>{renderContentStatus(file.status)}</InfoWrapper>}
     </StyledProcessingItem>
   );
 };
