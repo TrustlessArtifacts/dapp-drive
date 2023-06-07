@@ -164,7 +164,7 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
       case FileProcessStatus.Processing:
         return (
           <div>
-            <p onClick={navigateToDetail} className="fileName">{`Artifact #${file?.tokenId}` || file?.name}</p>
+            <p onClick={navigateToDetail} className="fileName">{`Smart Inscription #${file?.tokenId}` || file?.name}</p>
             <FileChunk file={file} />
             {finishedChunk < file.totalChunks && (
               <ArtifactButton
