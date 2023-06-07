@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRef } from 'react';
 import { StyledAbout } from './About.styled';
 import { ROUTE_PATH } from '@/constants/route-path';
+import IconSVG from '@/components/IconSVG';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
@@ -64,16 +65,9 @@ const About = () => {
             <h4 className="subTitle">Smart Inscriptions</h4>
             <h3 className="title">
               {mobileScreen ? (
-                <>
-                  {' '}
-                  Be the first to <br /> inscribe smart inscriptions.
-                </>
+                <>Take the lead in inscribing larger, smarter inscriptions.</>
               ) : (
-                <>
-                  Be the first
-                  <br />
-                  to inscribe smart inscriptions.
-                </>
+                <>Take the lead in inscribing larger, smarter inscriptions.</>
               )}
             </h3>
 
@@ -84,7 +78,7 @@ const About = () => {
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
               <Link href={ROUTE_PATH.EXPLORE} className="btn-content">
-                Explore
+                Explore now
               </Link>
             </ArtifactButton>
           </div>
@@ -204,7 +198,8 @@ const About = () => {
             <div className="block-item">
               <p className="block-item-title">Smarter</p>
               <p className="block-item-info">
-                BRC-721 but with smart contracts. Enable the NFTs utilities
+                BRC-721 but with smart contracts—enabling NFTs utilities of
+                memberships, collectible items, in-game items, and more to explore.
               </p>
             </div>
           </div>
@@ -212,7 +207,19 @@ const About = () => {
             <div className="block-item">
               <p className="block-item-title">Larger</p>
               <p className="block-item-info">
-                Unlimited file storage. Independent, no miner needed
+                Smart Inscription supports unlimited file size. A 6.9MB Azuki
+                wallpaper (
+                <Link href="/420" target="_blank">
+                  Smart Inscription #420
+                  <IconSVG
+                    src={`${CDN_URL}/icons/ic-arrow-outward.svg`}
+                    maxWidth="10"
+                    maxHeight="10"
+                    className="ic-outward"
+                  />
+                </Link>
+                ) has successfully launched on Smart Inscription, and larger files
+                await.
               </p>
             </div>
           </div>
@@ -220,7 +227,10 @@ const About = () => {
             <div className="block-item">
               <p className="block-item-title">Cheaper</p>
               <p className="block-item-info">
-                Saving up to 50% with file sizes larger than 100kb.
+                No-loss compression reduces gas fees up to 50% compared to Ordinals
+                inscriptions.
+                <br />
+                <br />* <i>depends on the file type</i>
               </p>
             </div>
           </div>

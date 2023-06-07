@@ -19,8 +19,8 @@ const Header = ({ height }: { height: number }) => {
             <img alt="logo" src={`${CDN_URL}/pages/artifacts/logo-1.svg`} />
             <h1 className="logo-title">Smart Inscription</h1>
           </Link>
-          <Link className="navLink" href={ROUTE_PATH.ABOUT}>
-            About
+          <Link className="navLink" href={ROUTE_PATH.EXPLORE}>
+            Explore
           </Link>
           <Link className="navLink" href={ROUTE_PATH.STATUS}>
             Status

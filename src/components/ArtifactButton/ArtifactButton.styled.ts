@@ -37,4 +37,8 @@ export const StyledArtifactButton = styled.div<{ objectFit: 'contain' | 'cover' 
     padding-top: ${px2rem(12)};
     padding-bottom: ${px2rem(12)};
   }
+
+  button:active {
+    background-color: transparent;
+  }
 `;
