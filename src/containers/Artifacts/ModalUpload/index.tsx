@@ -68,7 +68,7 @@ const ModalUpload = (props: Props) => {
       setIsProcessing(true);
       const fileBuffer = await readFileAsBuffer(file);
 
-      if (file.size < BLOCK_CHAIN_FILE_LIMIT * 1024) {
+      if (file.size < BLOCK_CHAIN_FILE_LIMIT) {
         logger.debug('Small file');
         await preserveChunks({
           address: account,

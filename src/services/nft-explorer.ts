@@ -32,13 +32,16 @@ export const getCollectionNfts = async ({
   limit = 10,
   page = 1,
   owner = '',
+  isShowAll = false,
 }: {
   contractAddress: string;
   limit?: number;
   page?: number;
   owner?: string;
+  isShowAll: boolean;
 }): Promise<IInscription[]> => {
-  const res = await apiClient.get(`${API_PATH}/collections/${contractAddress}/nfts?limit=${limit}&page=${page}&owner=${owner}`);
+  const res = await apiClient.get(
+    `${API_PATH}/collections/${contractAddress}/nfts?limit=${limit}&page=${page}&owner=${owner}&allow_empty=${isShowAll}`)
   return Object(camelCaseKeys(res));
 }
 

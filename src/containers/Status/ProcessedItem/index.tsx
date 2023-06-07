@@ -16,7 +16,7 @@ interface IProps {
 
 const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
   const router = useRouter();
-  const isBigFile = file && file.size > BLOCK_CHAIN_FILE_LIMIT * 1024 * 1024;
+  const isBigFile = file && file.size > BLOCK_CHAIN_FILE_LIMIT;
 
   const navigateToDetail = (): void => {
     if (!file) return;

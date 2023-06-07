@@ -7,7 +7,7 @@ import {
   updateSelectedWallet,
   updateTaprootWallet,
 } from '@/state/user/reducer';
-import { getConnection } from '@/connection';
+import { getConnection } from '@/connections';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@/state/user/selector';
 import bitcoinStorage from '@/utils/bitcoin-storage';

@@ -34,14 +34,10 @@ const useTransferERC721Token: ContractOperationHook<
           provider,
           account,
         );
-        console.log({
-          tcTxSizeByte: TRANSFER_TX_SIZE,
-          feeRatePerByte: feeRate.fastestFee,
-          contractAddress,
-        });
+
         const estimatedFee = TC_SDK.estimateInscribeFee({
           tcTxSizeByte: TRANSFER_TX_SIZE,
-          feeRatePerByte: feeRate.fastestFee,
+          feeRatePerByte: feeRate.hourFee,
         });
         const balanceInBN = new BigNumber(btcBalance);
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
@@ -54,7 +50,9 @@ const useTransferERC721Token: ContractOperationHook<
 
         const transaction = await contract
           .connect(provider.getSigner())
-          .transferFrom(account, to, tokenId);
+          .transferFrom(account, to, tokenId, {
+            gasLimit: '500000'
+          });
 
         return transaction;
       }

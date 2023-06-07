@@ -32,7 +32,7 @@ const useStoreChunks: ContractOperationHook<
 
         const estimatedFee = TC_SDK.estimateInscribeFee({
           tcTxSizeByte: Buffer.byteLength(chunks),
-          feeRatePerByte: feeRate.fastestFee,
+          feeRatePerByte: feeRate.hourFee,
         });
         const balanceInBN = new BigNumber(btcBalance);
 
@@ -42,7 +42,9 @@ const useStoreChunks: ContractOperationHook<
 
         const transaction = await contract
           .connect(provider.getSigner())
-          .store(tokenId, chunkIndex, chunks);
+          .store(tokenId, chunkIndex, chunks, {
+            gasLimit: '500000'
+          });
 
         if (txSuccessCallback) {
           await txSuccessCallback(transaction);

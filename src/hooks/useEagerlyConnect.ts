@@ -1,7 +1,7 @@
 import { Connector } from '@web3-react/types';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/state/hooks';
-import { Connection, useGetConnection } from '@/connection';
+import { Connection, useGetConnection } from '@/connections';
 import { updateSelectedWallet } from '@/state/user/reducer';
 
 async function connect(connector: Connector) {

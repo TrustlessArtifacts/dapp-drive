@@ -1,5 +1,5 @@
 import ArtifactABIJson from '@/abis/artifacts.json';
-import { ARTIFACT_CONTRACT } from '@/configs';
+import { ARTIFACT_CONTRACT, TRANSFER_TX_SIZE } from '@/configs';
 import { AssetsContext } from '@/contexts/assets-context';
 import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
@@ -29,13 +29,13 @@ const usePreserveChunks: ContractOperationHook<
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
         const { address, chunks, txSuccessCallback } = params;
-        const tcTxSizeByte = chunks.length > 0 ? Buffer.byteLength(chunks[0]) : 0
+        const tcTxSizeByte = chunks.length > 0 ? Buffer.byteLength(chunks[0]) : TRANSFER_TX_SIZE;
 
         logger.info(`tcTxSizeByte: ${tcTxSizeByte}`);
 
         const estimatedFee = TC_SDK.estimateInscribeFee({
           tcTxSizeByte: tcTxSizeByte,
-          feeRatePerByte: feeRate.fastestFee,
+          feeRatePerByte: feeRate.hourFee,
         });
         const balanceInBN = new BigNumber(btcBalance);
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
@@ -43,7 +43,9 @@ const usePreserveChunks: ContractOperationHook<
         }
         const transaction = await contract
           .connect(provider.getSigner())
-          .preserveChunks(address, chunks);
+          .preserveChunks(address, chunks, {
+            gasLimit: '500000'
+          });
 
         if (txSuccessCallback) {
           await txSuccessCallback(transaction);
