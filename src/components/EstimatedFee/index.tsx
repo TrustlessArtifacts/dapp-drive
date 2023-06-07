@@ -4,6 +4,8 @@ import Text from '@/components/Text';
 import { formatBTCPrice } from '@/utils/format';
 import { Wrapper } from './EstimatedFee.styled';
 import { AssetsContext } from '@/contexts/assets-context';
+import web3Provider from '@/connections/custom-web3-provider';
+import useAsyncEffect from 'use-async-effect';
 
 interface IProps {
   txSize: number;
@@ -76,6 +78,11 @@ const EstimatedFee: React.FC<IProps> = ({ txSize, classNames }: IProps): React.R
   useEffect(() => {
     calculateEstFee();
   }, [txSize, calculateEstFee]);
+
+  useAsyncEffect(async () => {
+    const fee = await web3Provider.getEstimatedTransactionFee();
+    console.log('fee', fee);
+  }, [])
 
   return (
     <Wrapper className={classNames}>

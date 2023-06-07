@@ -13,7 +13,8 @@ interface IProps extends ButtonProps {
     | 'transparent-wide'
     | 'primary-transparent'
     | 'green-transparent'
-    | 'primary-md';
+    | 'primary-md'
+    | 'transparent-sm';
   width?: number;
   height?: number;
   objectFit?: 'contain' | 'cover';
@@ -54,6 +55,10 @@ const ArtifactButton = ({
 
       case 'transparent-wide':
         setButton('button-transparent-wide.svg');
+        return;
+
+      case 'transparent-sm':
+        setButton('button-transparent-sm.svg');
         return;
 
       case 'primary-transparent':

@@ -1,5 +1,5 @@
 import { TC_NETWORK_RPC } from '@/configs';
-import { ConnectionType, getConnection } from '@/connection';
+import { ConnectionType, getConnection } from '@/connections';
 import { AssetsContext } from '@/contexts/assets-context';
 import { getUserSelector } from '@/state/user/selector';
 import { generateBitcoinTaprootKey } from '@/utils/derive-key';
