@@ -1,5 +1,5 @@
 import ArtifactABIJson from '@/abis/artifacts.json';
-import { ARTIFACT_CONTRACT } from '@/configs';
+import { ARTIFACT_CONTRACT, TRANSFER_TX_SIZE } from '@/configs';
 import { AssetsContext } from '@/contexts/assets-context';
 import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
@@ -9,6 +9,9 @@ import { useCallback, useContext } from 'react';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { Transaction } from 'ethers';
 import { formatBTCPrice } from '@/utils/format';
+import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
+import { compressFileAndGetSize } from '@/services/file';
+import logger from '@/services/logger';
 
 export interface IStoreChunkParams {
   tokenId: string;
@@ -29,11 +32,22 @@ const useStoreChunks: ContractOperationHook<
     async (params: IStoreChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
         const { tokenId, chunkIndex, chunks, txSuccessCallback } = params;
+        let tcTxSizeByte = TRANSFER_TX_SIZE;
+
+        if (Buffer.byteLength(chunks) < BLOCK_CHAIN_FILE_LIMIT) {
+          const { compressedSize } = await compressFileAndGetSize({
+            fileBase64: chunks.toString('base64')
+          });
+          tcTxSizeByte = TRANSFER_TX_SIZE + compressedSize;
+        }
+
+        logger.info(`tcTxSizeByte: ${tcTxSizeByte}`);
 
         const estimatedFee = TC_SDK.estimateInscribeFee({
-          tcTxSizeByte: Buffer.byteLength(chunks),
+          tcTxSizeByte,
           feeRatePerByte: feeRate.hourFee,
         });
+
         const balanceInBN = new BigNumber(btcBalance);
 
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {

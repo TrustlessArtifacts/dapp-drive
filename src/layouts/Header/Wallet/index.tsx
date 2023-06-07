@@ -20,9 +20,10 @@ import { WalletContext } from '@/contexts/wallet-context';
 import { formatLongAddress } from '@trustless-computer/dapp-core';
 import { DappsTabs } from '@/enums/tabs';
 import ArtifactButton from '@/components/ArtifactButton';
+import logger from '@/services/logger';
+import { showToastError } from '@/utils/toast';
 
 const WalletHeader = () => {
-  // const router = useRouter();
   const { account } = useWeb3React();
   const user = useSelector(getUserSelector);
   const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
@@ -38,8 +39,11 @@ const WalletHeader = () => {
       await onConnect();
       await requestBtcAddress();
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       onDisconnect();
+      showToastError({
+        message: (err as Error).message
+      })
     } finally {
       setIsConnecting(false);
     }
@@ -91,7 +95,7 @@ const WalletHeader = () => {
             src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
             color="white"
             maxWidth="16"
-            // type="stroke"
+          // type="stroke"
           ></IconSVG>
         </div>
       </div>

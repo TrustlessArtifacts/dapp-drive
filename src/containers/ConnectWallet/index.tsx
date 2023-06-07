@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { showToastError } from '@/utils/toast';
 import ArtifactButton from '@/components/ArtifactButton';
 import { CDN_URL } from '@/configs';
+import logger from '@/services/logger';
 
 const ConnectWallet: React.FC = (): React.ReactElement => {
   const { onConnect, requestBtcAddress, onDisconnect } = useContext(WalletContext);
@@ -26,7 +27,7 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
       showToastError({
         message: (err as Error).message,
       });
-      console.log(err);
+      logger.error(err);
       onDisconnect();
     } finally {
       setIsConnecting(false);
