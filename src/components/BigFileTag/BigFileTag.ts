@@ -14,6 +14,7 @@ export const StyledBigFileTag = styled.div<{ color: string }>`
   /* background: rgba(255, 255, 255, 0.2); */
   border-radius: 4px;
   width: fit-content;
+
   ${(props) =>
     props.color === 'white' &&
     css`
