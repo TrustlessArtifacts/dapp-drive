@@ -1,18 +1,22 @@
+import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
 
-export const StyledEmpty = styled.div<{ isTable: boolean }>`
-  &.notFound {
-    display: grid;
-    place-items: center;
-    position: relative;
+export const StyledEmpty = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: ${px2rem(24)};
+  padding-bottom: ${px2rem(24)};
 
-    &_image {
-      margin-bottom: rem(32px);
-    }
+  .image {
+    margin-bottom: ${px2rem(24)}
+  }
 
-    h5 {
-      color: $black-40-solid;
-      font-weight: 500 !important;
-    }
+  .content {
+    color: #fff;
+    font-weight: 400;
+    font-size: ${px2rem(16)};
+    line-height: 1.4;
   }
 `;

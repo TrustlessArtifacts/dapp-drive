@@ -3,20 +3,19 @@ import { CDN_URL } from '@/configs';
 
 export type TEmpty = {
   infoText?: string;
-  isTable?: boolean;
 };
 
-const Empty = ({ infoText = '', isTable = false }: TEmpty) => {
+const Empty = ({ infoText = '' }: TEmpty) => {
   return (
-    <StyledEmpty className={'notFound'} isTable={isTable}>
+    <StyledEmpty>
       <img
         width={95}
         height={95}
-        src={`${CDN_URL}/icons/ic-empty.svg`}
+        src={`${CDN_URL}/icons/empty-white.svg`}
         alt="Not found item"
-        className={'notFound_image'}
+        className={'image'}
       />
-      <h5 className="content">{infoText}</h5>
+      <p className="content">{infoText}</p>
     </StyledEmpty>
   );
 };

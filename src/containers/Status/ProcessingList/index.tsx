@@ -10,6 +10,7 @@ import { Wrapper } from './ProcessingList.styled';
 import { Spinner } from 'react-bootstrap';
 import Button from '@/components/Button';
 import ArtifactButton from '@/components/ArtifactButton';
+import Empty from '@/components/Empty';
 
 const FETCH_LIMIT = 10;
 
@@ -72,6 +73,9 @@ const ProcessedList: React.FC = (): React.ReactElement => {
               Load more
             </Button>
           </ArtifactButton>
+        )}
+        {(!loadingProcessing && !hashMoreProcessing && processingFiles.length === 0) && (
+          <Empty infoText='No data found' />
         )}
       </div>
     </Wrapper>

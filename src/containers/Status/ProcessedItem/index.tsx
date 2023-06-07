@@ -8,6 +8,7 @@ import { formatDateTime } from '@/utils/time';
 import ArtifactButton from '@/components/ArtifactButton';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
 import { useRouter } from 'next/router';
+import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 
 interface IProps {
   file?: IUploadFileResponseItem;
@@ -15,7 +16,7 @@ interface IProps {
 
 const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
   const router = useRouter();
-  const isBigFile = file && file.totalChunks > 1;
+  const isBigFile = file && file.size > BLOCK_CHAIN_FILE_LIMIT * 1024 * 1024;
 
   const navigateToDetail = (): void => {
     if (!file) return;

@@ -10,6 +10,7 @@ import ProcessedItem from '../ProcessedItem';
 import { Spinner } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { debounce } from 'lodash';
+import Empty from '@/components/Empty';
 
 const FETCH_LIMIT = 32;
 
@@ -18,7 +19,7 @@ const ProcessedList: React.FC = (): React.ReactElement => {
   const [processedFiles, setProcessedFiles] = useState<
     Array<IUploadFileResponseItem>
   >([]);
-  const [loadingProcessed, setLoadingProcessed] = useState(false);
+  const [loadingProcessed, setLoadingProcessed] = useState(true);
 
   const fetchProcessedFileList = async (page: number): Promise<void> => {
     try {
@@ -62,8 +63,8 @@ const ProcessedList: React.FC = (): React.ReactElement => {
           hasMore={true}
           loader={
             loadingProcessed && (
-              <div className="loading">
-                <Spinner animation="border" variant="primary" />
+              <div className="loading-wrapper">
+                <Spinner />
               </div>
             )
           }
@@ -72,6 +73,9 @@ const ProcessedList: React.FC = (): React.ReactElement => {
           {processedFiles.map((item) => {
             return <ProcessedItem key={item.id} file={item} />;
           })}
+          {(!loadingProcessed && processedFiles.length === 0) && (
+            <Empty infoText='No data found' />
+          )}
         </InfiniteScroll>
       </div>
     </Wrapper>

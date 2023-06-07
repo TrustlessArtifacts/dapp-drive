@@ -13,7 +13,7 @@ import { getFileChunks, updateFileChunkTransactionInfo } from '@/services/file';
 import logger from '@/services/logger';
 import { showToastError, showToastSuccess } from '@/utils/toast';
 import { Transaction } from 'ethers';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   InfoWrapper,
   StyledProcessingItem,
@@ -41,6 +41,10 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
     operation: useStoreChunks,
     inscribeable: true,
   });
+  const finishedChunk = useMemo(() => {
+    if (!file) return 0;
+    return file.processingChunks + file.processedChunks;
+  }, [file])
 
   const navigateToDetail = (): void => {
     if (!file) return;
@@ -72,7 +76,7 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
         status: ChunkProcessStatus.New,
       });
 
-      logger.debug(unprocessedChunks);
+      logger.debug('unprocessedChunks', unprocessedChunks);
 
       if (!unprocessedChunks.length || processing) {
         return;
@@ -140,7 +144,7 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
 
   if (!file) return null;
 
-  const progress = (file?.processingChunks / file?.totalChunks) * 100;
+  const progress = (finishedChunk / file?.totalChunks) * 100;
 
   const renderContentStatus = (status: number) => {
     switch (status) {
@@ -162,16 +166,18 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
           <div>
             <p onClick={navigateToDetail} className="fileName">{`Artifact #${file?.tokenId}` || file?.name}</p>
             <FileChunk file={file} />
-            <ArtifactButton
-              variant={'primary'}
-              className="ctaBtn"
-              width={150}
-              height={44}
-              onClick={handleInscribeNextChunk}
-              disabled={processing}
-            >
-              <p>{processing ? 'Processing...' : 'Inscribe'}</p>
-            </ArtifactButton>
+            {finishedChunk < file.totalChunks && (
+              <ArtifactButton
+                variant={'primary'}
+                className="ctaBtn"
+                width={150}
+                height={44}
+                onClick={handleInscribeNextChunk}
+                disabled={processing}
+              >
+                <p>{processing ? 'Processing...' : 'Inscribe'}</p>
+              </ArtifactButton>
+            )}
           </div>
         );
       default:

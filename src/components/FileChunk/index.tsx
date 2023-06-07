@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyledFileChunk } from './FileChunk.styled';
 import { prettyPrintBytes } from '@/utils';
 import { IUploadFileResponseItem } from '@/interfaces/api/files';
@@ -10,8 +10,12 @@ type Props = {
 const FileChunk = ({ file }: Props) => {
   const fileSize = file?.size || 0;
   const totalChunks = file?.totalChunks ?? 1;
-  const finishedChunk = file?.processingChunks ?? 0;
-  const finishedFileSize = file ? file.processingChunks * file.chunkSize : 0;
+  const finishedChunk = useMemo(() => {
+    if (!file) return 0;
+    return file.processingChunks + file.processedChunks;
+  }, [file])
+  const finishedFileSize = file ? finishedChunk * file.chunkSize : 0;
+
 
   if (!file) return <></>
 
