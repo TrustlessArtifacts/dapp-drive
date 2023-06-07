@@ -62,3 +62,12 @@
     mask-composite: exclude;
   }
 }
+
+.grid-center {
+  display: grid;
+  place-items: center;
+}
+
+.h-full-view {
+  height: 100vh;
+}

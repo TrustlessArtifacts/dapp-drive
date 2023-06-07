@@ -11,6 +11,7 @@ import { prettyPrintBytes } from '@/utils/units';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Container, Information } from './Inscription.styled';
+import Spinner from '@/components/Spinner';
 
 const Inscription = ({ data }: { data?: IInscription }) => {
   const router = useRouter();
@@ -88,7 +89,11 @@ const Inscription = ({ data }: { data?: IInscription }) => {
   };
 
   if (!inscription) {
-    return <></>;
+    return (
+      <div className="grid-center h-full-view">
+        <Spinner></Spinner>;
+      </div>
+    );
   }
 
   return (
@@ -134,7 +139,7 @@ const Inscription = ({ data }: { data?: IInscription }) => {
           <div className="inscription-wrapper">
             <div className="">
               <div className="header">
-                <p className="title">Inscription #{inscription?.tokenId}</p>
+                <p className="title">Smart Inscription #{inscription?.tokenId}</p>
               </div>
             </div>
             <div
@@ -183,8 +188,6 @@ const Inscription = ({ data }: { data?: IInscription }) => {
                 <></>
               )}
               {inscription?.owner && renderListItem('Owner', inscription?.owner)}
-
-              {renderListItem('Contract', inscription?.collectionAddress)}
 
               {inscription?.contentType &&
                 renderListItem('Content type', inscription?.contentType)}

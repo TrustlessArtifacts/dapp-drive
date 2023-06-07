@@ -207,7 +207,7 @@ const Container = styled.div`
     p {
       color: #78f381;
       font-size: ${px2rem(12)};
-      line-height: ${px2rem(20)};
+      line-height: ${px2rem(16)};
 
       span {
         font-weight: 700;
