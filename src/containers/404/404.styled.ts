@@ -1,20 +1,24 @@
-import styled, { DefaultTheme } from 'styled-components';
+import { px2rem } from '@trustless-computer/dapp-core';
+import styled from 'styled-components';
 
 const Container = styled.div`
+  height: calc(100vh - 80px);
   display: flex;
-  flex: 1;
   flex-direction: column;
-  /* padding-top: 50px; */
   justify-content: center;
+  gap: ${px2rem(48)};
 
-  .title {
+  .image {
+    max-height: ${px2rem(400)};
+    object-fit: contain;
+  }
+
+  .page-title {
     font-weight: 500;
-    font-size: 56px;
-    line-height: 66px;
-    align-items: center;
-    align-self: center;
-    letter-spacing: -0.02em;
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
+    font-size: ${px2rem(40)};
+    line-height: 120%;
+    color: #fff;
+    text-align: center;
   }
 `;
 

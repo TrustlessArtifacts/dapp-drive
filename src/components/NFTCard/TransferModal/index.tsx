@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import { Formik } from 'formik';
 import useTransferERC721Token from '@/hooks/contract-operations/nft/useTransferERC721Token';
 import { CDN_URL } from '@/configs';
-import { showError } from '@/utils/toast';
+import { showToastError } from '@/utils/toast';
 
 type Props = {
   show: boolean;
@@ -41,7 +41,7 @@ const TransferModal = (props: Props) => {
 
   const handleSubmit = async (values: IFormValue): Promise<void> => {
     if (!tokenId || !contractAddress) {
-      showError({
+      showToastError({
         message: 'Token information not found'
       });
       setIsProcessing(false);

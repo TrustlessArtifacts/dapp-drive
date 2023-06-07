@@ -27,3 +27,8 @@ export interface IUpdateCollectionPayload {
   name?: string;
   thumbnail?: string;
 }
+
+export interface IRefreshMetadataResponse {
+  code: string;
+  result: string;
+}

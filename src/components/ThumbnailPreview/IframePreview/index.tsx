@@ -1,4 +1,3 @@
-import ClientOnly from '@/components/Utils/ClientOnly';
 import React, { ForwardedRef, useImperativeHandle, useRef } from 'react';
 import { StyledIFramePreview } from './IFramePreview.styled';
 
@@ -33,17 +32,15 @@ const IFramePreview = React.forwardRef<IRef, IProps>((props: IProps, ref: Forwar
   }));
 
   return (
-    <ClientOnly>
-      <StyledIFramePreview className={'iframePreview'}>
-        <iframe
-          ref={iframeRef}
-          className={'iframeContainer'}
-          src={url}
-          onLoad={onLoaded}
-          style={{ overflow: 'hidden' }}
-        ></iframe>
-      </StyledIFramePreview>
-    </ClientOnly>
+    <StyledIFramePreview className={'iframePreview'}>
+      <iframe
+        ref={iframeRef}
+        className={'iframeContainer'}
+        src={url}
+        onLoad={onLoaded}
+        style={{ overflow: 'hidden' }}
+      ></iframe>
+    </StyledIFramePreview>
   );
 });
 

@@ -1,10 +1,10 @@
 import ArtifactABIJson from '@/abis/artifacts.json';
-import { ARTIFACT_CONTRACT } from '@/configs';
-import { ERROR_CODE } from '@/constants/error';
+import { ARTIFACT_CONTRACT, TRANSFER_TX_SIZE } from '@/configs';
 import { AssetsContext } from '@/contexts/assets-context';
-import { TransactionEventType } from '@/enums/transaction';
 import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
+import logger from '@/services/logger';
+import { formatBTCPrice } from '@/utils/format';
 import { useWeb3React } from '@web3-react/core';
 import BigNumber from 'bignumber.js';
 import { Transaction } from 'ethers';
@@ -13,8 +13,8 @@ import * as TC_SDK from 'trustless-computer-sdk';
 
 export interface IPreserveChunkParams {
   address: string;
-  chunks: Buffer;
-  selectFee: number;
+  chunks: Array<Buffer>;
+  txSuccessCallback?: (_tx: Transaction | null) => Promise<void>;
 }
 
 const usePreserveChunks: ContractOperationHook<
@@ -28,22 +28,28 @@ const usePreserveChunks: ContractOperationHook<
   const call = useCallback(
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
-        const { address, chunks, selectFee } = params;
-        console.log({
-          tcTxSizeByte: Buffer.byteLength(chunks),
-          feeRatePerByte: selectFee,
-        });
+        const { address, chunks, txSuccessCallback } = params;
+        const tcTxSizeByte = chunks.length > 0 ? Buffer.byteLength(chunks[0]) : TRANSFER_TX_SIZE;
+
+        logger.info(`tcTxSizeByte: ${tcTxSizeByte}`);
+
         const estimatedFee = TC_SDK.estimateInscribeFee({
-          tcTxSizeByte: Buffer.byteLength(chunks),
-          feeRatePerByte: selectFee,
+          tcTxSizeByte: tcTxSizeByte,
+          feeRatePerByte: feeRate.hourFee,
         });
         const balanceInBN = new BigNumber(btcBalance);
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
-          throw Error(ERROR_CODE.INSUFFICIENT_BALANCE);
+          throw Error(`Insufficient BTC balance. Please top up at least ${formatBTCPrice(estimatedFee.totalFee.toString())} BTC.`);
         }
         const transaction = await contract
           .connect(provider.getSigner())
-          .preserveChunks(address, [chunks]);
+          .preserveChunks(address, chunks, {
+            gasLimit: '500000'
+          });
+
+        if (txSuccessCallback) {
+          await txSuccessCallback(transaction);
+        }
 
         return transaction;
       }
@@ -56,7 +62,7 @@ const usePreserveChunks: ContractOperationHook<
   return {
     call: call,
     dAppType: DAppType.BFS,
-    transactionType: TransactionEventType.CREATE,
+    operationName: 'Preserve Chunks',
   };
 };
 

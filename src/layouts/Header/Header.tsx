@@ -19,23 +19,33 @@ const Header = ({ height }: { height: number }) => {
             <img alt="logo" src={`${CDN_URL}/pages/artifacts/logo-1.svg`} />
             <h1 className="logo-title">Smart Inscription</h1>
           </Link>
-          <Link className="navLink" href={'/about'}>
+          <Link className="navLink" href={ROUTE_PATH.ABOUT}>
             About
+          </Link>
+          <Link className="navLink" href={ROUTE_PATH.STATUS}>
+            Status
           </Link>
         </div>
 
         <MenuMobile isOpen={isOpenMenu} onCloseMenu={() => setIsOpenMenu(false)} />
         <div className="rightContainer">
           <div className="external-link">
-            <Link href={'https://trustless.computer/'} target="_blank">
-              Trustless
+            <Link href={'https://tcgasstation.com/'} target="_blank">
+              Get TC
               <IconSVG
                 maxWidth="28"
                 src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}
               ></IconSVG>
             </Link>
-            <Link href={'https://tcgasstation.com/'} target="_blank">
-              Get TC
+            <Link href={'https://newbitcoincity.com/'} target="_blank">
+              NBC
+              <IconSVG
+                maxWidth="28"
+                src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}
+              ></IconSVG>
+            </Link>
+            <Link href={'https://generative.xyz/discord'} target="_blank">
+              Discord
               <IconSVG
                 maxWidth="28"
                 src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}

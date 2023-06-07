@@ -37,3 +37,28 @@
     opacity: 0.8;
   }
 }
+
+.border-gradient {
+  position: relative;
+
+  &::before {
+    content: '';
+    border-radius: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid transparent;
+    pointer-events: none !important;
+    background: linear-gradient(
+        138.24deg,
+        rgba(120, 170, 143, 0.8) 1.72%,
+        rgba(2, 47, 22, 0.64) 101.88%
+      )
+      border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+}

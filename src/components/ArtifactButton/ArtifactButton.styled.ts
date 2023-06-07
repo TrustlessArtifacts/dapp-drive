@@ -1,3 +1,4 @@
+import { px2rem } from '@trustless-computer/dapp-core';
 import styled from 'styled-components';
 
 export const StyledArtifactButton = styled.div<{ objectFit: 'contain' | 'cover' }>`
@@ -25,7 +26,7 @@ export const StyledArtifactButton = styled.div<{ objectFit: 'contain' | 'cover' 
   .btn-content {
     width: 100%;
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -33,5 +34,7 @@ export const StyledArtifactButton = styled.div<{ objectFit: 'contain' | 'cover' 
     place-items: center;
     text-transform: uppercase;
     letter-spacing: 0.1em;
+    padding-top: ${px2rem(12)};
+    padding-bottom: ${px2rem(12)};
   }
 `;

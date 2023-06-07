@@ -16,6 +16,8 @@ export const StyledModalUpload = styled(Modal)`
   .modal-content {
     border-radius: 20px;
     position: relative;
+    min-width: ${px2rem(600)};
+
     &:after {
       content: '';
       border-radius: 20px;
@@ -48,12 +50,9 @@ export const StyledModalUpload = styled(Modal)`
   }
 
   .modal-body {
-    padding: ${px2rem(36)};
-    padding-top: ${px2rem(7)};
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: ${px2rem(20)};
+    padding: ${px2rem(24)};
+    padding-top: ${px2rem(10)};
+    padding-bottom: ${px2rem(32)};
   }
 
   .modal-footer {
@@ -79,8 +78,9 @@ export const StyledModalUpload = styled(Modal)`
     flex-direction: column;
 
     .thumbnail-wrapper {
-      min-height: ${px2rem(200)};
       position: relative;
+      min-height: ${px2rem(200)};
+      max-height: ${px2rem(400)};
       flex: 1;
     }
 
@@ -138,6 +138,7 @@ export const StyledModalUpload = styled(Modal)`
 
   .confirm-btn {
     width: 100%;
+    background-color: transparent;
 
     .confirm-text {
       color: black;
@@ -149,39 +150,14 @@ export const StyledModalUpload = styled(Modal)`
   }
 
   .right_content {
-    background: rgba(0, 46, 29, 0.6);
-    padding: ${px2rem(24)};
     border-radius: 16px;
+    margin-top: ${px2rem(20)};
 
     .confirm-btn-wrapper {
-      margin-top: ${px2rem(80)};
+      margin-top: ${px2rem(40)};
       margin-left: auto;
       margin-right: auto;
     }
-  }
-
-  .est-fee {
-    margin-bottom: ${px2rem(24)};
-  }
-
-  .est-fee-options {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: ${px2rem(20)};
-  }
-
-  .est-fee-item {
-    flex: 1;
-    padding: ${px2rem(8)} ${px2rem(16)};
-    padding-bottom: ${px2rem(20)};
-    padding-top: 0;
-    opacity: 1;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    min-width: ${px2rem(351)};
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .ext-price {

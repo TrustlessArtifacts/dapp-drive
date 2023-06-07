@@ -41,11 +41,20 @@ const MenuMobile = ({ onCloseMenu, isOpen }: IProp) => {
         <button className="btnMenuMobile" onClick={onCloseMenu}>
           <img src={`${CDN_URL}/icons/ic_close_menu.svg`} alt="ic_close_menu" />
         </button>
-        <Link href={'https://trustless.computer/'} target="_blank">
-          Trustless
-        </Link>
         <Link href={'https://tcgasstation.com/'} target="_blank">
           Get TC
+        </Link>
+        <Link href={'https://newbitcoincity.com/'} target="_blank">
+          NBC
+        </Link>
+        <Link href={'https://generative.xyz/discord/'} target="_blank">
+          Discord
+        </Link>
+        <Link href={ROUTE_PATH.ABOUT}>
+          About
+        </Link>
+        <Link href={ROUTE_PATH.STATUS}>
+          Status
         </Link>
         {isAuthenticated ? (
           <div className="wallet mobile">

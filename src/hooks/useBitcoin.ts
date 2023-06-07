@@ -1,5 +1,5 @@
 import { TC_NETWORK_RPC } from '@/configs';
-import { ConnectionType, getConnection } from '@/connection';
+import { ConnectionType, getConnection } from '@/connections';
 import { AssetsContext } from '@/contexts/assets-context';
 import { getUserSelector } from '@/state/user/selector';
 import { generateBitcoinTaprootKey } from '@/utils/derive-key';
@@ -144,17 +144,6 @@ const useBitcoin = () => {
     return res;
   };
 
-  const getNonceInscribeable = async (
-    tcAddress: string,
-  ): Promise<{
-    nonce: number;
-    gasPrice: number;
-  }> => {
-    if (!tcAddress) throw Error('Address not found');
-    const { nonce, gasPrice } = await tcClient.getNonceInscribeable(tcAddress);
-    return { nonce, gasPrice };
-  };
-
   const getUnInscribedTransactionByAddress = async (tcAddress: string): Promise<Array<string>> => {
     if (!tcAddress) throw Error('Address not found');
     const { unInscribedTxIDs } = await tcClient.getUnInscribedTransactionByAddress(tcAddress);
@@ -171,7 +160,6 @@ const useBitcoin = () => {
     createInscribeTx,
     createBatchInscribeTxs,
     signKey,
-    getNonceInscribeable,
     getUnInscribedTransactionByAddress,
     getUnInscribedTransactionDetailByAddress,
   };

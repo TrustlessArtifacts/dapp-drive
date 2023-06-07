@@ -7,7 +7,7 @@ import {
   updateSelectedWallet,
   updateTaprootWallet,
 } from '@/state/user/reducer';
-import { getConnection } from '@/connection';
+import { getConnection } from '@/connections';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@/state/user/selector';
 import bitcoinStorage from '@/utils/bitcoin-storage';
@@ -88,7 +88,6 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
           address: evmWalletAddress,
           signature: signature,
         });
-        console.log('signature', signature);
         setAccessToken(accessToken, refreshToken);
         dispatch(updateEVMWallet(evmWalletAddress));
         dispatch(updateSelectedWallet({ wallet: connection.type }));

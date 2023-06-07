@@ -1,5 +1,4 @@
 import Spinner from '@/components/Spinner';
-import ClientOnly from '@/components/Utils/ClientOnly';
 import React, { useMemo } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { StyledPDFPreview } from './PDFPreview.styled';
@@ -24,13 +23,11 @@ const PDFPreview: React.FC<IProps> = (props: IProps): React.ReactElement => {
   );
 
   return (
-    <ClientOnly>
-      <StyledPDFPreview className={'pdfPreview'}>
-        <Document file={url} loading={renderLoading} error={renderError}>
-          <Page pageIndex={0} />
-        </Document>
-      </StyledPDFPreview>
-    </ClientOnly>
+    <StyledPDFPreview className={'pdfPreview'}>
+      <Document file={url} loading={renderLoading} error={renderError}>
+        <Page pageIndex={0} />
+      </Document>
+    </StyledPDFPreview>
   );
 };
 

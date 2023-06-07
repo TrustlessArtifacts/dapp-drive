@@ -8,6 +8,7 @@ type IMAGE_TYPE =
   | 'model/stl' // iframe
   | 'text/html;charset=utf-8' // iframe
   | 'text/plain;charset=utf-8' // iframe
+  | 'txt' // iframe
   | 'audio/mpeg' // https://www.w3schools.com/html/html5_audio.asp
   | 'audio/wav' // https://www.w3schools.com/html/html5_audio.asp
   | 'image/apng' // Image

@@ -12,7 +12,6 @@ export interface INFTCard {
   tokenId?: string;
   contentType?: IMAGE_TYPE;
   title1?: string;
-  // owner?: string;
 }
 
 const NFTCard = ({
@@ -23,70 +22,33 @@ const NFTCard = ({
   tokenId,
   contentType,
   title1,
-}: // owner,
-INFTCard) => {
-  // const user = useSelector(getUserSelector);
-  // const [showTransferModal, setShowTransferModal] = useState(false);
-
-  // const hanldeOpenTransferModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.stopPropagation();
-  //   e.preventDefault();
-
-  //   setShowTransferModal(true);
-  // };
-
-  // const hanldeCloseTransferModal = () => {
-  //   setShowTransferModal(false);
-  // };
-
-  // const isOwner = useMemo(() => {
-  //   return (
-  //     user?.walletAddress &&
-  //     user?.walletAddress?.toLowerCase() === owner?.toLowerCase()
-  //   );
-  // }, [owner, user]);
-
+}: INFTCard) => {
   return (
-    <>
-      <Styled href={href}>
-        <div className="card-content">
-          <div className="card-image">
-            <NFTDisplayBox
-              collectionID={contract}
-              contentClass="image"
-              thumbnail={thumbnail}
-              src={image}
-              tokenID={tokenId}
-              type={contentType}
-            />
-            <a className="overlay" href={href}>
-              <div className="overlay-content">
-                <IconSVG
-                  maxWidth="100"
-                  src={`${CDN_URL}/pages/artifacts/icons/ic-view.svg`}
-                />
-              </div>
-            </a>
-          </div>
-          <div className="card-info">
-            {title1 && <p className="card-title1">{title1}</p>}
-          </div>
-          {/* {isOwner && (
-            <div className="owner-actions">
-              <ArtifactButton variant="white" width={300} height={79}>
-                <button onClick={hanldeOpenTransferModal}>Transfer</button>
-              </ArtifactButton>
+    <Styled href={href}>
+      <div className="card-content">
+        <div className="card-image">
+          <NFTDisplayBox
+            collectionID={contract}
+            contentClass="image"
+            thumbnail={thumbnail}
+            src={image}
+            tokenID={tokenId}
+            type={contentType}
+          />
+          <a className="overlay" href={href}>
+            <div className="overlay-content">
+              <IconSVG
+                maxWidth="100"
+                src={`${CDN_URL}/pages/artifacts/icons/ic-view.svg`}
+              />
             </div>
-          )} */}
+          </a>
         </div>
-      </Styled>
-      {/* <TransferModal
-        show={showTransferModal}
-        handleClose={hanldeCloseTransferModal}
-        contractAddress={contract}
-        tokenId={tokenId}
-      /> */}
-    </>
+        <div className="card-info">
+          {title1 && <p className="card-title1">{title1}</p>}
+        </div>
+      </div>
+    </Styled>
   );
 };
 

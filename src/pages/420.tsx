@@ -1,7 +1,7 @@
 import { ARTIFACT_CONTRACT, BIG_FILE_PROJECT_ID } from '@/configs';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { SEO_TITLE } from '@/constants/seo';
-import Inscription from '@/containers/Item/Inscription';
+import Inscription from '@/containers/Item';
 import { IInscription } from '@/interfaces/api/inscription';
 import Layout from '@/layouts';
 import { getNFTDetail } from '@/services/nft-explorer';
@@ -23,6 +23,7 @@ export async function getServerSideProps() {
       contractAddress: ARTIFACT_CONTRACT,
       tokenId: BIG_FILE_PROJECT_ID,
     });
+
     return {
       props: {
         inscription: data,
@@ -32,6 +33,7 @@ export async function getServerSideProps() {
       },
     };
   } catch (err: unknown) {
+    console.log(err)
     return {
       redirect: {
         permanent: false,

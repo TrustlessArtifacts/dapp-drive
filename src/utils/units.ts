@@ -1,11 +1,11 @@
 export const prettyPrintBytes = (size: number): string => {
-  const units = ['B', 'KB', 'MB'];
+  const units = ['bytes', 'KB', 'MB'];
   let s = size;
   for (const unit of units) {
     if (s < 1000) {
-      return s.toFixed(0) + unit;
+      return `${s.toFixed(1)} ${unit}`;
     }
-    s /= 1024;
+    s /= 1000;
   }
-  return s.toFixed(0) + 'GB';
+  return s.toFixed(1) + ' GB';
 };

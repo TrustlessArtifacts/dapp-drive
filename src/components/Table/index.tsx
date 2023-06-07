@@ -70,7 +70,7 @@ const Table = ({
 
             {!data || data.length === 0 ? (
               <tbody className={'empty'}>
-                <Empty isTable={true} />
+                <Empty />
               </tbody>
             ) : (
               <tbody>

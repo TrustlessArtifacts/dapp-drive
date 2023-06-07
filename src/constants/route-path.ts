@@ -8,6 +8,8 @@ export const ROUTE_PATH = {
   USE_TRUSTLESS: '/use-trustless-computer',
   WALLET: '/wallet',
   CONNECT_WALLET: '/connect-wallet',
-  ABOUT: '/about',
+  ABOUT: '/',
+  STATUS: '/status',
   BIG_FILE_PROMO: '/420',
+  EXPLORE: '/explore',
 };
