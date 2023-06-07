@@ -67,7 +67,7 @@ export const StyledAbout = styled.div`
     z-index: 2;
     position: relative;
     margin-left: ${px2rem(100)};
-    max-width: 80ch;
+    max-width: 90ch;
 
     .subTitle {
       text-transform: uppercase;
@@ -167,6 +167,26 @@ export const StyledAbout = styled.div`
 
       .block-item-info {
         max-width: 30ch;
+        i {
+          font-size: ${px2rem(12)};
+        }
+        a {
+          text-decoration: underline;
+          .ic-outward {
+            display: inline-flex;
+            margin-left: 4px;
+          }
+
+          &:hover {
+            color: #febe63;
+            .ic-outward {
+              svg,
+              path {
+                fill: #febe63;
+              }
+            }
+          }
+        }
       }
     }
 
@@ -187,18 +207,12 @@ export const StyledAbout = styled.div`
       font-weight: 300;
     }
 
+    .block-item-wrapper:nth-of-type(1),
+    .block-item-wrapper:nth-of-type(2),
     .block-item-wrapper:nth-of-type(3) {
       align-self: stretch;
       height: auto;
 
-      .block-item {
-        height: 100%;
-      }
-    }
-
-    .block-item-wrapper:nth-of-type(2) {
-      align-self: stretch;
-      height: auto;
       .block-item {
         height: 100%;
       }

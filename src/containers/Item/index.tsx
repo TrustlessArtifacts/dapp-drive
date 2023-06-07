@@ -122,8 +122,10 @@ const Inscription = ({ data }: { data?: IInscription }) => {
                 Big File
               </div>
               <p>
-                This file is over 350KB, only support by
-                <span> Smart Inscriptions.</span>
+                This file is greater than 350KB. The current largest file inscribed
+                on <span> Smart Inscriptions </span> is <span> 6.9MB </span>. <br />{' '}
+                On <span> Smart Inscriptions</span>, you can now inscribe with no
+                storage restrictions.
               </p>
             </div>
           ) : (
@@ -164,8 +166,10 @@ const Inscription = ({ data }: { data?: IInscription }) => {
                   <div></div>
                 </div>
                 <p>
-                  We’ve queued this item for an update! Check back in about 5-10
-                  minutes.
+                  Updating… <br />
+                  <br />
+                  Anticipate a waiting period of 5 minutes or longer, contingent upon
+                  network conditions.
                 </p>
               </div>
             </div>

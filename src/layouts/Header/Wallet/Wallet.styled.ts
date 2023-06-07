@@ -5,11 +5,56 @@ import styled, { DefaultTheme } from 'styled-components';
 export const WalletPopover = styled(Popover)`
   width: ${px2rem(200)};
   color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
-  padding: ${px2rem(12)} ${px2rem(20)};
-  background: #04150f;
-  border: 1px solid rgba(120, 170, 143);
-  box-shadow: 0px 0px 24px -6px rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
+  /* border: 1px solid rgba(120, 170, 143); */
+  background-color: transparent;
+
+  position: relative;
+
+  &:before {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: calc(100% + 3px);
+    height: calc(100% + 3px);
+    border-radius: 4px 0 4px 0;
+    clip-path: polygon(
+      20% 0%,
+      95% 0,
+      100% 5%,
+      100% 100%,
+      80% 100%,
+      5% 100%,
+      0 95%,
+      0 0
+    );
+
+    background: linear-gradient(
+      138.24deg,
+      rgba(120, 170, 143, 1) 1.72%,
+      rgba(2, 47, 22, 1) 101.88%
+    );
+  }
+
+  .wrapper {
+    padding: ${px2rem(16)} ${px2rem(20)};
+    background: #04150f;
+    z-index: 2;
+    /* opacity: 0; */
+    border-radius: 4px 0 4px 0;
+
+    clip-path: polygon(
+      20% 0%,
+      95% 0,
+      100% 5%,
+      100% 100%,
+      80% 100%,
+      5% 100%,
+      0 95%,
+      0 0
+    );
+  }
 
   .icCopy {
     cursor: pointer;

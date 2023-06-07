@@ -8,18 +8,18 @@ import { formatBTCPrice, formatEthPrice } from '@/utils/format';
 import { useWeb3React } from '@web3-react/core';
 import copy from 'copy-to-clipboard';
 // import { useRouter } from 'next/router';
+import ArtifactButton from '@/components/ArtifactButton';
+import Text from '@/components/Text';
+import { WalletContext } from '@/contexts/wallet-context';
+import { DappsTabs } from '@/enums/tabs';
+import { formatLongAddress } from '@trustless-computer/dapp-core';
 import { useContext, useRef, useState } from 'react';
 import { OverlayTrigger } from 'react-bootstrap';
 import { toast } from 'react-hot-toast';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { useSelector } from 'react-redux';
-import { ConnectWalletButton, WalletBalance } from '../Header.styled';
+import { ConnectWalletButton, WalletBalance, WalletWrapper } from '../Header.styled';
 import { WalletPopover } from './Wallet.styled';
-import Text from '@/components/Text';
-import { WalletContext } from '@/contexts/wallet-context';
-import { formatLongAddress } from '@trustless-computer/dapp-core';
-import { DappsTabs } from '@/enums/tabs';
-import ArtifactButton from '@/components/ArtifactButton';
 import logger from '@/services/logger';
 import { showToastError } from '@/utils/toast';
 
@@ -42,8 +42,8 @@ const WalletHeader = () => {
       logger.error(err);
       onDisconnect();
       showToastError({
-        message: (err as Error).message
-      })
+        message: (err as Error).message,
+      });
     } finally {
       setIsConnecting(false);
     }
@@ -76,64 +76,66 @@ const WalletHeader = () => {
       onMouseLeave={handleOnMouseLeave}
       show={show}
     >
-      <div className="wallet-tc">
-        <div className="wallet-item">
-          <IconSVG
-            src={`${CDN_URL}/icons/logo-white.svg`}
-            maxWidth="24"
-            maxHeight="24"
-          />
-          <Text size={'regular'} className="wallet-address" fontWeight="regular">
-            {formatLongAddress(user?.walletAddress || '')}
-          </Text>
+      <div className="wrapper">
+        <div className="wallet-tc">
+          <div className="wallet-item">
+            <IconSVG
+              src={`${CDN_URL}/icons/logo-white.svg`}
+              maxWidth="24"
+              maxHeight="24"
+            />
+            <Text size={'regular'} className="wallet-address" fontWeight="regular">
+              {formatLongAddress(user?.walletAddress || '')}
+            </Text>
+          </div>
+          <div
+            className="icCopy"
+            onClick={() => onClickCopy(user?.walletAddress || '')}
+          >
+            <IconSVG
+              src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
+              color="white"
+              maxWidth="16"
+              // type="stroke"
+            ></IconSVG>
+          </div>
         </div>
-        <div
-          className="icCopy"
-          onClick={() => onClickCopy(user?.walletAddress || '')}
-        >
-          <IconSVG
-            src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
-            color="white"
-            maxWidth="16"
-          // type="stroke"
-          ></IconSVG>
+        <div className="divider"></div>
+        <div className="wallet-btc">
+          <div className="wallet-item">
+            <IconSVG
+              src={`${CDN_URL}/icons/ic-btc.svg`}
+              maxWidth="24"
+              maxHeight="24"
+            />
+            <Text size={'regular'} className="wallet-address" fontWeight="regular">
+              {formatLongAddress(user?.walletAddressBtcTaproot || '')}
+            </Text>
+          </div>
+          <div
+            className="icCopy"
+            onClick={() => onClickCopy(user?.walletAddressBtcTaproot || '')}
+          >
+            <IconSVG
+              src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
+              color="white"
+              maxWidth="16"
+            ></IconSVG>
+          </div>
         </div>
-      </div>
-      <div className="divider"></div>
-      <div className="wallet-btc">
-        <div className="wallet-item">
-          <IconSVG
-            src={`${CDN_URL}/icons/ic-btc.svg`}
-            maxWidth="24"
-            maxHeight="24"
-          />
-          <Text size={'regular'} className="wallet-address" fontWeight="regular">
-            {formatLongAddress(user?.walletAddressBtcTaproot || '')}
-          </Text>
-        </div>
-        <div
-          className="icCopy"
-          onClick={() => onClickCopy(user?.walletAddressBtcTaproot || '')}
-        >
-          <IconSVG
-            src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
-            color="white"
-            maxWidth="16"
-          ></IconSVG>
-        </div>
-      </div>
-      <div className="divider"></div>
-      <div className="cta">
-        <div
-          className="wallet-link"
-          onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
-        >
-          <IconSVG src={`${CDN_URL}/icons/ep_wallet-filled.svg`} maxWidth="20" />
-          <Text size="medium">Wallet</Text>
-        </div>
-        <div className="wallet-disconnect" onClick={onDisconnect}>
-          <IconSVG src={`${CDN_URL}/icons/basil_logout-solid.svg`} maxWidth="20" />
-          <Text size="medium">Disconnect</Text>
+        <div className="divider"></div>
+        <div className="cta">
+          <div
+            className="wallet-link"
+            onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
+          >
+            <IconSVG src={`${CDN_URL}/icons/ep_wallet-filled.svg`} maxWidth="20" />
+            <Text size="medium">Wallet</Text>
+          </div>
+          <div className="wallet-disconnect" onClick={onDisconnect}>
+            <IconSVG src={`${CDN_URL}/icons/basil_logout-solid.svg`} maxWidth="20" />
+            <Text size="medium">Disconnect</Text>
+          </div>
         </div>
       </div>
     </WalletPopover>
@@ -150,22 +152,24 @@ const WalletHeader = () => {
           show={show}
         >
           <div
-            className="wallet"
+            // className="wallet"
             onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
             ref={ref}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           >
-            <WalletBalance>
-              <div className="balance">
-                <p className="text">{formatBTCPrice(btcBalance)} BTC</p>
-                <span className="divider"></span>
-                <p className="text">{formatEthPrice(juiceBalance)} TC</p>
-              </div>
-              <div className="avatar">
-                <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
-              </div>
-            </WalletBalance>
+            <WalletWrapper>
+              <WalletBalance>
+                <div className="balance">
+                  <p className="text">{formatBTCPrice(btcBalance)} BTC</p>
+                  <span className="divider"></span>
+                  <p className="text">{formatEthPrice(juiceBalance)} TC</p>
+                </div>
+                <div className="avatar">
+                  <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
+                </div>
+              </WalletBalance>
+            </WalletWrapper>
           </div>
         </OverlayTrigger>
       ) : (
