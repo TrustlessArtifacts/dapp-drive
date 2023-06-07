@@ -1,6 +1,6 @@
 import { MediaType } from '@/enums/file';
 
-export const BLOCK_CHAIN_FILE_LIMIT = 350000;
+export const BLOCK_CHAIN_FILE_LIMIT = 330000;
 
 export const ZIP_MIMES = [
   'application/zip',
