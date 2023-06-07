@@ -1,5 +1,9 @@
 import { API_URL } from '@/configs';
-import { ICollection, IUpdateCollectionPayload } from '@/interfaces/api/collection';
+import {
+  ICollection,
+  IUpdateCollectionPayload,
+  IRefreshMetadataResponse,
+} from '@/interfaces/api/collection';
 import { IInscription } from '@/interfaces/api/inscription';
 import { IPagingParams } from '@/interfaces/api/query';
 import { camelCaseKeys } from '@/utils/helpers';
@@ -112,7 +116,7 @@ export const getImageURLContent = (src: string) => {
 export const refreshMetadata = async (
   contractAddress: string,
   tokenID: string,
-): Promise<any> => {
+): Promise<IRefreshMetadataResponse> => {
   const res = await apiClient.get(
     `${API_PATH}/refresh-nft/contracts/${contractAddress}/token/${tokenID}`,
   );

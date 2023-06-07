@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import * as TC_SDK from 'trustless-computer-sdk';
 import Text from '@/components/Text';
-import { formatBTCPrice } from '@/utils/format';
+import { formatBTCPrice, formatEthPrice } from '@/utils/format';
 import { Wrapper } from './EstimatedFee.styled';
 import { AssetsContext } from '@/contexts/assets-context';
 import web3Provider from '@/connections/custom-web3-provider';
@@ -12,76 +12,27 @@ interface IProps {
   classNames?: string;
 }
 
-enum optionFees {
-  economy = 'Economy',
-  faster = 'Faster',
-  fastest = 'Fastest',
-}
-
 const EstimatedFee: React.FC<IProps> = ({ txSize, classNames }: IProps): React.ReactElement => {
   const { feeRate } = useContext(AssetsContext);
-  const [estBTCFee, setEstBTCFee] = useState({
-    economy: '0',
-    faster: '0',
-    fastest: '0',
-  });
+  const [estBTCFee, setEstBTCFee] = useState('0');
+  const [estTCFee, setEstTCFee] = useState('0');
 
-  const calculateEstFee = useCallback(() => {
-    const estimatedFastestFee = TC_SDK.estimateInscribeFee({
-      tcTxSizeByte: txSize,
-      feeRatePerByte: feeRate.fastestFee,
-    });
-    const estimatedFasterFee = TC_SDK.estimateInscribeFee({
-      tcTxSizeByte: txSize,
-      feeRatePerByte: feeRate.halfHourFee,
-    });
+  const calculateEstBtcFee = useCallback(() => {
     const estimatedEconomyFee = TC_SDK.estimateInscribeFee({
       tcTxSizeByte: txSize,
       feeRatePerByte: feeRate.hourFee,
     });
 
-    setEstBTCFee({
-      fastest: estimatedFastestFee.totalFee.toString(),
-      faster: estimatedFasterFee.totalFee.toString(),
-      economy: estimatedEconomyFee.totalFee.toString(),
-    });
-  }, [txSize, setEstBTCFee, feeRate.fastestFee, feeRate.halfHourFee, feeRate.hourFee]);
-
-  const renderEstFee = ({
-    title,
-    estFee,
-    feeRate,
-  }: {
-    title: optionFees;
-    estFee: string;
-    feeRate: number;
-  }) => {
-    return (
-      <div
-        className={`est-fee-item`}
-      >
-        <div className='est-fee-item-header'>
-          <p className='est-fee-item-title'>
-            {title}
-          </p>
-          <p className='est-fee-item-title'>
-            {formatBTCPrice(estFee)} BTC
-          </p>
-        </div>
-        <p className="ext-price">
-          {feeRate} sats/vByte
-        </p>
-      </div >
-    );
-  };
+    setEstBTCFee(estimatedEconomyFee.totalFee.toString());
+  }, [txSize, setEstBTCFee, feeRate.hourFee]);
 
   useEffect(() => {
-    calculateEstFee();
-  }, [txSize, calculateEstFee]);
+    calculateEstBtcFee();
+  }, [txSize, calculateEstBtcFee]);
 
   useAsyncEffect(async () => {
-    const fee = await web3Provider.getEstimatedTransactionFee();
-    console.log('fee', fee);
+    const tcFee = await web3Provider.getEstimatedTransactionFee();
+    setEstTCFee(tcFee);
   }, [])
 
   return (
@@ -91,21 +42,26 @@ const EstimatedFee: React.FC<IProps> = ({ txSize, classNames }: IProps): React.R
           Network fee estimate
         </Text>
         <div className="est-fee-options">
-          {renderEstFee({
-            title: optionFees.economy,
-            estFee: estBTCFee.economy,
-            feeRate: feeRate.hourFee,
-          })}
-          {renderEstFee({
-            title: optionFees.faster,
-            estFee: estBTCFee.faster,
-            feeRate: feeRate.halfHourFee,
-          })}
-          {renderEstFee({
-            title: optionFees.fastest,
-            estFee: estBTCFee.fastest,
-            feeRate: feeRate.fastestFee,
-          })}
+          <div
+            className={`est-fee-item`}
+          >
+            <p className='est-fee-item-title'>
+              BTC network fee
+            </p>
+            <p className='est-fee-item-value'>
+              ~ {formatBTCPrice(estBTCFee)} BTC
+            </p>
+          </div>
+          <div
+            className={`est-fee-item`}
+          >
+            <p className='est-fee-item-title'>
+              TC network fee
+            </p>
+            <p className='est-fee-item-value'>
+              ~ {formatEthPrice(estTCFee)} TC
+            </p>
+          </div>
         </div>
       </div>
     </Wrapper>

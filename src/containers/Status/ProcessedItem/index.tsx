@@ -20,7 +20,7 @@ const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
 
   const navigateToDetail = (): void => {
     if (!file) return;
-    router.push(`/token?contract=${ARTIFACT_CONTRACT}&id=${file.tokenId}`);
+    router.push(`/${file.tokenId}`);
   }
 
   return (

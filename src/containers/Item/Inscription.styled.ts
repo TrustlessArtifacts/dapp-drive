@@ -104,7 +104,6 @@ const Container = styled.div`
     .list-container {
       padding-top: 16px;
       padding-bottom: 8px;
-      max-width: 700px;
 
       .list-name {
         font-style: normal;
@@ -257,7 +256,7 @@ const Information = styled.div<{ loading: boolean }>`
     height: 100%;
     background: transparent;
     z-index: 1;
-    display: grid;
+    display: ${(props) => (props.loading ? 'grid' : 'none')};
     place-items: center;
     .lds-spinner {
       color: #78f381;
@@ -363,13 +362,11 @@ const Information = styled.div<{ loading: boolean }>`
   .list {
     display: flex;
     flex-direction: column;
-    opacity: ${(props) => (props.loading ? 0 : 1)};
+    opacity: ${(props) => (props.loading ? 0.1 : 1)};
 
     .item {
       padding: ${px2rem(20)} 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-      /* max-width: 700px; */
 
       &:first-of-type {
         padding-top: 0;
