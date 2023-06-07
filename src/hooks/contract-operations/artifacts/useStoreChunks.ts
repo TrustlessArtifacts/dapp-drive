@@ -59,7 +59,7 @@ const useStoreChunks: ContractOperationHook<
   return {
     call: call,
     dAppType: DAppType.BFS,
-    operationName: 'Store chunks',
+    operationName: 'Store Chunks',
   };
 };
 

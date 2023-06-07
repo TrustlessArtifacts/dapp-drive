@@ -26,6 +26,10 @@ export const Wrapper = styled.div`
       text-align: center;
       margin-bottom: ${px2rem(32)};
     }
+
+    .button-container {
+      margin: auto;
+    }
   }
 `;
 

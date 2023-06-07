@@ -46,7 +46,7 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
         <p className="desc">
           Connect your wallet to access Artifacts
         </p>
-        <ArtifactButton variant="transparent-wide" width={280} height={48}>
+        <ArtifactButton className='button-container' variant="transparent-wide" width={280} height={48}>
           <ConnectWalletButton disabled={isConnecting} onClick={handleConnectWallet}>
             <img className='wallet-icon' src={`${CDN_URL}/pages/artifacts/heroicons_wallet-solid.svg`}></img>
             <span>{isConnecting ? 'Connecting...' : 'Trustless Computer'}</span>
