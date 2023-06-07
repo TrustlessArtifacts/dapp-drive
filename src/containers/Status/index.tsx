@@ -18,7 +18,7 @@ const StatusPage = () => {
     <StyledStatusPage>
       <div className="row">
         <div className="col-12 col-lg-8 offset-lg-2">
-          <h1 className="pageTitle">Smart Inscription status</h1>
+          <h1 className="pageTitle">Smart Inscriptions status</h1>
           <p className="pageDescription">
             Check the status and history of your preservations here.
           </p>
