@@ -4,6 +4,7 @@ import useWindowSize from '@/hooks/useWindowSize';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { StyledAbout } from './About.styled';
+import { ROUTE_PATH } from '@/constants/route-path';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
@@ -85,7 +86,7 @@ const About = () => {
               height={buttonHeight()}
               objectFit={mobileScreen ? 'contain' : 'cover'}
             >
-              <Link href="/" className="btn-content">
+              <Link href={ROUTE_PATH.EXPLORE} className="btn-content">
                 Explore
               </Link>
             </ArtifactButton>

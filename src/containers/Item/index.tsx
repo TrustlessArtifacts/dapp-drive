@@ -1,17 +1,16 @@
-import BigFileTag from '@/components/BigFileTag';
+import IconSVG from '@/components/IconSVG';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
+import { ARTIFACT_CONTRACT, CDN_URL } from '@/configs';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { IInscription } from '@/interfaces/api/inscription';
+import logger from '@/services/logger';
 import { getNFTDetail, refreshMetadata } from '@/services/nft-explorer';
 import { formatTimeStamp } from '@/utils/time';
+import { prettyPrintBytes } from '@/utils/units';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Container, Information } from './Inscription.styled';
-import { prettyPrintBytes } from '@/utils/units';
-import IconSVG from '@/components/IconSVG';
-import { ARTIFACT_CONTRACT, CDN_URL } from '@/configs';
-import logger from '@/services/logger';
 
 const Inscription = ({ data }: { data?: IInscription }) => {
   const router = useRouter();
@@ -111,7 +110,22 @@ const Inscription = ({ data }: { data?: IInscription }) => {
           {inscription &&
           inscription.fileSize &&
           inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
-            <BigFileTag color="green" />
+            // <BigFileTag color="green" />
+            <div className="big-file-wrapper">
+              <div className="big-file">
+                <IconSVG
+                  src={`${CDN_URL}/pages/artifacts/icons/ic-big-file.svg`}
+                  maxWidth="20"
+                  maxHeight="20"
+                  className="icon"
+                />
+                Big File
+              </div>
+              <p>
+                This file is over 350KB, only support by
+                <span> Smart Inscription.</span>
+              </p>
+            </div>
           ) : (
             <></>
           )}
