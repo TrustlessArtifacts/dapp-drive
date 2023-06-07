@@ -65,14 +65,19 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
         status: ChunkProcessStatus.New,
       });
 
+      logger.debug(unprocessedChunks);
+
       if (!unprocessedChunks.length || processing) {
         return;
       }
 
       // Get the first chunk to process
       const pickedChunk = unprocessedChunks[0];
-      const chunkData = Buffer.from(pickedChunk.chunkData);
+      const decodedChunkData = window.atob(pickedChunk.chunkData);
+      const chunkData = Buffer.from(decodedChunkData);
+
       logger.debug('pickedChunk', pickedChunk);
+      logger.debug('decodedChunkData', decodedChunkData);
 
       const tx = await storeChunks({
         tokenId: file.tokenId,
@@ -81,6 +86,7 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
         txSuccessCallback: async (transaction: Transaction | null) => {
           logger.debug('transaction', transaction);
           logger.debug('fileId in closure', fileId);
+
           if (!transaction) return;
 
           // Update tx_hash

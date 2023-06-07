@@ -8,6 +8,7 @@ export const StyledArtifactButton = styled.div<{ objectFit: 'contain' | 'cover' 
     display: grid;
     place-items: center;
     position: relative;
+    margin: auto;
 
     img {
       object-fit: ${({ objectFit }) => objectFit};

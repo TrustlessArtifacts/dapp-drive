@@ -13,7 +13,7 @@ export const Container = styled.div`
   margin-right: auto;
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background-color: #000;
 
   .background-image {
     position: absolute;
@@ -24,7 +24,7 @@ export const Container = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  min-height: calc(100vh - 140px);
+  min-height: calc(100vh - ${HEADER_HEIGHT}px);
   max-width: 1920px;
   padding: 0 ${px2rem(32)};
   width: 100%;

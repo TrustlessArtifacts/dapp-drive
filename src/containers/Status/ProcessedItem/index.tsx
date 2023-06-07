@@ -7,16 +7,23 @@ import { ARTIFACT_CONTRACT, CDN_URL } from '@/configs';
 import { formatDateTime } from '@/utils/time';
 import ArtifactButton from '@/components/ArtifactButton';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
+import { useRouter } from 'next/router';
 
 interface IProps {
   file?: IUploadFileResponseItem;
 };
 
 const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
+  const router = useRouter();
   const isBigFile = file && file.totalChunks > 1;
 
+  const navigateToDetail = (): void => {
+    if (!file) return;
+    router.push(`/token?contract=${ARTIFACT_CONTRACT}&id=${file.tokenId}`);
+  }
+
   return (
-    <StyledProcessedItem className="border-gradient">
+    <StyledProcessedItem className="border-gradient" onClick={navigateToDetail}>
       <div className="info-wrapper">
         <div className="thumbnail-wrapper">
           <NFTDisplayBox

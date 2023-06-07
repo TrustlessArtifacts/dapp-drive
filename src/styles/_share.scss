@@ -21,7 +21,7 @@
   &::before {
     content: '';
     position: absolute;
-    z-index: -2;
+    z-index: -3;
     left: -50%;
     top: -50%;
     width: 200%;
@@ -40,12 +40,12 @@
   &::after {
     content: '';
     position: absolute;
-    z-index: -1;
+    z-index: -2;
     left: 1px;
     top: 1px;
     width: calc(100% - 2px);
     height: calc(100% - 2px);
-    background: transparent;
+    background: #000;
     border-radius: 12px;
   }
 }

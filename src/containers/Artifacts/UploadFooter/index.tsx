@@ -2,7 +2,6 @@ import ArtifactButton from '@/components/ArtifactButton';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import { CDN_URL } from '@/configs';
-import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { FileUploader } from 'react-drag-drop-files';
 import { useSelector } from 'react-redux';
 import { StyledUploadFooter } from './UploadFooter.styled';
@@ -85,8 +84,6 @@ const UploadFooter = ({
         <FileUploader
           handleChange={onChangeFile}
           name={'fileUploader'}
-          maxSize={BLOCK_CHAIN_FILE_LIMIT}
-          // onSizeError={onSizeError}
           classes={`file-uploader ${!isAuthenticated ? 'hidden' : ''}`}
         />
       </div>

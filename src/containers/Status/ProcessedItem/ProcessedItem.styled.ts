@@ -6,6 +6,11 @@ export const StyledProcessedItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 4px 4px 10px rgba(99, 255, 124);
+  }
 
   .info-wrapper {
     display: flex;

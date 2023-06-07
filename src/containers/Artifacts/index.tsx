@@ -90,8 +90,6 @@ const Artifacts: React.FC = () => {
             <FileUploader
               handleChange={onChangeFile}
               name={'fileUploader'}
-              // maxSize={BLOCK_CHAIN_FILE_LIMIT}
-              // onSizeError={onSizeError}
               classes={`file-uploader ${!isAuthenticated ? 'hidden' : ''}`}
             />
           </div>

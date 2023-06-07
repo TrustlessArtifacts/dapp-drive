@@ -1,7 +1,6 @@
 import ArtifactABIJson from '@/abis/artifacts.json';
 import { ARTIFACT_CONTRACT } from '@/configs';
 import { AssetsContext } from '@/contexts/assets-context';
-import { TransactionEventType } from '@/enums/transaction';
 import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
 import logger from '@/services/logger';
@@ -61,7 +60,7 @@ const usePreserveChunks: ContractOperationHook<
   return {
     call: call,
     dAppType: DAppType.BFS,
-    operationName: TransactionEventType.CREATE,
+    operationName: 'Preserve Chunks',
   };
 };
 

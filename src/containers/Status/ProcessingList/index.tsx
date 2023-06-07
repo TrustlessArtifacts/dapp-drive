@@ -32,6 +32,7 @@ const ProcessedList: React.FC = (): React.ReactElement => {
         wallet_address: user.walletAddress,
         status: '0,1',
       });
+
       if (processingFilesRes.length < FETCH_LIMIT) {
         setHasMoreProcessing(false);
       } else {
