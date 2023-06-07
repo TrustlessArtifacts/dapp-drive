@@ -6,29 +6,48 @@ import { Wrapper } from './EstimatedFee.styled';
 import { AssetsContext } from '@/contexts/assets-context';
 import web3Provider from '@/connections/custom-web3-provider';
 import useAsyncEffect from 'use-async-effect';
+import { compressFileAndGetSize } from '@/services/file';
+import { readFileAsBuffer } from '@/utils';
+import logger from '@/services/logger';
+import { TRANSFER_TX_SIZE } from '@/configs';
+import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
+import EllipsisLoading from '../EllipsisLoading';
 
 interface IProps {
-  txSize: number;
+  file: File | null;
   classNames?: string;
 }
 
-const EstimatedFee: React.FC<IProps> = ({ txSize, classNames }: IProps): React.ReactElement => {
+const EstimatedFee: React.FC<IProps> = ({ file, classNames }: IProps): React.ReactElement => {
   const { feeRate } = useContext(AssetsContext);
-  const [estBTCFee, setEstBTCFee] = useState('0');
-  const [estTCFee, setEstTCFee] = useState('0');
+  const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
+  const [estTCFee, setEstTCFee] = useState<string | null>(null);
 
-  const calculateEstBtcFee = useCallback(() => {
-    const estimatedEconomyFee = TC_SDK.estimateInscribeFee({
-      tcTxSizeByte: txSize,
-      feeRatePerByte: feeRate.hourFee,
-    });
+  const calculateEstBtcFee = useCallback(async () => {
+    if (!file) return;
+    try {
+      let tcTxSizeByte = TRANSFER_TX_SIZE;
+      if (file.size < BLOCK_CHAIN_FILE_LIMIT) {
+        const fileBuffer = await readFileAsBuffer(file);
+        const { compressedSize } = await compressFileAndGetSize({
+          fileBase64: fileBuffer.toString('base64')
+        });
+        tcTxSizeByte = TRANSFER_TX_SIZE + compressedSize;
+      }
+      const estimatedEconomyFee = TC_SDK.estimateInscribeFee({
+        tcTxSizeByte: tcTxSizeByte,
+        feeRatePerByte: feeRate.hourFee,
+      });
 
-    setEstBTCFee(estimatedEconomyFee.totalFee.toString());
-  }, [txSize, setEstBTCFee, feeRate.hourFee]);
+      setEstBTCFee(estimatedEconomyFee.totalFee.toString());
+    } catch (err: unknown) {
+      logger.error(err);
+    }
+  }, [file, setEstBTCFee, feeRate.hourFee]);
 
   useEffect(() => {
     calculateEstBtcFee();
-  }, [txSize, calculateEstBtcFee]);
+  }, [file, calculateEstBtcFee]);
 
   useAsyncEffect(async () => {
     const tcFee = await web3Provider.getEstimatedTransactionFee();
@@ -39,7 +58,7 @@ const EstimatedFee: React.FC<IProps> = ({ txSize, classNames }: IProps): React.R
     <Wrapper className={classNames}>
       <div className="est-fee">
         <Text className='est-fee-title' size="regular" fontWeight="medium" color="bg1">
-          Network fee estimate
+          Network fee estimation
         </Text>
         <div className="est-fee-options">
           <div
@@ -49,7 +68,7 @@ const EstimatedFee: React.FC<IProps> = ({ txSize, classNames }: IProps): React.R
               BTC network fee
             </p>
             <p className='est-fee-item-value'>
-              ~ {formatBTCPrice(estBTCFee)} BTC
+              {estBTCFee ? `~ ${formatBTCPrice(estBTCFee)} BTC` : <EllipsisLoading />}
             </p>
           </div>
           <div
@@ -59,7 +78,7 @@ const EstimatedFee: React.FC<IProps> = ({ txSize, classNames }: IProps): React.R
               TC network fee
             </p>
             <p className='est-fee-item-value'>
-              ~ {formatEthPrice(estTCFee)} TC
+              {estTCFee ? `~ ${formatEthPrice(estTCFee)} TC` : <EllipsisLoading />}
             </p>
           </div>
         </div>

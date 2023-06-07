@@ -3,7 +3,7 @@ import Button from '@/components/Button';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
-import { CDN_URL, TRANSFER_TX_SIZE } from '@/configs';
+import { CDN_URL } from '@/configs';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { ROUTE_PATH } from '@/constants/route-path';
 import usePreserveChunks, {
@@ -178,7 +178,7 @@ const ModalUpload = (props: Props) => {
           </>
         </FileUploader>
         <div className="right_content">
-          <EstimatedFee txSize={file?.size || TRANSFER_TX_SIZE} />
+          <EstimatedFee file={file} />
           {file && !error && (
             <ArtifactButton
               variant="primary"

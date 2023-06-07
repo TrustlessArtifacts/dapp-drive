@@ -85,7 +85,6 @@ export const StyledModalUpload = styled(Modal)`
     }
 
     img {
-      background-color: ${({ theme }: { theme: DefaultTheme }) => theme.bg5};
       width: 100%;
       height: 100%;
       object-fit: contain;

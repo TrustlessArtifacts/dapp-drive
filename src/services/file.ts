@@ -1,6 +1,8 @@
 import {
   ICompleteMultipartUploadPayload,
   ICompleteMultipartUploadResponse,
+  ICompressFileAndGetSizePayload,
+  ICompressFileAndGetSizeResponse,
   IGetFileChunkParams,
   IGetFileChunkResponse,
   IGetFileChunksParams,
@@ -144,5 +146,22 @@ export const getFileChunk = async (
     return Object(camelCaseKeys(res));
   } catch (err: unknown) {
     throw Error('Failed to get file chunk');
+  }
+};
+
+export const compressFileAndGetSize = async (
+  payload: ICompressFileAndGetSizePayload,
+): Promise<ICompressFileAndGetSizeResponse> => {
+  try {
+    const { fileBase64 } = payload;
+    const res = await apiClient.post<IGetFileChunkResponse>(
+      `${API_PATH}/file-size`,
+      {
+        file_content: fileBase64
+      },
+    );
+    return Object(camelCaseKeys(res));
+  } catch (err: unknown) {
+    throw Error('Failed to compress and get size');
   }
 };

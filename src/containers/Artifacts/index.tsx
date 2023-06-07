@@ -15,6 +15,8 @@ import ArtifactButton from '@/components/ArtifactButton';
 import useWindowSize from '@/hooks/useWindowSize';
 import UploadFooter from './UploadFooter';
 import { useIsInViewport } from '@/hooks/useIsInViewport';
+import { showToastError } from '@/utils/toast';
+import logger from '@/services/logger';
 
 const Artifacts: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -32,7 +34,10 @@ const Artifacts: React.FC = () => {
       await onConnect();
       await requestBtcAddress();
     } catch (err) {
-      console.log(err);
+      logger.error(err);
+      showToastError({
+        message: (err as Error).message
+      })
       onDisconnect();
     }
   };

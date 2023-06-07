@@ -1,8 +1,10 @@
 import ArtifactABIJson from '@/abis/artifacts.json';
 import { ARTIFACT_CONTRACT, TRANSFER_TX_SIZE } from '@/configs';
+import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { AssetsContext } from '@/contexts/assets-context';
 import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
+import { compressFileAndGetSize } from '@/services/file';
 import logger from '@/services/logger';
 import { formatBTCPrice } from '@/utils/format';
 import { useWeb3React } from '@web3-react/core';
@@ -29,7 +31,15 @@ const usePreserveChunks: ContractOperationHook<
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
         const { address, chunks, txSuccessCallback } = params;
-        const tcTxSizeByte = chunks.length > 0 ? Buffer.byteLength(chunks[0]) : TRANSFER_TX_SIZE;
+        const firstChunk = chunks.length > 0 ? chunks[0] : null;
+        let tcTxSizeByte = TRANSFER_TX_SIZE;
+
+        if (firstChunk && Buffer.byteLength(firstChunk) < BLOCK_CHAIN_FILE_LIMIT) {
+          const { compressedSize } = await compressFileAndGetSize({
+            fileBase64: firstChunk.toString('base64')
+          });
+          tcTxSizeByte = TRANSFER_TX_SIZE + compressedSize;
+        }
 
         logger.info(`tcTxSizeByte: ${tcTxSizeByte}`);
 
@@ -37,6 +47,7 @@ const usePreserveChunks: ContractOperationHook<
           tcTxSizeByte: tcTxSizeByte,
           feeRatePerByte: feeRate.hourFee,
         });
+
         const balanceInBN = new BigNumber(btcBalance);
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
           throw Error(`Insufficient BTC balance. Please top up at least ${formatBTCPrice(estimatedFee.totalFee.toString())} BTC.`);

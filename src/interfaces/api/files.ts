@@ -122,3 +122,12 @@ export interface IUploadFileResponseItem {
   totalChunks: number;
   status: ChunkProcessStatus;
 }
+
+export interface ICompressFileAndGetSizePayload {
+  fileBase64: string;
+}
+
+export interface ICompressFileAndGetSizeResponse {
+  originalSize: number;
+  compressedSize: number;
+}
