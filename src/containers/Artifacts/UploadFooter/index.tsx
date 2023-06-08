@@ -14,6 +14,7 @@ type Props = {
   onChangeFile: (file: File) => void;
   // onSizeError: () => void;
   isUploadVisible: boolean;
+  style?: React.CSSProperties;
 };
 
 const UploadFooter = ({
@@ -21,6 +22,7 @@ const UploadFooter = ({
   onChangeFile,
   // onSizeError,
   isUploadVisible,
+  style,
 }: Props) => {
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const { mobileScreen } = useWindowSize();
@@ -45,7 +47,7 @@ const UploadFooter = ({
   };
 
   return (
-    <StyledUploadFooter isUploadVisible={isUploadVisible}>
+    <StyledUploadFooter isUploadVisible={isUploadVisible} style={style}>
       <div className="icons">
         <IconSVG
           src={`${CDN_URL}/pages/artifacts/icons/ic-footer-1.svg`}

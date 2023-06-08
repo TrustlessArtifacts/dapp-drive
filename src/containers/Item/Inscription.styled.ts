@@ -11,7 +11,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: ${px2rem(32)};
-    margin-top: ${px2rem(60)};
+    margin-top: ${px2rem(30)};
     width: 70%;
 
     @media screen and (max-width: 1024.98px) {

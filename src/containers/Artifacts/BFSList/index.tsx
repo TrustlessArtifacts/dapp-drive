@@ -19,8 +19,6 @@ const BFSList = () => {
   const [filter, setFilter] = useState<number | null>(null);
   const [isSortLatest, setIsSortLatest] = useState<boolean>(true);
 
-  // const [showAll, setShowAll] = useState(false);
-
   const FILTER_OPTIONS = [
     {
       id: 1,
@@ -59,7 +57,7 @@ const BFSList = () => {
         limit: LIMIT_PAGE,
         isShowAll: undefined,
         isBigFile: undefined,
-        sortBy: 'created_at',
+        sortBy: undefined,
         sort: isSortLatest ? -1 : 1,
       };
 
