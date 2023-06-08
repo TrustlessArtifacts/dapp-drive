@@ -51,9 +51,9 @@ const NFTCard = ({
         </div>
         <div className="card-info">
           {title1 && <p className="card-title1">{title1}</p>}
-          {fileSize && fileSize > BLOCK_CHAIN_FILE_LIMIT && (
+          {fileSize && fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
             <BigFileTag color="green" text={`${prettyPrintBytes(fileSize)}`} />
-          )}
+          ) : null}
         </div>
       </div>
     </Styled>

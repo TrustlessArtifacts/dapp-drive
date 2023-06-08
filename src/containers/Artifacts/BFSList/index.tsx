@@ -19,8 +19,6 @@ const BFSList = () => {
   const [filter, setFilter] = useState<number | null>(null);
   const [isSortLatest, setIsSortLatest] = useState<boolean>(true);
 
-  // const [showAll, setShowAll] = useState(false);
-
   const FILTER_OPTIONS = [
     {
       id: 1,
@@ -30,7 +28,7 @@ const BFSList = () => {
     },
     {
       id: 2,
-      name: 'Big File',
+      name: 'Files > 350KB',
       value: 'big',
       icon: `${CDN_URL}/pages/artifacts/icons/ic-big-glow.svg`,
     },
@@ -59,7 +57,7 @@ const BFSList = () => {
         limit: LIMIT_PAGE,
         isShowAll: undefined,
         isBigFile: undefined,
-        sortBy: 'created_at',
+        sortBy: undefined,
         sort: isSortLatest ? -1 : 1,
       };
 
