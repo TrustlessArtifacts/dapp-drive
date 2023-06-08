@@ -8,6 +8,7 @@ import { IInscription } from '@/interfaces/api/inscription';
 import { IPagingParams } from '@/interfaces/api/query';
 import { camelCaseKeys } from '@/utils/helpers';
 import { apiClient } from '.';
+import { constructURL } from '@/utils/url';
 
 const API_PATH = '/nft-explorer';
 
@@ -49,17 +50,31 @@ export const getCollectionNfts = async ({
   limit = 10,
   page = 1,
   owner = '',
-  isShowAll = false,
+  isShowAll,
+  isBigFile,
+  sortBy,
+  sort,
 }: {
   contractAddress: string;
   limit?: number;
   page?: number;
   owner?: string;
-  isShowAll: boolean;
+  isShowAll?: boolean;
+  isBigFile?: boolean;
+  sortBy?: string;
+  sort?: number;
 }): Promise<IInscription[]> => {
-  const res = await apiClient.get(
-    `${API_PATH}/collections/${contractAddress}/nfts?limit=${limit}&page=${page}&owner=${owner}&allow_empty=${isShowAll}`,
-  );
+  const url = constructURL(`${API_PATH}/collections/${contractAddress}/nfts`, {
+    limit,
+    page,
+    owner,
+    allow_empty: isShowAll,
+    is_big_file: isBigFile,
+    sort_by: sortBy,
+    sort,
+  });
+
+  const res = await apiClient.get(url);
   return Object(camelCaseKeys(res));
 };
 
