@@ -18,8 +18,6 @@ const HomePage: NextPage = () => {
       router.push(ROUTE_PATH.ABOUT);
       sessionStorage.set('firstTimeVisit', false);
     } else {
-      console.log('trigger');
-
       setIsLoading(false);
     }
   };

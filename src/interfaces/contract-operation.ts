@@ -9,9 +9,10 @@ export enum DAppType {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ContractOperationHook<P, R> = (arg?: any) => {
-  call: (args: P) => Promise<R>;
   dAppType: DAppType;
   operationName: string;
+  call: (args: P) => Promise<R>;
+  estimateGas?: (args: P) => Promise<string>;
 };
 
 export type DeployContractResponse = {

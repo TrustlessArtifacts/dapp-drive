@@ -3,7 +3,7 @@ import Button from '@/components/Button';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
-import { CDN_URL } from '@/configs';
+import { CDN_URL, TRANSFER_TX_SIZE } from '@/configs';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { ROUTE_PATH } from '@/constants/route-path';
 import usePreserveChunks, {
@@ -12,7 +12,7 @@ import usePreserveChunks, {
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
 import useWindowSize from '@/hooks/useWindowSize';
-import { updateFileTransactionInfo } from '@/services/file';
+import { compressFileAndGetSize, updateFileTransactionInfo } from '@/services/file';
 import logger from '@/services/logger';
 import { readFileAsBuffer } from '@/utils';
 import { showToastError, showToastSuccess } from '@/utils/toast';
@@ -20,12 +20,16 @@ import { prettyPrintBytes } from '@/utils/units';
 import { useWeb3React } from '@web3-react/core';
 import { Transaction } from 'ethers';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FileUploader } from 'react-drag-drop-files';
 import { v4 as uuidv4 } from 'uuid';
 import { StyledModalUpload } from './ModalUpload.styled';
 import EstimatedFee from '@/components/EstimatedFee';
+import { AssetsContext } from '@/contexts/assets-context';
+import * as TC_SDK from 'trustless-computer-sdk';
+import web3Provider from '@/connections/custom-web3-provider';
+import BigNumber from 'bignumber.js';
 
 type Props = {
   show: boolean;
@@ -50,6 +54,65 @@ const ModalUpload = (props: Props) => {
     operation: usePreserveChunks,
     inscribeable: true,
   });
+  const { estimateGas } = usePreserveChunks();
+  const { feeRate } = useContext(AssetsContext);
+  const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
+  const [estTCFee, setEstTCFee] = useState<string | null>(null);
+
+  const calculateEstBtcFee = useCallback(async () => {
+    if (!file) return;
+    try {
+      setEstBTCFee(null);
+
+      let tcTxSizeByte = TRANSFER_TX_SIZE;
+      if (file.size < BLOCK_CHAIN_FILE_LIMIT) {
+        const fileBuffer = await readFileAsBuffer(file);
+        const { compressedSize } = await compressFileAndGetSize({
+          fileBase64: fileBuffer.toString('base64')
+        });
+        tcTxSizeByte = TRANSFER_TX_SIZE + compressedSize;
+      }
+      const estimatedEconomyFee = TC_SDK.estimateInscribeFee({
+        tcTxSizeByte: tcTxSizeByte,
+        feeRatePerByte: feeRate.hourFee,
+      });
+
+      setEstBTCFee(estimatedEconomyFee.totalFee.toString());
+    } catch (err: unknown) {
+      logger.error(err);
+    }
+  }, [file, setEstBTCFee, feeRate.hourFee]);
+
+  const calculateEstTcFee = useCallback(async () => {
+    if (!file || !estimateGas || !account) return;
+
+    setEstTCFee(null);
+    let payload: IPreserveChunkParams;
+
+    try {
+      if (file.size < BLOCK_CHAIN_FILE_LIMIT) {
+        const fileBuffer = await readFileAsBuffer(file);
+        payload = {
+          address: account,
+          chunks: [fileBuffer],
+        }
+      } else {
+        payload = {
+          address: account,
+          chunks: [],
+        }
+      }
+      const gasLimit = await estimateGas(payload);
+      const gasPrice = await web3Provider.getGasPrice();
+      const gasLimitBN = new BigNumber(gasLimit)
+      const gasPriceBN = new BigNumber(gasPrice)
+      const tcGas = gasLimitBN.times(gasPriceBN);
+      logger.debug('TC Gas', tcGas.toString())
+      setEstTCFee(tcGas.toString());
+    } catch (err: unknown) {
+      logger.error(err);
+    }
+  }, [file, setEstTCFee, estimateGas, account]);
 
   const handleUploadFile = async () => {
     if (!account) {
@@ -132,6 +195,14 @@ const ModalUpload = (props: Props) => {
     }
   }, [file]);
 
+  useEffect(() => {
+    calculateEstBtcFee();
+  }, [calculateEstBtcFee]);
+
+  useEffect(() => {
+    calculateEstTcFee()
+  }, [calculateEstTcFee])
+
   return (
     <StyledModalUpload show={show} onHide={handleClose} centered size="lg">
       <Modal.Header>
@@ -178,7 +249,7 @@ const ModalUpload = (props: Props) => {
           </>
         </FileUploader>
         <div className="right_content">
-          <EstimatedFee file={file} />
+          <EstimatedFee estimateBTCGas={estBTCFee} estimateTCGas={estTCFee} />
           {file && !error && (
             <ArtifactButton
               variant="primary"
