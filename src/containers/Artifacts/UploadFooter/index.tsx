@@ -65,11 +65,13 @@ const UploadFooter = ({
         />
       </div>
       <div className="text">
-        <span>Inscribe smart inscriptions, large file size support with great utilities.</span>
+        <span>
+          Inscribe smart inscriptions, large file size support with great utilities.
+        </span>
       </div>
       <div className="button">
         <ArtifactButton
-          variant="white"
+          variant="primary-md"
           width={buttonWidth()}
           height={buttonHeight()}
         >

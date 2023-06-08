@@ -30,7 +30,7 @@ const BFSList = () => {
     },
     {
       id: 2,
-      name: 'Big File',
+      name: 'Files > 350KB',
       value: 'big',
       icon: `${CDN_URL}/pages/artifacts/icons/ic-big-glow.svg`,
     },
