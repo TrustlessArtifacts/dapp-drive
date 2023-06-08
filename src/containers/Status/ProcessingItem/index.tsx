@@ -165,7 +165,11 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
                 height={44}
                 onClick={() => setShowInscribeModal(true)}
               >
-                <p>{showInscribeModal ? 'Processing...' : 'Inscribe'}</p>
+                <p>
+                  {showInscribeModal
+                    ? 'Processing...'
+                    : `Inscribe ${finishedChunk}/${file.totalChunks}`}
+                </p>
               </ArtifactButton>
             )}
           </div>
