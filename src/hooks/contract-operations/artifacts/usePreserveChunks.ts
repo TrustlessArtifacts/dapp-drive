@@ -26,6 +26,17 @@ const usePreserveChunks: ContractOperationHook<
   const contract = useContract(ARTIFACT_CONTRACT, ArtifactABIJson.abi, true);
   const { btcBalance, feeRate } = useContext(AssetsContext);
 
+  const estimateGas = useCallback(
+    async (params: IPreserveChunkParams): Promise<string> => {
+      if (account && provider && contract) {
+        const { address, chunks } = params;
+        const estimate = await contract.estimateGas.preserveChunks(address, chunks);
+        logger.debug('usePreserveChunks estimate gas', estimate.toString());
+        return estimate.toString();
+      }
+      return '200000000';
+    }, [contract, provider, account]);
+
   const call = useCallback(
     async (params: IPreserveChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
@@ -71,19 +82,8 @@ const usePreserveChunks: ContractOperationHook<
 
       return null;
     },
-    [account, provider, contract, btcBalance, feeRate],
+    [account, provider, contract, btcBalance, feeRate, estimateGas],
   );
-
-  const estimateGas = useCallback(
-    async (params: IPreserveChunkParams): Promise<string> => {
-      if (account && provider && contract) {
-        const { address, chunks } = params;
-        const estimate = await contract.estimateGas.preserveChunks(address, chunks);
-        logger.debug('usePreserveChunks estimate gas', estimate.toString());
-        return estimate.toString();
-      }
-      return '200000000';
-    }, [contract, provider, account]);
 
   return {
     call: call,
