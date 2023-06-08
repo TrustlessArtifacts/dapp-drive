@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux';
 import ProcessingItem from '../ProcessingItem';
 import uniqBy from 'lodash/uniqBy';
 import { Wrapper } from './ProcessingList.styled';
-import { Spinner } from 'react-bootstrap';
 import Button from '@/components/Button';
 import ArtifactButton from '@/components/ArtifactButton';
 import Empty from '@/components/Empty';
+import Spinner from '@/components/Spinner';
 
 const FETCH_LIMIT = 10;
 
@@ -74,9 +74,9 @@ const ProcessedList: React.FC = (): React.ReactElement => {
             </Button>
           </ArtifactButton>
         )}
-        {(!loadingProcessing && !hashMoreProcessing && processingFiles.length === 0) && (
-          <Empty infoText='No data found' />
-        )}
+        {!loadingProcessing &&
+          !hashMoreProcessing &&
+          processingFiles.length === 0 && <Empty infoText="No data found" />}
       </div>
     </Wrapper>
   );
