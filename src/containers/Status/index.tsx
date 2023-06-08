@@ -21,7 +21,7 @@ const StatusPage = () => {
     <StyledStatusPage>
       <div className="row">
         <div className="col-12 col-lg-8 offset-lg-2">
-          <h1 className="pageTitle">Inscribing Status</h1>
+          <h1 className="pageTitle">Big File Inscribing Status</h1>
           <p className="pageDescription">
             Check the <b>BIG FILE</b> status and inscribing process here.
             <br />

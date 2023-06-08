@@ -56,7 +56,7 @@ const ProcessedList: React.FC = (): React.ReactElement => {
   return (
     <Wrapper>
       <div className="sectionWrapper">
-        <h2 className="sectionTitle">Preserved</h2>
+        <h2 className="sectionTitle">Inscribed</h2>
         <InfiniteScroll
           className="list"
           dataLength={processedFiles?.length || 0}
