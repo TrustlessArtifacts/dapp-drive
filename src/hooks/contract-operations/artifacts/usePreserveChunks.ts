@@ -30,11 +30,13 @@ const usePreserveChunks: ContractOperationHook<
     async (params: IPreserveChunkParams): Promise<string> => {
       if (account && provider && contract) {
         const { address, chunks } = params;
-        const estimate = await contract.estimateGas.preserveChunks(address, chunks);
-        logger.debug('usePreserveChunks estimate gas', estimate.toString());
-        return estimate.toString();
+        const gasLimit = await contract.estimateGas.preserveChunks(address, chunks);
+        const gasLimitBN = new BigNumber(gasLimit.toString());
+        const gasBuffer = gasLimitBN.times(1.1).decimalPlaces(0);
+        logger.debug('usePreserveChunks estimate gas', gasBuffer.toString());
+        return gasBuffer.toString();
       }
-      return '200000000';
+      return '1000000000';
     }, [contract, provider, account]);
 
   const call = useCallback(
@@ -65,7 +67,7 @@ const usePreserveChunks: ContractOperationHook<
           throw Error(`Insufficient BTC balance. Please top up at least ${formatBTCPrice(estimatedFee.totalFee.toString())} BTC.`);
         }
 
-        const gasLimit = estimateGas(params);
+        const gasLimit = await estimateGas(params);
         logger.debug('gasLimit', gasLimit);
         const transaction = await contract
           .connect(provider.getSigner())

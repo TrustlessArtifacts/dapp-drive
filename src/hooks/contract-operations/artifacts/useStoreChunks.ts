@@ -27,6 +27,24 @@ const useStoreChunks: ContractOperationHook<
   const contract = useContract(ARTIFACT_CONTRACT, ArtifactABIJson.abi, true);
   const { btcBalance, feeRate } = useContext(AssetsContext);
 
+  const estimateGas = useCallback(
+    async (params: IStoreChunkParams): Promise<string> => {
+      if (account && provider && contract) {
+        const { tokenId, chunkIndex, chunks } = params;
+
+        const estimate = await contract.estimateGas.store(
+          tokenId,
+          chunkIndex,
+          chunks,
+        );
+        logger.debug('useStoreChunks estimate gas', estimate.toString());
+        return estimate.toString();
+      }
+      return '200000000';
+    },
+    [contract, provider, account],
+  );
+
   const call = useCallback(
     async (params: IStoreChunkParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
@@ -34,7 +52,7 @@ const useStoreChunks: ContractOperationHook<
         const { tokenId, chunkIndex, chunks, txSuccessCallback } = params;
 
         const { compressedSize } = await compressFileAndGetSize({
-          fileBase64: chunks.toString('base64')
+          fileBase64: chunks.toString('base64'),
         });
         const tcTxSizeByte = TRANSFER_TX_SIZE + compressedSize;
 
@@ -48,13 +66,18 @@ const useStoreChunks: ContractOperationHook<
         const balanceInBN = new BigNumber(btcBalance);
 
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
-          throw Error(`Insufficient BTC balance. Please top up at least ${formatBTCPrice(estimatedFee.totalFee.toString())} BTC.`);
+          throw Error(
+            `Insufficient BTC balance. Please top up at least ${formatBTCPrice(
+              estimatedFee.totalFee.toString(),
+            )} BTC.`,
+          );
         }
-
+        const gasLimit = estimateGas(params);
+        logger.debug('gasLimit', gasLimit);
         const transaction = await contract
           .connect(provider.getSigner())
           .store(tokenId, chunkIndex, chunks, {
-            gasLimit: '500000'
+            gasLimit: gasLimit,
           });
 
         if (txSuccessCallback) {
@@ -71,6 +94,7 @@ const useStoreChunks: ContractOperationHook<
 
   return {
     call: call,
+    estimateGas: estimateGas,
     dAppType: DAppType.BFS,
     operationName: 'Store Chunks',
   };

@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux';
 import uniqBy from 'lodash/uniqBy';
 import { Wrapper } from './ProcessedList.styled';
 import ProcessedItem from '../ProcessedItem';
-import { Spinner } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { debounce } from 'lodash';
 import Empty from '@/components/Empty';
+import Spinner from '@/components/Spinner';
 
 const FETCH_LIMIT = 32;
 
@@ -73,8 +73,8 @@ const ProcessedList: React.FC = (): React.ReactElement => {
           {processedFiles.map((item) => {
             return <ProcessedItem key={item.id} file={item} />;
           })}
-          {(!loadingProcessed && processedFiles.length === 0) && (
-            <Empty infoText='No data found' />
+          {!loadingProcessed && processedFiles.length === 0 && (
+            <Empty infoText="No data found" />
           )}
         </InfiniteScroll>
       </div>

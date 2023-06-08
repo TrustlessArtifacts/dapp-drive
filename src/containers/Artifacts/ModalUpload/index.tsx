@@ -20,7 +20,7 @@ import { prettyPrintBytes } from '@/utils/units';
 import { useWeb3React } from '@web3-react/core';
 import { Transaction } from 'ethers';
 import { useRouter } from 'next/router';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FileUploader } from 'react-drag-drop-files';
 import { v4 as uuidv4 } from 'uuid';
@@ -68,7 +68,7 @@ const ModalUpload = (props: Props) => {
       if (file.size < BLOCK_CHAIN_FILE_LIMIT) {
         const fileBuffer = await readFileAsBuffer(file);
         const { compressedSize } = await compressFileAndGetSize({
-          fileBase64: fileBuffer.toString('base64')
+          fileBase64: fileBuffer.toString('base64'),
         });
         tcTxSizeByte = TRANSFER_TX_SIZE + compressedSize;
       }
@@ -95,19 +95,19 @@ const ModalUpload = (props: Props) => {
         payload = {
           address: account,
           chunks: [fileBuffer],
-        }
+        };
       } else {
         payload = {
           address: account,
           chunks: [],
-        }
+        };
       }
       const gasLimit = await estimateGas(payload);
       const gasPrice = await web3Provider.getGasPrice();
-      const gasLimitBN = new BigNumber(gasLimit)
-      const gasPriceBN = new BigNumber(gasPrice)
+      const gasLimitBN = new BigNumber(gasLimit);
+      const gasPriceBN = new BigNumber(gasPrice);
       const tcGas = gasLimitBN.times(gasPriceBN);
-      logger.debug('TC Gas', tcGas.toString())
+      logger.debug('TC Gas', tcGas.toString());
       setEstTCFee(tcGas.toString());
     } catch (err: unknown) {
       logger.error(err);
@@ -189,6 +189,11 @@ const ModalUpload = (props: Props) => {
     setError('');
   };
 
+  const isBigFile = useMemo(
+    () => (file?.size ? file?.size > BLOCK_CHAIN_FILE_LIMIT : false),
+    [file?.size],
+  );
+
   useEffect(() => {
     if (file) {
       setPreview(URL.createObjectURL(file));
@@ -200,8 +205,8 @@ const ModalUpload = (props: Props) => {
   }, [calculateEstBtcFee]);
 
   useEffect(() => {
-    calculateEstTcFee()
-  }, [calculateEstTcFee])
+    calculateEstTcFee();
+  }, [calculateEstTcFee]);
 
   return (
     <StyledModalUpload show={show} onHide={handleClose} centered size="lg">
@@ -249,7 +254,12 @@ const ModalUpload = (props: Props) => {
           </>
         </FileUploader>
         <div className="right_content">
-          <EstimatedFee estimateBTCGas={estBTCFee} estimateTCGas={estTCFee} />
+          <EstimatedFee
+            estimateBTCGas={estBTCFee}
+            estimateTCGas={estTCFee}
+            isBigFile={isBigFile}
+            uploadView
+          />
           {file && !error && (
             <ArtifactButton
               variant="primary"
@@ -264,10 +274,16 @@ const ModalUpload = (props: Props) => {
                 onClick={handleUploadFile}
               >
                 <Text size="medium" fontWeight="medium" className="confirm-text">
-                  {isProcessing ? 'Processing...' : 'upload'}
+                  {isProcessing ? 'Processing...' : isBigFile ? 'reserve' : 'upload'}
                 </Text>
               </Button>
             </ArtifactButton>
+          )}
+          {isBigFile && (
+            <Text size="medium" className="big-file-note">
+              This file is over 350KB, you will need to reserve first before inscribe
+              into bitcoin.
+            </Text>
           )}
         </div>
       </Modal.Body>

@@ -1,16 +1,16 @@
+import ArtifactButton from '@/components/ArtifactButton';
+import Button from '@/components/Button';
+import Empty from '@/components/Empty';
+import Spinner from '@/components/Spinner';
 import { IUploadFileResponseItem } from '@/interfaces/api/files';
 import { getUploadedFileList } from '@/services/file';
 import logger from '@/services/logger';
 import { getUserSelector } from '@/state/user/selector';
+import uniqBy from 'lodash/uniqBy';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ProcessingItem from '../ProcessingItem';
-import uniqBy from 'lodash/uniqBy';
 import { Wrapper } from './ProcessingList.styled';
-import { Spinner } from 'react-bootstrap';
-import Button from '@/components/Button';
-import ArtifactButton from '@/components/ArtifactButton';
-import Empty from '@/components/Empty';
 
 const FETCH_LIMIT = 10;
 
@@ -54,31 +54,33 @@ const ProcessedList: React.FC = (): React.ReactElement => {
   }, [user]);
 
   return (
-    <Wrapper>
-      <div className="sectionWrapper">
-        <h2 className="sectionTitle">Processing</h2>
-        <div className="dataList">
-          {processingFiles.map((item) => {
-            return <ProcessingItem key={item.id} file={item} />;
-          })}
-        </div>
-        {loadingProcessing && (
-          <div className="loading-wrapper">
-            <Spinner />
+    <>
+      <Wrapper>
+        <div className="sectionWrapper">
+          <h2 className="sectionTitle">Processing</h2>
+          <div className="dataList">
+            {processingFiles.map((item) => {
+              return <ProcessingItem key={item.id} file={item} />;
+            })}
           </div>
-        )}
-        {hashMoreProcessing && (
-          <ArtifactButton variant="transparent" className="loadmore-wrapper">
-            <Button className="loadmore-btn" onClick={fetchProcessingFileList}>
-              Load more
-            </Button>
-          </ArtifactButton>
-        )}
-        {(!loadingProcessing && !hashMoreProcessing && processingFiles.length === 0) && (
-          <Empty infoText='No data found' />
-        )}
-      </div>
-    </Wrapper>
+          {loadingProcessing && (
+            <div className="loading-wrapper">
+              <Spinner />
+            </div>
+          )}
+          {hashMoreProcessing && (
+            <ArtifactButton variant="transparent" className="loadmore-wrapper">
+              <Button className="loadmore-btn" onClick={fetchProcessingFileList}>
+                Load more
+              </Button>
+            </ArtifactButton>
+          )}
+          {!loadingProcessing &&
+            !hashMoreProcessing &&
+            processingFiles.length === 0 && <Empty infoText="No data found" />}
+        </div>
+      </Wrapper>
+    </>
   );
 };
 

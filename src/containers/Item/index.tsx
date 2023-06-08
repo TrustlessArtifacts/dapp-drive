@@ -156,20 +156,7 @@ const Inscription = ({ data }: { data?: IInscription }) => {
           <Information loading={loadingRefresh}>
             <div className="loading">
               <div className="loading-inner">
-                <div className="lds-spinner">
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </div>
+                <Spinner />
                 <p>
                   Updating… <br />
                   <br />
