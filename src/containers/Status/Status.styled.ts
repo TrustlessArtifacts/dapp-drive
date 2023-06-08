@@ -20,4 +20,23 @@ export const StyledStatusPage = styled.div`
     opacity: 0.7;
     margin-bottom: ${px2rem(48)};
   }
+
+  .wallet-link {
+    text-decoration: underline;
+    &:hover {
+      color: #febe63;
+      cursor: pointer;
+      .ic-outward {
+        svg,
+        path {
+          fill: #febe63;
+        }
+      }
+    }
+  }
+
+  .ic-outward {
+    display: inline-flex;
+    margin-left: 4px;
+  }
 `;

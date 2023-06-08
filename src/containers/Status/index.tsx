@@ -4,6 +4,9 @@ import HistoryList from './HistoryList';
 import { getAccessToken } from '@/utils/auth-storage';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
+import IconSVG from '@/components/IconSVG';
+import { CDN_URL, TC_URL } from '@/configs';
+import { DappsTabs } from '@/enums/tabs';
 
 const StatusPage = () => {
   const router = useRouter();
@@ -18,9 +21,23 @@ const StatusPage = () => {
     <StyledStatusPage>
       <div className="row">
         <div className="col-12 col-lg-8 offset-lg-2">
-          <h1 className="pageTitle">Smart Inscriptions status</h1>
+          <h1 className="pageTitle">Big Files</h1>
           <p className="pageDescription">
-            Check the status and history of your preservations here.
+            Check the BIG FILE status and inscribing process here.
+            <br />
+            For the file size under 350KB,{' '}
+            <span
+              onClick={() => window.open(`${TC_URL}?tab=${DappsTabs.ARTIFACT}`)}
+              className="wallet-link"
+            >
+              go to Wallet{' '}
+              <IconSVG
+                src={`${CDN_URL}/icons/ic-arrow-outward.svg`}
+                maxWidth="10"
+                maxHeight="10"
+                className="ic-outward"
+              />
+            </span>
           </p>
           <div className="listWrapper">
             <HistoryList />
