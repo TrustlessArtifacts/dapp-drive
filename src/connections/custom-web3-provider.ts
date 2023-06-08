@@ -1,6 +1,5 @@
 import { TC_NETWORK_RPC } from '@/configs';
 import { ICustomTransaction } from '@/interfaces/transaction';
-import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 
 class CustomWeb3Provider {
@@ -15,11 +14,9 @@ class CustomWeb3Provider {
     return tx;
   }
 
-  async getEstimatedTransactionFee(): Promise<string> {
+  async getGasPrice(): Promise<string> {
     const gasPrice = await this.web3.eth.getGasPrice();
-    const gasPriceBN = new BigNumber(gasPrice);
-    const estimatedFee = gasPriceBN.times(500000);
-    return estimatedFee.toString();
+    return gasPrice;
   }
 }
 

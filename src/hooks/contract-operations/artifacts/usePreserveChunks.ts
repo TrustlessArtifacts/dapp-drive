@@ -53,10 +53,13 @@ const usePreserveChunks: ContractOperationHook<
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
           throw Error(`Insufficient BTC balance. Please top up at least ${formatBTCPrice(estimatedFee.totalFee.toString())} BTC.`);
         }
+
+        const gasLimit = estimateGas(params);
+        logger.debug('gasLimit', gasLimit);
         const transaction = await contract
           .connect(provider.getSigner())
           .preserveChunks(address, chunks, {
-            gasLimit: '500000'
+            gasLimit: gasLimit,
           });
 
         if (txSuccessCallback) {
@@ -71,8 +74,20 @@ const usePreserveChunks: ContractOperationHook<
     [account, provider, contract, btcBalance, feeRate],
   );
 
+  const estimateGas = useCallback(
+    async (params: IPreserveChunkParams): Promise<string> => {
+      if (account && provider && contract) {
+        const { address, chunks } = params;
+        const estimate = await contract.estimateGas.preserveChunks(address, chunks);
+        logger.debug('usePreserveChunks estimate gas', estimate.toString());
+        return estimate.toString();
+      }
+      return '200000000';
+    }, [contract, provider, account]);
+
   return {
     call: call,
+    estimateGas: estimateGas,
     dAppType: DAppType.BFS,
     operationName: 'Preserve Chunks',
   };
