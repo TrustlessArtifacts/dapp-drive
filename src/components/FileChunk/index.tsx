@@ -5,19 +5,19 @@ import { IUploadFileResponseItem } from '@/interfaces/api/files';
 
 type Props = {
   file?: IUploadFileResponseItem;
+  modalView?: boolean;
 };
 
-const FileChunk = ({ file }: Props) => {
+const FileChunk = ({ file, modalView = false }: Props) => {
   const fileSize = file?.size || 0;
   const totalChunks = file?.totalChunks ?? 1;
   const finishedChunk = useMemo(() => {
     if (!file) return 0;
     return file.processingChunks + file.processedChunks;
-  }, [file])
+  }, [file]);
   const finishedFileSize = file ? finishedChunk * file.chunkSize : 0;
 
-
-  if (!file) return <></>
+  if (!file) return <></>;
 
   return (
     <StyledFileChunk>
@@ -25,7 +25,9 @@ const FileChunk = ({ file }: Props) => {
         {Array.from({ length: totalChunks }, (_, i) => (
           <div className="chunk-block" key={i}>
             <div
-              className={`chunk-inner ${i < finishedChunk ? 'active' : ''}`}
+              className={`chunk-inner ${i < finishedChunk ? 'active' : ''} ${
+                modalView && finishedChunk === i ? 'blink' : ''
+              }`}
             ></div>
           </div>
         ))}

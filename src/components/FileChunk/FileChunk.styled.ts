@@ -28,6 +28,10 @@ export const StyledFileChunk = styled.div`
           background: #78f381;
           box-shadow: 0px 0px 0px 1px rgba(120, 243, 129, 0.5);
         }
+
+        &.blink {
+          animation: blink 1s infinite;
+        }
       }
     }
   }
@@ -39,6 +43,17 @@ export const StyledFileChunk = styled.div`
 
     span {
       opacity: 0.7;
+    }
+  }
+
+  @keyframes blink {
+    0% {
+    }
+    50% {
+      background: #78f381;
+      box-shadow: 0px 0px 0px 1px rgba(120, 243, 129, 0.5);
+    }
+    100% {
     }
   }
 `;

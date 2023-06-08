@@ -177,4 +177,8 @@ export const StyledModalUpload = styled(Modal)`
     text-align: center;
     text-transform: uppercase;
   }
+  .big-file-note {
+    margin-top: ${px2rem(20)};
+    max-width: 55ch;
+  }
 `;
