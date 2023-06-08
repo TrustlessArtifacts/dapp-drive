@@ -166,10 +166,10 @@ const BFSList = () => {
           <Grid>
             {inscriptions &&
               inscriptions.length > 0 &&
-              inscriptions.map((item, index) => {
+              inscriptions.map((item) => {
                 return (
                   <NFTCard
-                    key={index.toString()}
+                    key={`token-${item.tokenId}`}
                     href={`/${item.tokenId}`}
                     image={item.image}
                     contract={ARTIFACT_CONTRACT}
