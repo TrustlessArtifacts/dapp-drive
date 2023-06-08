@@ -1,7 +1,26 @@
 import styled from 'styled-components';
 
-export const BorderWrapper = styled.div`
+export const StyledButtonWrapper = styled.div<{
+  variant:
+    | 'primary'
+    | 'white'
+    | 'transparent'
+    | 'primary-transparent'
+    | 'green-transparent';
+}>`
   position: relative;
+  z-index: 999;
+  clip-path: polygon(
+    20% 0%,
+    96% 0,
+    100% 22%,
+    100% 100%,
+    80% 100%,
+    4% 100%,
+    0 80%,
+    0 0
+  );
+
   &:before {
     content: '';
     position: absolute;
@@ -24,6 +43,7 @@ export const BorderWrapper = styled.div`
     );
     z-index: 2;
   }
+
   &:after {
     z-index: 1;
     content: '';
