@@ -4,9 +4,9 @@ import { IInscription } from '@/interfaces/api/inscription';
 import { getCollectionNfts } from '@/services/nft-explorer';
 import { debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import Spinner from 'react-bootstrap/Spinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Container, Grid } from './BFSList.styled';
+import Spinner from '@/components/Spinner';
 
 const LIMIT_PAGE = 32;
 
@@ -62,7 +62,7 @@ const BFSList = () => {
           loader={
             isFetching && (
               <div className="loading">
-                <Spinner animation="border" variant="primary" />
+                <Spinner />
               </div>
             )
           }

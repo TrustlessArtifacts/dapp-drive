@@ -46,6 +46,14 @@ export const commonTheme = {
     b: '#F9D03F',
   },
   red: '#FF4747',
+
+  button: {
+    primary: '#000',
+    white: '#000',
+    transparent: '#000',
+    'primary-transparent': '#000',
+    'green-transparent': '#000',
+  },
 };
 
 export const darkTheme = {
