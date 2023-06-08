@@ -16,4 +16,5 @@ export interface IInscription {
   owner: string;
   image?: string;
   fileSize?: number;
+  size?: number;
 }

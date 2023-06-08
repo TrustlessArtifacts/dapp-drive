@@ -3,6 +3,9 @@ import IconSVG from '../IconSVG';
 import NFTDisplayBox from '../NFTDisplayBox';
 import { IMAGE_TYPE } from '../NFTDisplayBox/constant';
 import { Styled } from './NFTCard.styled';
+import BigFileTag from '../BigFileTag';
+import { prettyPrintBytes } from '@/utils';
+import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 
 export interface INFTCard {
   href: string;
@@ -12,6 +15,7 @@ export interface INFTCard {
   tokenId?: string;
   contentType?: IMAGE_TYPE;
   title1?: string;
+  fileSize?: number;
 }
 
 const NFTCard = ({
@@ -22,6 +26,7 @@ const NFTCard = ({
   tokenId,
   contentType,
   title1,
+  fileSize,
 }: INFTCard) => {
   return (
     <Styled href={href}>
@@ -46,6 +51,9 @@ const NFTCard = ({
         </div>
         <div className="card-info">
           {title1 && <p className="card-title1">{title1}</p>}
+          {fileSize && fileSize > BLOCK_CHAIN_FILE_LIMIT && (
+            <BigFileTag color="green" text={`${prettyPrintBytes(fileSize)}`} />
+          )}
         </div>
       </div>
     </Styled>

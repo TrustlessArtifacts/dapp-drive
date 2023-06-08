@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
+
     &:not(:last-child) {
       margin-bottom: ${px2rem(12)};
     }
@@ -23,6 +23,7 @@ export const Wrapper = styled.div`
     color: #fff;
     text-transform: uppercase;
     margin-bottom: ${px2rem(20)};
+    letter-spacing: 0.08em;
   }
 
   .est-fee-item-title {

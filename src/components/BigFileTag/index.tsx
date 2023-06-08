@@ -3,7 +3,13 @@ import IconSVG from '../IconSVG';
 import { CDN_URL } from '@/configs';
 import { StyledBigFileTag } from './BigFileTag';
 
-const BigFileTag = ({ color = 'white' }: { color?: string }) => {
+const BigFileTag = ({
+  color = 'white',
+  text = 'Big File',
+}: {
+  color?: string;
+  text?: string;
+}) => {
   return (
     <StyledBigFileTag color={color}>
       <IconSVG
@@ -12,7 +18,7 @@ const BigFileTag = ({ color = 'white' }: { color?: string }) => {
         maxHeight="12"
         className="icon"
       />
-      Big File
+      {text}
     </StyledBigFileTag>
   );
 };

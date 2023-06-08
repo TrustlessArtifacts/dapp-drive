@@ -25,6 +25,45 @@ const Container = styled.div`
     }
   }
 
+  .view-options {
+    margin-bottom: ${px2rem(32)};
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .filter-options {
+      display: flex;
+      align-items: center;
+      gap: ${px2rem(16)};
+
+      .filter-item {
+        padding: ${px2rem(10)} ${px2rem(14)};
+        display: flex;
+        align-items: center;
+        gap: ${px2rem(6)};
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        width: fit-content;
+
+        &.active {
+          background: rgba(120, 243, 129, 0.1);
+          border-color: #78f381;
+        }
+      }
+    }
+
+    .sort-options {
+      padding: ${px2rem(10)} ${px2rem(14)};
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      width: ${px2rem(175)};
+    }
+  }
+
   .title {
     font-style: normal;
     font-weight: 500;
