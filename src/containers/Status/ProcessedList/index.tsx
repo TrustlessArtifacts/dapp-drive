@@ -51,6 +51,7 @@ const ProcessedList: React.FC = (): React.ReactElement => {
 
   useEffect(() => {
     fetchProcessedFileList(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

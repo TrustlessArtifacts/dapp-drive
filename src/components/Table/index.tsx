@@ -2,7 +2,6 @@ import { ReactNode, useMemo } from 'react';
 import { default as BSTable, TableProps } from 'react-bootstrap/Table';
 import cs from 'classnames';
 import _camelCase from 'lodash/camelCase';
-// import s from './styles.module.scss';
 import Empty from '@/components/Empty';
 import { StyledTable } from './Table.styled';
 

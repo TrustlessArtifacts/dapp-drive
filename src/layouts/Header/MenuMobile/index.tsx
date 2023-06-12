@@ -20,7 +20,7 @@ interface IProp {
 }
 
 const MenuMobile = ({ onCloseMenu, isOpen }: IProp) => {
-  const { btcBalance, juiceBalance } = useContext(AssetsContext);
+  const { btcBalance, tcBalance } = useContext(AssetsContext);
   const { account } = useWeb3React();
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const router = useRouter();
@@ -62,7 +62,7 @@ const MenuMobile = ({ onCloseMenu, isOpen }: IProp) => {
               <div className="balance">
                 <p>{formatBTCPrice(btcBalance)} BTC</p>
                 <span className="divider"></span>
-                <p>{formatEthPrice(juiceBalance)} TC</p>
+                <p>{formatEthPrice(tcBalance)} TC</p>
               </div>
               <div className="avatar">
                 {account ? (

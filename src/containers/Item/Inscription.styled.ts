@@ -1,7 +1,7 @@
 import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -23,15 +23,24 @@ const Container = styled.div`
     border-radius: 12px;
     position: relative;
 
-    .thumbnail-container {
+    .empty-content-wrapper {
+      min-height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .empty-text {
+        color: #fff;
+        font-size: ${px2rem(16)};
+        line-height: 1.5;
+        font-family: 'Source Code Pro';
+      }
     }
 
     .thumbnail {
-      /* width: 100%;
-      height: 100%; */
       height: auto;
       min-height: ${px2rem(250)};
-      max-height: ${px2rem(400)};
+      max-height: ${px2rem(500)};
       object-fit: contain;
       border-radius: 10px;
       background: transparent;
@@ -283,7 +292,7 @@ const Container = styled.div`
   }
 `;
 
-const Information = styled.div<{ loading: boolean }>`
+export const Information = styled.div<{ loading: boolean }>`
   position: relative;
 
   .loading {
@@ -328,6 +337,10 @@ const Information = styled.div<{ loading: boolean }>`
         padding-top: 0;
       }
 
+      &:last-of-type {
+        border-bottom: none;
+      }
+
       .name {
         font-style: normal;
         font-weight: 400;
@@ -369,5 +382,3 @@ const Information = styled.div<{ loading: boolean }>`
     margin-top: 28px;
   }
 `;
-
-export { Container, Information };

@@ -9,26 +9,32 @@ import { getNFTDetail, refreshMetadata } from '@/services/nft-explorer';
 import { formatTimeStamp } from '@/utils/time';
 import { prettyPrintBytes } from '@/utils/units';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Container, Information } from './Inscription.styled';
 import Spinner from '@/components/Spinner';
 import UploadFooter from '../Artifacts/UploadFooter';
 import ModalUpload from '../Artifacts/ModalUpload';
 import { useSelector } from 'react-redux';
-import { getIsAuthenticatedSelector } from '@/state/user/selector';
+import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
 import { WalletContext } from '@/contexts/wallet-context';
 import { showToastError } from '@/utils/toast';
 import px2rem from '@/utils/px2rem';
+import MatrixRainAnimation from '@/components/MatrixRainAnimation';
+import Owner from './Owner';
 
-const Inscription = ({ data }: { data?: IInscription }) => {
+interface IProps {
+  data?: IInscription;
+}
+
+const Inscription: React.FC<IProps> = ({ data }: IProps) => {
   const router = useRouter();
-  const { tokenId } = router.query as {
-    tokenId: string;
-  };
+  const user = useSelector(getUserSelector);
+  const matrixContainerRef = useRef<HTMLDivElement | null>(null);
+  const [divWidth, setDivWidth] = useState<number | null>(null);
+  const { tokenId } = router.query as { tokenId: string };
   const [inscription, setInscription] = useState<IInscription | undefined>(data);
   const [loadingRefresh, setLoadingRefresh] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  console.log('🚀 ~ Inscription ~ file:', file);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
@@ -51,6 +57,15 @@ const Inscription = ({ data }: { data?: IInscription }) => {
       fetchInscriptionDetail();
     }
   }, [data]);
+
+  useEffect(() => {
+    const divElement = matrixContainerRef.current;
+
+    if (divElement) {
+      const { width } = divElement.getBoundingClientRect();
+      setDivWidth(width);
+    }
+  }, [inscription]);
 
   const fetchInscriptionDetail = async () => {
     try {
@@ -91,8 +106,10 @@ const Inscription = ({ data }: { data?: IInscription }) => {
     );
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderProperties = (attributes: any[]) => (
+  const renderProperties = (attributes: Array<{
+    traitType: string;
+    value: string;
+  }>) => (
     <div className="list-container">
       <p className="list-name">Attributes</p>
       <div className="attribute-list">
@@ -143,7 +160,6 @@ const Inscription = ({ data }: { data?: IInscription }) => {
       <UploadFooter
         handlePreserverArtifact={handlePreserverArtifact}
         onChangeFile={onChangeFile}
-        // onSizeError={onSizeError}
         isUploadVisible={false}
         style={{
           position: 'relative',
@@ -153,7 +169,13 @@ const Inscription = ({ data }: { data?: IInscription }) => {
       />
       <div className="content">
         <div className="left-container">
-          {inscription && (
+          {(inscription && !inscription.fileSize) && (
+            <div className="empty-content-wrapper animationBorder" ref={matrixContainerRef}>
+              <MatrixRainAnimation width={divWidth || 0} height={250} />
+              <p className='empty-text'>No data found</p>
+            </div>
+          )}
+          {(inscription && !!inscription.fileSize) && (
             <NFTDisplayBox
               className="thumbnail-container"
               collectionID={inscription?.collectionAddress}
@@ -163,12 +185,16 @@ const Inscription = ({ data }: { data?: IInscription }) => {
               type={inscription?.contentType}
             />
           )}
+
+          {user?.walletAddress?.toLowerCase() === inscription?.owner?.toLowerCase() && (
+            <Owner inscription={inscription} />
+          )}
+
         </div>
         <div className="right-container">
           {inscription &&
-          inscription.fileSize &&
-          inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
-            // <BigFileTag color="green" />
+            inscription.fileSize &&
+            inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
             <div className="big-file-wrapper">
               <div className="big-file">
                 <IconSVG
@@ -189,6 +215,7 @@ const Inscription = ({ data }: { data?: IInscription }) => {
           ) : (
             <></>
           )}
+
           <div className="inscription-wrapper">
             <div className="">
               <div className="header">
@@ -219,7 +246,7 @@ const Inscription = ({ data }: { data?: IInscription }) => {
               </div>
             </div>
             <div className="list">
-              {inscription && inscription.fileSize ? (
+              {(inscription && !!inscription.fileSize) ? (
                 renderListItem(
                   'File size',
                   `${prettyPrintBytes(inscription.fileSize)}`,
@@ -256,7 +283,10 @@ const Inscription = ({ data }: { data?: IInscription }) => {
       </div>
       <ModalUpload
         show={showUploadModal}
-        handleClose={() => setShowUploadModal(false)}
+        handleClose={() => {
+          setShowUploadModal(false);
+          setFile(null);
+        }}
         file={file}
         setFile={setFile}
       />

@@ -1,5 +1,4 @@
 import { TC_NETWORK_RPC } from '@/configs';
-import { ICustomTransaction } from '@/interfaces/transaction';
 import Web3 from 'web3';
 
 class CustomWeb3Provider {
@@ -7,11 +6,6 @@ class CustomWeb3Provider {
 
   constructor(rpcEndpoint: string) {
     this.web3 = new Web3(rpcEndpoint);
-  }
-
-  async getTransaction(txHash: string): Promise<ICustomTransaction> {
-    const tx = (await this.web3.eth.getTransaction(txHash)) as ICustomTransaction;
-    return tx;
   }
 
   async getGasPrice(): Promise<string> {

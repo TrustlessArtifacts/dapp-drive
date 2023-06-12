@@ -12,13 +12,25 @@ export const StyledModalInscribeChunk = styled(StyledModalUpload)`
   .left_content {
     padding: ${px2rem(11)};
     background: rgba(0, 46, 29, 0.6);
-    border-radius: 16px;
+    border-radius: 12px;
 
     .thumbnail-wrapper {
       min-height: ${px2rem(400)};
       background: #050f0a;
       border-radius: 12px;
       margin-bottom: ${px2rem(20)};
+      position: relative;
+    }
+
+    .thumbnail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      background-color: transparent;
     }
   }
 

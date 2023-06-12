@@ -36,6 +36,7 @@ const UploadFooter = ({
       return 175;
     }
   };
+
   const buttonHeight = (): number => {
     if (mobileScreen) {
       return 55;

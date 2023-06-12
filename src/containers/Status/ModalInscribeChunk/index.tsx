@@ -69,7 +69,7 @@ const ModalInscribeChunk = (props: Props) => {
     } catch (err: unknown) {
       logger.error(err);
     }
-  }, [file, setEstBTCFee, feeRate.hourFee, chunkFile]);
+  }, [setEstBTCFee, feeRate.hourFee, chunkFile]);
 
   const calculateEstTcFee = useCallback(async () => {
     if (!file || !estimateGas || !account || !chunkFile || chunkIndex === null)
@@ -249,7 +249,7 @@ const ModalInscribeChunk = (props: Props) => {
         <div className="left_content">
           <NFTDisplayBox
             collectionID={ARTIFACT_CONTRACT}
-            contentClass="image"
+            contentClass="thumbnail"
             className="thumbnail-wrapper"
             src={file?.fullPath}
             tokenID={file?.tokenId}

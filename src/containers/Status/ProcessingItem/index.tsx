@@ -24,9 +24,8 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
   const router = useRouter();
   const matrixContainerRef = useRef<HTMLDivElement | null>(null);
   const [divWidth, setDivWidth] = useState<number | null>(null);
-  const [showInscribeModal, setShowInscribeModal] = useState(false);
-
   const [divHeight, setDivHeight] = useState<number | null>(null);
+  const [showInscribeModal, setShowInscribeModal] = useState(false);
 
   const finishedChunk = useMemo(() => {
     if (!file) return 0;
@@ -102,8 +101,9 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
         <ThumbnailWrapper className="animationBorder" ref={matrixContainerRef}>
           <MatrixRainAnimation width={divWidth || 0} height={divHeight || 0} />
           <NFTDisplayBox
+            className={"thumbnail-wrapper"}
             collectionID={ARTIFACT_CONTRACT}
-            contentClass="image"
+            contentClass="thumbnail"
             src={file?.fullPath}
             tokenID={file?.tokenId}
             type={file?.fileType}

@@ -1,7 +1,6 @@
 import { apiClient } from '@/services';
 import {
   BINANCE_PAIR,
-  FeeRateName,
   ICollectedUTXOResp,
   IFeeRate,
   IPendingUTXO,
@@ -10,6 +9,7 @@ import {
 import BigNumber from 'bignumber.js';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { TC_NETWORK_RPC } from '@/configs';
+import logger from './logger';
 
 const BINANCE_API_URL = 'https://api.binance.com/api/v3';
 const WALLETS_API_PATH = '/wallets';
@@ -41,7 +41,7 @@ export const getCollectedUTXO = async (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 };
 
@@ -63,20 +63,20 @@ export const getFeeRate = async (): Promise<IFeeRate> => {
   try {
     const res = await fetch('https://mempool.space/api/v1/fees/recommended');
     const fee: IFeeRate = await res.json();
-    if (fee[FeeRateName.fastestFee] <= 10) {
+    if (fee.fastestFee <= 10) {
       return {
-        [FeeRateName.fastestFee]: 15,
-        [FeeRateName.halfHourFee]: 10,
-        [FeeRateName.hourFee]: 5,
+        fastestFee: 25,
+        halfHourFee: 20,
+        hourFee: 10,
       };
     }
     return fee;
   } catch (err: unknown) {
-    console.log(err);
+    logger.error(err);
     return {
-      [FeeRateName.fastestFee]: 25,
-      [FeeRateName.halfHourFee]: 20,
-      [FeeRateName.hourFee]: 15,
+      fastestFee: 25,
+      halfHourFee: 20,
+      hourFee: 10,
     };
   }
 };
@@ -88,7 +88,7 @@ export const getTokenRate = async (pair: BINANCE_PAIR = 'ETHBTC'): Promise<numbe
     const rate = data?.price;
     return new BigNumber(rate).toNumber();
   } catch (err: unknown) {
-    console.log(err);
+    logger.error(err);
     throw err;
   }
 };

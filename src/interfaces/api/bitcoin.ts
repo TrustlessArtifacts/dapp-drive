@@ -14,16 +14,10 @@ export interface ICollectedUTXOResp {
   inscriptions_by_outputs: IInscriptionByOutput;
 }
 
-export enum FeeRateName {
-  fastestFee = 'fastestFee',
-  halfHourFee = 'halfHourFee',
-  hourFee = 'hourFee',
-}
-
 export interface IFeeRate {
-  [FeeRateName.fastestFee]: number;
-  [FeeRateName.halfHourFee]: number;
-  [FeeRateName.hourFee]: number;
+  fastestFee: number;
+  halfHourFee: number;
+  hourFee: number;
 }
 
 export enum TrackTxType {

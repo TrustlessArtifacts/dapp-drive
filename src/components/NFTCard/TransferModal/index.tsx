@@ -5,11 +5,11 @@ import { Modal } from 'react-bootstrap';
 import { StyledModalUpload, WrapInput, Title } from './TransferModal.styled';
 import Button from '@/components/Button';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
-import toast from 'react-hot-toast';
 import { Formik } from 'formik';
 import useTransferERC721Token from '@/hooks/contract-operations/nft/useTransferERC721Token';
 import { CDN_URL } from '@/configs';
-import { showToastError } from '@/utils/toast';
+import { showToastError, showToastSuccess } from '@/utils/toast';
+import logger from '@/services/logger';
 
 type Props = {
   show: boolean;
@@ -56,11 +56,15 @@ const TransferModal = (props: Props) => {
         to: toAddress,
         contractAddress: contractAddress,
       });
-      toast.success('Transaction has been created. Please wait for few minutes.');
+      showToastSuccess({
+        message: 'Please go to your wallet to authorize the request for the Bitcoin transaction.',
+      })
       handleClose();
-    } catch (err) {
-      toast.error((err as Error).message);
-      console.log(err);
+    } catch (err: unknown) {
+      showToastError({
+        message: (err as Error).message
+      });
+      logger.error(err);
     } finally {
       setIsProcessing(false);
     }

@@ -76,11 +76,12 @@ export const updateFileTransactionInfo = async (
   payload: IUpdateFileTransactionInfoPayload,
 ): Promise<unknown> => {
   try {
-    const { fileId, txHash, tcAddress } = payload;
+    const { fileId, txHash, tcAddress, tokenId } = payload;
     const res = await apiClient.put<unknown, ICompleteMultipartUploadResponse>(
       `${API_PATH}/file/${fileId}/tx_hash/${txHash}`,
       {
-        wallet_address: tcAddress
+        wallet_address: tcAddress,
+        token_id: tokenId ?? ''
       },
     );
     return Object(camelCaseKeys(res));
