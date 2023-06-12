@@ -1,7 +1,7 @@
 import px2rem from '@/utils/px2rem';
 import styled from 'styled-components';
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -22,6 +22,20 @@ const Container = styled.div`
   .left-container {
     border-radius: 12px;
     position: relative;
+
+    .empty-content-wrapper {
+      min-height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .empty-text {
+        color: #fff;
+        font-size: ${px2rem(16)};
+        line-height: 1.5;
+        font-family: 'Source Code Pro';
+      }
+    }
 
     .thumbnail {
       height: auto;
@@ -278,7 +292,7 @@ const Container = styled.div`
   }
 `;
 
-const Information = styled.div<{ loading: boolean }>`
+export const Information = styled.div<{ loading: boolean }>`
   position: relative;
 
   .loading {
@@ -368,5 +382,3 @@ const Information = styled.div<{ loading: boolean }>`
     margin-top: 28px;
   }
 `;
-
-export { Container, Information };

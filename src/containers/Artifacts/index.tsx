@@ -109,7 +109,6 @@ const Artifacts: React.FC = () => {
       <UploadFooter
         handlePreserverArtifact={handlePreserverArtifact}
         onChangeFile={onChangeFile}
-        // onSizeError={onSizeError}
         isUploadVisible={isUploadVisible}
       />
     </>

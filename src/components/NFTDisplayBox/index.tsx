@@ -123,7 +123,7 @@ const NFTDisplayBox = ({
         {
           !isLoaded && (
             <>
-              <div className={s.loadingWrapper}>
+              <div className={cs(s.loadingWrapper, contentClassName)}>
                 <Spinner></Spinner>
                 <p className={s.loadingText}>Loading...</p>
               </div>
@@ -135,7 +135,7 @@ const NFTDisplayBox = ({
           alt={tokenID}
           className={contentClassName}
           src={content}
-          style={{ objectFit: 'contain', display: isLoaded ? 'block' : 'none' }}
+          style={{ display: isLoaded ? 'block' : 'none' }}
           onLoad={handleOnImgLoaded}
           onError={onError}
         />

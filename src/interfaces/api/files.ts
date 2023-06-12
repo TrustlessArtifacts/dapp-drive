@@ -101,6 +101,7 @@ export interface IUpdateFileTransactionInfoPayload {
   tcAddress?: string;
   txHash: string;
   fileId: string;
+  tokenId?: string;
 }
 
 export interface IUploadFileResponseItem {

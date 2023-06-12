@@ -14,13 +14,21 @@ export const ThumbnailWrapper = styled.div`
   position: relative;
   margin-bottom: ${px2rem(28)};
 
+  .thumbnail-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   .thumbnail {
     position: absolute;
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
-    object-fit: contain;
+    object-fit: cover;
     z-index: 1;
     padding: ${px2rem(12)};
   }
@@ -39,10 +47,8 @@ export const ThumbnailOverlay = styled.div<{ progress: number }>`
   width: calc(100% - 4px);
   height: calc(${({ progress }) => 100 - progress}% - 4px);
   left: 2px;
-  /* top: 50%; */
   bottom: 2px;
-  /* transform: translate(-50%, -50%); */
-  border-radius: 16px;
+  border-radius: 12px;
   object-fit: contain;
   z-index: 1;
   background: rgba(0, 0, 0, 0.7);

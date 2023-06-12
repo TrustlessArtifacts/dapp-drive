@@ -116,10 +116,6 @@ const BFSList = () => {
 
   return (
     <Container>
-      {/* <div className="show-all-btn">
-        <span>Show all</span>
-        <input type="checkbox" onClick={() => setShowAll(!showAll)} />
-      </div> */}
       <div className="view-options">
         <div className="filter-options">
           {FILTER_OPTIONS.map((item) => (

@@ -249,7 +249,7 @@ const ModalInscribeChunk = (props: Props) => {
         <div className="left_content">
           <NFTDisplayBox
             collectionID={ARTIFACT_CONTRACT}
-            contentClass="image"
+            contentClass="thumbnail"
             className="thumbnail-wrapper"
             src={file?.fullPath}
             tokenID={file?.tokenId}
