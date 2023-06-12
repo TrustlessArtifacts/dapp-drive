@@ -9,9 +9,16 @@ import { getNFTDetail, refreshMetadata } from '@/services/nft-explorer';
 import { formatTimeStamp } from '@/utils/time';
 import { prettyPrintBytes } from '@/utils/units';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Container, Information } from './Inscription.styled';
 import Spinner from '@/components/Spinner';
+import UploadFooter from '../Artifacts/UploadFooter';
+import ModalUpload from '../Artifacts/ModalUpload';
+import { useSelector } from 'react-redux';
+import { getIsAuthenticatedSelector } from '@/state/user/selector';
+import { WalletContext } from '@/contexts/wallet-context';
+import { showToastError } from '@/utils/toast';
+import px2rem from '@/utils/px2rem';
 
 const Inscription = ({ data }: { data?: IInscription }) => {
   const router = useRouter();
@@ -20,6 +27,24 @@ const Inscription = ({ data }: { data?: IInscription }) => {
   };
   const [inscription, setInscription] = useState<IInscription | undefined>(data);
   const [loadingRefresh, setLoadingRefresh] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  console.log('🚀 ~ Inscription ~ file:', file);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const isAuthenticated = useSelector(getIsAuthenticatedSelector);
+  const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
+
+  const handleConnectWallet = async () => {
+    try {
+      await onConnect();
+      await requestBtcAddress();
+    } catch (err) {
+      logger.error(err);
+      showToastError({
+        message: (err as Error).message,
+      });
+      onDisconnect();
+    }
+  };
 
   useEffect(() => {
     if (!data) {
@@ -37,6 +62,17 @@ const Inscription = ({ data }: { data?: IInscription }) => {
     } catch (error) {
       logger.error(error);
       router.push(ROUTE_PATH.NOT_FOUND);
+    }
+  };
+
+  const onChangeFile = (file: File): void => {
+    setFile(file);
+  };
+
+  const handlePreserverArtifact = () => {
+    if (!isAuthenticated) handleConnectWallet();
+    else if (file) {
+      setShowUploadModal(true);
     }
   };
 
@@ -88,6 +124,12 @@ const Inscription = ({ data }: { data?: IInscription }) => {
     }
   };
 
+  useEffect(() => {
+    if (file) {
+      setShowUploadModal(true);
+    }
+  }, [file]);
+
   if (!inscription) {
     return (
       <div className="grid-center h-full-view">
@@ -98,6 +140,17 @@ const Inscription = ({ data }: { data?: IInscription }) => {
 
   return (
     <Container>
+      <UploadFooter
+        handlePreserverArtifact={handlePreserverArtifact}
+        onChangeFile={onChangeFile}
+        // onSizeError={onSizeError}
+        isUploadVisible={false}
+        style={{
+          position: 'relative',
+          backgroundColor: 'transparent',
+          padding: `${px2rem(24)} 0 `,
+        }}
+      />
       <div className="content">
         <div className="left-container">
           {inscription && (
@@ -201,6 +254,12 @@ const Inscription = ({ data }: { data?: IInscription }) => {
           </Information>
         </div>
       </div>
+      <ModalUpload
+        show={showUploadModal}
+        handleClose={() => setShowUploadModal(false)}
+        file={file}
+        setFile={setFile}
+      />
     </Container>
   );
 };

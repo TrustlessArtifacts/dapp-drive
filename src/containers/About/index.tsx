@@ -1,11 +1,10 @@
 import ArtifactButton from '@/components/ArtifactButton';
 import { CDN_URL } from '@/configs';
+import { ROUTE_PATH } from '@/constants/route-path';
 import useWindowSize from '@/hooks/useWindowSize';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { StyledAbout } from './About.styled';
-import { ROUTE_PATH } from '@/constants/route-path';
-import IconSVG from '@/components/IconSVG';
 
 const About = () => {
   const { mobileScreen } = useWindowSize();
@@ -207,18 +206,11 @@ const About = () => {
             <div className="block-item">
               <p className="block-item-title">Larger</p>
               <p className="block-item-info">
-                Smart Inscription supports unlimited file size. A 6.9MB Azuki
-                wallpaper (
+                Smart Inscription supports unlimited file size. A {''}
                 <Link href="/420" target="_blank">
-                  Smart Inscription #420
-                  <IconSVG
-                    src={`${CDN_URL}/icons/ic-arrow-outward.svg`}
-                    maxWidth="10"
-                    maxHeight="10"
-                    className="ic-outward"
-                  />
-                </Link>
-                ) has successfully launched on Smart Inscription, and larger files
+                  6.9MB Azuki wallpaper
+                </Link>{' '}
+                has successfully launched on Smart Inscription, and larger files
                 await.
               </p>
             </div>

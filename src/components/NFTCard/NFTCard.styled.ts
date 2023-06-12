@@ -105,6 +105,9 @@ export const Styled = styled(Link)`
 
   .card-info {
     padding: ${px2rem(16)} 0;
+    display: flex;
+    align-items: center;
+    gap: ${px2rem(8)};
 
     .card-title1 {
       font-style: normal;

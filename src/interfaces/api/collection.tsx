@@ -1,3 +1,5 @@
+import { IPagingParams } from './query';
+
 export interface ICollection {
   id: string;
   name: string;
@@ -31,4 +33,12 @@ export interface IUpdateCollectionPayload {
 export interface IRefreshMetadataResponse {
   code: string;
   result: string;
+}
+
+export interface IGetCollectionNftsQuery extends IPagingParams {
+  owner?: string;
+  isShowAll?: boolean;
+  isBigFile?: boolean;
+  sortBy?: string;
+  sort?: number;
 }
