@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/state/hooks';
 import { Connection, useGetConnection } from '@/connections';
 import { updateSelectedWallet } from '@/state/user/reducer';
+import logger from '@/services/logger';
 
 async function connect(connector: Connector) {
   try {
@@ -11,8 +12,8 @@ async function connect(connector: Connector) {
     } else {
       await connector.activate();
     }
-  } catch (error) {
-    console.debug(`web3-react eager connection error: ${error}`);
+  } catch (err: unknown) {
+    logger.debug(`web3-react eager connection error: ${err}`);
   }
 }
 
