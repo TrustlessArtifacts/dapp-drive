@@ -28,7 +28,6 @@ const Inscription = ({ data }: { data?: IInscription }) => {
   const [inscription, setInscription] = useState<IInscription | undefined>(data);
   const [loadingRefresh, setLoadingRefresh] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  console.log('🚀 ~ Inscription ~ file:', file);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
@@ -143,7 +142,6 @@ const Inscription = ({ data }: { data?: IInscription }) => {
       <UploadFooter
         handlePreserverArtifact={handlePreserverArtifact}
         onChangeFile={onChangeFile}
-        // onSizeError={onSizeError}
         isUploadVisible={false}
         style={{
           position: 'relative',
@@ -166,9 +164,8 @@ const Inscription = ({ data }: { data?: IInscription }) => {
         </div>
         <div className="right-container">
           {inscription &&
-          inscription.fileSize &&
-          inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
-            // <BigFileTag color="green" />
+            inscription.fileSize &&
+            inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
             <div className="big-file-wrapper">
               <div className="big-file">
                 <IconSVG
@@ -219,7 +216,7 @@ const Inscription = ({ data }: { data?: IInscription }) => {
               </div>
             </div>
             <div className="list">
-              {inscription && inscription.fileSize ? (
+              {(inscription && !!inscription.fileSize) ? (
                 renderListItem(
                   'File size',
                   `${prettyPrintBytes(inscription.fileSize)}`,

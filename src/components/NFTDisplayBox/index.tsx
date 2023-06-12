@@ -9,6 +9,8 @@ import { IMAGE_TYPE } from './constant';
 import { Document, Page } from 'react-pdf';
 import Skeleton from '../Skeleton';
 import useAsyncEffect from 'use-async-effect';
+import Spinner from '@/components/Spinner';
+
 interface IProps {
   className?: string;
   contentClass?: string;
@@ -117,16 +119,27 @@ const NFTDisplayBox = ({
 
   const renderImage = (content: string) => {
     return (
-      <img
-        ref={imgRef}
-        alt={tokenID}
-        className={contentClassName}
-        // loading="lazy"
-        src={content}
-        style={{ objectFit: 'contain' }}
-        onLoad={handleOnImgLoaded}
-        onError={onError}
-      />
+      <>
+        {
+          !isLoaded && (
+            <>
+              <div className={s.loadingWrapper}>
+                <Spinner></Spinner>
+                <p className={s.loadingText}>Loading...</p>
+              </div>
+            </>
+          )
+        }
+        <img
+          ref={imgRef}
+          alt={tokenID}
+          className={contentClassName}
+          src={content}
+          style={{ objectFit: 'contain', display: isLoaded ? 'block' : 'none' }}
+          onLoad={handleOnImgLoaded}
+          onError={onError}
+        />
+      </>
     );
   };
 
@@ -243,7 +256,7 @@ const NFTDisplayBox = ({
     } else {
       setHTMLContentRender(renderEmpty());
     }
-  }, [collectionID, tokenID, src, isErrorLinkHttp]);
+  }, [collectionID, tokenID, src, isErrorLinkHttp, isLoaded, setHTMLContentRender]);
 
   return (
     <div className={cs(s.wrapper, className)}>

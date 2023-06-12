@@ -23,15 +23,10 @@ const Container = styled.div`
     border-radius: 12px;
     position: relative;
 
-    .thumbnail-container {
-    }
-
     .thumbnail {
-      /* width: 100%;
-      height: 100%; */
       height: auto;
       min-height: ${px2rem(250)};
-      max-height: ${px2rem(400)};
+      max-height: ${px2rem(500)};
       object-fit: contain;
       border-radius: 10px;
       background: transparent;
@@ -326,6 +321,10 @@ const Information = styled.div<{ loading: boolean }>`
 
       &:first-of-type {
         padding-top: 0;
+      }
+
+      &:last-of-type {
+        border-bottom: none;
       }
 
       .name {

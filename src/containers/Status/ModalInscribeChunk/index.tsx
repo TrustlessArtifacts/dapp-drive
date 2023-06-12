@@ -69,7 +69,7 @@ const ModalInscribeChunk = (props: Props) => {
     } catch (err: unknown) {
       logger.error(err);
     }
-  }, [file, setEstBTCFee, feeRate.hourFee, chunkFile]);
+  }, [setEstBTCFee, feeRate.hourFee, chunkFile]);
 
   const calculateEstTcFee = useCallback(async () => {
     if (!file || !estimateGas || !account || !chunkFile || chunkIndex === null)

@@ -1,13 +1,10 @@
 import IconSVG from '@/components/IconSVG';
 import { CDN_URL, TC_URL } from '@/configs';
-// import { ROUTE_PATH } from '@/constants/route-path';
 import { AssetsContext } from '@/contexts/assets-context';
 import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
 import { formatBTCPrice, formatEthPrice } from '@/utils/format';
-// import { formatBTCPrice, formatLongAddress } from '@trustless-computer/dapp-core';
 import { useWeb3React } from '@web3-react/core';
 import copy from 'copy-to-clipboard';
-// import { useRouter } from 'next/router';
 import ArtifactButton from '@/components/ArtifactButton';
 import Text from '@/components/Text';
 import { WalletContext } from '@/contexts/wallet-context';
@@ -15,23 +12,22 @@ import { DappsTabs } from '@/enums/tabs';
 import { formatLongAddress } from '@trustless-computer/dapp-core';
 import { useContext, useRef, useState } from 'react';
 import { OverlayTrigger } from 'react-bootstrap';
-import { toast } from 'react-hot-toast';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { useSelector } from 'react-redux';
 import { ConnectWalletButton, WalletBalance, WalletWrapper } from '../Header.styled';
 import { WalletPopover } from './Wallet.styled';
 import logger from '@/services/logger';
-import { showToastError } from '@/utils/toast';
+import { showToastError, showToastSuccess } from '@/utils/toast';
 
 const WalletHeader = () => {
   const { account } = useWeb3React();
   const user = useSelector(getUserSelector);
   const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
-
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
-  const { btcBalance, juiceBalance } = useContext(AssetsContext);
-
+  const { btcBalance, tcBalance } = useContext(AssetsContext);
+  const [show, setShow] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const ref = useRef(null);
 
   const handleConnectWallet = async () => {
     try {
@@ -49,24 +45,18 @@ const WalletHeader = () => {
     }
   };
 
-  const [show, setShow] = useState(false);
   const handleOnMouseEnter = () => {
     setShow(true);
   };
   const handleOnMouseLeave = () => {
-    console.log('trigger');
-
     setShow(false);
   };
-  const ref = useRef(null);
-
-  // const goToConnectWalletPage = async () => {
-  //   router.push(`${ROUTE_PATH.CONNECT_WALLET}?next=${window.location.href}`);
-  // };
 
   const onClickCopy = (address: string) => {
     copy(address);
-    toast.success('Copied');
+    showToastSuccess({
+      message: 'Copied'
+    });
   };
 
   const walletPopover = (
@@ -96,7 +86,7 @@ const WalletHeader = () => {
               src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
               color="white"
               maxWidth="16"
-              // type="stroke"
+            // type="stroke"
             ></IconSVG>
           </div>
         </div>
@@ -163,7 +153,7 @@ const WalletHeader = () => {
                 <div className="balance">
                   <p className="text">{formatBTCPrice(btcBalance)} BTC</p>
                   <span className="divider"></span>
-                  <p className="text">{formatEthPrice(juiceBalance)} TC</p>
+                  <p className="text">{formatEthPrice(tcBalance)} TC</p>
                 </div>
                 <div className="avatar">
                   <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
