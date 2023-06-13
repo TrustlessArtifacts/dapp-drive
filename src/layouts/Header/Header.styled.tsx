@@ -318,6 +318,7 @@ const WalletAdress = styled(Tooltip)`
 `;
 
 const ConnectWalletButton = styled(Button)`
+  width: ${px2rem(165)};
   padding: ${px2rem(4)} ${px2rem(12)};
   font-size: ${px2rem(14)};
   line-height: ${px2rem(24)};

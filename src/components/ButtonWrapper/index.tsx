@@ -2,6 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import { StyledButtonWrapper } from './ButtonWrapper.styled';
 
 type Props = {
+  className?: string;
   variant:
     | 'primary'
     | 'white'
@@ -10,8 +11,16 @@ type Props = {
     | 'green-transparent';
 };
 
-const ButtonWrapper = ({ children, variant }: PropsWithChildren<Props>) => {
-  return <StyledButtonWrapper variant={variant}>{children}</StyledButtonWrapper>;
+const ButtonWrapper = ({
+  children,
+  variant,
+  className,
+}: PropsWithChildren<Props>) => {
+  return (
+    <StyledButtonWrapper className={className} variant={variant}>
+      {children}
+    </StyledButtonWrapper>
+  );
 };
 
 export default ButtonWrapper;

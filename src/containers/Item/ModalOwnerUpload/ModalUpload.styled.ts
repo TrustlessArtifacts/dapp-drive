@@ -153,7 +153,7 @@ export const StyledModalUpload = styled(Modal)`
     margin-top: ${px2rem(20)};
 
     .confirm-btn-wrapper {
-      margin-top: ${px2rem(40)};
+      margin-top: ${px2rem(20)};
       margin-left: auto;
       margin-right: auto;
     }

@@ -142,9 +142,12 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({
         inscriptions: currentAssets?.inscriptions_by_outputs || {},
       });
       return balance.toString();
+    } else {
+      return '0';
     }
-    return '0';
   }, [currentAddress, currentAssets]);
+
+  // const btcBalance = currentAddress && _btcBalance();
 
   const fetchTCBalance = async () => {
     if (user?.walletAddress && provider) {
@@ -206,7 +209,7 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({
     } else {
       setHistory([]);
     }
-  }, [currentAddress, setHistory]);
+  }, [currentAddress, setHistory, user?.walletAddress]);
 
   useEffect(() => {
     fetchAssetsData();
