@@ -1,11 +1,15 @@
 import ArtifactButton from '@/components/ArtifactButton';
+import BigFileTag from '@/components/BigFileTag';
 import Button from '@/components/Button';
+import EstimatedFee from '@/components/EstimatedFee';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
-import { CDN_URL, TRANSFER_TX_SIZE } from '@/configs';
+import { CDN_URL, TC_URL, TRANSFER_TX_SIZE } from '@/configs';
+import web3Provider from '@/connections/custom-web3-provider';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { ROUTE_PATH } from '@/constants/route-path';
+import { AssetsContext } from '@/contexts/assets-context';
 import usePreserveChunks, {
   IPreserveChunkParams,
 } from '@/hooks/contract-operations/artifacts/usePreserveChunks';
@@ -18,19 +22,23 @@ import { readFileAsBuffer } from '@/utils';
 import { showToastError, showToastSuccess } from '@/utils/toast';
 import { prettyPrintBytes } from '@/utils/units';
 import { useWeb3React } from '@web3-react/core';
+import BigNumber from 'bignumber.js';
 import { Transaction } from 'ethers';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Modal, Stack } from 'react-bootstrap';
 import { FileUploader } from 'react-drag-drop-files';
+import * as TC_SDK from 'trustless-computer-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import { StyledModalUpload } from './ModalUpload.styled';
-import EstimatedFee from '@/components/EstimatedFee';
-import { AssetsContext } from '@/contexts/assets-context';
-import * as TC_SDK from 'trustless-computer-sdk';
-import web3Provider from '@/connections/custom-web3-provider';
-import BigNumber from 'bignumber.js';
-import BigFileTag from '@/components/BigFileTag';
 
 type Props = {
   show: boolean;
@@ -56,12 +64,13 @@ const ModalUpload = (props: Props) => {
     inscribeable: true,
   });
   const { estimateGas } = usePreserveChunks();
-  const { feeRate } = useContext(AssetsContext);
+  const { feeRate, btcBalance, tcBalance } = useContext(AssetsContext);
+
   const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
   const [estTCFee, setEstTCFee] = useState<string | null>(null);
 
-  // const [insufficientTC, setInsufficientTC] = useState(true);
-  // const [insufficientBTC, setInsufficientBTC] = useState(false);
+  const [insufficientTC, setInsufficientTC] = useState(false);
+  const [insufficientBTC, setInsufficientBTC] = useState(false);
 
   const calculateEstBtcFee = useCallback(async () => {
     if (!file) return;
@@ -182,6 +191,9 @@ const ModalUpload = (props: Props) => {
       logger.error(err);
       showToastError({
         message: (err as Error).message,
+
+        url: TC_URL,
+        linkText: 'Go to Wallet',
       });
     } finally {
       setIsProcessing(false);
@@ -198,20 +210,20 @@ const ModalUpload = (props: Props) => {
     [file?.size],
   );
 
-  // const renderFooterNoti = useCallback(() => {
-  //   return (
-  //     <div className="noti-wrapper">
-  //       <IconSVG
-  //         className="icon"
-  //         src={`${CDN_URL}/pages/artifacts/icons/ic-bell.svg`}
-  //         maxWidth={'18'}
-  //       />
-  //       <Text size="small" fontWeight="medium">
-  //         Your TC balance is insufficient. Buy more TC here.
-  //       </Text>
-  //     </div>
-  //   );
-  // }, []);
+  const renderFooterNoti = useCallback((children: ReactNode) => {
+    return (
+      <div className="noti-wrapper">
+        <IconSVG
+          className="icon"
+          src={`${CDN_URL}/pages/artifacts/icons/ic-bell.svg`}
+          maxWidth={'18'}
+        />
+        <Text size="small" fontWeight="medium">
+          {children}
+        </Text>
+      </div>
+    );
+  }, []);
 
   useEffect(() => {
     if (file) {
@@ -226,6 +238,18 @@ const ModalUpload = (props: Props) => {
   useEffect(() => {
     calculateEstTcFee();
   }, [calculateEstTcFee]);
+
+  useEffect(() => {
+    if (estTCFee) {
+      setInsufficientTC(Number(tcBalance) < Number(estTCFee));
+    }
+  }, [estTCFee, tcBalance]);
+
+  useEffect(() => {
+    if (estBTCFee) {
+      setInsufficientBTC(Number(btcBalance) < Number(estBTCFee));
+    }
+  }, [estBTCFee, btcBalance]);
 
   return (
     <StyledModalUpload show={show} onHide={handleClose} centered size="lg">
@@ -313,14 +337,39 @@ const ModalUpload = (props: Props) => {
                 onClick={handleUploadFile}
               >
                 <Text size="medium" fontWeight="medium" className="confirm-text">
-                  {isProcessing ? 'Processing...' : isBigFile ? 'reserve' : 'upload'}
+                  {isProcessing
+                    ? 'Processing...'
+                    : isBigFile
+                    ? 'reserve'
+                    : 'inscribe'}
                 </Text>
               </Button>
             </ArtifactButton>
           )}
         </div>
-        {/* {insufficientTC && renderFooterNoti()} */}
-        {/* {insufficientBTC && renderFooterNoti} */}
+        {insufficientTC &&
+          renderFooterNoti(
+            <>
+              Your TC balance is insufficient. Buy more TC{' '}
+              <Link
+                href={'https://tcgasstation.com/'}
+                target="_blank"
+                className="text-underline"
+              >
+                here.
+              </Link>
+            </>,
+          )}
+        {insufficientBTC &&
+          renderFooterNoti(
+            <>
+              Your BTC balance is insufficient. Consider transfer your BTC to
+              Trustless Wallet{' '}
+              <Link href={`${TC_URL}`} target="_blank" className="text-underline">
+                here.
+              </Link>
+            </>,
+          )}
       </Modal.Body>
     </StyledModalUpload>
   );

@@ -7,7 +7,10 @@ import {
 import { getTheme } from '@/theme/index';
 import { Poppins, Rowdies } from 'next/font/google';
 
-const poppins = Poppins({ weight: ['300', '400', '700'], subsets: ['latin'] });
+const poppins = Poppins({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+});
 const rowdies = Rowdies({ weight: ['300', '400'], subsets: ['latin'] });
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
