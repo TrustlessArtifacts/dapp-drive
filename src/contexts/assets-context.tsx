@@ -1,8 +1,19 @@
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { ICollectedUTXOResp, ITxHistory, IFeeRate } from '@/interfaces/api/bitcoin';
 import { useAppSelector } from '@/state/hooks';
 import { getUserSelector } from '@/state/user/selector';
-import { getCollectedUTXO, getFeeRate, getPendingUTXOs, getTokenRate } from '@/services/bitcoin';
+import {
+  getCollectedUTXO,
+  getFeeRate,
+  getPendingUTXOs,
+  getTokenRate,
+} from '@/services/bitcoin';
 import { comingAmountBuilder, currentAssetsBuilder } from '@/utils/utxo';
 import debounce from 'lodash/debounce';
 import { useWeb3React } from '@web3-react/core';
@@ -41,15 +52,18 @@ const initialValue: IAssetsContext = {
   },
   comingAmount: 0,
   eth2btcRate: 0,
-  fetchAssets: () => new Promise<void>(r => r()),
-  debounceFetchData: () => new Promise<void>(r => r()),
-  fetchFeeRate: () => new Promise<void>(r => r()),
-  getAvailableAssetsCreateTx: () => new Promise<ICollectedUTXOResp | undefined>(() => null),
+  fetchAssets: () => new Promise<void>((r) => r()),
+  debounceFetchData: () => new Promise<void>((r) => r()),
+  fetchFeeRate: () => new Promise<void>((r) => r()),
+  getAvailableAssetsCreateTx: () =>
+    new Promise<ICollectedUTXOResp | undefined>(() => null),
 };
 
 export const AssetsContext = React.createContext<IAssetsContext>(initialValue);
 
-export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
+export const AssetsProvider: React.FC<PropsWithChildren> = ({
+  children,
+}: PropsWithChildren): React.ReactElement => {
   const user = useAppSelector(getUserSelector);
   const currentAddress = React.useMemo(() => {
     return user?.walletAddressBtcTaproot || '';
@@ -57,7 +71,9 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
   const { provider, account: tcAddress } = useWeb3React();
   // UTXOs
   const [assets, setAssets] = useState<ICollectedUTXOResp | undefined>();
-  const [currentAssets, setCurrentAssets] = useState<ICollectedUTXOResp | undefined>();
+  const [currentAssets, setCurrentAssets] = useState<
+    ICollectedUTXOResp | undefined
+  >();
   const [isLoadingAssets, setIsLoadingAssets] = useState<boolean>(false);
   const [isLoadedAssets, setIsLoadedAssets] = useState<boolean>(false);
   const [tcBalance, setTcBalance] = useState('0');
@@ -85,7 +101,10 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
   };
 
   const fetchData = async () => {
-    const [assets, pendingUTXOs] = await Promise.all([await fetchAssets(), await getPendingUTXOs(currentAddress)]);
+    const [assets, pendingUTXOs] = await Promise.all([
+      await fetchAssets(),
+      await getPendingUTXOs(currentAddress),
+    ]);
 
     // Current assets
     let _currentAssets = undefined;
@@ -102,7 +121,10 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     setcomingAmount(_comingAmount);
   };
 
-  const debounceFetchData = useCallback(debounce(fetchData, 300), [currentAddress, tcAddress]);
+  const debounceFetchData = useCallback(debounce(fetchData, 300), [
+    currentAddress,
+    tcAddress,
+  ]);
 
   const fetchFeeRate = async () => {
     try {
@@ -132,7 +154,10 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
   };
 
   const getAvailableAssetsCreateTx = async () => {
-    const [assets, pendingUTXOs] = await Promise.all([await fetchAssets(), await getPendingUTXOs(currentAddress)]);
+    const [assets, pendingUTXOs] = await Promise.all([
+      await fetchAssets(),
+      await getPendingUTXOs(currentAddress),
+    ]);
     // Current assets
     let _currentAssets = undefined;
     if (assets) {
@@ -229,5 +254,7 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     getAvailableAssetsCreateTx,
   ]);
 
-  return <AssetsContext.Provider value={contextValues}>{children}</AssetsContext.Provider>;
+  return (
+    <AssetsContext.Provider value={contextValues}>{children}</AssetsContext.Provider>
+  );
 };

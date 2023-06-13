@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Wrapper, ConnectWalletButton } from './ConnectWallet.styled';
-import { WalletContext } from '@/contexts/wallet-context';
-import { useSelector } from 'react-redux';
-import { getIsAuthenticatedSelector } from '@/state/user/selector';
-import { ROUTE_PATH } from '@/constants/route-path';
-import { useRouter } from 'next/router';
-import { showToastError } from '@/utils/toast';
 import ArtifactButton from '@/components/ArtifactButton';
 import { CDN_URL } from '@/configs';
+import { ROUTE_PATH } from '@/constants/route-path';
+import { WalletContext } from '@/contexts/wallet-context';
 import logger from '@/services/logger';
+import { getIsAuthenticatedSelector } from '@/state/user/selector';
+import { showToastError } from '@/utils/toast';
+import { useRouter } from 'next/router';
+import React, { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { ConnectWalletButton, Wrapper } from './ConnectWallet.styled';
 
 const ConnectWallet: React.FC = (): React.ReactElement => {
   const { onConnect, requestBtcAddress, onDisconnect } = useContext(WalletContext);
@@ -42,14 +42,23 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
     <Wrapper>
       <div className="mainContent">
         <h1 className="title">Connect Wallet</h1>
-        <p className="desc">
-          Connect your wallet to access Artifacts
-        </p>
-        <ArtifactButton className='button-container' variant="transparent-wide" width={280} height={48}>
+        <p className="desc">Connect your wallet to access Artifacts</p>
+        <ArtifactButton
+          className="button-container"
+          variant="transparent-wide"
+          width={280}
+          height={48}
+        >
+          {/* <ButtonWrapper variant="transparent"> */}
           <ConnectWalletButton disabled={isConnecting} onClick={handleConnectWallet}>
-            <img alt='wallet-icon' className='wallet-icon' src={`${CDN_URL}/pages/artifacts/heroicons_wallet-solid.svg`}></img>
+            <img
+              alt="wallet-icon"
+              className="wallet-icon"
+              src={`${CDN_URL}/pages/artifacts/heroicons_wallet-solid.svg`}
+            ></img>
             <span>{isConnecting ? 'Connecting...' : 'Trustless Computer'}</span>
           </ConnectWalletButton>
+          {/* </ButtonWrapper> */}
         </ArtifactButton>
       </div>
     </Wrapper>
