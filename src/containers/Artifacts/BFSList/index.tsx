@@ -120,7 +120,9 @@ const BFSList = () => {
         <div className="filter-options">
           {FILTER_OPTIONS.map((item) => (
             <div
-              className={`filter-item ${filter === item.id && 'active'}`}
+              className={`filter-item cursor-pointer ${
+                filter === item.id && 'active'
+              }`}
               key={item.id}
               onClick={() => handleFilter(item.id)}
             >
@@ -131,7 +133,10 @@ const BFSList = () => {
             </div>
           ))}
         </div>
-        <div className="sort-options" onClick={() => setIsSortLatest(!isSortLatest)}>
+        <div
+          className="sort-options cursor-pointer"
+          onClick={() => setIsSortLatest(!isSortLatest)}
+        >
           <Text size="small" fontWeight="medium">
             Sort by: {isSortLatest ? 'Latest' : 'Oldest'}
           </Text>

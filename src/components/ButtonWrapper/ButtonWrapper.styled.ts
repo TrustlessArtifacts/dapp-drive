@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const StyledButtonWrapper = styled.div<{
   variant:
@@ -65,4 +65,35 @@ export const StyledButtonWrapper = styled.div<{
       0 0
     );
   }
+
+  ${({ variant }) => {
+    switch (variant) {
+      case 'primary':
+        return css`
+          background: #febe63;
+          color: black;
+        `;
+
+      case 'white':
+        return css`
+          background: white;
+          color: black;
+        `;
+      case 'transparent':
+        return css`
+          background: #282a28;
+          color: white;
+        `;
+      case 'primary-transparent':
+        return css`
+          background: #353614;
+          color: white;
+        `;
+      case 'green-transparent':
+        return css`
+          background: #0e3420;
+          color: white;
+        `;
+    }
+  }}
 `;
