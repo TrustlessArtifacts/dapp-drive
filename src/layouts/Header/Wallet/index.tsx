@@ -1,23 +1,23 @@
+import ButtonWrapper from '@/components/ButtonWrapper';
 import IconSVG from '@/components/IconSVG';
+import Text from '@/components/Text';
 import { CDN_URL, TC_URL } from '@/configs';
 import { AssetsContext } from '@/contexts/assets-context';
-import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
-import { formatBTCPrice, formatEthPrice } from '@/utils/format';
-import { useWeb3React } from '@web3-react/core';
-import copy from 'copy-to-clipboard';
-import ArtifactButton from '@/components/ArtifactButton';
-import Text from '@/components/Text';
 import { WalletContext } from '@/contexts/wallet-context';
 import { DappsTabs } from '@/enums/tabs';
+import logger from '@/services/logger';
+import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
+import { formatBTCPrice, formatEthPrice } from '@/utils/format';
+import { showToastError, showToastSuccess } from '@/utils/toast';
 import { formatLongAddress } from '@trustless-computer/dapp-core';
+import { useWeb3React } from '@web3-react/core';
+import copy from 'copy-to-clipboard';
 import { useContext, useRef, useState } from 'react';
 import { OverlayTrigger } from 'react-bootstrap';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { useSelector } from 'react-redux';
 import { ConnectWalletButton, WalletBalance, WalletWrapper } from '../Header.styled';
 import { WalletPopover } from './Wallet.styled';
-import logger from '@/services/logger';
-import { showToastError, showToastSuccess } from '@/utils/toast';
 
 const WalletHeader = () => {
   const { account } = useWeb3React();
@@ -55,7 +55,7 @@ const WalletHeader = () => {
   const onClickCopy = (address: string) => {
     copy(address);
     showToastSuccess({
-      message: 'Copied'
+      message: 'Copied',
     });
   };
 
@@ -86,7 +86,7 @@ const WalletHeader = () => {
               src={`${CDN_URL}/icons/ic-copy-artifact.svg`}
               color="white"
               maxWidth="16"
-            // type="stroke"
+              // type="stroke"
             ></IconSVG>
           </div>
         </div>
@@ -163,11 +163,11 @@ const WalletHeader = () => {
           </div>
         </OverlayTrigger>
       ) : (
-        <ArtifactButton variant="transparent" width={228} height={48}>
+        <ButtonWrapper variant="transparent" className="button-container">
           <ConnectWalletButton className="hideMobile" onClick={handleConnectWallet}>
             {isConnecting ? 'Connecting...' : 'Connect wallet'}
           </ConnectWalletButton>
-        </ArtifactButton>
+        </ButtonWrapper>
       )}
     </>
   );

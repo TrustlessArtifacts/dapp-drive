@@ -21,7 +21,7 @@ import { useWeb3React } from '@web3-react/core';
 import { Transaction } from 'ethers';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, Stack } from 'react-bootstrap';
 import { FileUploader } from 'react-drag-drop-files';
 import { v4 as uuidv4 } from 'uuid';
 import { StyledModalUpload } from './ModalUpload.styled';
@@ -30,6 +30,7 @@ import { AssetsContext } from '@/contexts/assets-context';
 import * as TC_SDK from 'trustless-computer-sdk';
 import web3Provider from '@/connections/custom-web3-provider';
 import BigNumber from 'bignumber.js';
+import BigFileTag from '@/components/BigFileTag';
 
 type Props = {
   show: boolean;
@@ -58,6 +59,9 @@ const ModalUpload = (props: Props) => {
   const { feeRate } = useContext(AssetsContext);
   const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
   const [estTCFee, setEstTCFee] = useState<string | null>(null);
+
+  // const [insufficientTC, setInsufficientTC] = useState(true);
+  // const [insufficientBTC, setInsufficientBTC] = useState(false);
 
   const calculateEstBtcFee = useCallback(async () => {
     if (!file) return;
@@ -194,6 +198,21 @@ const ModalUpload = (props: Props) => {
     [file?.size],
   );
 
+  // const renderFooterNoti = useCallback(() => {
+  //   return (
+  //     <div className="noti-wrapper">
+  //       <IconSVG
+  //         className="icon"
+  //         src={`${CDN_URL}/pages/artifacts/icons/ic-bell.svg`}
+  //         maxWidth={'18'}
+  //       />
+  //       <Text size="small" fontWeight="medium">
+  //         Your TC balance is insufficient. Buy more TC here.
+  //       </Text>
+  //     </div>
+  //   );
+  // }, []);
+
   useEffect(() => {
     if (file) {
       setPreview(URL.createObjectURL(file));
@@ -245,7 +264,10 @@ const ModalUpload = (props: Props) => {
                     className="file-name"
                     size={'regular'}
                   >{`${file.name}`}</Text>
-                  <Text>{prettyPrintBytes(file.size)}</Text>
+                  <Stack direction="horizontal" gap={2}>
+                    <Text>{prettyPrintBytes(file.size)}</Text>
+                    {isBigFile && <BigFileTag color="green" />}
+                  </Stack>
                 </div>
               </div>
             )}
@@ -260,6 +282,23 @@ const ModalUpload = (props: Props) => {
             isBigFile={isBigFile}
             uploadView
           />
+          {isBigFile && (
+            <div className="big-file-wrapper">
+              <div className="big-file">
+                <IconSVG
+                  src={`${CDN_URL}/pages/artifacts/icons/ic-big-file.svg`}
+                  maxWidth="14"
+                  maxHeight="14"
+                  className="icon"
+                />
+                Big File
+              </div>
+              <p>
+                This file is over 350KB, you will need to reserve first before
+                inscribe into bitcoin.
+              </p>
+            </div>
+          )}
           {file && !error && (
             <ArtifactButton
               variant="primary"
@@ -279,13 +318,9 @@ const ModalUpload = (props: Props) => {
               </Button>
             </ArtifactButton>
           )}
-          {isBigFile && (
-            <Text size="medium" className="big-file-note">
-              This file is over 350KB, you will need to reserve first before inscribe
-              into bitcoin.
-            </Text>
-          )}
         </div>
+        {/* {insufficientTC && renderFooterNoti()} */}
+        {/* {insufficientBTC && renderFooterNoti} */}
       </Modal.Body>
     </StyledModalUpload>
   );

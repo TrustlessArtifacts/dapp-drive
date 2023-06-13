@@ -21,7 +21,10 @@ export const getCollectedUTXO = async (
 ): Promise<ICollectedUTXOResp | undefined> => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const collected: any = await apiClient.get<ICollectedUTXOResp>(`${WALLETS_API_PATH}/${btcAddress}`);
+    const collected: any = await apiClient.get<ICollectedUTXOResp>(
+      `${WALLETS_API_PATH}/${btcAddress}`,
+    );
+    // const collected =
     const tempUTXOs = [...(collected?.txrefs || [])];
     let utxos;
     try {
@@ -45,14 +48,20 @@ export const getCollectedUTXO = async (
   }
 };
 
-export const getPendingUTXOs = async (btcAddress: string): Promise<IPendingUTXO[]> => {
+export const getPendingUTXOs = async (
+  btcAddress: string,
+): Promise<IPendingUTXO[]> => {
   let pendingUTXOs = [];
   if (!btcAddress) return [];
   try {
-    const res = await fetch(`https://blockstream.info/api/address/${btcAddress}/txs`).then(res => {
+    const res = await fetch(
+      `https://blockstream.info/api/address/${btcAddress}/txs`,
+    ).then((res) => {
       return res.json();
     });
-    pendingUTXOs = (res || []).filter((item: IPendingUTXO) => !item.status.confirmed);
+    pendingUTXOs = (res || []).filter(
+      (item: IPendingUTXO) => !item.status.confirmed,
+    );
   } catch (err) {
     return [];
   }
@@ -81,7 +90,9 @@ export const getFeeRate = async (): Promise<IFeeRate> => {
   }
 };
 
-export const getTokenRate = async (pair: BINANCE_PAIR = 'ETHBTC'): Promise<number> => {
+export const getTokenRate = async (
+  pair: BINANCE_PAIR = 'ETHBTC',
+): Promise<number> => {
   try {
     const res = await fetch(`${BINANCE_API_URL}/ticker/price?symbol=${pair}`);
     const data: ITokenPriceResp = await res.json();

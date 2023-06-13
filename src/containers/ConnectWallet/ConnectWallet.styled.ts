@@ -35,7 +35,7 @@ export const Wrapper = styled.div`
 
 export const ConnectWalletButton = styled.button`
   z-index: 10;
-  padding: ${px2rem(15)} ${px2rem(24)};
+  padding: ${px2rem(11)} ${px2rem(20)};
   color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
   font-size: ${px2rem(16)};
   line-height: ${px2rem(26)};

@@ -1,4 +1,4 @@
-import ArtifactButton from '@/components/ArtifactButton';
+import ButtonWrapper from '@/components/ButtonWrapper';
 import { CDN_URL } from '@/configs';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { WalletContext } from '@/contexts/wallet-context';
@@ -43,13 +43,7 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
       <div className="mainContent">
         <h1 className="title">Connect Wallet</h1>
         <p className="desc">Connect your wallet to access Artifacts</p>
-        <ArtifactButton
-          className="button-container"
-          variant="transparent-wide"
-          width={280}
-          height={48}
-        >
-          {/* <ButtonWrapper variant="transparent"> */}
+        <ButtonWrapper variant="transparent" className="button-container">
           <ConnectWalletButton disabled={isConnecting} onClick={handleConnectWallet}>
             <img
               alt="wallet-icon"
@@ -58,8 +52,7 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
             ></img>
             <span>{isConnecting ? 'Connecting...' : 'Trustless Computer'}</span>
           </ConnectWalletButton>
-          {/* </ButtonWrapper> */}
-        </ArtifactButton>
+        </ButtonWrapper>
       </div>
     </Wrapper>
   );
