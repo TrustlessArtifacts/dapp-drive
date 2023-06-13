@@ -220,6 +220,13 @@ export const StyledModalUpload = styled(Modal)`
     display: flex;
     align-items: center;
     gap: ${px2rem(8)};
-    padding: ${px2rem(4)} ${px2rem(12)};
+    padding: ${px2rem(8)} ${px2rem(12)};
+    border: 1px solid #f9d03f;
+    border-radius: 8px;
+    margin-top: ${px2rem(20)};
+
+    p {
+      color: #f9d03f;
+    }
   }
 `;

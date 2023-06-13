@@ -14,7 +14,8 @@ export const ToastPending = styled.div`
     display: flex;
     align-items: center;
     color: #898989;
-    font-weight: 600;
+    font-weight: 500;
     gap: ${px2rem(4)};
+    margin-top: ${px2rem(8)};
   }
 `;
