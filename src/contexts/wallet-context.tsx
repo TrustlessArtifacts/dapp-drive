@@ -97,10 +97,12 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     return null;
   }, [dispatch, connector, chainId]);
 
+  const redirectURL = window.location.origin + window.location.pathname;
+
   const requestBtcAddress = useCallback(async (): Promise<void> => {
     await TC_SDK.actionRequest({
       method: TC_SDK.RequestMethod.account,
-      redirectURL: window.location.origin + window.location.pathname,
+      redirectURL,
       target: '_self',
       isMainnet: true,
     });
@@ -163,9 +165,9 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({
     if (tpAddress) {
       dispatch(updateTaprootWallet(tpAddress));
       bitcoinStorage.setUserTaprootAddress(tcAddress, tpAddress);
-      router.push(ROUTE_PATH.HOME);
+      router.push(redirectURL);
     }
-  }, [router, dispatch]);
+  }, [router, dispatch, redirectURL]);
 
   const contextValues = useMemo((): IWalletContext => {
     return {
