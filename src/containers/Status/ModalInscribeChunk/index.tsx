@@ -3,7 +3,7 @@ import EstimatedFee from '@/components/EstimatedFee';
 import FileChunk from '@/components/FileChunk';
 import IconSVG from '@/components/IconSVG';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
-import { ARTIFACT_CONTRACT, CDN_URL, TRANSFER_TX_SIZE } from '@/configs';
+import { ARTIFACT_CONTRACT, CDN_URL, TC_URL, TRANSFER_TX_SIZE } from '@/configs';
 import web3Provider from '@/connections/custom-web3-provider';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { ROUTE_PATH } from '@/constants/route-path';
@@ -26,10 +26,19 @@ import { useWeb3React } from '@web3-react/core';
 import BigNumber from 'bignumber.js';
 import { Transaction } from 'ethers';
 import { useRouter } from 'next/router';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Modal } from 'react-bootstrap';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { StyledModalInscribeChunk } from './ModalInscribeChunk.styled';
+import Link from 'next/link';
+import Text from '@/components/Text';
 
 type Props = {
   show: boolean;
@@ -42,8 +51,11 @@ const ModalInscribeChunk = (props: Props) => {
   const { account } = useWeb3React();
   const { show = false, handleClose, file } = props;
   const [processing, setProcessing] = useState(false);
+  const [insufficientTC, setInsufficientTC] = useState(false);
+  const [insufficientBTC, setInsufficientBTC] = useState(false);
   const { estimateGas } = useStoreChunks();
-  const { feeRate } = useContext(AssetsContext);
+  const { feeRate, btcBalance, tcBalance } = useContext(AssetsContext);
+
   const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
   const [estTCFee, setEstTCFee] = useState<string | null>(null);
   const [chunkFile, setChunkFile] = useState<File | Blob | null>(null);
@@ -185,12 +197,15 @@ const ModalInscribeChunk = (props: Props) => {
       showToastSuccess({
         message:
           'Please go to your wallet to authorize the request for the Bitcoin transaction.',
+        linkText: TC_URL,
       });
     } catch (err: unknown) {
       logger.error(err);
       logger.debug('failed to inscribe next file chunk');
       showToastError({
         message: (err as Error).message,
+        url: TC_URL,
+        linkText: 'Go to Wallet',
       });
     } finally {
       setProcessing(false);
@@ -223,6 +238,21 @@ const ModalInscribeChunk = (props: Props) => {
     }
   };
 
+  const renderFooterNoti = useCallback((children: ReactNode) => {
+    return (
+      <div className="noti-wrapper">
+        <IconSVG
+          className="icon"
+          src={`${CDN_URL}/pages/artifacts/icons/ic-bell.svg`}
+          maxWidth={'18'}
+        />
+        <Text size="small" fontWeight="medium">
+          {children}
+        </Text>
+      </div>
+    );
+  }, []);
+
   useEffect(() => {
     handleFetchFile();
   }, []);
@@ -234,6 +264,18 @@ const ModalInscribeChunk = (props: Props) => {
   useEffect(() => {
     calculateEstTcFee();
   }, [calculateEstTcFee, chunkFile]);
+
+  useEffect(() => {
+    if (estTCFee) {
+      setInsufficientTC(Number(tcBalance) < Number(estTCFee));
+    }
+  }, [estTCFee, tcBalance]);
+
+  useEffect(() => {
+    if (estBTCFee) {
+      setInsufficientBTC(Number(btcBalance) < Number(estBTCFee));
+    }
+  }, [estBTCFee, btcBalance]);
 
   return (
     <StyledModalInscribeChunk show={show} onHide={handleClose} centered size="lg">
@@ -277,9 +319,32 @@ const ModalInscribeChunk = (props: Props) => {
             disabled={processing}
           >
             <p>
-              {processing ? 'Processing...' : `Upload pack ${finishedChunk + 1}`}
+              {processing ? 'Processing...' : `Inscribe pack ${finishedChunk + 1}`}
             </p>
           </ArtifactButton>
+          {insufficientTC &&
+            renderFooterNoti(
+              <>
+                Your TC balance is insufficient. Buy more TC{' '}
+                <Link
+                  href={'https://tcgasstation.com/'}
+                  target="_blank"
+                  className="text-underline"
+                >
+                  here.
+                </Link>
+              </>,
+            )}
+          {insufficientBTC &&
+            renderFooterNoti(
+              <>
+                Your BTC balance is insufficient. Consider transfer your BTC to
+                Trustless Wallet{' '}
+                <Link href={`${TC_URL}`} target="_blank" className="text-underline">
+                  here.
+                </Link>
+              </>,
+            )}
         </div>
       </Modal.Body>
     </StyledModalInscribeChunk>

@@ -7,7 +7,7 @@ import Button from '@/components/Button';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import { Formik } from 'formik';
 import useTransferERC721Token from '@/hooks/contract-operations/nft/useTransferERC721Token';
-import { CDN_URL } from '@/configs';
+import { CDN_URL, TC_URL } from '@/configs';
 import { showToastError, showToastSuccess } from '@/utils/toast';
 import logger from '@/services/logger';
 
@@ -42,7 +42,7 @@ const TransferModal = (props: Props) => {
   const handleSubmit = async (values: IFormValue): Promise<void> => {
     if (!tokenId || !contractAddress) {
       showToastError({
-        message: 'Token information not found'
+        message: 'Token information not found',
       });
       setIsProcessing(false);
       return;
@@ -57,12 +57,15 @@ const TransferModal = (props: Props) => {
         contractAddress: contractAddress,
       });
       showToastSuccess({
-        message: 'Please go to your wallet to authorize the request for the Bitcoin transaction.',
-      })
+        message:
+          'Please go to your wallet to authorize the request for the Bitcoin transaction.',
+      });
       handleClose();
     } catch (err: unknown) {
       showToastError({
-        message: (err as Error).message
+        message: (err as Error).message,
+        url: TC_URL,
+        linkText: 'Go to Wallet',
       });
       logger.error(err);
     } finally {
@@ -73,7 +76,12 @@ const TransferModal = (props: Props) => {
   return (
     <StyledModalUpload show={show} onHide={handleClose} centered>
       <Modal.Header>
-        <IconSVG className="cursor-pointer" onClick={handleClose} src={`${CDN_URL}/icons/ic-close.svg`} maxWidth={'22px'} />
+        <IconSVG
+          className="cursor-pointer"
+          onClick={handleClose}
+          src={`${CDN_URL}/icons/ic-close.svg`}
+          maxWidth={'22px'}
+        />
       </Modal.Header>
       <Modal.Body>
         <Title>Transfer NFT</Title>
@@ -102,7 +110,9 @@ const TransferModal = (props: Props) => {
                   className="input"
                   placeholder={`Paste TC wallet address here`}
                 />
-                {errors.toAddress && touched.toAddress && <p className="error">{errors.toAddress}</p>}
+                {errors.toAddress && touched.toAddress && (
+                  <p className="error">{errors.toAddress}</p>
+                )}
               </WrapInput>
 
               <Button disabled={isProcessing} type="submit" className="confirm-btn">
