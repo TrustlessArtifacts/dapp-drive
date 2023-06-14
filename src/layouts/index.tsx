@@ -2,7 +2,6 @@ import { CDN_URL } from '@/configs';
 import px2rem from '@/utils/px2rem';
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import Footer from './Footer';
 import Header from './Header';
 
 export const HEADER_HEIGHT = 80;
@@ -47,7 +46,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       />
       <Header height={HEADER_HEIGHT} />
       <ContentWrapper>{children}</ContentWrapper>
-      <Footer height={FO0TER_HEIGHT} />
+      {/* <Footer height={FO0TER_HEIGHT} /> */}
     </Container>
   );
 };

@@ -25,6 +25,9 @@ const Header = ({ height }: { height: number }) => {
           <Link className="navLink" href={ROUTE_PATH.STATUS}>
             Big File? Check Status
           </Link>
+          <Link className="navLink" href={ROUTE_PATH.GET_STARTED}>
+            Get Started
+          </Link>
         </div>
 
         <MenuMobile isOpen={isOpenMenu} onCloseMenu={() => setIsOpenMenu(false)} />

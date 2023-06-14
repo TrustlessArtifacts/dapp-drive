@@ -1,25 +1,23 @@
 import IconSVG from '@/components/IconSVG';
+import MatrixRainAnimation from '@/components/MatrixRainAnimation';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
+import Spinner from '@/components/Spinner';
 import { ARTIFACT_CONTRACT, CDN_URL } from '@/configs';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { IInscription } from '@/interfaces/api/inscription';
 import logger from '@/services/logger';
 import { getNFTDetail, refreshMetadata } from '@/services/nft-explorer';
+import { getUserSelector } from '@/state/user/selector';
+import px2rem from '@/utils/px2rem';
 import { formatTimeStamp } from '@/utils/time';
 import { prettyPrintBytes } from '@/utils/units';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Container, Information } from './Inscription.styled';
-import Spinner from '@/components/Spinner';
-import UploadFooter from '../Artifacts/UploadFooter';
-import ModalUpload from '../Artifacts/ModalUpload';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
-import { WalletContext } from '@/contexts/wallet-context';
-import { showToastError } from '@/utils/toast';
-import px2rem from '@/utils/px2rem';
-import MatrixRainAnimation from '@/components/MatrixRainAnimation';
+import UploadFooter from '../Artifacts/UploadFooter';
+import BigFileBlock from './../../components/BigFileBlock/index';
+import { Container, Information } from './Inscription.styled';
 import Owner from './Owner';
 
 interface IProps {
@@ -34,23 +32,6 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
   const { tokenId } = router.query as { tokenId: string };
   const [inscription, setInscription] = useState<IInscription | undefined>(data);
   const [loadingRefresh, setLoadingRefresh] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [showUploadModal, setShowUploadModal] = useState(false);
-  const isAuthenticated = useSelector(getIsAuthenticatedSelector);
-  const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
-
-  const handleConnectWallet = async () => {
-    try {
-      await onConnect();
-      await requestBtcAddress();
-    } catch (err) {
-      logger.error(err);
-      showToastError({
-        message: (err as Error).message,
-      });
-      onDisconnect();
-    }
-  };
 
   useEffect(() => {
     if (!data) {
@@ -80,17 +61,6 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
     }
   };
 
-  const onChangeFile = (file: File): void => {
-    setFile(file);
-  };
-
-  const handlePreserverArtifact = () => {
-    if (!isAuthenticated) handleConnectWallet();
-    else if (file) {
-      setShowUploadModal(true);
-    }
-  };
-
   const renderListItem = (title: string, desc?: string, link?: string) => {
     return (
       <div className="item">
@@ -106,10 +76,12 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
     );
   };
 
-  const renderProperties = (attributes: Array<{
-    traitType: string;
-    value: string;
-  }>) => (
+  const renderProperties = (
+    attributes: Array<{
+      traitType: string;
+      value: string;
+    }>,
+  ) => (
     <div className="list-container">
       <p className="list-name">Attributes</p>
       <div className="attribute-list">
@@ -141,12 +113,6 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
     }
   };
 
-  useEffect(() => {
-    if (file) {
-      setShowUploadModal(true);
-    }
-  }, [file]);
-
   if (!inscription) {
     return (
       <div className="grid-center h-full-view">
@@ -158,8 +124,6 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
   return (
     <Container>
       <UploadFooter
-        handlePreserverArtifact={handlePreserverArtifact}
-        onChangeFile={onChangeFile}
         isUploadVisible={false}
         style={{
           position: 'relative',
@@ -169,13 +133,16 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
       />
       <div className="content">
         <div className="left-container">
-          {(inscription && !inscription.fileSize) && (
-            <div className="empty-content-wrapper animationBorder" ref={matrixContainerRef}>
+          {inscription && !inscription.fileSize && (
+            <div
+              className="empty-content-wrapper animationBorder"
+              ref={matrixContainerRef}
+            >
               <MatrixRainAnimation width={divWidth || 0} height={250} />
-              <p className='empty-text'>No data found</p>
+              <p className="empty-text">No data found</p>
             </div>
           )}
-          {(inscription && !!inscription.fileSize) && (
+          {inscription && !!inscription.fileSize && (
             <NFTDisplayBox
               className="thumbnail-container"
               collectionID={inscription?.collectionAddress}
@@ -186,32 +153,22 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
             />
           )}
 
-          {(user?.walletAddress?.toLowerCase() === inscription?.owner?.toLowerCase() && !inscription.contentType) && (
-            <Owner inscription={inscription} />
-          )}
-
+          {user?.walletAddress?.toLowerCase() ===
+            inscription?.owner?.toLowerCase() &&
+            !inscription.contentType && <Owner inscription={inscription} />}
         </div>
         <div className="right-container">
           {inscription &&
-            inscription.fileSize &&
-            inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
-            <div className="big-file-wrapper">
-              <div className="big-file">
-                <IconSVG
-                  src={`${CDN_URL}/pages/artifacts/icons/ic-big-file.svg`}
-                  maxWidth="20"
-                  maxHeight="20"
-                  className="icon"
-                />
-                Big File
-              </div>
+          inscription.fileSize &&
+          inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
+            <BigFileBlock>
               <p>
                 This file is greater than 350KB. The current largest file inscribed
                 on <span> Smart Inscriptions </span> is <span> 6.9MB </span>. <br />{' '}
                 On <span> Smart Inscriptions</span>, you can now inscribe with no
                 storage restrictions.
               </p>
-            </div>
+            </BigFileBlock>
           ) : (
             <></>
           )}
@@ -246,7 +203,7 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
               </div>
             </div>
             <div className="list">
-              {(inscription && !!inscription.fileSize) ? (
+              {inscription && !!inscription.fileSize ? (
                 renderListItem(
                   'File size',
                   `${prettyPrintBytes(inscription.fileSize)}`,
@@ -281,15 +238,6 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
           </Information>
         </div>
       </div>
-      <ModalUpload
-        show={showUploadModal}
-        handleClose={() => {
-          setShowUploadModal(false);
-          setFile(null);
-        }}
-        file={file}
-        setFile={setFile}
-      />
     </Container>
   );
 };
