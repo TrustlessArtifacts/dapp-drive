@@ -1,5 +1,19 @@
 import { IMAGE_TYPE } from '@/components/NFTDisplayBox/constant';
 
+export interface IOwnedBNS {
+  id: string;
+  tokenId: string;
+  tokenIdInt: number;
+  name: string;
+  owner: string;
+  collectionAddress: string;
+  resolver: string;
+  pfp?: string;
+  pfpData?: {
+    gcsUrl?: string;
+    filename?: string;
+  };
+}
 export interface IInscription {
   id: string;
   collection: string;
@@ -17,4 +31,5 @@ export interface IInscription {
   image?: string;
   fileSize?: number;
   size?: number;
+  bnsData?: IOwnedBNS[];
 }

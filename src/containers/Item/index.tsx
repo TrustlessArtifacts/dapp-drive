@@ -211,7 +211,17 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
               ) : (
                 <></>
               )}
-              {inscription?.owner && renderListItem('Owner', inscription?.owner)}
+              {inscription?.owner &&
+                renderListItem(
+                  'Owner',
+                  inscription?.bnsData?.[0]?.name || inscription?.owner,
+                )}
+
+              {inscription?.owner &&
+                renderListItem(
+                  'Owner',
+                  inscription?.bnsData?.[0]?.name || inscription?.owner,
+                )}
 
               {inscription?.contentType &&
                 renderListItem('Content type', inscription?.contentType)}
