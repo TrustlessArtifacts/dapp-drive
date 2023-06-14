@@ -106,10 +106,12 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
     );
   };
 
-  const renderProperties = (attributes: Array<{
-    traitType: string;
-    value: string;
-  }>) => (
+  const renderProperties = (
+    attributes: Array<{
+      traitType: string;
+      value: string;
+    }>,
+  ) => (
     <div className="list-container">
       <p className="list-name">Attributes</p>
       <div className="attribute-list">
@@ -169,13 +171,16 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
       />
       <div className="content">
         <div className="left-container">
-          {(inscription && !inscription.fileSize) && (
-            <div className="empty-content-wrapper animationBorder" ref={matrixContainerRef}>
+          {inscription && !inscription.fileSize && (
+            <div
+              className="empty-content-wrapper animationBorder"
+              ref={matrixContainerRef}
+            >
               <MatrixRainAnimation width={divWidth || 0} height={250} />
-              <p className='empty-text'>No data found</p>
+              <p className="empty-text">No data found</p>
             </div>
           )}
-          {(inscription && !!inscription.fileSize) && (
+          {inscription && !!inscription.fileSize && (
             <NFTDisplayBox
               className="thumbnail-container"
               collectionID={inscription?.collectionAddress}
@@ -186,15 +191,14 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
             />
           )}
 
-          {(user?.walletAddress?.toLowerCase() === inscription?.owner?.toLowerCase() && !inscription.contentType) && (
-            <Owner inscription={inscription} />
-          )}
-
+          {user?.walletAddress?.toLowerCase() ===
+            inscription?.owner?.toLowerCase() &&
+            !inscription.contentType && <Owner inscription={inscription} />}
         </div>
         <div className="right-container">
           {inscription &&
-            inscription.fileSize &&
-            inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
+          inscription.fileSize &&
+          inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
             <div className="big-file-wrapper">
               <div className="big-file">
                 <IconSVG
@@ -246,7 +250,7 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
               </div>
             </div>
             <div className="list">
-              {(inscription && !!inscription.fileSize) ? (
+              {inscription && !!inscription.fileSize ? (
                 renderListItem(
                   'File size',
                   `${prettyPrintBytes(inscription.fileSize)}`,
@@ -254,7 +258,17 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
               ) : (
                 <></>
               )}
-              {inscription?.owner && renderListItem('Owner', inscription?.owner)}
+              {inscription?.owner &&
+                renderListItem(
+                  'Owner',
+                  inscription?.bnsData?.[0]?.name || inscription?.owner,
+                )}
+
+              {inscription?.owner &&
+                renderListItem(
+                  'Owner',
+                  inscription?.bnsData?.[0]?.name || inscription?.owner,
+                )}
 
               {inscription?.contentType &&
                 renderListItem('Content type', inscription?.contentType)}
