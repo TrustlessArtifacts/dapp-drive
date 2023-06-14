@@ -66,7 +66,7 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
       <div className="item">
         <p className="name">{title}</p>
         {link ? (
-          <a className="link" href={link}>
+          <a className="desc" href={link} target="_blank">
             {desc}
           </a>
         ) : (
@@ -215,12 +215,7 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
                 renderListItem(
                   'Owner',
                   inscription?.bnsData?.[0]?.name || inscription?.owner,
-                )}
-
-              {inscription?.owner &&
-                renderListItem(
-                  'Owner',
-                  inscription?.bnsData?.[0]?.name || inscription?.owner,
+                  `https://explorer.trustless.computer/address/${inscription?.owner}`,
                 )}
 
               {inscription?.contentType &&
