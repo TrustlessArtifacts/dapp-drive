@@ -36,8 +36,8 @@ const Artifacts: React.FC = () => {
     } catch (err) {
       logger.error(err);
       showToastError({
-        message: (err as Error).message
-      })
+        message: (err as Error).message,
+      });
       onDisconnect();
     }
   };
@@ -106,11 +106,7 @@ const Artifacts: React.FC = () => {
           setFile={setFile}
         />
       </ArtifactWrapper>
-      <UploadFooter
-        handlePreserverArtifact={handlePreserverArtifact}
-        onChangeFile={onChangeFile}
-        isUploadVisible={isUploadVisible}
-      />
+      <UploadFooter isUploadVisible={isUploadVisible} />
     </>
   );
 };
