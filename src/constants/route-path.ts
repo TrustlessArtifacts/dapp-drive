@@ -12,4 +12,5 @@ export const ROUTE_PATH = {
   STATUS: '/status',
   BIG_FILE_PROMO: '/420',
   EXPLORE: '/explore',
+  GET_STARTED: '/get-started',
 };
