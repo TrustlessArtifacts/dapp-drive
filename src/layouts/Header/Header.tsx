@@ -22,11 +22,11 @@ const Header = ({ height }: { height: number }) => {
           <Link className="navLink" href={ROUTE_PATH.EXPLORE}>
             Explore
           </Link>
-          <Link className="navLink" href={ROUTE_PATH.STATUS}>
-            Big File? Check Status
-          </Link>
           <Link className="navLink" href={ROUTE_PATH.GET_STARTED}>
             Get Started
+          </Link>
+          <Link className="navLink" href={ROUTE_PATH.STATUS}>
+            Big File? Check Status
           </Link>
         </div>
 
