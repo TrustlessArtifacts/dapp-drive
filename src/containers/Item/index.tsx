@@ -186,7 +186,7 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
             />
           )}
 
-          {user?.walletAddress?.toLowerCase() === inscription?.owner?.toLowerCase() && (
+          {(user?.walletAddress?.toLowerCase() === inscription?.owner?.toLowerCase() && !inscription.contentType) && (
             <Owner inscription={inscription} />
           )}
 
