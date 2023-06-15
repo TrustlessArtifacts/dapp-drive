@@ -8,7 +8,8 @@ type Props = {
     | 'white'
     | 'transparent'
     | 'primary-transparent'
-    | 'green-transparent';
+    | 'green-transparent'
+    | 'gray';
 };
 
 const ButtonWrapper = ({

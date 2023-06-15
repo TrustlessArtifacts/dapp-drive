@@ -6,7 +6,8 @@ export const StyledButtonWrapper = styled.div<{
     | 'white'
     | 'transparent'
     | 'primary-transparent'
-    | 'green-transparent';
+    | 'green-transparent'
+    | 'gray';
 }>`
   position: relative;
   width: fit-content;
@@ -98,6 +99,11 @@ export const StyledButtonWrapper = styled.div<{
         case 'green-transparent':
           return css`
             background: #0e3420;
+            color: white;
+          `;
+        case 'gray':
+          return css`
+            background: #9d9d9d;
             color: white;
           `;
       }

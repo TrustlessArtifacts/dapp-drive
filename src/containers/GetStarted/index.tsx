@@ -4,6 +4,8 @@ import px2rem from '@/utils/px2rem';
 import Link from 'next/link';
 import UploadFooter from '../Artifacts/UploadFooter';
 import { Separator, StepBlock, StyledGetStarted } from './GetStarted.styled';
+import { useState } from 'react';
+import ButtonWrapper from '@/components/ButtonWrapper';
 
 const STEP_1_CONTENT = [
   {
@@ -115,6 +117,8 @@ const STEP_3_CONTENT = [
 ];
 
 const GetStarted = () => {
+  const [bigFileTab, setBigFileTab] = useState(false);
+
   return (
     <StyledGetStarted>
       <UploadFooter
@@ -127,7 +131,7 @@ const GetStarted = () => {
       />
       <div className="wrapper">
         <StepBlock>
-          <h3>1. Create TC Wallet, top-up TC, and BTC for the network fee</h3>
+          <h3>Create TC Wallet, top-up TC, and BTC for the network fee</h3>
           <div className="content-wrapper">
             {STEP_1_CONTENT.map((item, index) => (
               <div className="content-wrapper-item" key={`step-1-${index}`}>
@@ -140,32 +144,52 @@ const GetStarted = () => {
           </div>
         </StepBlock>
         <Separator>Let’s inscribe!</Separator>
-        <StepBlock>
-          <h3>2. For {`<`}350KB smart inscriptions</h3>
-          <div className="content-wrapper">
-            {STEP_2_CONTENT.map((item, index) => (
-              <div className="content-wrapper-item" key={`step-1-${index}`}>
-                <BigFileBlock title={item.title}>{item.content}</BigFileBlock>
-                <div className="image-wrapper">
-                  <img src={item.image} alt="get started image instruction" />
+        <div className="inscribe-options">
+          <ButtonWrapper
+            variant={bigFileTab ? 'transparent' : 'gray'}
+            className="button-container"
+          >
+            <div className="button-text" onClick={() => setBigFileTab(false)}>
+              File size {'<'}350KB
+            </div>
+          </ButtonWrapper>
+          <ButtonWrapper
+            variant={bigFileTab ? 'gray' : 'transparent'}
+            className="button-container"
+          >
+            <div className="button-text" onClick={() => setBigFileTab(true)}>
+              File size {'>'}350KB
+            </div>
+          </ButtonWrapper>
+        </div>
+        <div className="inscribe-wrapper">
+          <StepBlock className={`${bigFileTab ? 'hide' : ''}`}>
+            <h3>For {`<`}350KB smart inscriptions</h3>
+            <div className="content-wrapper">
+              {STEP_2_CONTENT.map((item, index) => (
+                <div className="content-wrapper-item" key={`step-1-${index}`}>
+                  <BigFileBlock title={item.title}>{item.content}</BigFileBlock>
+                  <div className="image-wrapper">
+                    <img src={item.image} alt="get started image instruction" />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </StepBlock>
-        <StepBlock>
-          <h3>3. Inscribing {`>`}350KB smart inscriptions (BIG FILE)</h3>
-          <div className="content-wrapper">
-            {STEP_3_CONTENT.map((item, index) => (
-              <div className="content-wrapper-item" key={`step-1-${index}`}>
-                <BigFileBlock title={item.title}>{item.content}</BigFileBlock>
-                <div className="image-wrapper">
-                  <img src={item.image} alt="get started image instruction" />
+              ))}
+            </div>
+          </StepBlock>
+          <StepBlock className={`${bigFileTab ? '' : 'hide'}`}>
+            <h3>Inscribing {`>`}350KB smart inscriptions (BIG FILE)</h3>
+            <div className="content-wrapper">
+              {STEP_3_CONTENT.map((item, index) => (
+                <div className="content-wrapper-item" key={`step-1-${index}`}>
+                  <BigFileBlock title={item.title}>{item.content}</BigFileBlock>
+                  <div className="image-wrapper">
+                    <img src={item.image} alt="get started image instruction" />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </StepBlock>
+              ))}
+            </div>
+          </StepBlock>
+        </div>
         <Separator>Enjoy your ride</Separator>
       </div>
     </StyledGetStarted>
