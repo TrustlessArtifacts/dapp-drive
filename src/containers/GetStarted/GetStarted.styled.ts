@@ -14,12 +14,51 @@ export const StyledGetStarted = styled.div`
     flex-direction: column;
     gap: ${px2rem(40)};
   }
+
+  .inscribe-wrapper {
+    position: relative;
+  }
+
+  .inscribe-options {
+    display: flex;
+    align-items: center;
+    gap: ${px2rem(40)};
+    margin-left: auto;
+    margin-right: auto;
+    color: #fff;
+    z-index: 999;
+    position: relative;
+
+    .button-container {
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    .button-text {
+      padding: ${px2rem(10)} ${px2rem(35)};
+    }
+  }
 `;
 
 export const StepBlock = styled.div`
   padding: ${px2rem(24)};
   background: rgba(0, 46, 29, 0.6);
   border-radius: 20px;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+
+  &.hide {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+  }
 
   .content-wrapper {
     display: flex;
