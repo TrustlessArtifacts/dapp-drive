@@ -161,11 +161,10 @@ const ModalInscribeChunk = (props: Props) => {
       }
       // Get the first chunk to process
       const pickedChunk = unprocessedChunks[0];
-      const decodedChunkData = window.atob(pickedChunk.chunkData);
-      const chunkData = Buffer.from(decodedChunkData);
-
       logger.debug('pickedChunk', pickedChunk);
-      logger.debug('decodedChunkData', decodedChunkData);
+
+      const chunkData = Buffer.from(pickedChunk.chunkData, 'base64');
+      logger.debug('chunkData', chunkData);
 
       const tx = await storeChunks({
         tokenId: file.tokenId,
