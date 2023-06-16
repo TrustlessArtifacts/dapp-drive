@@ -5,7 +5,6 @@ import { getURLContent, getImageURLContent } from '@/lib';
 import React, { useRef, useState } from 'react';
 import cs from 'classnames';
 import s from './styles.module.scss';
-import { IMAGE_TYPE } from './constant';
 import { Document, Page } from 'react-pdf';
 import Skeleton from '../Skeleton';
 import useAsyncEffect from 'use-async-effect';
@@ -18,7 +17,7 @@ interface IProps {
   src?: string;
   collectionID?: string;
   tokenID?: string;
-  type?: IMAGE_TYPE;
+  type?: string;
   autoPlay?: boolean;
   loop?: boolean;
   controls?: boolean;
@@ -217,6 +216,10 @@ const NFTDisplayBox = ({
         case 'video/mp4':
         case 'video/webm':
           setHTMLContentRender(renderVideo(content));
+          return;
+        case 'mp4':
+        case 'webm':
+          setHTMLContentRender(renderVideo(src as string));
           return;
         case 'image/apng':
         case 'image/avif':

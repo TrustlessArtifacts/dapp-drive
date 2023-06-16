@@ -1,5 +1,5 @@
-import ArtifactButton from '@/components/ArtifactButton';
 import Button from '@/components/Button';
+import ButtonWrapper from '@/components/ButtonWrapper';
 import Empty from '@/components/Empty';
 import Spinner from '@/components/Spinner';
 import { IUploadFileResponseItem } from '@/interfaces/api/files';
@@ -17,7 +17,7 @@ const FETCH_LIMIT = 10;
 const ProcessedList: React.FC = (): React.ReactElement => {
   const user = useSelector(getUserSelector);
   const [loadingProcessing, setLoadingProcessing] = useState(true);
-  const [hashMoreProcessing, setHasMoreProcessing] = useState(false);
+  const [hasMoreProcessing, setHasMoreProcessing] = useState(false);
   const [processingFiles, setProcessingFiles] = useState<
     Array<IUploadFileResponseItem>
   >([]);
@@ -69,15 +69,15 @@ const ProcessedList: React.FC = (): React.ReactElement => {
               <Spinner />
             </div>
           )}
-          {hashMoreProcessing && (
-            <ArtifactButton variant="transparent" className="loadmore-wrapper">
+          {(hasMoreProcessing && !loadingProcessing) && (
+            <ButtonWrapper variant="transparent" className="loadmore-wrapper">
               <Button className="loadmore-btn" onClick={fetchProcessingFileList}>
                 Load more
               </Button>
-            </ArtifactButton>
+            </ButtonWrapper>
           )}
           {!loadingProcessing &&
-            !hashMoreProcessing &&
+            !hasMoreProcessing &&
             processingFiles.length === 0 && <Empty infoText="No data found" />}
         </div>
       </Wrapper>

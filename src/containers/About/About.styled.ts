@@ -110,14 +110,19 @@ export const StyledAbout = styled.div`
     }
 
     .btn-content {
-      padding: ${px2rem(15)} ${px2rem(30)};
-      text-transform: uppercase;
+      min-width: ${px2rem(300)};
+      padding: ${px2rem(15)} 0;
       font-weight: 500;
       font-size: ${px2rem(16)};
       line-height: ${px2rem(26)};
       letter-spacing: ${px2rem(1.5)};
-      color: #000;
-      white-space: nowrap;
+      display: block;
+      text-align: center;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        opacity: 0.8;
+      }
     }
 
     &.right {

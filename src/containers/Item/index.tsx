@@ -157,10 +157,11 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
             inscription?.owner?.toLowerCase() &&
             !inscription.contentType && <Owner inscription={inscription} />}
         </div>
+
         <div className="right-container">
           {inscription &&
-          inscription.fileSize &&
-          inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
+            inscription.fileSize &&
+            inscription?.fileSize > BLOCK_CHAIN_FILE_LIMIT ? (
             <BigFileBlock>
               <p>
                 This file is greater than 350KB. The current largest file inscribed

@@ -1,29 +1,27 @@
+import ButtonWrapper from '@/components/ButtonWrapper';
 import Text from '@/components/Text';
+import { WalletContext } from '@/contexts/wallet-context';
+import { useIsInViewport } from '@/hooks/useIsInViewport';
+import logger from '@/services/logger';
+import { getIsAuthenticatedSelector } from '@/state/user/selector';
+import { showToastError } from '@/utils/toast';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
-import BFSList from './BFSList';
+import { useSelector } from 'react-redux';
 import {
-  UploadFileContainer,
   ArtifactWrapper,
   PreserveButton,
+  UploadFileContainer,
 } from './Artifacts.styled';
+import BFSList from './BFSList';
 import ModalUpload from './ModalUpload';
-import { useSelector } from 'react-redux';
-import { getIsAuthenticatedSelector } from '@/state/user/selector';
-import { WalletContext } from '@/contexts/wallet-context';
-import ArtifactButton from '@/components/ArtifactButton';
-import useWindowSize from '@/hooks/useWindowSize';
 import UploadFooter from './UploadFooter';
-import { useIsInViewport } from '@/hooks/useIsInViewport';
-import { showToastError } from '@/utils/toast';
-import logger from '@/services/logger';
 
 const Artifacts: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
-  const { mobileScreen } = useWindowSize();
 
   const uploadRef = useRef<HTMLDivElement>(null);
 
@@ -73,12 +71,7 @@ const Artifacts: React.FC = () => {
             </div>
           </div>
           <div className="upload_right" ref={uploadRef}>
-            <ArtifactButton
-              variant="primary"
-              width={mobileScreen ? 274 : 300}
-              height={mobileScreen ? 55 : 79}
-              objectFit={mobileScreen ? 'contain' : 'cover'}
-            >
+            <ButtonWrapper variant="primary">
               <PreserveButton onClick={handlePreserverArtifact}>
                 <Text
                   className="button-text"
@@ -89,8 +82,7 @@ const Artifacts: React.FC = () => {
                   Inscribe now
                 </Text>
               </PreserveButton>
-            </ArtifactButton>
-
+            </ButtonWrapper>
             <FileUploader
               handleChange={onChangeFile}
               name={'fileUploader'}

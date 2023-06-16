@@ -1,6 +1,6 @@
-import ArtifactButton from '@/components/ArtifactButton';
 import BigFileTag from '@/components/BigFileTag';
 import Button from '@/components/Button';
+import ButtonWrapper from '@/components/ButtonWrapper';
 import EstimatedFee from '@/components/EstimatedFee';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
@@ -15,7 +15,6 @@ import usePreserveChunks, {
 } from '@/hooks/contract-operations/artifacts/usePreserveChunks';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import useChunkedFileUploader from '@/hooks/useChunkedFileUploader';
-import useWindowSize from '@/hooks/useWindowSize';
 import { compressFileAndGetSize, updateFileTransactionInfo } from '@/services/file';
 import logger from '@/services/logger';
 import { readFileAsBuffer } from '@/utils';
@@ -49,7 +48,6 @@ type Props = {
 
 const ModalUpload = (props: Props) => {
   const router = useRouter();
-  const { mobileScreen } = useWindowSize();
   const { account } = useWeb3React();
   const { show = false, handleClose, file, setFile } = props;
   const [preview, setPreview] = useState<string | null>(null);
@@ -324,13 +322,7 @@ const ModalUpload = (props: Props) => {
             </div>
           )}
           {file && !error && (
-            <ArtifactButton
-              variant="primary"
-              width={221}
-              height={52}
-              objectFit={mobileScreen ? 'contain' : 'cover'}
-              className="confirm-btn-wrapper"
-            >
+            <ButtonWrapper variant="primary" className="confirm-btn-wrapper">
               <Button
                 disabled={isProcessing}
                 className="confirm-btn"
@@ -344,7 +336,7 @@ const ModalUpload = (props: Props) => {
                     : 'inscribe'}
                 </Text>
               </Button>
-            </ArtifactButton>
+            </ButtonWrapper>
           )}
         </div>
         {insufficientTC &&

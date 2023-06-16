@@ -41,5 +41,6 @@ export const Wrapper = styled.div`
 
   .loadmore-btn {
     color: #fff;
+    padding: ${px2rem(8)} ${px2rem(36)};
   }
 `;

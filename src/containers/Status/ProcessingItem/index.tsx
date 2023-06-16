@@ -1,4 +1,4 @@
-import ArtifactButton from '@/components/ArtifactButton';
+import ButtonWrapper from '@/components/ButtonWrapper';
 import FileChunk from '@/components/FileChunk';
 import IconSVG from '@/components/IconSVG';
 import MatrixRainAnimation from '@/components/MatrixRainAnimation';
@@ -56,14 +56,9 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
       case FileProcessStatus.New:
         return (
           <div>
-            <ArtifactButton
-              variant={'primary-transparent'}
-              className="ctaBtn"
-              width={209}
-              height={44}
-            >
+            <ButtonWrapper variant="primary-transparent" className="ctaBtn">
               <p className={'text-pending'}>Waiting for token id</p>
-            </ArtifactButton>
+            </ButtonWrapper>
           </div>
         );
       case FileProcessStatus.Processing:
@@ -74,19 +69,13 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
             </p>
             <FileChunk file={file} />
             {finishedChunk < file.totalChunks && (
-              <ArtifactButton
-                variant={'primary'}
-                className="ctaBtn"
-                width={150}
-                height={44}
-                onClick={() => setShowInscribeModal(true)}
-              >
-                <p>
+              <ButtonWrapper variant="primary" className="ctaBtn">
+                <button onClick={() => setShowInscribeModal(true)}>
                   {showInscribeModal
                     ? 'Processing...'
                     : `Inscribe ${finishedChunk}/${file.totalChunks}`}
-                </p>
-              </ArtifactButton>
+                </button>
+              </ButtonWrapper>
             )}
           </div>
         );
@@ -101,7 +90,7 @@ const ProcessingItem: React.FC<IProps> = ({ file }: IProps) => {
         <ThumbnailWrapper className="animationBorder" ref={matrixContainerRef}>
           <MatrixRainAnimation width={divWidth || 0} height={divHeight || 0} />
           <NFTDisplayBox
-            className={"thumbnail-wrapper"}
+            className={'thumbnail-wrapper'}
             collectionID={ARTIFACT_CONTRACT}
             contentClass="thumbnail"
             src={file?.fullPath}

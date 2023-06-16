@@ -55,6 +55,10 @@ export const StyledUploadFooter = styled.div<{ isUploadVisible: boolean }>`
 
   .button {
     position: relative;
+    button {
+      pointer-events: none;
+    }
+
     p {
       font-size: ${px2rem(12)};
       color: #1c1c1c;
@@ -71,6 +75,15 @@ export const StyledUploadFooter = styled.div<{ isUploadVisible: boolean }>`
       height: 100%;
       opacity: 0;
       z-index: 10;
+      width: ${px2rem(170)};
+
+      input {
+        width: inherit;
+      }
+
+      span {
+        display: none;
+      }
     }
 
     .cta-btn {
@@ -78,8 +91,11 @@ export const StyledUploadFooter = styled.div<{ isUploadVisible: boolean }>`
       justify-content: flex-start;
     }
 
-    .btn-content {
-      width: fit-content;
+    .button-text {
+      height: max-content;
+      padding: ${px2rem(8)} 0;
+      min-width: ${px2rem(170)};
+      z-index: 1;
     }
   }
 `;

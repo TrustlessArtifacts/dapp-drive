@@ -40,7 +40,7 @@ export const Wrapper = styled.div`
   }
 
   .loadmore-wrapper {
-    margin-top: ${px2rem(24)};
+    margin-top: ${px2rem(48)};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,5 +51,6 @@ export const Wrapper = styled.div`
 
   .loadmore-btn {
     color: #fff;
+    padding: ${px2rem(8)} ${px2rem(36)};
   }
 `;
