@@ -33,6 +33,23 @@ export const StyledButtonWrapper = styled.div<{
       0 0
     );
     z-index: 2;
+
+    ${({ variant }) => {
+      switch (variant) {
+        case 'primary-transparent':
+          return css`
+            background: rgba(0, 46, 29, 0.6);
+            top: -2px;
+            left: -2px;
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+          `;
+        case 'green-transparent':
+          return css`
+            background: rgba(0, 46, 29, 0.6);
+          `;
+      }
+    }}
   }
 
   &:after {
@@ -43,7 +60,6 @@ export const StyledButtonWrapper = styled.div<{
     left: -4px;
     width: calc(100% + 8px);
     height: calc(100% + 8px);
-    background-color: rgba(255, 255, 255, 0.6);
     border-radius: 4px 0 4px 0;
     clip-path: polygon(
       20% 0%,
@@ -55,6 +71,36 @@ export const StyledButtonWrapper = styled.div<{
       0 80%,
       0 0
     );
+
+    ${({ variant }) => {
+      switch (variant) {
+        case 'primary':
+          return css`
+            background-color: #febe63;
+          `;
+
+        case 'white':
+          return css`
+            background-color: rgba(255, 255, 255, 0.6);
+          `;
+        case 'transparent':
+          return css`
+            background-color: rgba(255, 255, 255, 0.6);
+          `;
+        case 'primary-transparent':
+          return css`
+            background-color: #353614;
+          `;
+        case 'green-transparent':
+          return css`
+            background: #0e3420;
+          `;
+        case 'gray':
+          return css`
+            background-color: rgba(255, 255, 255, 0.6);
+          `;
+      }
+    }}
   }
 
   > *:first-child {
@@ -94,12 +140,12 @@ export const StyledButtonWrapper = styled.div<{
         case 'primary-transparent':
           return css`
             background: #353614;
-            color: white;
+            color: #ff9116;
           `;
         case 'green-transparent':
           return css`
             background: #0e3420;
-            color: white;
+            color: #78f381;
           `;
         case 'gray':
           return css`

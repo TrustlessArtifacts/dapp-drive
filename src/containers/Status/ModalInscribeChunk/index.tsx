@@ -1,8 +1,9 @@
-import ArtifactButton from '@/components/ArtifactButton';
+import ButtonWrapper from '@/components/ButtonWrapper';
 import EstimatedFee from '@/components/EstimatedFee';
 import FileChunk from '@/components/FileChunk';
 import IconSVG from '@/components/IconSVG';
 import NFTDisplayBox from '@/components/NFTDisplayBox';
+import Text from '@/components/Text';
 import { ARTIFACT_CONTRACT, CDN_URL, TC_URL, TRANSFER_TX_SIZE } from '@/configs';
 import web3Provider from '@/connections/custom-web3-provider';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
@@ -25,6 +26,7 @@ import { showToastError, showToastSuccess } from '@/utils/toast';
 import { useWeb3React } from '@web3-react/core';
 import BigNumber from 'bignumber.js';
 import { Transaction } from 'ethers';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   ReactNode,
@@ -37,8 +39,6 @@ import {
 import { Modal } from 'react-bootstrap';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { StyledModalInscribeChunk } from './ModalInscribeChunk.styled';
-import Link from 'next/link';
-import Text from '@/components/Text';
 
 type Props = {
   show: boolean;
@@ -309,18 +309,11 @@ const ModalInscribeChunk = (props: Props) => {
             estimateTCGas={estTCFee}
             isBigFile={isBigFile}
           />
-          <ArtifactButton
-            variant={'primary-md'}
-            className="ctaBtn"
-            width={228}
-            height={46}
-            onClick={handleInscribeNextChunk}
-            disabled={processing}
-          >
-            <p>
+          <ButtonWrapper variant="primary" className="ctaBtn">
+            <button onClick={handleInscribeNextChunk} disabled={processing}>
               {processing ? 'Processing...' : `Inscribe pack ${finishedChunk + 1}`}
-            </p>
-          </ArtifactButton>
+            </button>
+          </ButtonWrapper>
           {insufficientTC &&
             renderFooterNoti(
               <>

@@ -81,9 +81,14 @@ export const InfoWrapper = styled.div`
     letter-spacing: 0.1em;
     cursor: pointer;
 
+    button {
+      padding: ${px2rem(8)} ${px2rem(18)};
+    }
+
     .text-pending {
       white-space: nowrap;
       color: #ff9116;
+      padding: ${px2rem(8)};
     }
   }
 `;

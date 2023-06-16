@@ -41,6 +41,10 @@ export const StyledModalInscribeChunk = styled(StyledModalUpload)`
       margin-left: auto;
       margin-right: auto;
       cursor: pointer;
+
+      button {
+        padding: ${px2rem(10)} ${px2rem(36)};
+      }
     }
   }
 `;

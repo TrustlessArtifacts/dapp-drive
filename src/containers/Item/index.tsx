@@ -157,6 +157,8 @@ const Inscription: React.FC<IProps> = ({ data }: IProps) => {
             inscription?.owner?.toLowerCase() &&
             !inscription.contentType && <Owner inscription={inscription} />}
         </div>
+        <Owner inscription={inscription} />
+
         <div className="right-container">
           {inscription &&
           inscription.fileSize &&

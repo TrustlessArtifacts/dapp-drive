@@ -1,4 +1,3 @@
-import ArtifactButton from '@/components/ArtifactButton';
 import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import { CDN_URL } from '@/configs';
@@ -6,12 +5,12 @@ import { FileUploader } from 'react-drag-drop-files';
 import { useSelector } from 'react-redux';
 import { StyledUploadFooter } from './UploadFooter.styled';
 
-import { getIsAuthenticatedSelector } from '@/state/user/selector';
-import { useWindowSize } from '@trustless-computer/dapp-core';
-import { useContext, useEffect, useState } from 'react';
+import ButtonWrapper from '@/components/ButtonWrapper';
 import { WalletContext } from '@/contexts/wallet-context';
-import { showToastError } from '@/utils/toast';
 import logger from '@/services/logger';
+import { getIsAuthenticatedSelector } from '@/state/user/selector';
+import { showToastError } from '@/utils/toast';
+import { useContext, useEffect, useState } from 'react';
 import ModalUpload from '../ModalUpload';
 
 type Props = {
@@ -21,7 +20,6 @@ type Props = {
 
 const UploadFooter = ({ isUploadVisible, style }: Props) => {
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
-  const { mobileScreen } = useWindowSize();
   const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
 
   const [file, setFile] = useState<File | null>(null);
@@ -37,26 +35,6 @@ const UploadFooter = ({ isUploadVisible, style }: Props) => {
         message: (err as Error).message,
       });
       onDisconnect();
-    }
-  };
-
-  const buttonWidth = (): number => {
-    if (mobileScreen) {
-      return 274;
-    } else if (window.innerWidth > 1920) {
-      return 229;
-    } else {
-      return 175;
-    }
-  };
-
-  const buttonHeight = (): number => {
-    if (mobileScreen) {
-      return 55;
-    } else if (window.innerWidth > 1920) {
-      return 52;
-    } else {
-      return 38;
     }
   };
 
@@ -105,17 +83,13 @@ const UploadFooter = ({ isUploadVisible, style }: Props) => {
           </span>
         </div>
         <div className="button">
-          <ArtifactButton
-            variant="primary-md"
-            width={buttonWidth()}
-            height={buttonHeight()}
-          >
+          <ButtonWrapper variant="primary">
             <button onClick={handlePreserverArtifact}>
               <Text className="button-text" color="bg1" fontWeight="medium">
                 Inscribe now
               </Text>
             </button>
-          </ArtifactButton>
+          </ButtonWrapper>
 
           <FileUploader
             handleChange={onChangeFile}

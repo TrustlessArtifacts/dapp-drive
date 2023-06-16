@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const StyledProcessedItem = styled.div`
   padding: ${px2rem(12)};
+  padding-right: ${px2rem(45)};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -39,12 +40,13 @@ export const StyledProcessedItem = styled.div`
   .thumbnail-wrapper {
     max-width: ${px2rem(110)};
     aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 8px;
 
-    img {
+    > * {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      border-radius: 8px;
+      object-fit: cover;
       background: #050f0a;
     }
   }
@@ -63,6 +65,6 @@ export const StyledProcessedItem = styled.div`
   .preserved-note {
     color: #78f381;
     font-size: ${px2rem(12)};
-    line-height: ${px2rem(16)};
+    padding: ${px2rem(6)} ${px2rem(10)};
   }
 `;

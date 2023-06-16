@@ -12,7 +12,7 @@ import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 
 interface IProps {
   file?: IUploadFileResponseItem;
-};
+}
 
 const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
   const navigateToDetail = (): void => {
     if (!file) return;
     router.push(`/${file.tokenId}`);
-  }
+  };
 
   return (
     <StyledProcessedItem className="border-gradient" onClick={navigateToDetail}>
@@ -52,7 +52,7 @@ const Processedfile: React.FC<IProps> = ({ file }: IProps) => {
             <p className="file-date">
               {formatDateTime({
                 dateTime: file?.createdAt || '',
-                formatPattern: 'DD MMM YYYY HH:mm'
+                formatPattern: 'DD MMM YYYY HH:mm',
               })}
             </p>
           </div>

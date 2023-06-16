@@ -1,5 +1,5 @@
-import ArtifactButton from '@/components/ArtifactButton';
 import Button from '@/components/Button';
+import ButtonWrapper from '@/components/ButtonWrapper';
 import Empty from '@/components/Empty';
 import Spinner from '@/components/Spinner';
 import { IUploadFileResponseItem } from '@/interfaces/api/files';
@@ -69,12 +69,12 @@ const ProcessedList: React.FC = (): React.ReactElement => {
               <Spinner />
             </div>
           )}
-          {hashMoreProcessing && (
-            <ArtifactButton variant="transparent" className="loadmore-wrapper">
+          {true && (
+            <ButtonWrapper variant="transparent" className="loadmore-wrapper">
               <Button className="loadmore-btn" onClick={fetchProcessingFileList}>
                 Load more
               </Button>
-            </ArtifactButton>
+            </ButtonWrapper>
           )}
           {!loadingProcessing &&
             !hashMoreProcessing &&

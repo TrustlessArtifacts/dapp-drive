@@ -39,7 +39,6 @@ export const UploadFileContainer = styled.div`
 
   .upload_right {
     position: relative;
-    overflow: hidden;
     display: flex;
     justify-content: center;
   }
@@ -95,13 +94,22 @@ export const UploadFileContainer = styled.div`
 
 export const PreserveButton = styled(Button)`
   /* background: #39b174; */
-  padding: ${px2rem(11)} ${px2rem(36)};
+  pointer-events: none;
+  padding: ${px2rem(12)} ${px2rem(28)};
   z-index: 10;
+  display: block;
+  width: ${px2rem(250)};
 
   .button-text {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: black;
     white-space: nowrap;
+    pointer-events: none;
+    z-index: 9;
+  }
+
+  .file-uploader {
+    z-index: 10;
   }
 `;

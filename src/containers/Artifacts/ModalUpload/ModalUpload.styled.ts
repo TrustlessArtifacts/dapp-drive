@@ -137,7 +137,7 @@ export const StyledModalUpload = styled(Modal)`
 
   .confirm-btn {
     width: 100%;
-    background-color: transparent;
+    min-width: ${px2rem(200)};
 
     .confirm-text {
       color: black;
