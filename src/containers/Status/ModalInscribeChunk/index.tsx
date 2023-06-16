@@ -55,7 +55,6 @@ const ModalInscribeChunk = (props: Props) => {
   const [insufficientBTC, setInsufficientBTC] = useState(false);
   const { estimateGas } = useStoreChunks();
   const { feeRate, btcBalance, tcBalance } = useContext(AssetsContext);
-
   const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
   const [estTCFee, setEstTCFee] = useState<string | null>(null);
   const [chunkFile, setChunkFile] = useState<File | Blob | null>(null);
@@ -295,6 +294,7 @@ const ModalInscribeChunk = (props: Props) => {
             src={file?.fullPath}
             tokenID={file?.tokenId}
             type={file?.fileType}
+            controls={true}
           />
           <div className="file-name-wrapper">
             <p className="file-name">

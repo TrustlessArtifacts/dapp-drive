@@ -40,7 +40,7 @@ export const Wrapper = styled.div`
   }
 
   .loadmore-wrapper {
-    margin-top: ${px2rem(24)};
+    margin-top: ${px2rem(48)};
     display: flex;
     justify-content: center;
     align-items: center;
