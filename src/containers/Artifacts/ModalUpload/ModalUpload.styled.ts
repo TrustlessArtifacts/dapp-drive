@@ -80,13 +80,14 @@ export const StyledModalUpload = styled(Modal)`
     .thumbnail-wrapper {
       position: relative;
       min-height: ${px2rem(200)};
-      max-height: ${px2rem(400)};
+      max-height: ${px2rem(300)};
       flex: 1;
     }
 
     img {
       width: 100%;
       height: 100%;
+      max-height: inherit;
       object-fit: contain;
       margin-left: auto;
       margin-right: auto;
